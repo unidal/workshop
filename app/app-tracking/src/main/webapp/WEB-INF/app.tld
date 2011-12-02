@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+   version="2.0">
+   <description>JSP Tag Library for Analysis</description>
+   <tlib-version>1.0</tlib-version>
+   <short-name>a</short-name>
+   <tag-file>
+      <name>body</name>
+      <path>/WEB-INF/tags/body.tag</path>
+   </tag-file>
+   <function>
+      <description>Format using MessageFormat</description>
+      <name>format</name>
+      <function-class>com.site.app.tag.function.Format</function-class>
+      <function-signature>java.lang.String format(java.lang.Object, java.lang.String pattern)</function-signature>
+      <example>${a:format(payload.dateFrom,'yyyy-MM-dd')}</example>
+   </function>
+   <function>
+      <description>Format in percentage</description>
+      <name>percentage</name>
+      <function-class>com.site.app.tag.function.Format</function-class>
+      <function-signature>java.lang.String percentage(int, int, int)</function-signature>
+      <example>${a:percentage(4, 11, 2)}</example>
+   </function>
+   <function>
+      <description>Sum using Calculator</description>
+      <name>sum</name>
+      <function-class>com.site.app.tag.function.Calculator</function-class>
+      <function-signature>int sum(java.util.List, String)</function-signature>
+      <example>${a:sum(list, "count")}</example>
+   </function>
+   <function>
+      <description>Max using Calculator</description>
+      <name>max</name>
+      <function-class>com.site.app.tag.function.Calculator</function-class>
+      <function-signature>int max(java.util.List, String)</function-signature>
+      <example>${a:max(list, "count")}</example>
+   </function>
+   <function>
+      <description>Min using Calculator</description>
+      <name>min</name>
+      <function-class>com.site.app.tag.function.Calculator</function-class>
+      <function-signature>int min(java.util.List, String)</function-signature>
+      <example>${a:min(list, "count")}</example>
+   </function>
+</taglib>

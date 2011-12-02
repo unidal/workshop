@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entities gen="true">
+	<entity name="weather" do-package="com.site.app.weather.dal" alias="w">
+		<query-defs>
+			<query name="find-all-by-woeid" type="SELECT" multiple="true">
+				<param name="woeid" />
+				<statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='woeid'/> <= ${woeid}
+                  ORDER BY <FIELD name='target-date'/> DESC
+               ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="subscribe" do-package="com.site.app.weather.dal" alias="s">
+		<query-defs>
+			<query name="find-all-by-use-id" type="SELECT" multiple="true">
+				<param name="user-id" />
+				<statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='user-id'/> <= ${user-id}
+               ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+</entities>

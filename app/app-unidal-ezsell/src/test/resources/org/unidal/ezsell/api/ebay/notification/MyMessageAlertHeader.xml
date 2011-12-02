@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://
+www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> 
+ <soapenv:Header> 
+  <ebl:RequesterCredentials soapenv:mustUnderstand="0" xmlns:ns="urn:ebay:apis:eBLBaseComponents" 
+xmlns:ebl="urn:ebay:apis:eBLBaseComponents"> 
+   <ebl:NotificationSignature xmlns:ebl="urn:ebay:apis:eBLBaseComponents">ABC123==
+   </ebl:NotificationSignature> 
+  </ebl:RequesterCredentials> 
+ </soapenv:Header> 
+ 
+ <soapenv:Body> 
+  <GetMyMessagesResponse xmlns="urn:ebay:apis:eBLBaseComponents"> 
+   <Timestamp>2005-08-04T21:39:12.514Z</Timestamp> 
+   <Ack>Success</Ack> 
+   <CorrelationID>94651830</CorrelationID> 
+   <Version>423</Version> 
+   <Build>e423_core_API_1556612_R1</Build> 
+   <NotificationEventName>MyMessagesAlertHeader</NotificationEventName> 
+   <RecipientUserID>sampleuser</RecipientUserID> 
+ 
+   <Alerts> 
+    <Alert> 
+     <Sender>eBay</Sender> 
+     <RecipientUserID>sampleuser</RecipientUserID> 
+     <Subject>Important Alert</Subject> 
+     <Priority>3200</Priority> 
+     <AlertID>100856011</AlertID> 
+     <ResolutionStatus>Unresolved</ResolutionStatus> 
+     <Read>false</Read> 
+     <ReceiveDate>2005-08-04T21:23:09.000Z</ReceiveDate> 
+     <ExpirationDate>2006-04-01T22:00:00.000Z</ExpirationDate> 
+     <IsTimedResolution>false</IsTimedResolution> 
+ 
+     <ActionURL>https://resolvethis.com</ActionURL> 
+     <ResponseDetails> 
+      <ResponseEnabled>false</ResponseEnabled> 
+     </ResponseDetails> 
+     <Folder> 
+      <FolderID>0</FolderID> 
+     </Folder> 
+    </Alert> 
+   </Alerts> 
+  </GetMyMessagesResponse> 
+ </soapenv:Body> 
+</soapenv:Envelope>

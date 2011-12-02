@@ -1,0 +1,40 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>cities</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="city">富阳市</word>
+               <word name="city">杭州市</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">岳阳药品商店</word>
+               <word name="title">健乐医药商店</word>
+               <word name="title">漕河泾药品商店</word>
+               <word name="title">葆真药品参茸经营部</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="address">徐汇区大木桥路295号</word>
+               <word name="zipcode">200032</word>
+               <word name="phone">021-64035717</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

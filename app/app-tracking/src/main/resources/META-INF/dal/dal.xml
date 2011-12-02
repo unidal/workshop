@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entities gen="true">
+   <entity entity-name="ip-table" name="ipother" do-package="com.site.app.tracking.dal" alias="it">
+    <member name="startip" alias="start-ip"/>
+    <member name="endip" alias="end-ip"/>
+    <member name="startid" alias="start-id"/>
+    <member name="endid" alias="end-id"/>
+      <var name="ip-address" value-type="long"/>
+      <query-defs>
+         <query name="find-by-ip-address" type="SELECT">
+            <param name="ip-address"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='start-id'/> <= ${ip-address}
+                     AND <FIELD name='end-id'/> >= ${ip-address}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="page-visit" do-package="com.site.app.tracking.dal" alias="a">
+      <relation name="page-visit-log" entity-name="page-visit-log" entity-alias="al" join="a.page_id=al.page_id"/>
+      <member name="page-id" auto-increment="true"/>
+      <member name="creation-date" insert-expr="NOW()"/>
+      <member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()"/>
+      <readsets>
+         <readset name="CCO_T">
+            <readset-ref name="CCO" relation-name="page-visit-log"/>
+            <readset-ref name="T" relation-name="page-visit-log"/>
+         </readset>
+      </readsets>
+      <query-defs>
+         <query name="find-by-page-url" type="SELECT">
+            <param name="page-url"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='page-url'/> = ${page-url}
+               ]]>
+            </statement>
+         </query>
+         <query name="find-all-by-group" type="SELECT" multiple="true">
+            <param name="page-url"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLES/>
+                  WHERE <JOINS/>
+                     AND <FIELD name='page-url'/> = ${page-url}
+                  GROUP BY <FIELDS excludes='total-visits' output='false'/>
+               ]]>
+            </statement>
+         </query>
+         <query name="update-total-visits-by-PK" type="UPDATE" batch="true">
+            <statement>
+               <![CDATA[
+                  UPDATE <TABLE/> 
+                  SET <FIELD name='total-visits'/> = <FIELD name='total-visits'/> + ${total-visits},
+                      <FIELD name='last-modified-date'/> = NOW()
+                  WHERE <FIELD name='page-id'/> = ${key-page-id}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="page-visit-log" do-package="com.site.app.tracking.dal" alias="al">
+      <relation name="page-visit" entity-name="page-visit" entity-alias="a" join="al.page_id=a.page_id"/>
+      <member name="log-id" auto-increment="true"/>
+      <member name="on-top" value-type="boolean"/>
+      <member name="creation-date" insert-expr="NOW()"/>
+      <member name="total-visits" select-expr="SUM(visits)" value-type="int" all="false"/>
+      <member name="creation-date-in-15m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%15" value-type="long" all="false"/>
+      <member name="creation-date-in-30m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%30" value-type="long" all="false"/>
+      <member name="creation-date-in-1h" select-expr="date_format(creation_date,'%Y%m%d%H')" value-type="long" all="false"/>
+      <member name="creation-date-in-1d" select-expr="date_format(creation_date,'%Y%m%d')" value-type="long" all="false"/>
+      <var name="date-from" value-type="Date"/>
+      <var name="date-to" value-type="Date"/>
+      <var name="max-num" value-type="int"/>
+      <readsets>
+         <readset name="CCO">
+            <member name="category1"/>
+            <member name="category2"/>
+            <member name="on-top"/>
+         </readset>
+         <readset name="T">
+            <member name="total-visits"/>
+         </readset>
+         <readset name="FULL_T_FULL">
+            <readset-ref name="FULL"/>
+            <readset-ref name="T"/>
+            <readset-ref name="FULL" relation-name="page-visit"/>
+         </readset>
+         <readset name="T_F">
+            <member name="total-visits"/>
+            <member name="from-page"/>
+         </readset>
+         <readset name="T_C1">
+            <member name="total-visits"/>
+            <member name="category1"/>
+         </readset>
+         <readset name="T_C2">
+            <member name="total-visits"/>
+            <member name="category2"/>
+         </readset>
+         <readset name="T_O">
+            <member name="total-visits"/>
+            <member name="on-top"/>
+         </readset>
+         <readset name="CT_15M">
+            <member name="creation-date-in-15m"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CT_30M">
+            <member name="creation-date-in-30m"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CT_1H">
+            <member name="creation-date-in-1h"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CT_1D">
+            <member name="creation-date-in-1d"/>
+            <member name="total-visits"/>
+         </readset>
+      </readsets>
+      <query-defs>
+         <query name="insert" type="INSERT" batch="true">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/> (<FIELDS/>)
+                  VALUES (<VALUES/>)
+               ]]>
+            </statement>
+         </query>
+         <query name="find-all-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+               ]]>
+            </statement>
+         </query>
+         <query name="group-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 1
+               ]]>
+            </statement>
+         </query>
+         <query name="find-top-n-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <param name="max-num"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLES/>
+                  WHERE <JOINS/>
+                     AND <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 2
+                  ORDER BY 1 DESC
+                  LIMIT ${max-num}
+               ]]>
+            </statement>
+         </query>
+         <query name="find-top-n-page-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <param name="max-num"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLES/>
+                  WHERE <JOINS/>
+                     AND <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY <FIELD name='page-id'/>
+                  ORDER BY <FIELD name='total-visits'/> DESC
+                  LIMIT ${max-num}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="page-visit-track" do-package="com.site.app.tracking.dal" alias="at">
+      <member name="track-id" auto-increment="true"/>
+      <member name="creation-date" insert-expr="NOW()"/>
+      <member name="count" select-expr="COUNT(*)" value-type="int" all="false"/>
+      <member name="total-visits" select-expr="COUNT(client_ip)" value-type="int" all="false"/>
+      <member name="creation-date-in-15m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%15" value-type="long" all="false"/>
+      <member name="creation-date-in-30m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%30" value-type="long" all="false"/>
+      <member name="creation-date-in-1h" select-expr="date_format(creation_date,'%Y%m%d%H')" value-type="long" all="false"/>
+      <member name="creation-date-in-1d" select-expr="date_format(creation_date,'%Y%m%d')" value-type="long" all="false"/>
+      <var name="date-from" value-type="Date"/>
+      <var name="date-to" value-type="Date"/>
+      <readsets>
+         <readset name="C">
+            <member name="count"/>
+         </readset>
+         <readset name="T">
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CCT_15M">
+            <member name="creation-date-in-15m"/>
+            <member name="client-ip"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CCT_30M">
+            <member name="creation-date-in-30m"/>
+            <member name="client-ip"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CCT_1H">
+            <member name="creation-date-in-1h"/>
+            <member name="client-ip"/>
+            <member name="total-visits"/>
+         </readset>
+         <readset name="CCT_1D">
+            <member name="creation-date-in-1d"/>
+            <member name="client-ip"/>
+            <member name="total-visits"/>
+         </readset>
+      </readsets>
+      <query-defs>
+         <query name="insert" type="INSERT" batch="true">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/> (<FIELDS/>)
+                  VALUES (<VALUES/>)
+               ]]>
+            </statement>
+         </query>
+         <query name="delete-all-by-end-of-date" type="DELETE">
+            <param name="date-to"/>
+			 <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> <= ${date-to}
+               ]]>
+            </statement>
+         </query>
+         <query name="find-all-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+               ]]>
+            </statement>
+         </query>
+         <query name="group-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 1,2
+               ]]>
+            </statement>
+         </query>
+	  </query-defs>
+   </entity>
+   <entity name="stats" do-package="com.site.app.tracking.dal" alias="s">
+      <member name="st-id" alias="id" auto-increment="true"/>
+      <member name="st-uri" alias="uri"/>
+      <member name="st-remote-ip" alias="client-ip"/>
+      <member name="st-refer" alias="referrer"/>
+      <member name="st-server-ip" alias="server-ip"/>
+      <member name="st-param-id" alias="param-id"/>
+      <member name="st-param-c1" alias="param-c1"/>
+      <member name="st-param-c2" alias="param-c2"/>
+      <member name="st-time" alias="creation-date"/>
+      <member name="count" select-expr="COUNT(*)" value-type="int" all="false"/>
+      <member name="creation-date-in-15m" select-expr="date_format(st_time,'%Y%m%d%H%i')-date_format(st_time,'%i')%15" value-type="long" all="false"/>
+      <member name="creation-date-in-30m" select-expr="date_format(st_time,'%Y%m%d%H%i')-date_format(st_time,'%i')%30" value-type="long" all="false"/>
+      <member name="creation-date-in-1h" select-expr="date_format(st_time,'%Y%m%d%H')" value-type="long" all="false"/>
+      <member name="creation-date-in-1d" select-expr="date_format(st_time,'%Y%m%d')" value-type="long" all="false"/>
+      <var name="date-from" value-type="Date"/>
+      <var name="date-to" value-type="Date"/>
+      <var name="key-id" value-type="long" key-member="id"/>
+      <readsets>
+         <readset name="C">
+            <member name="count"/>
+         </readset>
+         <readset name="CPCC_15M">
+            <member name="creation-date-in-15m"/>
+            <member name="param-id"/>
+            <member name="client-ip"/>
+            <member name="count"/>
+         </readset>
+         <readset name="CPCC_30M">
+            <member name="creation-date-in-30m"/>
+            <member name="param-id"/>
+            <member name="client-ip"/>
+            <member name="count"/>
+         </readset>
+         <readset name="CPCC_1H">
+            <member name="creation-date-in-1h"/>
+            <member name="param-id"/>
+            <member name="client-ip"/>
+            <member name="count"/>
+         </readset>
+         <readset name="CPCC_1D">
+            <member name="creation-date-in-1d"/>
+            <member name="param-id"/>
+            <member name="client-ip"/>
+            <member name="count"/>
+         </readset>
+      </readsets>
+	  <query-defs>
+         <query name="delete-all-by-end-of-date" type="DELETE">
+            <param name="date-to"/>
+			 <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> <= ${date-to}
+               ]]>
+            </statement>
+         </query>
+         <query name="find-all-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+               ]]>
+            </statement>
+         </query>
+         <query name="group-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 1,2,3
+               ]]>
+            </statement>
+         </query>
+	  </query-defs>
+   </entity>
+</entities>

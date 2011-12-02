@@ -1,0 +1,23 @@
+<root>
+	<JPanel>
+		<setBorder>BorderFactory.createEmptyBorder(5, 5, 5, 5)</setBorder>
+		<setLayout>new GridLayout(0, 1)</setLayout>
+		<add>
+			<JTabbedPane>
+				<addTab>
+				    "resource"
+					<JPanel>
+						<JLabel>
+							<setText></setText>
+						</JLabel>
+					</JPanel>
+				</addTab>
+				<addTab>
+				    "building"
+					<JPanel>
+					</JPanel>
+				</addTab>
+			</JTabbedPane>
+		</add>
+	</JPanel>
+</root>

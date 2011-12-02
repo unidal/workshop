@@ -1,0 +1,165 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.http.Session</role>
+			<implementation>com.site.wdbc.http.impl.DefaultSession</implementation>
+			<configuration>
+				<headers>
+					<header name="User-Agent">Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)</header>
+				</headers>
+			</configuration>
+		</component>
+      <component>
+         <role>com.site.wdbc.koubei.Configuration</role>
+         <implementation>com.site.wdbc.koubei.Configuration</implementation>
+         <configuration>
+            <config>config.xml</config>
+         </configuration>
+      </component>
+		<component>
+			<role>com.site.wdbc.http.Processor</role>
+			<implementation>com.site.wdbc.koubei.Processor</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.koubei.Configuration</role>
+            </requirement>
+            <requirement>
+               <role>com.site.wdbc.infotree.InfoTreeConnector</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Flow</role>
+			<implementation>com.site.wdbc.http.impl.DefaultFlow</implementation>
+         <configuration>
+            <handler query="page-links" interval="2">
+               <page name="list"/>
+               <handler query="list" interval="2">
+                  <page name="details"/>
+                  <handler query="details">
+                     <page name="description"/>
+                     <handler query="description"/>
+                     <processor name="default"/>
+                  </handler>
+               </handler>
+            </handler>
+         </configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${page-links:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${list:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>description</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${details:desc-link}</action>
+				<ignoreEmptyAction>true</ignoreEmptyAction>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>page-links</role-hint>
+			<implementation>com.site.wdbc.koubei.PageLinksQuery</implementation>
+         <configuration>
+            <uriPattern>http://{2}.koubei.com/cate/list-{0}-p{1}.html</uriPattern>
+         </configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.koubei.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+               <path name="type">-</path>
+					<path name="date">-</path>
+					<path name="link">div[7].div.div.div.div.div[*].div.h6.a.@href</path>
+					<path name="title">div[7].div.div.div.div.div[*].div.h6.a</path>
+					<path name="address">div[7].div.div.div.div.div[*].div.ul.li.*text</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>list</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>description</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="text">html.body.table.*text</path>
+				</paths>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.koubei.ListFilter</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.koubei.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="desc-link">div[2].div.div.div[2].div[3].ul[2].li[3].p.a.@href</path>
+					<path name="rank">div[2].div.div.div[2].ul.*text</path>
+					<path name="address">div[2].div.div.div[2].div[3].ul.li</path>
+					<path name="picture">div[2].div.div.div[3].ul.li.a.img.@src</path>
+					<path name="contact">-</path>
+					<path name="category">div.ul.li[*].a</path>
+					<path name="district">-</path>
+					<path name="body">-</path>
+					<path name="mobilephone">-</path>
+					<path name="telephone">-</path>
+					<path name="email">-</path>
+					<path name="qq">-</path>
+					<path name="msn">-</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>details</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.koubei.DetailsFilter</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.http.Session</role>
+            </requirement>
+         </requirements>
+		</component>   
+	</components>
+</plexus>

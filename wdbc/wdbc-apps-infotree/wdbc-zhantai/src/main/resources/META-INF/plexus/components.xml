@@ -1,0 +1,135 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.http.Session</role>
+			<implementation>com.site.wdbc.http.impl.DefaultSession</implementation>
+			<configuration>
+				<headers>
+					<header name="User-Agent">Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)</header>
+				</headers>
+			</configuration>
+		</component>
+      <component>
+         <role>com.site.wdbc.zhantai.Configuration</role>
+         <implementation>com.site.wdbc.zhantai.Configuration</implementation>
+         <configuration>
+            <config>config.xml</config>
+         </configuration>
+      </component>
+		<component>
+			<role>com.site.wdbc.http.Processor</role>
+			<implementation>com.site.wdbc.zhantai.Processor</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.zhantai.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Flow</role>
+			<implementation>com.site.wdbc.http.impl.DefaultFlow</implementation>
+         <configuration>
+            <handler query="page-links" interval="10">
+               <page name="list"/>
+               <handler query="list" interval="10">
+                  <page name="details"/>
+                  <handler query="details">
+                     <processor name="default"/>
+                  </handler>
+               </handler>
+            </handler>
+         </configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${page-links:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>http://sh.zhantai.com${list:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>page-links</role-hint>
+			<implementation>com.site.wdbc.zhantai.PageLinksQuery</implementation>
+         <configuration>
+            <uriPattern>http://{2}.zhantai.com/sh/{0}/index{1}.html</uriPattern>
+         </configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.zhantai.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="date">p[*]</path>
+					<path name="link">p[*].a.@href</path>
+					<path name="title">p[*].a</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>list</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.zhantai.ListFilter</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.zhantai.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="category">-</path>
+					<path name="category1">a</path>
+					<path name="category2">a[2]</path>
+					<path name="title">h3</path>
+					<path name="body">table.tr.td.p</path>
+					<path name="district">-</path>
+					<path name="district1">a[3]</path>
+					<path name="district2">a[4]</path>
+					<path name="contact">table.tr.td</path>
+					<path name="date">table.tr.td</path>
+					<path name="mobilephone">-</path>
+					<path name="telephone">-</path>
+					<path name="email">-</path>
+					<path name="date">-</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>details</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.zhantai.DetailsFilter</implementation>
+		</component>   
+	</components>
+</plexus>

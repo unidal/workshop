@@ -1,0 +1,33 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">2007-12-17 0:03:48</word>
+               <word name="date">2007-12-17 0:02:52</word>
+               <word name="text">西藏原生藏獒销售有限公司出售极品红种公</word>
+               <word name="text">西藏原生藏獒销售有限公司出售已配好红母獒出售！</word>
+               <word name="link">http://info.petking.cn/24/2007121700348.htm@href</word>
+               <word name="link">http://info.petking.cn/24/2007121700252.htm@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">标题：[出售]60天的狮头小獒找主人了</word>
+               <word name="body">商品描述：</word>
+               <word name="contact">联系人：时</word>
+               <word name="category">藏獒</word>
+               <word name="picture">20071125215409.@src</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

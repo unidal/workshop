@@ -1,0 +1,37 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">2008-8-26</word>
+               <word name="date">2008-8-26</word>
+               <word name="link">/CargoInfo/details_6489.html@href</word>
+               <word name="link">/CargoInfo/details_6488.html@href</word>
+               <word name="title">寻找运输车</word>
+               <word name="title">找宁波当地便宜的快递</word>
+               <word name="from">浙江-杭州</word>
+               <word name="from">浙江-宁波</word>
+               <word name="to">上海-上海</word>
+               <word name="to">上海-上海</word>
+               <word name="goods">印刷品</word>
+               <word name="goods">普货</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">找宁波当地便宜的快递公司</word>
+               <word name="date">2008-8-26</word>
+               <word name="type">普货</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

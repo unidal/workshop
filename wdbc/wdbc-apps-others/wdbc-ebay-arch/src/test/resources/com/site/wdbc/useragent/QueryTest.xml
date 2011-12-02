@@ -1,0 +1,15 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="link">html.body.div[2].div[2].div.ul[*].li[*].a.@href</path>
+					<path name="title">html.body.div[2].div[2].div.ul[*].li[*].a</path>
+				</paths>
+			</configuration>
+		</component>
+	</components>
+</plexus>

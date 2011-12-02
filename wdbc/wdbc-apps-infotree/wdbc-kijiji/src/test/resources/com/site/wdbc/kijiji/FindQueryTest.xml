@@ -1,0 +1,48 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>prime</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="link">/a15406031.html@href</word>
+               <word name="link">/a15617959.html@href</word>
+               <word name="title">招聘 - 找爱好网页设计及平面设计实习生(艺术专业)</word>
+               <word name="title">招聘 - 大汗网络招聘美工兼职2名</word>
+               <word name="date">11月7日</word>
+               <word name="date">11月5日</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="link">/a16990427.html@href</word>
+               <word name="link">/a16990418.html@href</word>
+               <word name="title">招聘 - 急聘兼职文字录入员（周付)（地区不限）</word>
+               <word name="title">急聘兼职网站客服80元/天（地区不限）</word>
+               <word name="date">1分钟前</word>
+               <word name="date">2分钟前</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="area">地区</word>
+               <word name="date">发布时间</word>
+               <word name="content">供求关系</word>
+               <word name="contact">view0928#comment</word>
+               <word name="picture">24848791@src</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

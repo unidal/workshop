@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+   <servlet>
+      <servlet-name>bes-server</servlet-name>
+      <display-name>bes-server</display-name>
+      <description>Business Event System Servlet 1.2</description>
+      <servlet-class>com.site.bes.server.BesServlet</servlet-class>
+      <load-on-startup>1</load-on-startup>
+   </servlet>
+   <servlet>
+      <servlet-name>mvc-servlet</servlet-name>
+      <display-name>mvc-servlet</display-name>
+      <description>MVC Controller Servlet 1.2</description>
+      <servlet-class>com.site.web.controller.FrontEndWebEntry</servlet-class>
+      <init-param>
+         <param-name>configFile</param-name>
+         <param-value>config/mvc.xml</param-value>
+      </init-param>
+      <init-param>
+         <param-name>docRoot</param-name>
+         <param-value>/dev/projects/BesServer</param-value>
+      </init-param>
+      <load-on-startup>2</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+      <servlet-name>bes-server</servlet-name>
+      <url-pattern>/bes/*</url-pattern>
+   </servlet-mapping>
+   <servlet-mapping>
+      <servlet-name>mvc-servlet</servlet-name>
+      <url-pattern>/admin/*</url-pattern>
+   </servlet-mapping>
+   <welcome-file-list>
+      <welcome-file>index.htm</welcome-file>
+   </welcome-file-list>
+</web-app>

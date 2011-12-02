@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-
+instance">
+	<soapenv:Header>
+		<ebl:RequesterCredentials
+			soapenv:mustUnderstand="0" xmlns:ns="urn:ebay:apis:eBLBaseComponents"
+			xmlns:ebl="urn:ebay:apis:eBLBaseComponents">
+			<ebl:NotificationSignature xmlns:ebl="urn:ebay:apis:eBLBaseComponents">
+				AKurONibBT6zkNCsQ27rtg==
+      </ebl:NotificationSignature>
+		</ebl:RequesterCredentials>
+	</soapenv:Header>
+
+	<soapenv:Body>
+		<GetMemberMessagesResponse xmlns="urn:ebay:apis:eBLBaseComponents">
+			<Timestamp>2005-04-26T21:49:07.567Z
+			</Timestamp>
+			<Ack>Success</Ack>
+			<CorrelationID>
+				00000000-00000000-00000000-00000000-00000000-00000000-
+				0000000000</CorrelationID>
+			<Version>405</Version>
+			<Build>20050419162249</Build>
+			<NotificationEventName>AskSellerQuestion
+			</NotificationEventName>
+			<RecipientUserId>sampleseller</RecipientUserId>
+
+			<MemberMessage>
+				<MemberMessageExchange>
+					<Item>
+						<ItemID>4502794599</ItemID>
+						<ListingDetails>
+							<StartTime>2005-04-26T21:45:04.000Z
+							</StartTime>
+							<EndTime>2005-05-01T21:45:04.000Z
+							</EndTime>
+						</ListingDetails>
+						<SellingStatus>
+							<CurrentPrice currencyID="USD">0.0</CurrentPrice>
+						</SellingStatus>
+						<Title>Toy car - antique</Title>
+					</Item>
+
+					<Question>
+						<MessageType>AskSellerQuestion</MessageType>
+						<QuestionType>General</QuestionType>
+						<DisplayToPublic>false</DisplayToPublic>
+						<SenderID>samplebuyer</SenderID>
+						<RecipientID>397681</RecipientID>
+						<Body>Text of the question</Body>
+						<MessageID>695</MessageID>
+					</Question>
+					<MessageStatus>Unanswered</MessageStatus>
+					<CreationDate>2005-04-26T21:46:26.000Z
+					</CreationDate>
+					<LastModifiedDate>2005-04-26T21:46:26.000Z
+					</LastModifiedDate>
+				</MemberMessageExchange>
+
+			</MemberMessage>
+			<PaginationResult>
+				<TotalNumberOfPages>1</TotalNumberOfPages>
+				<TotalNumberOfEntries>1</TotalNumberOfEntries>
+			</PaginationResult>
+			<HasMoreItems>false</HasMoreItems>
+		</GetMemberMessagesResponse>
+	</soapenv:Body>
+</soapenv:Envelope> 

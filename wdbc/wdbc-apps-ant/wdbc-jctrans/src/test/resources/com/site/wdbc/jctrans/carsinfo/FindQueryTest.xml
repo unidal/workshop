@@ -1,0 +1,37 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">2008-8-17</word>
+               <word name="date">2008-8-17</word>
+               <word name="link">/CarsInfo/roaddetails_11137.html@href</word>
+               <word name="link">/CarsInfo/roaddetails_13587.html@href</word>
+               <word name="title">深圳特殊集装箱平板柜</word>
+               <word name="title">求北京至全国各地货源</word>
+               <word name="location">广东-潮州-潮安县</word>
+               <word name="location">北京-北京-北京市</word>
+               <word name="range">广东-惠州</word>
+               <word name="range">河南-南阳</word>
+               <word name="price">10 元/公里.车</word>
+               <word name="price">12 元/公里.车</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">求北京至全国各地货源</word>
+               <word name="company">均赢宏图国际物流（北京）有限公司</word>
+               <word name="type">整车</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

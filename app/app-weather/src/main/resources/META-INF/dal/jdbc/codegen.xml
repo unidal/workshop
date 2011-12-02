@@ -1,0 +1,76 @@
+<entities>
+  <entity name="subscribe" table="subscribe" alias="s">
+    <member name="user-id" field="user_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="woeid" field="woeid" value-type="int" length="10" nullable="false" key="true" />
+    <member name="seq-id" field="seq_id" value-type="int" length="10" nullable="false" />
+    <var name="key-user-id" value-type="int" key-member="user-id" />
+    <var name="key-woeid" value-type="int" key-member="woeid" />
+    <primary-key name="PRIMARY" members="user_id, woeid" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-user-id" />
+        <param name="key-woeid" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='woeid'/> = ${key-woeid}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-user-id" />
+        <param name="key-woeid" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='woeid'/> = ${key-woeid}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-user-id" />
+        <param name="key-woeid" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='woeid'/> = ${key-woeid}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="weather" table="weather" alias="w">
+    <member name="woeid" field="woeid" value-type="int" length="10" nullable="false" key="true" />
+    <member name="target-date" field="target_date" value-type="Date" nullable="false" key="true" />
+    <member name="city-name" field="city_name" value-type="String" length="50" nullable="false" />
+    <member name="condition-text" field="condition_text" value-type="String" length="30" nullable="false" />
+    <member name="condition-code" field="condition_code" value-type="int" length="10" nullable="false" />
+    <member name="high-temperature" field="high_temperature" value-type="int" length="10" nullable="false" />
+    <member name="low-temperature" field="low_temperature" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modify-date" field="last_modify_date" value-type="Date" nullable="false" />
+    <var name="key-woeid" value-type="int" key-member="woeid" />
+    <var name="key-target-date" value-type="Date" key-member="target-date" />
+    <primary-key name="PRIMARY" members="woeid, target_date" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-woeid" />
+        <param name="key-target-date" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='woeid'/> = ${key-woeid} AND <FIELD name='target-date'/> = ${key-target-date}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-woeid" />
+        <param name="key-target-date" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='woeid'/> = ${key-woeid} AND <FIELD name='target-date'/> = ${key-target-date}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-woeid" />
+        <param name="key-target-date" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='woeid'/> = ${key-woeid} AND <FIELD name='target-date'/> = ${key-target-date}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>

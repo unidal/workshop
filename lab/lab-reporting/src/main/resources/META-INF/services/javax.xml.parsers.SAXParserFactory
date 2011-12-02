@@ -1,0 +1,6 @@
+com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl
+org.apache.crimson.jaxp.SAXParserFactoryImpl
+org.apache.xerces.jaxp.SAXParserFactoryImpl
+
+Notes: 
+  - only first line will be used

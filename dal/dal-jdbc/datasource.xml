@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data-sources>
+	<data-source id="dal-jdbc1">
+		<maximum-pool-size>3</maximum-pool-size>
+		<connection-timeout>1s</connection-timeout>
+		<idle-timeout>10m</idle-timeout>
+		<statement-cache-size>1000</statement-cache-size>
+		<properties>
+			<driver>com.mysql.jdbc.Driver</driver>
+			<url><![CDATA[jdbc:mysql://localhost:3306/dal]]></url>
+			<user>root</user>
+			<password>Iamfrankie</password>
+			<connectionProperties><![CDATA[useUnicode=true&autoReconnect=true]]></connectionProperties>
+		</properties>
+	</data-source>
+	<data-source id="dal-jdbc2">
+		<maximum-pool-size>3</maximum-pool-size>
+		<connection-timeout>1s</connection-timeout>
+		<idle-timeout>10m</idle-timeout>
+		<statement-cache-size>1000</statement-cache-size>
+		<properties>
+			<driver>com.mysql.jdbc.Driver</driver>
+			<url><![CDATA[jdbc:mysql://localhost:3306/dal]]></url>
+			<user>root</user>
+			<password>Iamfrankie</password>
+			<connectionProperties><![CDATA[useUnicode=true&autoReconnect=true]]></connectionProperties>
+		</properties>
+	</data-source>
+</data-sources>

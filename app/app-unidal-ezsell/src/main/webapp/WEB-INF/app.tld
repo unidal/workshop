@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+   version="2.0">
+   <description>Application Specific JSP Tag Library</description>
+   <tlib-version>1.0</tlib-version>
+   <short-name>a</short-name>
+   
+   <tag>
+		<name>trxStatus</name>
+		<tag-class>org.unidal.ezsell.view.tag.TransactionStatusTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>transaction</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>org.unidal.ezsell.dal.Transaction</type>
+		</attribute>
+   </tag>
+   <tag>
+		<name>errors</name>
+		<tag-class>org.unidal.ezsell.view.tag.ErrorsTag</tag-class>
+		<body-content>JSP</body-content>
+   </tag>
+   <tag-file>
+      <name>body</name>
+      <path>/WEB-INF/tags/pageLayout.tag</path>
+   </tag-file>
+   <tag-file>
+      <name>register</name>
+      <path>/WEB-INF/tags/registerLayout.tag</path>
+   </tag-file>
+</taglib>

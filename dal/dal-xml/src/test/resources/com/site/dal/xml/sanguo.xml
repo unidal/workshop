@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<game>
+	<script />
+	<village name="南岙" x="435" y="269" vip="0" ismain="1" statename="扬州"/>
+	<time>2008-09-06 12:06:49</time>
+	<actions  quid="244531536" quname="qmwu2000@gmail.com" act="resources.status" villageid="7970" rand="365368"></actions>
+	<resos>
+		<reso id="crop" now="2468.5481944444" max="6300" speed="376.35" increase="197.35" /> 
+		<reso id="lumber" now="1365.72625" max="5000" speed="261.45" increase="261.45" /> 
+		<reso id="clay" now="365.651875" max="5000" speed="234.675" increase="234.675" />
+		<reso id="iron" now="2352.555625" max="5000" speed="200.025" increase="200.025" /> 
+		<reso id="population" now="179" max="376.35" speed="0" increase="0" /> 
+	</resos>
+	<villagelist>
+		<village id="7970" name="南岙" />
+	</villagelist>
+	<reports reportnew="0" msgnew="0" />
+	<studyqueue bqs="0" ytj="0" hby="0" jc="0" xg="0" />
+	<tasks zjzbid="6">
+	<task type="8" queueid="853907" intro="土木司 （Lv 6）" begintime="2008-09-06 11:16:33" endtime="2008-09-06 12:16:22" />	
+	</tasks>
+	<soldiers zjzbid="6">
+		<soldier vid="7970" tribe="吴" type="0" count="3"/>
+		<soldier vid="7970" tribe="吴" type="100" count="1"/>
+	</soldiers>
+	<htmls>
+		<html id="vipz">&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_01_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;逐鹿天下\&#039;, \&#039;VIP功能\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=101\&#039;);&quot;/&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_03_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;磨刀石\&#039;, \&#039;木材产量+25%\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=106\&#039;);&quot; /&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_04_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;火药筒\&#039;, \&#039;石料产量+25%\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=107\&#039;);&quot; /&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_05_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;监工鞭\&#039;, \&#039;铁砂产量+25%\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=108\&#039;);&quot;/&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://sta</html>
+		<html id="vipz">tic.sanguo.xiaonei.com/1.5/images/index/vipz_02.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;降雨符\&#039;, \&#039;粮食产量+25%\&#039;, \&#039;2008-09-06 22:12:00\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; /&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_06_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;攻符\&#039;, \&#039;所有单位攻击力+10%\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=109\&#039;);&quot; /&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_07_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;守符\&#039;, \&#039;所有单位防御力+10%\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=110\&#039;);&quot; /&gt;&amp;nbsp;&amp;nbsp;&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/vipz_08_2.gif&quot; onmouseover=&quot;showFloatInfo(\&#039;明修暗渡\&#039;, \&#039;自动转移招募的士兵。\&#039;, \&#039;-1\&#039;)&quot; onmouseout=&quot;hideFloatInfo()&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=113\&#039;);&quot; /&gt;&amp;nbsp;&amp;nbsp;</html>
+		<html id="up_product">&lt;img src=&quot;http://static.sanguo.xiaonei.com/1.5/images/index/speedup.gif&quot; onclick=&quot;javascript:MM_iframePost(\&#039;store.featuregoods&amp;amp;goods_id=111\&#039;);&quot; /&gt;</html>
+		<html id="main">&lt;!--  --&gt;
+&lt;img class=&quot;city&quot; src=&quot;http://static.sanguo.xiaonei.com/1.5/images/maps/r4446.gif&quot; usemap=&quot;#Map&quot;/&gt;
+&lt;map name=&quot;Map&quot; id=&quot;Map&quot;&gt;
+&lt;area shape=&quot;poly&quot; coords=&quot;297,106,290,115,252,133,246,149,307,182,368,152,364,133,342,125,344,112,327,103,321,111&quot; href=&quot;javascript:;&quot; onclick=&quot;MM_iframePost(\&#039;build.status\&#039;)&quot; /&gt;
+&lt;/map&gt;
+&lt;span class=&quot;resources resources_0&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=0\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;采石场 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_1&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=1\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_2&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=2\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;林场 6 级&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;resou</html>
+		<html id="main">rces resources_3&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=3\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;矿山 6 级&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;resources resources_4&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=4\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;采石场 6 级&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;resources resources_5&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=5\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;矿山 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_6&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=6\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;林场 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_7&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;re</html>
+		<html id="main">sources.detail&amp;amp;rid=7\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 6 级&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;resources resources_8&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=8\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 4 级&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;resources resources_9&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=9\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 4 级&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;resources resources_10&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=10\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_11&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=11\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;林场 6 级&quot;&gt;6&lt;/span&gt;
+&lt;span class=&quot;resources resources_</html>
+		<html id="main">12&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=12\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;农田 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_13&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=13\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;林场 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_14&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=14\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;采石场 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_15&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=15\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;矿山 4 级&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;resources resources_16&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resource</html>
+		<html id="main">s.detail&amp;amp;rid=16\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;采石场 5 级&quot;&gt;5&lt;/span&gt;
+&lt;span class=&quot;resources resources_17&quot; onmouseover=&quot;this.style.color=\&#039;#000\&#039;&quot; onmouseout=&quot;this.style.color=\&#039;#666\&#039;&quot; onclick=&quot;MM_iframePost(\&#039;resources.detail&amp;amp;rid=17\&#039;)&quot; align=&quot;center&quot; valign=&quot;center&quot; title=&quot;矿山 4 级&quot;&gt;4&lt;/span&gt;
+</html>
+	</htmls>
+</game>
+<!-- 0.058178901672363 -->

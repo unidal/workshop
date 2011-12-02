@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite hostname="L-SHC-00425786" name="com.ebay.eunit.testfwk.TestNGTest" tests="12" failures="0" timestamp="16 May 2011 05:03:50 GMT" time="0.021" errors="0">
+  <testcase name="@AfterClass afterClass" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest">
+    <failure type="junit.framework.AssertionFailedError" message="Methods before and/or after are not called correctly!">
+      <![CDATA[junit.framework.AssertionFailedError: Methods before and/or after are not called correctly!
+	at junit.framework.Assert.fail(Assert.java:47)
+	at com.ebay.eunit.testfwk.TestNGTest.afterClass(TestNGTest.java:38)
+	at com.ebay.eunit.EunitTestNGRunner.runSuper(EunitTestNGRunner.java:69)
+	at com.ebay.eunit.testfwk.junit.BaseJUnit4Runner$1.execute(BaseJUnit4Runner.java:120)
+	at com.ebay.eunit.testfwk.spi.task.SimpleValveChain.executeNext(SimpleValveChain.java:26)
+	at com.ebay.eunit.testfwk.spi.task.TaskValve.execute(TaskValve.java:33)
+	at com.ebay.eunit.testfwk.spi.task.SimpleValveChain.executeNext(SimpleValveChain.java:26)
+	at com.ebay.eunit.testfwk.spi.task.TaskValve.execute(TaskValve.java:28)
+	at com.ebay.eunit.testfwk.spi.task.SimpleValveChain.executeNext(SimpleValveChain.java:26)
+	at com.ebay.eunit.testfwk.junit.BaseJUnit4Runner.run(BaseJUnit4Runner.java:125)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:49)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+... Removed 22 stack frames]]>
+    </failure>
+  </testcase>
+  <testcase name="test1" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test2" time="0.0010" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0010" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0010" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0010" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+  <testcase name="test4" time="0.0" classname="com.ebay.eunit.testfwk.TestNGTest"/>
+</testsuite>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.site.lab</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.site.lab</groupId>
+	<artifactId>lab-reporting</artifactId>
+	<version>1.0.0</version>
+	<name>Laboratory for Reporting</name>
+	<dependencies>
+		<dependency>
+			<groupId>com.site.dal</groupId>
+			<artifactId>dal-xml</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>1.4.8</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext-asian</artifactId>
+			<version>1.0</version>
+		</dependency>
+	</dependencies>
+</project>

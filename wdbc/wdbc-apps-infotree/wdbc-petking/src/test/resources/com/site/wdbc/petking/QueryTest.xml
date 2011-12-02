@@ -1,0 +1,17 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.petking.ListFilter</implementation>
+         <configuration>
+            <maxDays>9999</maxDays>
+         </configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.petking.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+	</components>
+</plexus>

@@ -1,0 +1,64 @@
+<model model-package="com.ebay.webres.resource.profile" enable-merger="true" enable-empty-visitor='true' enable-xml-parser-tag-node='true' enable-xml-schema="true">
+  <entity name="profile" root="true">
+    <entity-ref name="js-slot" alias="common-js-slot" list="true" list-name="common-js-slots" xml-indent="true" />
+    <entity-ref name="css-slot" alias="common-css-slot" list="true" list-name="common-css-slots" xml-indent="true" />
+    <entity-ref name="page" list="true" list-name="pages" xml-indent="true" />
+  </entity>
+  <entity name="js-slot">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="override" value-type="boolean" />
+    <entity-ref name="js" list="true" />
+  </entity>
+  <entity name="js">
+    <attribute name="urn" value-type="String" key="true" />
+    <attribute name="content" value-type="String" text="true" />
+  </entity>
+  <entity name="css-slot">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="override" value-type="boolean" />
+    <entity-ref name="css" list="true" />
+  </entity>
+  <entity name="css">
+    <attribute name="urn" value-type="String" key="true" />
+    <attribute name="content" value-type="String" text="true" />
+  </entity>
+  <entity name="page">
+    <attribute name="id" value-type="String" key="true" nullable="true" />
+    <entity-ref name="js-slot" list="true" list-name="js-slots" />
+    <entity-ref name="css-slot" list="true" list-name="css-slots" />
+    <entity-ref name="common-js-slot-ref" list="true" list-name="common-js-slot-refs" />
+    <entity-ref name="common-css-slot-ref" list="true" list-name="common-css-slot-refs" />
+    <entity-ref name="js-slot-group" list="true" list-name="js-slot-groups" />
+    <entity-ref name="css-slot-group" list="true" list-name="css-slot-groups" />
+    <entity-ref name="img-data-uri" list="true" list-name="img-data-uris" />
+  </entity>
+  <entity name="common-js-slot-ref">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="before-slot" value-type="String" />
+    <attribute name="after-slot" value-type="String" />
+  </entity>
+  <entity name="js-slot-group">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="main-slot" value-type="String" required="true" />
+    <entity-ref name="js-slot-ref" list="true" list-name="js-slot-refs" />
+  </entity>
+  <entity name="js-slot-ref">
+    <attribute name="id" value-type="String" key="true" />
+  </entity>
+  <entity name="common-css-slot-ref">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="before-slot" value-type="String" />
+    <attribute name="after-slot" value-type="String" />
+  </entity>
+  <entity name="css-slot-group">
+    <attribute name="id" value-type="String" key="true" />
+    <attribute name="main-slot" value-type="String" required="true" />
+    <entity-ref name="css-slot-ref" list="true" list-name="css-slot-refs" />
+  </entity>
+  <entity name="css-slot-ref">
+    <attribute name="id" value-type="String" key="true" />
+  </entity>
+  <entity name="img-data-uri">
+    <attribute name="urn" value-type="String" key="true" />
+  </entity>
+</model>

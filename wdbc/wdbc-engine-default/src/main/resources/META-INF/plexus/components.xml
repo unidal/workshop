@@ -1,0 +1,50 @@
+<plexus>
+	<components>
+		<!-- Engine -->
+		<component>
+			<role>com.site.wdbc.WdbcEngine</role>
+			<implementation>com.site.wdbc.DefaultWdbcEngine</implementation>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcResult</role>
+			<implementation>com.site.wdbc.DefaultWdbcResult</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+		</component>
+		
+		<!-- Parser -->
+		<component>
+			<role>com.site.wdbc.query.WdbcParser</role>
+			<role-hint>HTML</role-hint>
+			<implementation>com.site.wdbc.query.HtmlWdbcParser</implementation>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcParser</role>
+			<role-hint>XML</role-hint>
+			<implementation>com.site.wdbc.query.XmlWdbcParser</implementation>
+		</component>
+
+		<!-- Query -->
+		<component>
+			<role>com.site.wdbc.query.WdbcHandler</role>
+			<implementation>com.site.wdbc.query.DefaultWdbcHandler</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.site.wdbc.query.WdbcContext</role>
+				</requirement>
+				<requirement>
+					<role>com.site.wdbc.WdbcResult</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcContext</role>
+			<implementation>com.site.wdbc.query.DefaultWdbcContext</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcPath</role>
+			<implementation>com.site.wdbc.query.DefaultWdbcPath</implementation>
+		</component>
+	</components>
+</plexus>

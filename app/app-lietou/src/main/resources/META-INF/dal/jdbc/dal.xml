@@ -1,0 +1,41 @@
+<entities do-package="com.lietou.myapp.dal" gen="true">
+	<entity name="ctrip-info" alias="ci">
+      <query-defs>
+         <query name="insert" type="INSERT" multiple="true">
+           <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+         </query>
+         <query name="update-by-PK" type="UPDATE" multiple="true">
+           <param name="key-id" />
+           <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+         </query>
+         <query name="delete-by-PK" type="DELETE" multiple="true">
+           <param name="key-id" />
+           <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+         </query>
+      </query-defs>
+	</entity>
+	<entity name="ips" alias="i">
+    <query-defs>
+      <query name="find-all" type="SELECT" multiple="true">
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/>]]></statement>
+      </query>
+    </query-defs>
+	</entity>
+	<entity name="web-user" alias="wu">
+    <readsets>
+      <readset name="MIN" >
+        <member name="user-id"/>
+        <member name="user-login"/>
+        <member name="user-pwd"/>
+        <member name="user-email"/>
+        <member name="user-kind"/>
+      </readset>
+    </readsets>
+    
+    <query-defs>
+      <query name="find-all" type="SELECT" multiple="true">
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/>]]></statement>
+      </query>
+    </query-defs>
+	</entity>
+</entities>

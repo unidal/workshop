@@ -1,0 +1,418 @@
+<entities>
+  <entity name="wp-commentmeta" table="wp_commentmeta" alias="wc">
+    <member name="meta-id" field="meta_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="comment-id" field="comment_id" value-type="long" length="20" nullable="false" />
+    <member name="meta-key" field="meta_key" value-type="String" length="255" />
+    <member name="meta-value" field="meta_value" value-type="String" length="2147483647" />
+    <var name="key-meta-id" value-type="long" key-member="meta-id" />
+    <primary-key name="PRIMARY" members="meta_id" />
+    <index name="comment_id" members="comment_id ASC" />
+    <index name="meta_key" members="meta_key ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-meta-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-meta-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-meta-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-comments" table="wp_comments" alias="wc2">
+    <member name="comment-id" field="comment_ID" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="comment-post-id" field="comment_post_ID" value-type="long" length="20" nullable="false" />
+    <member name="comment-author" field="comment_author" value-type="String" length="255" nullable="false" />
+    <member name="comment-author-email" field="comment_author_email" value-type="String" length="100" nullable="false" />
+    <member name="comment-author-url" field="comment_author_url" value-type="String" length="200" nullable="false" />
+    <member name="comment-author-ip" field="comment_author_IP" value-type="String" length="100" nullable="false" />
+    <member name="comment-date" field="comment_date" value-type="Date" nullable="false" />
+    <member name="comment-date-gmt" field="comment_date_gmt" value-type="Date" nullable="false" />
+    <member name="comment-content" field="comment_content" value-type="String" length="65535" nullable="false" />
+    <member name="comment-karma" field="comment_karma" value-type="int" length="10" nullable="false" />
+    <member name="comment-approved" field="comment_approved" value-type="String" length="20" nullable="false" />
+    <member name="comment-agent" field="comment_agent" value-type="String" length="255" nullable="false" />
+    <member name="comment-type" field="comment_type" value-type="String" length="20" nullable="false" />
+    <member name="comment-parent" field="comment_parent" value-type="long" length="20" nullable="false" />
+    <member name="user-id" field="user_id" value-type="long" length="20" nullable="false" />
+    <var name="key-comment-id" value-type="long" key-member="comment-id" />
+    <primary-key name="PRIMARY" members="comment_ID" />
+    <index name="comment_approved" members="comment_approved ASC" />
+    <index name="comment_post_ID" members="comment_post_ID ASC" />
+    <index name="comment_approved_date_gmt" members="comment_approved ASC, comment_date_gmt ASC" />
+    <index name="comment_date_gmt" members="comment_date_gmt ASC" />
+    <index name="comment_parent" members="comment_parent ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-comment-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='comment-id'/> = ${key-comment-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-comment-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='comment-id'/> = ${key-comment-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-comment-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='comment-id'/> = ${key-comment-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-links" table="wp_links" alias="wl">
+    <member name="link-id" field="link_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="link-url" field="link_url" value-type="String" length="255" nullable="false" />
+    <member name="link-name" field="link_name" value-type="String" length="255" nullable="false" />
+    <member name="link-image" field="link_image" value-type="String" length="255" nullable="false" />
+    <member name="link-target" field="link_target" value-type="String" length="25" nullable="false" />
+    <member name="link-description" field="link_description" value-type="String" length="255" nullable="false" />
+    <member name="link-visible" field="link_visible" value-type="String" length="20" nullable="false" />
+    <member name="link-owner" field="link_owner" value-type="long" length="20" nullable="false" />
+    <member name="link-rating" field="link_rating" value-type="int" length="10" nullable="false" />
+    <member name="link-updated" field="link_updated" value-type="Date" nullable="false" />
+    <member name="link-rel" field="link_rel" value-type="String" length="255" nullable="false" />
+    <member name="link-notes" field="link_notes" value-type="String" length="16777215" nullable="false" />
+    <member name="link-rss" field="link_rss" value-type="String" length="255" nullable="false" />
+    <var name="key-link-id" value-type="long" key-member="link-id" />
+    <primary-key name="PRIMARY" members="link_id" />
+    <index name="link_visible" members="link_visible ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-link-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='link-id'/> = ${key-link-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-link-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='link-id'/> = ${key-link-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-link-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='link-id'/> = ${key-link-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-options" table="wp_options" alias="wo">
+    <member name="option-id" field="option_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="blog-id" field="blog_id" value-type="int" length="10" nullable="false" />
+    <member name="option-name" field="option_name" value-type="String" length="64" nullable="false" />
+    <member name="option-value" field="option_value" value-type="String" length="2147483647" nullable="false" />
+    <member name="autoload" field="autoload" value-type="String" length="20" nullable="false" />
+    <var name="key-option-id" value-type="long" key-member="option-id" />
+    <primary-key name="PRIMARY" members="option_id" />
+    <index name="option_name" unique="true" members="option_name ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-option-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='option-id'/> = ${key-option-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-option-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='option-id'/> = ${key-option-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-option-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='option-id'/> = ${key-option-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-postmeta" table="wp_postmeta" alias="wp">
+    <member name="meta-id" field="meta_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="post-id" field="post_id" value-type="long" length="20" nullable="false" />
+    <member name="meta-key" field="meta_key" value-type="String" length="255" />
+    <member name="meta-value" field="meta_value" value-type="String" length="2147483647" />
+    <var name="key-meta-id" value-type="long" key-member="meta-id" />
+    <primary-key name="PRIMARY" members="meta_id" />
+    <index name="post_id" members="post_id ASC" />
+    <index name="meta_key" members="meta_key ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-meta-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-meta-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-meta-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='meta-id'/> = ${key-meta-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-posts" table="wp_posts" alias="wp2">
+    <member name="id" field="ID" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="post-author" field="post_author" value-type="long" length="20" nullable="false" />
+    <member name="post-date" field="post_date" value-type="Date" nullable="false" />
+    <member name="post-date-gmt" field="post_date_gmt" value-type="Date" nullable="false" />
+    <member name="post-content" field="post_content" value-type="String" length="2147483647" nullable="false" />
+    <member name="post-title" field="post_title" value-type="String" length="65535" nullable="false" />
+    <member name="post-excerpt" field="post_excerpt" value-type="String" length="65535" nullable="false" />
+    <member name="post-status" field="post_status" value-type="String" length="20" nullable="false" />
+    <member name="comment-status" field="comment_status" value-type="String" length="20" nullable="false" />
+    <member name="ping-status" field="ping_status" value-type="String" length="20" nullable="false" />
+    <member name="post-password" field="post_password" value-type="String" length="20" nullable="false" />
+    <member name="post-name" field="post_name" value-type="String" length="200" nullable="false" />
+    <member name="to-ping" field="to_ping" value-type="String" length="65535" nullable="false" />
+    <member name="pinged" field="pinged" value-type="String" length="65535" nullable="false" />
+    <member name="post-modified" field="post_modified" value-type="Date" nullable="false" />
+    <member name="post-modified-gmt" field="post_modified_gmt" value-type="Date" nullable="false" />
+    <member name="post-content-filtered" field="post_content_filtered" value-type="String" length="65535" nullable="false" />
+    <member name="post-parent" field="post_parent" value-type="long" length="20" nullable="false" />
+    <member name="guid" field="guid" value-type="String" length="255" nullable="false" />
+    <member name="menu-order" field="menu_order" value-type="int" length="10" nullable="false" />
+    <member name="post-type" field="post_type" value-type="String" length="20" nullable="false" />
+    <member name="post-mime-type" field="post_mime_type" value-type="String" length="100" nullable="false" />
+    <member name="comment-count" field="comment_count" value-type="long" length="19" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="ID" />
+    <index name="post_name" members="post_name ASC" />
+    <index name="type_status_date" members="post_type ASC, post_status ASC, post_date ASC, ID ASC" />
+    <index name="post_parent" members="post_parent ASC" />
+    <index name="post_author" members="post_author ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-term-relationships" table="wp_term_relationships" alias="wtr">
+    <member name="object-id" field="object_id" value-type="long" length="20" nullable="false" key="true" />
+    <member name="term-taxonomy-id" field="term_taxonomy_id" value-type="long" length="20" nullable="false" key="true" />
+    <member name="term-order" field="term_order" value-type="int" length="10" nullable="false" />
+    <var name="key-object-id" value-type="long" key-member="object-id" />
+    <var name="key-term-taxonomy-id" value-type="long" key-member="term-taxonomy-id" />
+    <primary-key name="PRIMARY" members="object_id, term_taxonomy_id" />
+    <index name="term_taxonomy_id" members="term_taxonomy_id ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-object-id" />
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='object-id'/> = ${key-object-id} AND <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-object-id" />
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='object-id'/> = ${key-object-id} AND <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-object-id" />
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='object-id'/> = ${key-object-id} AND <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-term-taxonomy" table="wp_term_taxonomy" alias="wtt">
+    <member name="term-taxonomy-id" field="term_taxonomy_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="term-id" field="term_id" value-type="long" length="20" nullable="false" />
+    <member name="taxonomy" field="taxonomy" value-type="String" length="32" nullable="false" />
+    <member name="description" field="description" value-type="String" length="2147483647" nullable="false" />
+    <member name="parent" field="parent" value-type="long" length="20" nullable="false" />
+    <member name="count" field="count" value-type="long" length="19" nullable="false" />
+    <var name="key-term-taxonomy-id" value-type="long" key-member="term-taxonomy-id" />
+    <primary-key name="PRIMARY" members="term_taxonomy_id" />
+    <index name="term_id_taxonomy" unique="true" members="term_id ASC, taxonomy ASC" />
+    <index name="taxonomy" members="taxonomy ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-term-taxonomy-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='term-taxonomy-id'/> = ${key-term-taxonomy-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-terms" table="wp_terms" alias="wt">
+    <member name="term-id" field="term_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="name" field="name" value-type="String" length="200" nullable="false" />
+    <member name="slug" field="slug" value-type="String" length="200" nullable="false" />
+    <member name="term-group" field="term_group" value-type="long" length="19" nullable="false" />
+    <var name="key-term-id" value-type="long" key-member="term-id" />
+    <primary-key name="PRIMARY" members="term_id" />
+    <index name="slug" unique="true" members="slug ASC" />
+    <index name="name" members="name ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-term-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='term-id'/> = ${key-term-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-term-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='term-id'/> = ${key-term-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-term-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='term-id'/> = ${key-term-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-usermeta" table="wp_usermeta" alias="wu">
+    <member name="umeta-id" field="umeta_id" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="user-id" field="user_id" value-type="long" length="20" nullable="false" />
+    <member name="meta-key" field="meta_key" value-type="String" length="255" />
+    <member name="meta-value" field="meta_value" value-type="String" length="2147483647" />
+    <var name="key-umeta-id" value-type="long" key-member="umeta-id" />
+    <primary-key name="PRIMARY" members="umeta_id" />
+    <index name="user_id" members="user_id ASC" />
+    <index name="meta_key" members="meta_key ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-umeta-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='umeta-id'/> = ${key-umeta-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-umeta-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='umeta-id'/> = ${key-umeta-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-umeta-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='umeta-id'/> = ${key-umeta-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="wp-users" table="wp_users" alias="wu2">
+    <member name="id" field="ID" value-type="long" length="20" nullable="false" key="true" auto-increment="true" />
+    <member name="user-login" field="user_login" value-type="String" length="60" nullable="false" />
+    <member name="user-pass" field="user_pass" value-type="String" length="64" nullable="false" />
+    <member name="user-nicename" field="user_nicename" value-type="String" length="50" nullable="false" />
+    <member name="user-email" field="user_email" value-type="String" length="100" nullable="false" />
+    <member name="user-url" field="user_url" value-type="String" length="100" nullable="false" />
+    <member name="user-registered" field="user_registered" value-type="Date" nullable="false" />
+    <member name="user-activation-key" field="user_activation_key" value-type="String" length="60" nullable="false" />
+    <member name="user-status" field="user_status" value-type="int" length="10" nullable="false" />
+    <member name="display-name" field="display_name" value-type="String" length="250" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="ID" />
+    <index name="user_login_key" members="user_login ASC" />
+    <index name="user_nicename" members="user_nicename ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>

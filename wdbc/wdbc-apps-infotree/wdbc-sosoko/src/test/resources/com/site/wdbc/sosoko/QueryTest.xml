@@ -1,0 +1,20 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.sosoko.ListFilter</implementation>
+         <configuration>
+            <maxDays>9999</maxDays>
+         </configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.sosoko.Configuration</role>
+            </requirement>
+            <requirement>
+               <role>com.site.wdbc.http.Session</role>
+            </requirement>
+         </requirements>
+		</component>
+	</components>
+</plexus>

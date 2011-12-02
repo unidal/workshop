@@ -1,0 +1,32 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">2007-12-27</word>
+               <word name="date">2007-12-26</word>
+               <word name="link">passengerInfo.asp?carid=52978@href</word>
+               <word name="link">passengerInfo.asp?carid=53073@href</word>
+               <word name="title">上海闵行罗秀路 近 虹美南路</word>
+               <word name="title">上海长宁娄山关路 近 延安西路</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="body">搭乘性质:</word>
+               <word name="body">起点:</word>
+               <word name="body">希望搭乘的司机驾龄: </word>
+               <word name="contact">网络昵称: </word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

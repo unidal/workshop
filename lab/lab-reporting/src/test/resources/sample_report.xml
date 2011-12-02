@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="GBK"?>
+
+<document author="Frankie Wu">
+   <base-font alias="song" name="STSong-Light" encoding="UniGB-UCS2-H" embedded="true"/>
+   
+   <page size="A4" rotate="false">
+      <font name="song" size="9" style="0">
+          <table border="0" width="100%">
+            <tr>
+               <td align="right" height="15">更新日期 : 2006年03月06日\n</td>
+            </tr>
+         </table>
+         
+         <table border="15" width="100%" widths="6,6,6,6,6,6,6,6,6,6,8,12,20">
+            <tr>
+               <th>艙別</th>
+               <th>艙位</th>
+               <td colspan="2">
+                  <table border="15" width="100%">
+                     <tr>
+                        <td colspan="2" nowrap="true" align="center">單去程</td>
+                     </tr>
+                     <tr align="center">
+                        <td nowrap="true">成人</td>
+                        <td nowrap="true">小童</td>
+                     </tr>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table border="15" width="100%">
+                     <tr>
+                        <td colspan="2" nowrap="true" align="center">來回程</td>
+                     </tr>
+                     <tr align="center">
+                        <td nowrap="true">成人</td>
+                        <td nowrap="true">小童</td>
+                     </tr>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table border="15" width="100%">
+                     <tr>
+                        <td colspan="2" nowrap="true" align="center">單去程</td>
+                     </tr>
+                     <tr align="center">
+                        <td nowrap="true">成人</td>
+                        <td nowrap="true">小童</td>
+                     </tr>
+                  </table>
+               </td>
+               <td colspan="2">
+                  <table border="15" width="100%">
+                     <tr>
+                        <td colspan="2" nowrap="true" align="center">來回程</td>
+                     </tr>
+                     <tr align="center">
+                        <td nowrap="true">成人</td>
+                        <td nowrap="true">小童</td>
+                     </tr>
+                  </table>
+               </td>
+               <th>回佣</th>
+               <th>有效期</th>
+               <th>備註</th>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>580</td>
+               <td>540</td>
+               <td>1060</td>
+               <td>810</td>
+               <td>NETT</td>
+               <td>31-Mar</td>
+               <td></td>
+            </tr>
+            <tr align="center">
+               <td>Y</td>
+               <td>K</td>
+               <td>520</td>
+               <td>400</td>
+               <td>920</td>
+               <td>700</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>---</td>
+               <td>NETT</td>
+               <td>180D</td>
+               <td></td>
+            </tr>
+         </table>
+         <br/>
+      </font>
+   </page>
+</document>

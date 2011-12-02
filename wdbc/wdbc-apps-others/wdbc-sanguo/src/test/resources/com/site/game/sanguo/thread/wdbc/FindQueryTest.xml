@@ -1,0 +1,165 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>state_list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="state">交州</word>
+               <word name="state">兖州</word>
+               <word name="general">山儁</word>
+               <word name="general">蹋重</word>
+               <word name="status">未接受</word>
+               <word name="status">已结束</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>general_list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">冯立</word>
+               <word name="village">下谢</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>general_items</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">方天画戟</word>
+               <word name="name">丈八蛇矛</word>
+               <word name="id">goodid=17@href</word>
+               <word name="id">goodid=19@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>store_items</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">方天画戟</word>
+               <word name="name">丈八蛇矛</word>
+               <word name="id">方天画戟@onclick</word>
+               <word name="id">丈八蛇矛@onclick</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>resource_list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">采石场 7 级@title</word>
+               <word name="name">农田 8 级@title</word>
+               <word name="level">7</word>
+               <word name="level">8</word>
+               <word name="id">rid=0@onclick</word>
+               <word name="id">rid=1@onclick</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>resource_detail</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="wood">4235</word>
+               <word name="stone">5445</word>
+               <word name="iron">4235</word>
+               <word name="cron">1210</word>
+               <word name="population">+1</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>building_list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">城墙  2@title</word>
+               <word name="name">粮仓  10@title</word>
+               <word name="name">仓库  10@title</word>
+               <word name="id">bid=0@onclick</word>
+               <word name="id">bid=1@onclick</word>
+               <word name="id">bid=2@onclick</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>building_detail</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="wood">2165</word>
+               <word name="stone">1445</word>
+               <word name="iron">2680</word>
+               <word name="cron">1235</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>map_status</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="emperor">法兰奇@onmouseover</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>court_list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="hasButton">emperor.state_court@onclick</word>
+               <word name="date">2008-10-13 08:09:09</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>general_detail</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="name">龚柔</word>
+               <word name="level">7</word>
+               <word name="title">典农校尉</word>
+               <word name="tili">72/100</word>
+               <word name="wuli">42/100</word>
+               <word name="baowu">17.jpg@src</word>
+               <word name="zuoqi">3.jpg@src</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>village_detail</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="village">东岙</word>
+               <word name="tribe">魏</word>
+               <word name="alliance">【揚州】屠龍嗜虎</word>
+               <word name="emperor">法兰奇</word>
+               <word name="population">1267</word>
+               <word name="rank">【亭侯】</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

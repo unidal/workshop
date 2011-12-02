@@ -1,0 +1,34 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">发布时间：今天</word>
+               <word name="date">发布时间：2007年12月11日</word>
+               <word name="text">1房/100元/贷款难?--我们帮您忙,不成功不收费..../100平方米</word>
+               <word name="text">1房/1000元/求租一室一厅套房（整租）.../50平方米</word>
+               <word name="link">/a18808750@href</word>
+               <word name="link">/a18787571@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">租赁简装房</word>
+               <word name="body">我在九亭附近工作，现在求租以下任意楼盘的房子：源花城，金丰蓝庭，开心公寓等处房屋，有意向出租的请直接联系我，中介勿扰。</word>
+               <word name="info">面积：70平方米</word>
+               <word name="contact">021-69766114</word>
+               <word name="district">松江区</word>
+               <word name="district">九亭</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

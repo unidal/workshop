@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Frankie Wu
+Build-Jdk: 1.5.0_01
+Main-Class: com.site.wdbc.whois.Crawler
+Class-Path: lib/commons-codec.jar lib/junit.jar lib/httpcore.jar lib/h
+ ttpclient.jar lib/wdbc-engine-default.jar lib/plexus-classworlds.jar 
+ lib/commons-logging.jar lib/wdbc-api.jar lib/plexus-container-default
+ .jar lib/plexus-utils.jar lib/plexus-lookup.jar lib/wdbc-http-client.
+ jar

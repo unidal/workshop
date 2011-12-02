@@ -1,0 +1,35 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">12-23 22:46</word>
+               <word name="date">12-23 22:36</word>
+               <word name="title">朗润园蚂蚁公房</word>
+               <word name="title">莲花路/古龙路/平吉路路口全新全配有空调</word>
+               <word name="link">/housing1d/07122322_395196.htm@href</word>
+               <word name="link">/housing1d/07122322_395194.htm@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="category">上海房产</word>
+               <word name="category">上海出租房</word>
+               <word name="title">莲花路/古龙路/平吉路路口全新全配有空调</word>
+               <word name="body">莲花路，古龙路交叉口</word>
+               <word name="contact">/info/tel_search.php?q=0723pubculjhiuhqb@href</word>
+               <word name="district">万源城附近</word>
+               <word name="picture">/img/housing/20071201/11/1/20071201115932_1.jpg@href</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

@@ -1,0 +1,50 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">1分钟</word>
+               <word name="date">2分钟</word>
+               <word name="link">http://auction1.taobao.com/auction/16/item_detail-0db1-0c4d4727890163a0d7d64a3cf70b1d29.jhtml@href</word>
+               <word name="link">http://auction1.taobao.com/auction/16/item_detail-0db2-2375e83616388c2611ec0572a7ad0912.jhtml@href</word>
+               <word name="title">新款韩版毛尼外套*军装风格格*短袖外套*622</word>
+               <word name="title">白色拆帽拆袖后背系带正品羽绒服【ONLY专柜同步】[WT054]*特价*</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>next-page</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="img">http://img.taobao.com/2k5/sys/component/next_page_act.gif@src</word>
+               <word name="link">http://list.taobao.com/browse/16/t-0----------------------g,zhh3viy----------------y-40-list-commend-40-all-16.htm@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>description</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="link">http://dsc06.taobao.com/i6/8f0/b21/8f4b28415f618e28a6756bedf8c1c288.desc|var^desc;sign^73c7f46f8223045fec63aae9614184f3;lang^gbk;t^1198165691@src</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="body">女装品牌</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

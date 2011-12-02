@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.site</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+   <groupId>com.site.common</groupId>
+   <artifactId>parent</artifactId>
+   <version>1.0.0</version>
+   <name>Common parent</name>
+   <packaging>pom</packaging>
+   <modules>
+      <module>lookup</module>
+      <module>converter</module>
+      <module>codegen</module>
+      <module>test-framework</module>
+      <module>web-framework</module>
+      <module>eunit-testfwk</module>
+      <module>eunit-cmd-testfwk</module>
+   </modules>
+</project>

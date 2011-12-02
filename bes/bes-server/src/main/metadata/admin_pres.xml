@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entities
+   author='qwu'
+   request-src-dir="../BesServer/src/main/java"
+   request-package='com.site.bes.server.admin'
+   base-request-class='PageRequest'
+   base-request-package='com.site.web.page'
+   response-src-dir="../BesServer/src/main/java"
+   response-package='com.site.bes.server.admin'
+   base-response-class='PageResponse'
+   base-response-package='com.site.web.page'
+   normalizer-src-dir="../BesServer/src/main/java"
+   normalizer-package='com.site.bes.server.admin'
+   error-id-class='AdminErrorId'
+   error-id-package='com.site.bes.server.admin'>
+   <entity name="admin">
+      <request-fields>
+         <field name="sorted-by" type="String">
+            <enum name="AdminSortedByEnum" package="com.site.bes.server.admin">
+               <enum-member id="1" name="consumer"/>
+               <enum-member id="2" name="event"/>
+            </enum>
+         </field>
+         <field name="event-id" type="int"/>
+         <field name="event-type" type="String" required="true"/>
+         <field name="consumer-type" type="String" required="true"/>
+         <field name="batch-timeout" type="time" default-value="5m"/>
+      </request-fields>
+      <response-fields>
+         <field name="consumer" multiple="true">
+            <field name="consumer-type" type="String"/>
+            <field name="status" type="String"/>
+            <field name="check-interval" type="long"/>
+            <field name="event-type" type="String" multiple="true"/>
+         </field>
+         <field name="event" multiple="true">
+            <field name="event-type" type="String"/>
+            <field name="consumer" multiple="true">
+               <field name="consumer-type" type="String"/>
+               <field name="enabled" type="boolean"/>
+               <field name="check-interval" type="long"/>
+            </field>
+         </field>
+      </response-fields>
+      <services>
+         <service form-action="list" type="HTTP">
+            <request page-mode="display">
+               <field-ref name="sorted-by"/>
+            </request>
+            <response>
+               <field-ref name="consumer" multiple="true"/>
+               <field-ref name="event" multiple="true"/>
+            </response>
+         </service>
+         <service form-action="init-dashboard" type="HTTP">
+            <request page-mode="submit">
+               <field-ref name="event-type"/>
+               <field-ref name="consumer-type"/>
+               <field-ref name="batch-timeout"/>
+            </request>
+            <response>
+               <field name="dashboard">
+                  <field name="event-type" type="String"/>
+                  <field name="consumer-type" type="String"/>
+                  <field name="last-fetched-id" type="int"/>
+                  <field name="last-schedule-date" type="Date"/>
+                  <field name="batch-timeout" type="time"/>
+                  <field name="creation-date" type="Date"/>
+                  <field name="last-modified-date" type="Date"/>
+               </field>
+            </response>
+         </service>
+         <service form-action="event" name="get-event-info" type="SOAP">
+            <request>
+               <field name="event-id" type="int"/>
+            </request>
+            <response>
+               <field name="event-info">
+                  <field name="event-id" type="int"/>
+                  <field name="event-type" type="String"/>
+                  <field name="producer-type" type="String"/>
+                  <field name="producer-id" type="String"/>
+                  <field name="max-retry-times" type="int"/>
+                  <field name="creation-date" type="Date"/>
+               </field>
+               <field name="consumption" multiple="true">
+                  <field name="event-id" type="int"/>
+                  <field name="event-type" type="String"/>
+                  <field name="consumer-type" type="String"/>
+                  <field name="event-state" type="String">
+                     <enum class="EventState" package="com.site.bes.common"/>
+                  </field>
+                  <field name="retried-times" type="int"/>
+                  <field name="next-schedule-date" type="Date"/>
+               </field>
+            </response>
+         </service>
+      </services>
+   </entity>
+</entities>

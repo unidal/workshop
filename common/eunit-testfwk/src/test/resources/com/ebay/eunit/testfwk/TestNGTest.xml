@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Default suite">
+  <test verbose="0" name="Default test">
+    <classes>
+      <class name="com.ebay.eunit.testfwk.TestNGTest"/>
+    </classes>
+  </test>
+</suite>

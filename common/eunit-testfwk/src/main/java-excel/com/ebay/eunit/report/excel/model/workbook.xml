@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<workbook xmlns:xsi="http://www.w3.org/2001/XMLSchema" xsi:noNamespaceSchemaLocation="workbook.xsd">
+   <sheet>
+      <location />
+      <label />
+      <number />
+      <format>
+         <font />
+         <pattern />
+      </format>
+      <date-time />
+      <new-line />
+   </sheet>
+</workbook>

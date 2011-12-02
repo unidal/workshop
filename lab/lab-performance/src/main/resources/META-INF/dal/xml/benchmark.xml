@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root do-package="com.site.lab.performance.model">
+	<element name="benchmark" root="true">
+		<element-ref name="suite" list="true" list-type="list"/>
+	</element>
+	<element name="suite" root="true">
+		<attribute name="type" value-type="String"/>
+		<element-ref name="case" list="true" list-type="map"/>
+	</element>
+	<element name="case">
+		<attribute name="name" value-type="String" key="true"/>
+		<attribute name="notes" value-type="String"/><!-- error information -->
+		<attribute name="cpu-loops" value-type="int"/>
+		<attribute name="cpu-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="cpu-first-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="cpu-total-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="elapsed-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="elapsed-first-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="elapsed-total-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="memory-loops" value-type="int"/>
+		<attribute name="memory-footprint" value-type="long"/><!-- in bytes -->
+		<attribute name="memory-permanent-footprint" value-type="long"/><!-- in bytes -->
+		<attribute name="memory-total-footprint" value-type="long"/><!-- in bytes -->
+		<attribute name="memory-gc-count" value-type="long"/>
+		<attribute name="memory-gc-amount" value-type="long"/>
+		<attribute name="memory-gc-time" value-type="long"/><!-- in milliseconds -->
+		<attribute name="start-time" value-type="long"/><!-- in nanoseconds -->
+		<attribute name="end-time" value-type="long"/><!-- in nanoseconds -->
+	</element>
+</root>

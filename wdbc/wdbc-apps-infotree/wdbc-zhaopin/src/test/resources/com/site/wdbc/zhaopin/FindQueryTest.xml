@@ -1,0 +1,31 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">08-11-04</word>
+               <word name="date">08-11-04</word>
+               <word name="title">台商上海分公司總经理</word>
+               <word name="title">区域销售总监(上海) Regional Sales Director（shanghai ）</word>
+               <word name="link">http://jobs.zhaopin.com/P2/CC2334/8081/J900/000/CC233480816J90000003000.htm?f=ss@href</word>
+               <word name="link">http://jobs.zhaopin.com/P4/CC1371/4433/J900/003/CC137144339J90000353000.htm?f=ss@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="desc">本科以上学历</word>
+               <word name="desc">高级管理 市场/市场拓展/公关</word>
+               <word name="desc">5-10年</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

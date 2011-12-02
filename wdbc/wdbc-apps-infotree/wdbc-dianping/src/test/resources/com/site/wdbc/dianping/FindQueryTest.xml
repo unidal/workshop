@@ -1,0 +1,37 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="amount">98</word>
+               <word name="amount">181</word>
+               <word name="phone">021-51501177</word>
+               <word name="phone">021-64333506</word>
+               <word name="address">上海静安区南京西路1856号3楼(近乌鲁木齐路)</word>
+               <word name="address">上海卢湾区绍兴路27号(陕西南路瑞金二路间)</word>
+               <word name="link">/shop/2497894?KID=4271@href</word>
+               <word name="link">/shop/502648?KID=4265@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">湖庭</word>
+               <word name="desc">今日寸土寸金的上海</word>
+               <word name="dish">蟹黄鱼翅汤包</word>
+               <word name="dish">湖庭醉鸡</word>
+               <word name="contact">021-63876387</word>
+               <word name="district">/search_m/1/10_b5@href</word>
+               <word name="picture">http://i1.dpfile.com/2008-03-31/420624_s.jpg@src</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

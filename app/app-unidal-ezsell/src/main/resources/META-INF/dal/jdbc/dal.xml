@@ -1,0 +1,516 @@
+<entities gen="true" do-package="org.unidal.ezsell.dal">
+	<entity name="buyer" alias="b">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	        <statement>
+	        		<![CDATA[
+	        			INSERT 
+	        			INTO <TABLE/>(<FIELDS/>) 
+	        			VALUES(<VALUES/>) 
+	        			ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	        		]]>
+	        	</statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="configuration" alias="c">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+			<query name="find-by-name" type="SELECT">
+				<param name="name" />
+				<statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='name'/> = ${name}
+               ]]>
+				</statement>
+			</query>
+			<query name="upsert" type="INSERT">
+				<statement>
+               <![CDATA[
+                  INSERT 
+	        			INTO <TABLE/>(<FIELDS/>) 
+	        			VALUES(<VALUES/>) 
+	        			ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='value'/>=<VALUE name='value'/>,
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+               ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="feedback" alias="f">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	         <statement>
+	           <![CDATA[
+	              INSERT 
+	              INTO <TABLE/>(<FIELDS/>) 
+	              VALUES(<VALUES/>)
+	              ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	           ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="item" alias="i">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	        <statement>
+	        		<![CDATA[
+	        			INSERT 
+	        			INTO <TABLE/>(<FIELDS/>) 
+	        			VALUES(<VALUES/>) 
+	        			ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	        		]]>
+	        	</statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="item-preference" alias="ip">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+	</entity>
+	<entity name="label" alias="l">
+		<var name="labels" value-type="String[]" />
+		<readsets>
+			<readset name="ID">
+				<member name="id" />
+			</readset>
+		</readsets>
+		<query-defs>
+			<query name="find-all-by-type-and-id" type="SELECT" multiple="true">
+				<param name="type" />
+				<param name="id" />
+				<statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='type'/> = ${type}
+                  	AND <FIELD name='id'/> = ${id}
+               ]]>
+				</statement>
+			</query>
+			<query name="find-all-by-type-and-labels" type="SELECT" multiple="true">
+				<param name="type" />
+				<param name="labels" />
+				<statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='type'/> = ${type}
+                     AND <FIELD name='label'/> IN <IN>${labels}</IN>
+               ]]>
+				</statement>
+			</query>
+	      <query name="insert" type="INSERT" batch="true">
+	         <statement>
+	           <![CDATA[
+	              INSERT 
+	              INTO <TABLE/>(<FIELDS/>) 
+	              VALUES(<VALUES/>)
+	              ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='label'/>=<VALUE name='label'/>
+	           ]]>
+	         </statement>
+	      </query>
+	      <query name="update-by-PK" type="UPDATE" batch="true">
+	         <param name="key-label" />
+	         <statement>
+	            <![CDATA[
+	               UPDATE <TABLE/> 
+	               SET <FIELDS/> 
+	               WHERE <FIELD name='label'/> = ${key-label}
+	            ]]>
+	         </statement>
+	      </query>
+	      <query name="delete-by-PK" type="DELETE" batch="true">
+	         <param name="key-label" />
+	         <statement>
+	            <![CDATA[
+	               DELETE 
+	               FROM <TABLE/> 
+	               WHERE <FIELD name='label'/> = ${key-label}
+	            ]]>
+	         </statement>
+	      </query>
+	      <query name="delete-by-id" type="DELETE">
+	         <param name="id" />
+	         <statement>
+	            <![CDATA[
+	               DELETE 
+	               FROM <TABLE/> 
+	               WHERE <FIELD name='id'/> = ${id}
+	            ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="notification" alias="n">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+	</entity>
+	<entity name="operator" alias="o">
+		<member name="encrypted-password" insert-expr="password(${password})" update-expr="password(${password})"/>
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<var name="password" value-type="String"/>
+		<query-defs>
+			<query name="authenticate" type="SELECT">
+				<param name="email" />
+				<param name="password" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='email'/>=${email}
+                  	AND <FIELD name='encrypted-password'/>=password(${password})
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-email" type="SELECT">
+				<param name="email" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='email'/>=${email}
+                ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="orders" alias="o" class-name="Order">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	        <statement>
+	        		<![CDATA[
+	        			INSERT 
+	        			INTO <TABLE/>(<FIELDS/>) 
+	        			VALUES(<VALUES/>) 
+	        			ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	        		]]>
+	        	</statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="payment" alias="p">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	         <statement>
+	           <![CDATA[
+	              INSERT 
+	              INTO <TABLE/>(<FIELDS/>) 
+	              VALUES(<VALUES/>)
+	              ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	           ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="seller" alias="s">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+			<query name="find-by-operator-id" type="SELECT">
+				<param name="operator-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='operator-id'/>=${operator-id}
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-ebay-account" type="SELECT">
+				<param name="ebay-account" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='ebay-account'/>=${ebay-account}
+                ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="seller-ebay-team" alias="set">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT">
+	         <statement>
+	           <![CDATA[
+	              INSERT 
+	              INTO <TABLE/>(<FIELDS/>) 
+	              VALUES(<VALUES/>)
+	              ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='team-name'/>=<VALUE name='team-name'/>,
+	        				<FIELD name='team-leader'/>=<VALUE name='team-leader'/>,
+	        				<FIELD name='team-leader-phone'/>=<VALUE name='team-leader-phone'/>,
+	        				<FIELD name='team-leader-cube'/>=<VALUE name='team-leader-cube'/>,
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	           ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="shipping" alias="s">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	         <statement>
+	           <![CDATA[
+	              INSERT 
+	              INTO <TABLE/>(<FIELDS/>) 
+	              VALUES(<VALUES/>)
+	              ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	           ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="shipping-address" alias="sa">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<query-defs>
+	      <query name="insert" type="INSERT" batch="true">
+	        <statement>
+	        		<![CDATA[
+	        			INSERT 
+	        			INTO <TABLE/>(<FIELDS/>) 
+	        			VALUES(<VALUES/>) 
+	        			ON DUPLICATE KEY UPDATE 
+	        				<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+	        		]]>
+	        	</statement>
+	      </query>
+		</query-defs>
+	</entity>
+	<entity name="transaction" alias="t">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<var name="relisted-item-id" value-type="long"/>
+		<var name="keyword" value-type="String"/>
+		<var name="non-keyword" value-type="String"/>
+		<var name="ids" value-type="Integer[]"/>
+		<var name="non-ids" value-type="Integer[]"/>
+		<var name="date-from" value-type="java.util.Date"/>
+		<var name="date-to" value-type="java.util.Date"/>
+		<var name="shipped-date-from" value-type="java.util.Date"/>
+		<var name="shipped-date-to" value-type="java.util.Date"/>
+		<var name="statuses" value-type="Integer[]"/>
+		<var name="order-by" value-type="String"/>
+		<readsets>
+			<readset name="IL">
+				<member name="id" />
+				<member name="labels" />
+			</readset>
+		</readsets>
+		<query-defs>
+			<query name="find-all" type="SELECT" multiple="true">
+				<param name="seller-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE  <FIELD name='seller-id'/> = ${seller-id}
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-item-id-and-transaction-id" type="SELECT">
+				<param name="item-id" />
+				<param name="transaction-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='item-id'/>=${item-id}
+                  	AND <FIELD name='transaction-id'/>=${transaction-id}
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-item-buyer-account-and-amount-and-date" type="SELECT">
+				<param name="item-id" />
+				<param name="buyer-account" />
+				<param name="amount-paid" />
+				<param name="paid-time" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='item-id'/>=${item-id}
+                  	AND <FIELD name='buyer-account'/>=${buyer-account}
+                  	AND abs(<FIELD name='amount-paid'/>-${amount-paid}) \\< 0.01
+                  	AND <FIELD name='paid-time'/> \\< ${paid-time}
+                  	AND <FIELD name='paid-time'/> \\> ${paid-time} - 1
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-payment-id" type="SELECT">
+				<param name="payment-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='payment-id'/>=${payment-id}
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-shipping-tracking-id" type="SELECT">
+				<param name="shipping-tracking-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='shipping-tracking-id'/>=${shipping-tracking-id}
+                ]]>
+				</statement>
+			</query>
+			<query name="find-all-by-ids" type="SELECT" multiple="true">
+				<param name="ids" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='id'/> IN <IN>${ids}</IN>
+                ]]>
+				</statement>
+			</query>
+			<query name="find-all-for-leave-feedback" type="SELECT" multiple="true">
+				<param name="seller-id" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE  <FIELD name='seller-id'/> = ${seller-id}
+					AND <FIELD name='feedback-status'/> \\< 10
+                ]]>
+				</statement>
+			</query>
+			<query name="find-all-by-criterias" type="SELECT" multiple="true">
+				<param name="seller-id" />
+				<param name="keyword" />
+				<param name="non-keyword" />
+				<param name="ids" />
+				<param name="non-ids" />
+				<param name="date-from" />
+				<param name="date-to" />
+				<param name="shipped-date-from" />
+				<param name="shipped-date-to" />
+				<param name="buyer-account" />
+				<param name="shipping-tracking-id" />
+				<param name="statuses" />
+				<param name="feedback-status" />
+				<param name="order-by" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='seller-id'/> = ${seller-id}
+                  	<IF field='ids' type='NOT_NULL'>
+                  		AND <FIELD name='id'/> IN <IN>${ids}</IN>
+                  	</IF>
+                  	<IF field='non-ids' type='NOT_NULL'>
+                  		AND <FIELD name='id'/> NOT IN <IN>${non-ids}</IN>
+                  	</IF>
+                  	<IF field='keyword' type='NOT_NULL'>
+                  		AND <FIELD name='item-title'/> like concat('%', ${keyword}, '%')
+                  	</IF>
+                  	<IF field='non-keyword' type='NOT_NULL'>
+                  		AND NOT(<FIELD name='item-title'/> like concat('%', ${non-keyword}, '%'))
+                  	</IF>
+                  	<IF field='date-from' type='NOT_NULL'>
+                  		AND <FIELD name='transaction-creation-date'/> \\>= ${date-from}
+                  	</IF>
+                  	<IF field='date-to' type='NOT_NULL'>
+                  		AND <FIELD name='transaction-creation-date'/> \\<= ${date-to}
+                  	</IF>
+                  	<IF field='shipped-date-from' type='NOT_NULL'>
+                  		AND <FIELD name='shipped-time'/> \\>= ${shipped-date-from}
+                  	</IF>
+                  	<IF field='shipped-date-to' type='NOT_NULL'>
+                  		AND <FIELD name='shipped-time'/> \\<= ${shipped-date-to}
+                  	</IF>
+                  	<IF field='statuses' type='NOT_NULL'>
+                  		AND <FIELD name='status'/> IN <IN>${statuses}</IN>
+                  	</IF>
+                  	<IF field='buyer-account' type='NOT_NULL'>
+                  		AND <FIELD name='buyer-account'/> = ${buyer-account}
+                  	</IF>
+                  	<IF field='shipping-tracking-id' type='NOT_NULL'>
+                  		AND <FIELD name='shipping-tracking-id'/> = ${shipping-tracking-id}
+                  	</IF>
+                  	<IF field='feedback-status' type='EQ' value='1'>
+                  		AND (<FIELD name='feedback-status'/> IS NULL OR <FIELD name='feedback-status'/> = 0)
+                  	</IF>
+                  	<IF field='feedback-status' type='EQ' value='2'>
+                  		AND <FIELD name='feedback-status'/> DIV 10 = 0 AND <FIELD name='feedback-status'/> % 10 \\> 0
+                  	</IF>
+                  	<IF field='feedback-status' type='EQ' value='3'>
+                  		AND <FIELD name='feedback-status'/> DIV 10 \\> 0 AND <FIELD name='feedback-status'/> % 10 = 0
+                  	</IF>
+                  	<IF field='feedback-status' type='EQ' value='4'>
+                  		AND <FIELD name='feedback-status'/> \\>= 11
+                  	</IF>
+                  ORDER BY ${order-by} DESC
+                ]]>
+				</statement>
+			</query>
+	      <query name="insert" type="INSERT" batch="true">
+	        <statement>
+				<![CDATA[
+					INSERT 
+					INTO <TABLE/>(<FIELDS/>) 
+					VALUES(<VALUES/>) 
+					ON DUPLICATE KEY UPDATE 
+						<FIELD name='order-id'/>=<VALUE name='order-id'/>,
+						<FIELD name='paid-time'/>=<VALUE name='paid-time'/>,
+						<FIELD name='adjustment-amount'/>=<VALUE name='adjustment-amount'/>,
+						<FIELD name='amount-paid'/>=<VALUE name='amount-paid'/>,
+						<FIELD name='shipping-cost'/>=<VALUE name='shipping-cost'/>,
+						<FIELD name='final-value-fee'/>=<VALUE name='final-value-fee'/>,
+						<FIELD name='payment-id'/>=<VALUE name='payment-id'/>,
+						<FIELD name='payment-fee'/>=<VALUE name='payment-fee'/>,
+						<IF field='shipping-tracking-id' type='NOT_NULL'>
+						   <FIELD name='shipping-tracking-id'/>=<VALUE name='shipping-tracking-id'/>,
+						</IF>
+						<FIELD name='checkout-message'/>=<VALUE name='checkout-message'/>,
+						<FIELD name='shipped-time'/>=<VALUE name='shipped-time'/>,
+						<FIELD name='status'/>=<VALUE name='status'/>,
+						<FIELD name='last-modified-date'/>=<VALUE name='last-modified-date'/>
+				]]>
+			</statement>
+	      </query>
+	      <query name="update-by-PK" type="UPDATE" batch="true">
+	         <param name="key-id" />
+	         <statement>
+	            <![CDATA[
+	               UPDATE <TABLE/> 
+	               SET <FIELDS/> 
+	               WHERE <FIELD name='id'/> = ${key-id}
+	            ]]>
+	         </statement>
+	      </query>
+		</query-defs>
+	</entity>
+</entities>

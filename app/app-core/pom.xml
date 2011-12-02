@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <parent>
+      <groupId>com.site.app</groupId>
+      <artifactId>parent</artifactId>
+      <version>1.0.0</version>
+   </parent>
+   <modelVersion>4.0.0</modelVersion>
+   <groupId>com.site.app</groupId>
+   <artifactId>app-core</artifactId>
+   <version>1.0.0</version>
+   <name>Application core</name>
+   <dependencies>
+      <dependency>
+         <groupId>com.site.common</groupId>
+         <artifactId>lookup</artifactId>
+      </dependency>
+		<dependency>
+			<groupId>com.site.common</groupId>
+			<artifactId>test-framework</artifactId>
+			<scope>test</scope>
+		</dependency>
+   </dependencies>
+</project>

@@ -1,0 +1,41 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.http.Session</role>
+			<implementation>com.site.wdbc.http.impl.DefaultSession</implementation>
+			<configuration>
+				<headers>
+					<header name="User-Agent">Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)</header>
+				</headers>
+			</configuration>
+			<requirements>
+				<requirement>
+					<role>com.site.wdbc.http.cache.CacheManager</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.impl.FormRequest</role>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Handler</role>
+			<implementation>com.site.wdbc.http.impl.DefaultHandler</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.site.wdbc.WdbcEngine</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.cache.CacheManager</role>
+			<implementation>com.site.wdbc.http.cache.NoCacheManager</implementation>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Processor</role>
+			<implementation>com.site.wdbc.http.impl.DefaultProcessor</implementation>
+		</component>
+	</components>
+</plexus>

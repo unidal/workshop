@@ -1,0 +1,29 @@
+<plexus>
+	<components>
+		<component>
+			<role>org.unidal.weather.biz.WeatherPage</role>
+			<implementation>org.unidal.weather.biz.WeatherPage</implementation>
+			<requirements>
+				<requirement>
+					<role>com.site.app.weather.dal.WeatherDao</role>
+				</requirement>
+				<requirement>
+					<role>org.unidal.weather.web.view.JspViewer</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.site.app.weather.dal.WeatherDao</role>
+			<implementation>com.site.app.weather.dal.WeatherDao</implementation>
+			<requirements>
+				<requirement>
+					<role>com.site.dal.jdbc.QueryEngine</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>org.unidal.weather.web.view.JspViewer</role>
+			<implementation>org.unidal.weather.web.view.JspViewer</implementation>
+		</component>
+	</components>
+</plexus>

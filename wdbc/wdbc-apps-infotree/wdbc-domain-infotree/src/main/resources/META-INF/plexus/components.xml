@@ -1,0 +1,8 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.infotree.InfoTreeConnector</role>
+         <implementation>com.site.wdbc.infotree.InfoTreeConnector</implementation>
+      </component>
+   </components>
+</plexus>

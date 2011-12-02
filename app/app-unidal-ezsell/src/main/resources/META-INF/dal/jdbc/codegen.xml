@@ -1,0 +1,653 @@
+<entities>
+  <entity name="buyer" table="buyer" alias="b">
+    <member name="buyer-account" field="buyer_account" value-type="String" length="50" nullable="false" key="true" />
+    <member name="buyer-name" field="buyer_name" value-type="String" length="50" nullable="false" />
+    <member name="buyer-email" field="buyer_email" value-type="String" length="100" />
+    <member name="registration-date" field="registration_date" value-type="Date" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-buyer-account" value-type="String" key-member="buyer-account" />
+    <primary-key name="PRIMARY" members="buyer_account" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-buyer-account" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='buyer-account'/> = ${key-buyer-account}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-buyer-account" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='buyer-account'/> = ${key-buyer-account}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-buyer-account" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='buyer-account'/> = ${key-buyer-account}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="configuration" table="configuration" alias="c">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="name" field="name" value-type="String" length="100" nullable="false" />
+    <member name="value" field="value" value-type="String" length="1000" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="Configuration_U_IDX_N" unique="true" members="name ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="feedback" table="feedback" alias="f">
+    <member name="id" field="id" value-type="long" length="19" nullable="false" key="true" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="item-id" field="item_id" value-type="long" length="19" nullable="false" />
+    <member name="transaction-id" field="transaction_id" value-type="long" length="19" nullable="false" />
+    <member name="type" field="type" value-type="int" length="10" nullable="false" />
+    <member name="message" field="message" value-type="String" length="100" />
+    <member name="role" field="role" value-type="int" length="10" nullable="false" />
+    <member name="comment-date" field="comment_date" value-type="Date" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="long" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="feedback_U_IDX_IT" unique="true" members="item_id ASC, transaction_id ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="item" table="item" alias="i">
+    <member name="item-id" field="item_id" value-type="long" length="19" nullable="false" key="true" />
+    <member name="item-title" field="item_title" value-type="String" length="60" nullable="false" />
+    <member name="original-item-id" field="original_item_id" value-type="long" length="19" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-item-id" value-type="long" key-member="item-id" />
+    <primary-key name="PRIMARY" members="item_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-item-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-item-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-item-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="item-preference" table="item_preference" alias="ip">
+    <member name="item-id" field="item_id" value-type="long" length="19" nullable="false" key="true" />
+    <member name="cd-title" field="cd_title" value-type="String" length="60" />
+    <member name="cd-weight" field="cd_weight" value-type="String" length="10" />
+    <member name="cd-value" field="cd_value" value-type="String" length="10" />
+    <member name="cd-origin" field="cd_origin" value-type="String" length="20" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-item-id" value-type="long" key-member="item-id" />
+    <primary-key name="PRIMARY" members="item_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-item-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-item-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-item-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='item-id'/> = ${key-item-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="label" table="label" alias="l">
+    <member name="label" field="label" value-type="String" length="30" nullable="false" key="true" />
+    <member name="type" field="type" value-type="int" length="10" nullable="false" key="true" />
+    <member name="id" field="id" value-type="String" length="20" nullable="false" key="true" />
+    <var name="key-label" value-type="String" key-member="label" />
+    <var name="key-type" value-type="int" key-member="type" />
+    <var name="key-id" value-type="String" key-member="id" />
+    <primary-key name="PRIMARY" members="label, type, id" />
+    <index name="Label_U_IDX_IT" members="id ASC, type ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-label" />
+        <param name="key-type" />
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='label'/> = ${key-label} AND <FIELD name='type'/> = ${key-type} AND <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-label" />
+        <param name="key-type" />
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='label'/> = ${key-label} AND <FIELD name='type'/> = ${key-type} AND <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-label" />
+        <param name="key-type" />
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='label'/> = ${key-label} AND <FIELD name='type'/> = ${key-type} AND <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="notification" table="notification" alias="n">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="event-name" field="event_name" value-type="String" length="30" nullable="false" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="seller-account" field="seller_account" value-type="String" length="20" nullable="false" />
+    <member name="event-payload" field="event_payload" value-type="String" length="65535" nullable="false" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="operator" table="operator" alias="o">
+    <member name="operator-id" field="operator_id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="email" field="email" value-type="String" length="100" nullable="false" />
+    <member name="encrypted-password" field="encrypted_password" value-type="String" length="50" nullable="false" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="login-failures" field="login_failures" value-type="int" length="10" nullable="false" />
+    <member name="last-login-date" field="last_login_date" value-type="Date" nullable="false" />
+    <member name="ebay-seller-id" field="ebay_seller_id" value-type="int" length="10" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <var name="key-operator-id" value-type="int" key-member="operator-id" />
+    <primary-key name="PRIMARY" members="operator_id" />
+    <index name="user_U_IDX_E" unique="true" members="email ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-operator-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='operator-id'/> = ${key-operator-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-operator-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='operator-id'/> = ${key-operator-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-operator-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='operator-id'/> = ${key-operator-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="orders" table="orders" alias="o2">
+    <member name="order-id" field="order_id" value-type="long" length="19" nullable="false" key="true" />
+    <member name="amount-paid" field="amount_paid" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="adjustment-amount" field="adjustment_amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="order-status" field="order_status" value-type="String" length="20" nullable="false" />
+    <member name="settled" field="settled" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-order-id" value-type="long" key-member="order-id" />
+    <primary-key name="PRIMARY" members="order_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-order-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='order-id'/> = ${key-order-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-order-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='order-id'/> = ${key-order-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-order-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='order-id'/> = ${key-order-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="payment" table="payment" alias="p">
+    <member name="payment-id" field="payment_id" value-type="String" length="20" nullable="false" key="true" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="parent-payment-id" field="parent_payment_id" value-type="String" length="20" />
+    <member name="receipt-id" field="receipt_id" value-type="String" length="20" />
+    <member name="amount" field="amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="fee-amount" field="fee_amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="settle-amount" field="settle_amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="tax-amount" field="tax_amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="currency-code" field="currency_code" value-type="String" length="3" nullable="false" />
+    <member name="exchange-rate" field="exchange_rate" value-type="double" length="8" decimal="2" />
+    <member name="buyer-account" field="buyer_account" value-type="String" length="30" nullable="false" />
+    <member name="buyer-name" field="buyer_name" value-type="String" length="50" nullable="false" />
+    <member name="buyer-email" field="buyer_email" value-type="String" length="100" />
+    <member name="payment-type" field="payment_type" value-type="String" length="20" />
+    <member name="payment-status" field="payment_status" value-type="String" length="20" />
+    <member name="pending-reason" field="pending_reason" value-type="String" length="20" />
+    <member name="reason-code" field="reason_code" value-type="String" length="20" />
+    <member name="notes" field="notes" value-type="String" length="200" />
+    <member name="order-time" field="order_time" value-type="Date" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <member name="transaction-id" field="transaction_id" value-type="int" length="10" />
+    <member name="order-id" field="order_id" value-type="long" length="19" />
+    <var name="key-payment-id" value-type="String" key-member="payment-id" />
+    <primary-key name="PRIMARY" members="payment_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-payment-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-payment-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-payment-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="seller" table="seller" alias="s">
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="operator-id" field="operator_id" value-type="int" length="10" nullable="false" />
+    <member name="ebay-account" field="ebay_account" value-type="String" length="20" nullable="false" />
+    <member name="ebay-app-id" field="ebay_app_id" value-type="String" length="50" nullable="false" />
+    <member name="ebay-auth-token" field="ebay_auth_token" value-type="String" length="1000" nullable="false" />
+    <member name="paypal-username" field="paypal_username" value-type="String" length="100" />
+    <member name="paypal-password" field="paypal_password" value-type="String" length="50" />
+    <member name="paypal-signature" field="paypal_signature" value-type="String" length="100" />
+    <member name="transaction-last-fetch-date" field="transaction_last_fetch_date" value-type="Date" />
+    <member name="feedback-last-fetch-date" field="feedback_last_fetch_date" value-type="Date" />
+    <member name="name" field="name" value-type="String" length="20" />
+    <member name="address" field="address" value-type="String" length="100" />
+    <member name="phone" field="phone" value-type="String" length="20" />
+    <member name="team-at-ebay" field="team_at_ebay" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-seller-id" value-type="int" key-member="seller-id" />
+    <primary-key name="PRIMARY" members="seller_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-seller-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-seller-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-seller-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="seller-ebay-team" table="seller_ebay_team" alias="set">
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="team-name" field="team_name" value-type="String" length="30" nullable="false" />
+    <member name="team-leader" field="team_leader" value-type="String" length="30" nullable="false" />
+    <member name="team-leader-phone" field="team_leader_phone" value-type="String" length="30" nullable="false" />
+    <member name="team-leader-cube" field="team_leader_cube" value-type="String" length="30" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-seller-id" value-type="int" key-member="seller-id" />
+    <primary-key name="PRIMARY" members="seller_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-seller-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-seller-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-seller-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='seller-id'/> = ${key-seller-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="shipping" table="shipping" alias="s2">
+    <member name="shipping-tracking-id" field="shipping_tracking_id" value-type="String" length="20" nullable="false" key="true" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="country" field="country" value-type="String" length="30" />
+    <member name="weight" field="weight" value-type="int" length="10" />
+    <member name="price-before-discount" field="price_before_discount" value-type="double" length="8" decimal="2" />
+    <member name="discount-rate" field="discount_rate" value-type="double" length="8" decimal="2" />
+    <member name="customs-fee" field="customs_fee" value-type="double" length="8" decimal="2" />
+    <member name="price-after-discount" field="price_after_discount" value-type="double" length="8" decimal="2" />
+    <member name="shipping-date" field="shipping_date" value-type="Date" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-shipping-tracking-id" value-type="String" key-member="shipping-tracking-id" />
+    <primary-key name="PRIMARY" members="shipping_tracking_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-shipping-tracking-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='shipping-tracking-id'/> = ${key-shipping-tracking-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-shipping-tracking-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='shipping-tracking-id'/> = ${key-shipping-tracking-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-shipping-tracking-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='shipping-tracking-id'/> = ${key-shipping-tracking-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="shipping-address" table="shipping_address" alias="sa">
+    <member name="payment-id" field="payment_id" value-type="String" length="20" nullable="false" key="true" />
+    <member name="buyer-account" field="buyer_account" value-type="String" length="50" nullable="false" />
+    <member name="name" field="name" value-type="String" length="100" nullable="false" />
+    <member name="street" field="street" value-type="String" length="100" nullable="false" />
+    <member name="street2" field="street2" value-type="String" length="100" />
+    <member name="city" field="city" value-type="String" length="50" nullable="false" />
+    <member name="state" field="state" value-type="String" length="50" nullable="false" />
+    <member name="postal-code" field="postal_code" value-type="String" length="20" nullable="false" />
+    <member name="phone" field="phone" value-type="String" length="50" />
+    <member name="country-code" field="country_code" value-type="String" length="2" nullable="false" />
+    <member name="country-name" field="country_name" value-type="String" length="50" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-payment-id" value-type="String" key-member="payment-id" />
+    <primary-key name="PRIMARY" members="payment_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-payment-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-payment-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-payment-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='payment-id'/> = ${key-payment-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="trans" table="trans" alias="t">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="order-id" field="order_id" value-type="long" length="19" nullable="false" />
+    <member name="item-id" field="item_id" value-type="long" length="19" nullable="false" />
+    <member name="transaction-id" field="transaction_id" value-type="long" length="19" nullable="false" />
+    <member name="item-title" field="item_title" value-type="String" length="100" nullable="false" />
+    <member name="quantity-purchased" field="quantity_purchased" value-type="int" length="10" nullable="false" />
+    <member name="paid-time" field="paid_time" value-type="Date" />
+    <member name="adjustment-amount" field="adjustment_amount" value-type="double" length="8" decimal="2" />
+    <member name="amount-paid" field="amount_paid" value-type="double" length="8" decimal="2" />
+    <member name="transaction-price" field="transaction_price" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="transaction-site-id" field="transaction_site_id" value-type="String" length="20" nullable="false" />
+    <member name="shipping-cost" field="shipping_cost" value-type="double" length="8" decimal="2" />
+    <member name="final-value-fee" field="final_value_fee" value-type="double" length="8" decimal="2" />
+    <member name="transaction-creation-date" field="transaction_creation_date" value-type="Date" nullable="false" />
+    <member name="buyer-account" field="buyer_account" value-type="String" length="50" nullable="false" />
+    <member name="city-name" field="city_name" value-type="String" length="50" nullable="false" />
+    <member name="country-name" field="country_name" value-type="String" length="50" nullable="false" />
+    <member name="buyer-name" field="buyer_name" value-type="String" length="100" nullable="false" />
+    <member name="buyer-email" field="buyer_email" value-type="String" length="100" />
+    <member name="phone" field="phone" value-type="String" length="50" />
+    <member name="postal-code" field="postal_code" value-type="String" length="20" />
+    <member name="state-or-province" field="state_or_province" value-type="String" length="50" />
+    <member name="street1" field="street1" value-type="String" length="100" nullable="false" />
+    <member name="street2" field="street2" value-type="String" length="100" />
+    <member name="checkout-message" field="checkout_message" value-type="String" length="1000" />
+    <member name="shipped-time" field="shipped_time" value-type="Date" />
+    <member name="shipping-carrier" field="shipping_carrier" value-type="String" length="20" />
+    <member name="shipping-tracking-id" field="shipping_tracking_id" value-type="String" length="20" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="feedback-status" field="feedback_status" value-type="int" length="10" />
+    <member name="feedback-recieved-message" field="feedback_recieved_message" value-type="String" length="80" />
+    <member name="feedback-recieved-date" field="feedback_recieved_date" value-type="Date" />
+    <member name="feedback-left-message" field="feedback_left_message" value-type="String" length="80" />
+    <member name="feedback-left-date" field="feedback_left_date" value-type="Date" />
+    <member name="labels" field="labels" value-type="String" length="200" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <member name="payment-id" field="payment_id" value-type="String" length="20" />
+    <member name="payment-fee" field="payment_fee" value-type="double" length="8" decimal="2" />
+    <member name="shipping-fee" field="shipping_fee" value-type="double" length="8" decimal="2" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="transaction" table="transaction" alias="t2">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="seller-id" field="seller_id" value-type="int" length="10" nullable="false" />
+    <member name="order-id" field="order_id" value-type="long" length="19" nullable="false" />
+    <member name="item-id" field="item_id" value-type="long" length="19" nullable="false" />
+    <member name="transaction-id" field="transaction_id" value-type="long" length="19" nullable="false" />
+    <member name="item-title" field="item_title" value-type="String" length="100" nullable="false" />
+    <member name="quantity-purchased" field="quantity_purchased" value-type="int" length="10" nullable="false" />
+    <member name="paid-time" field="paid_time" value-type="Date" />
+    <member name="adjustment-amount" field="adjustment_amount" value-type="double" length="8" decimal="2" />
+    <member name="amount-paid" field="amount_paid" value-type="double" length="8" decimal="2" />
+    <member name="transaction-price" field="transaction_price" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="transaction-site-id" field="transaction_site_id" value-type="String" length="20" nullable="false" />
+    <member name="shipping-cost" field="shipping_cost" value-type="double" length="8" decimal="2" />
+    <member name="final-value-fee" field="final_value_fee" value-type="double" length="8" decimal="2" />
+    <member name="transaction-creation-date" field="transaction_creation_date" value-type="Date" nullable="false" />
+    <member name="buyer-account" field="buyer_account" value-type="String" length="50" nullable="false" />
+    <member name="buyer-name" field="buyer_name" value-type="String" length="100" nullable="false" />
+    <member name="checkout-message" field="checkout_message" value-type="String" length="1000" />
+    <member name="shipped-time" field="shipped_time" value-type="Date" />
+    <member name="shipping-carrier" field="shipping_carrier" value-type="String" length="20" />
+    <member name="shipping-tracking-id" field="shipping_tracking_id" value-type="String" length="20" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="feedback-status" field="feedback_status" value-type="int" length="10" />
+    <member name="feedback-recieved-message" field="feedback_recieved_message" value-type="String" length="80" />
+    <member name="feedback-recieved-date" field="feedback_recieved_date" value-type="Date" />
+    <member name="feedback-left-message" field="feedback_left_message" value-type="String" length="80" />
+    <member name="feedback-left-date" field="feedback_left_date" value-type="Date" />
+    <member name="labels" field="labels" value-type="String" length="200" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <member name="payment-id" field="payment_id" value-type="String" length="20" />
+    <member name="payment-fee" field="payment_fee" value-type="double" length="8" decimal="2" />
+    <member name="shipping-fee" field="shipping_fee" value-type="double" length="8" decimal="2" />
+    <member name="shipping-address" field="shipping_address" value-type="String" length="400" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <index name="Transaction_U_IDX_IT" unique="true" members="item_id ASC, transaction_id ASC" />
+    <index name="Transaction_IDX_P" members="payment_id ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>

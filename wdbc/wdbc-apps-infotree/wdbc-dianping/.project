@@ -1,0 +1,19 @@
+<projectDescription>
+  <name>wdbc-dianping</name>
+  <comment/>
+  <projects>
+    <project>lookup</project>
+    <project>wdbc-api</project>
+    <project>wdbc-domain-infotree</project>
+    <project>wdbc-engine-default</project>
+    <project>wdbc-http-client</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

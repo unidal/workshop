@@ -1,0 +1,147 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.http.Session</role>
+			<implementation>com.site.wdbc.http.impl.DefaultSession</implementation>
+			<configuration>
+				<headers>
+					<header name="User-Agent">Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)</header>
+				</headers>
+			</configuration>
+		</component>
+      <component>
+         <role>com.site.wdbc.wuba.Configuration</role>
+         <implementation>com.site.wdbc.wuba.Configuration</implementation>
+         <configuration>
+            <config>config.xml</config>
+         </configuration>
+      </component>
+		<component>
+			<role>com.site.wdbc.http.Processor</role>
+			<implementation>com.site.wdbc.wuba.Processor</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.wuba.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Flow</role>
+			<implementation>com.site.wdbc.http.impl.DefaultFlow</implementation>
+         <configuration>
+            <handler query="page-links" interval="2">
+               <page name="list"/>
+               <handler query="list" interval="2">
+                  <page name="details"/>
+                  <handler query="picture"/>
+                  <handler query="details">
+                     <processor name="default"/>
+                  </handler>
+               </handler>
+            </handler>
+         </configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${page-links:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>${list:link}</action>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>page-links</role-hint>
+			<implementation>com.site.wdbc.wuba.PageLinksQuery</implementation>
+         <configuration>
+            <uriPattern>http://{2}.58.com/{0}/p{1}</uriPattern>
+         </configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.wuba.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+               <path name="type">form.div[4].div[2].div.table.tr[*].td.span</path>
+					<path name="date">form.div[4].div[2].div.table.tr[*].td[6]</path>
+					<path name="link">form.div[4].div[2].div.table.tr[*].td[2].a.@href</path>
+					<path name="title">form.div[4].div[2].div.table.tr[*].td[2].a</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>list</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>picture</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="link">html.body.div[2].div[3].div.ul.li.a.img.@src</path>
+				</paths>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.wuba.ListFilter</implementation>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.wuba.Configuration</role>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+				<paths>
+					<path name="title">div[2].div[2].div.h1</path>
+					<path name="content1">div[2].div[2].div.div[4].p</path>
+					<path name="content2">div[2].div[2].div.div[4].p[2]</path>
+					<path name="picture">div[2].div[2].div.div[4].div.p.a.@href</path>
+					<path name="contact">div[2].div[2].div.div[5].p[*].strong.*text</path>
+					<path name="header">div[2].div.h2.*text</path>
+					<path name="category">-</path>
+					<path name="district">-</path>
+					<path name="body">-</path>
+					<path name="mobilephone">-</path>
+					<path name="telephone">-</path>
+					<path name="email">-</path>
+					<path name="qq">-</path>
+					<path name="msn">-</path>
+				</paths>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.query.WdbcFilter</role>
+               <role-hint>details</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.query.WdbcFilter</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.wuba.DetailsFilter</implementation>
+		</component>   
+	</components>
+</plexus>

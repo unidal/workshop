@@ -1,0 +1,34 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>list</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="date">2008-02-19</word>
+               <word name="link">OJDL(36803417)@href</word>
+               <word name="link">OJDL(36830653)@href</word>
+               <word name="link">OJDL(36267031)@href</word>
+            </words>
+         </configuration>
+      </component>
+      <component>
+         <role>com.site.wdbc.WdbcQuery</role>
+         <role-hint>details</role-hint>
+         <implementation>com.site.wdbc.FindQuery</implementation>
+         <configuration>
+            <words>
+               <word name="title">上海大亚科技有限公司</word>
+               <word name="type">公司行业：计算机软件 公司性质：民营/私营公司 公司规模：500人以上</word>
+               <word name="type">上海控江路1555号信息技术大厦22楼</word>
+               <word name="job">硬件工程师</word>
+               <word name="job-attrs">电子邮箱：</word>
+               <word name="email">yaoyuan@dare-tech.com#text</word>
+               <word name="job-desc">职责描述：</word>
+               <word name="company-desc">公司简介</word>
+            </words>
+         </configuration>
+      </component>
+   </components>
+</plexus>

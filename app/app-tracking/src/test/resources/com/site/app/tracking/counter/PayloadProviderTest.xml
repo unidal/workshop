@@ -1,0 +1,12 @@
+<plexus>
+   <components>
+      <component>
+         <role>com.site.app.tracking.counter.Configuration</role>
+         <implementation>com.site.app.tracking.counter.Configuration</implementation>
+         <configuration>
+            <contextPath>/t</contextPath>
+            <servletPath>/c</servletPath>
+         </configuration>
+      </component>
+   </components>
+</plexus>

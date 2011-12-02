@@ -1,0 +1,20 @@
+<projectDescription>
+  <name>wdbc-sanguo</name>
+  <comment/>
+  <projects>
+    <project>converter</project>
+    <project>dal-xml</project>
+    <project>lookup</project>
+    <project>wdbc-api</project>
+    <project>wdbc-engine-default</project>
+    <project>wdbc-http-client</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>

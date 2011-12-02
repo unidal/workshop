@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>com.site.wdbc</groupId>
+		<artifactId>default</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.site.wdbc.ant</groupId>
+	<artifactId>default</artifactId>
+	<name>WDBC Applications for Ant network</name>
+   <packaging>pom</packaging>
+   <modules>
+      <module>wdbc-domain-ant</module>
+      <module>wdbc-jctrans</module>
+   </modules>
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>com.site.wdbc.ant</groupId>
+            <artifactId>wdbc-domain-ant</artifactId>
+   			<version>${project.version}</version>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+               <excludes>
+                  <!-- exclude them because it will connect to outside network -->
+                  <exclude>**/*FlowTest.java</exclude>
+                  <exclude>**/RequestTest.java</exclude>
+               </excludes>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <configuration>
+               <archive>
+                  <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+               </archive>
+            </configuration>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+               <execution>
+                  <configuration>
+                     <tasks>
+                        <taskdef name="if" classname="ise.antelope.tasks.IfTask"/>
+                        <if name="project.packaging" value="jar">
+                           <copy file="${project.build.directory}/${project.artifactId}-${project.version}.jar" tofile="${localDeployDirectory}/${project.artifactId}.jar"/>
+                           <copy file="${project.build.scriptSourceDirectory}/robot.bat" todir="${localDeployDirectory}" failonerror="false"/>
+                           <copy file="${project.build.scriptSourceDirectory}/robot.sh" todir="${localDeployDirectory}" failonerror="false"/>
+                           <copy file="${basedir}/src/main/resources/config.xml" todir="${localDeployDirectory}" failonerror="false"/>
+                        </if>
+                     </tasks>
+                  </configuration>
+                  <phase>pre-integration-test</phase>
+                  <goals>
+                     <goal>run</goal>
+                  </goals>
+               </execution>
+            </executions>
+            <dependencies>
+               <dependency>
+                  <groupId>org.tigris.antelope</groupId>
+                  <artifactId>antelopetasks</artifactId>
+                  <version>3.2.10</version>
+               </dependency>
+             </dependencies>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+               <outputDirectory>${localDeployDirectory}/lib</outputDirectory>
+               <stripVersion>true</stripVersion>
+            </configuration>
+            <executions>
+               <execution>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>copy-dependencies</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+   <properties>
+      <localDeployDirectory>${basedir}/target/deploy</localDeployDirectory>
+   </properties>
+</project>

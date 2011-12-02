@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-us" xml:lang="en-us"> 
+<head> 
+ 
+ 
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<link rel="stylesheet" type="text/css" href="http://devtraining.corp.ebay.com/theme/standard/styles.php" /> 
+<link rel="stylesheet" type="text/css" href="http://devtraining.corp.ebay.com/theme/devtraining/styles.php" /> 
+ 
+<!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="http://devtraining.corp.ebay.com/theme/standard/styles_ie7.css" />
+<![endif]--> 
+<!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="http://devtraining.corp.ebay.com/theme/standard/styles_ie6.css" />
+<![endif]--> 
+ 
+ 
+    <meta name="keywords" content="moodle, eBayArch102: Resources "></meta> 
+    <title>eBayArch102: Resources</title> 
+    <link rel="shortcut icon" href="http://devtraining.corp.ebay.com/theme/devtraining/favicon.ico"></link> 
+    <!--<style type="text/css">/*<![CDATA[*/ body{behavior:url(http://devtraining.corp.ebay.com/lib/csshover.htc);} /*]]>*/</style>--> 
+ 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/javascript-static.js"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/javascript-mod.php"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/overlib/overlib.js"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/overlib/overlib_cssstyle.js"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/cookies.js"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/ufo.js"></script> 
+<script type="text/javascript" src="http://devtraining.corp.ebay.com/lib/dropdown.js"></script>  
+ 
+<script type="text/javascript" defer="defer"> 
+//<![CDATA[
+setTimeout('fix_column_widths()', 20);
+//]]>
+</script> 
+<script type="text/javascript"> 
+//<![CDATA[
+function openpopup(url, name, options, fullscreen) {
+    var fullurl = "http://devtraining.corp.ebay.com" + url;
+    var windowobj = window.open(fullurl, name, options);
+    if (!windowobj) {
+        return true;
+    }
+    if (fullscreen) {
+        windowobj.moveTo(0, 0);
+        windowobj.resizeTo(screen.availWidth, screen.availHeight);
+    }
+    windowobj.focus();
+    return false;
+}
+ 
+function uncheckall() {
+    var inputs = document.getElementsByTagName('input');
+    for(var i = 0; i < inputs.length; i++) {
+        inputs[i].checked = false;
+    }
+}
+ 
+function checkall() {
+    var inputs = document.getElementsByTagName('input');
+    for(var i = 0; i < inputs.length; i++) {
+        inputs[i].checked = true;
+    }
+}
+ 
+function inserttext(text) {
+  text = ' ' + text + ' ';
+  if ( opener.document.forms['theform'].message.createTextRange && opener.document.forms['theform'].message.caretPos) {
+    var caretPos = opener.document.forms['theform'].message.caretPos;
+    caretPos.text = caretPos.text.charAt(caretPos.text.length - 1) == ' ' ? text + ' ' : text;
+  } else {
+    opener.document.forms['theform'].message.value  += text;
+  }
+  opener.document.forms['theform'].message.focus();
+}
+ 
+function getElementsByClassName(oElm, strTagName, oClassNames){
+	var arrElements = (strTagName == "*" && oElm.all)? oElm.all : oElm.getElementsByTagName(strTagName);
+	var arrReturnElements = new Array();
+	var arrRegExpClassNames = new Array();
+	if(typeof oClassNames == "object"){
+		for(var i=0; i<oClassNames.length; i++){
+			arrRegExpClassNames.push(new RegExp("(^|\\s)" + oClassNames[i].replace(/\-/g, "\\-") + "(\\s|$)"));
+		}
+	}
+	else{
+		arrRegExpClassNames.push(new RegExp("(^|\\s)" + oClassNames.replace(/\-/g, "\\-") + "(\\s|$)"));
+	}
+	var oElement;
+	var bMatchesAll;
+	for(var j=0; j<arrElements.length; j++){
+		oElement = arrElements[j];
+		bMatchesAll = true;
+		for(var k=0; k<arrRegExpClassNames.length; k++){
+			if(!arrRegExpClassNames[k].test(oElement.className)){
+				bMatchesAll = false;
+				break;
+			}
+		}
+		if(bMatchesAll){
+			arrReturnElements.push(oElement);
+		}
+	}
+	return (arrReturnElements)
+}
+//]]>
+</script> 
+    
+ 
+ 
+	<link rel="stylesheet" href="http://media.devcenter/frameworks/blueprint/src/reset.css" type="text/css" media="screen, projection"> 
+	<!--[if lt IE 8]>
+	  <link rel="stylesheet" href="http://media.devcenter/frameworks/blueprint/ie.css" type="text/css" media="screen, projection">
+	<![endif]--> 
+ 
+	<!-- Combo-handled YUI CSS files: --> 
+	<link rel="stylesheet" type="text/css" href="http://devforums.corp.ebay.com/styles/devforums2/media/yahoo_yui.css"> 
+	
+	
+	<!-- DevForums JS includes --> 
+	<script type="text/javascript" src="http://media.devcenter/frameworks/jquery/jquery-1.3.2.min.js"></script> 
+	<script type="text/javascript" src="http://media.devcenter/frameworks/jquery/jquery.browser.min.js"></script> 
+	
+	
+	<!-- <script type="text/javascript" src="http://devforums.corp.ebay.com/styles/devforums2/media/jquery.equalizecols.js"></script> --> 
+ 
+	<!-- Combo-handled YUI JS files: --> 
+	<script type="text/javascript" src="http://devforums.corp.ebay.com/styles/devforums2/media/yahoo_yui.js"></script> 
+	<script type="text/javascript" src="http://devforums.corp.ebay.com/styles/devforums2/media/menu_patch.js"></script> 
+	<script type="text/javascript" src="http://devforums.corp.ebay.com/styles/devforums2/media/overlay_patch.js"></script> 
+	
+	<!-- Custom DevTraining Theme --> 
+	<link rel="stylesheet" href="/theme/devtraining/devtraining_styles.php" type="text/css" media="screen" title="no title" charset="utf-8"> 
+    <script type="text/javascript" src="/theme/devtraining/devtraining.js"></script> 
+    
+</head> 
+ 
+<body  class="mod-resource course-14 dir-ltr lang-en_us_utf8" id="mod-resource-index"> 
+ 
+<!-- dev training header --> 
+<div id="devTrainingHeader"> 
+	<map id="headerMap" name="headerMap"> 
+		<area alt="DevTraining" shape="rect" coords="262,17,502,56"
+			href="/"/> 
+		<area alt="DevServices" shape="rect" coords="300,58,455,74"
+            href="http://devcenter.corp.ebay.com/About+eBay+Developer+Services"/> 
+	</map> 
+	<img id="devTrainingHeaderImg" width="654" height="83" usemap="#headerMap"
+		src="http://media.devcenter/dt/devtraining.jpg"> 
+	<div id="devtrainingSearchField"> 
+		<form action="/search/query.php" method="get" > 
+		<fieldset> 
+			<input name="query_string" id="keywords" type="text" maxlength="128" /> 
+			<input class="button2" value="Search" type="submit" /><br /> 
+			<a href="/search/query.php?a=1">Advanced search</a> 
+		</fieldset> 
+		</form> 
+	</div> 
+ 
+</div> 
+ 
+ 
+<!-- dev training menu --> 
+<div id="devtrainingmenubar_wrapper" class="yui-skin-sam"> 
+<div id="devtrainingmenubar" class="yuimenubar yuimenubarnav"> 
+    <div class="bd navigation-menu"></div> 
+</div> 
+</div> 
+ 
+ 
+<!-- Content Navigation --> 
+<div id="realPageNameWrapper"> 
+	<div id="realPageTitle"></div> 
+</div> 
+ 
+<div id="realNavBarWrapper"> 
+	<div class="realNavBar"> 
+		<span class="prevNavSpan"> 
+		&laquo; 
+		<a href="prev" class="prevNavLink">Previous</a> 
+		</span> 
+		<span class="nextNavSpan"> 
+		<a href="next" class="nextNavLink">Next</a> 
+		&raquo; 
+		</span> 
+		<div style="clear: both; margin-bottom: 10px;"></div> 
+	</div> 
+	
+</div> 
+ 
+	
+ 
+ 
+ 
+ 
+ 
+ 
+<div id="pageWrapper"> 
+ 
+ 
+<div id="page"> 
+ 
+    <div id="header" class=" clearfix">        <h1 class="headermain">eBay Architecture Strategies Tutorial</h1> 
+        <div class="headermenu"><div class="navigation"> 
+<ul><li><form action="http://devtraining.corp.ebay.com/course/jumpto.php" method="get"  id="navmenupopup" class="popupform"><div><select id="navmenupopup_jump" name="jump" onchange="self.location=document.getElementById('navmenupopup').jump.options[document.getElementById('navmenupopup').jump.selectedIndex].value;"> 
+   <option value="javascript:void(0)">Jump to...</option> 
+   <optgroup label="eBay Architecture Strategies Tutorial">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=242" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Tutorial Overview</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=244" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Pre-requisites</option> 
+   </optgroup>   <optgroup label="Why Best Practices are Needed for Large-Scale Web ...">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=246" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Why Best Practices are Needed ...</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=247" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Factors that Affect the ebay.com Site Design</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=248" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Need for a Scalable Architecture</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=253" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Demand for an Available Architecture</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=254" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Need for a Manageable Architecture</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=255" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Reflecting Changes on the Web site Without Delay</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=256" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Cost Factors Involved in the Design of a Web site</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=257" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Best Practices to Develop a Good Web site Architecture</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=290" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Why Best Practices are Needed for...</option> 
+   </optgroup>   <optgroup label="Partition the Web site Into Manageable Chunks">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=258" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Partition the Web site Into Ma...</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=259" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Introduction to Partitioning</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=260" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Need for Web site Partitioning</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=261" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Partition Patterns Adopted by eBay</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=262" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Illustration of how eBay Uses Different Strategies</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=263" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Data Partitioning Models in eBay</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=301" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">CATY Scalability Model</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=302" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">MOD Scalability Model</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=303" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lookup Based Scalability Model</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=304" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Read/Write (R/W) Scalability Model</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=305" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Advertisement (AD) Distribution Model</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=264" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">No Session State in the Application Server Tier</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=265" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Implementing Horizontal Split in Different Tiers</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=292" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Partition the Web site Into Manag...</option> 
+   </optgroup>   <optgroup label="Don't Make Users Wait">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=266" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Don't Make Users Wait</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=267" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">eBay’s Need for Asynchronous Processing</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=268" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Asynchronous Patterns Adopted by eBay</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=269" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">eBay’s Event Queue</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=270" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">At Least Once Delivery Approach</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=272" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Synchronization Between the Primary Database and S...</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=271" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Batch Processing</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=294" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Don't Make Users Wait</option> 
+   </optgroup>   <optgroup label="Use Adaptive and Automated Systems">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=273" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Use Adaptive and Automated Systems</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=274" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Need for Automated Systems</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=275" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Automation Patterns</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=276" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Minimizing Manual Configuration</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=277" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Feedback Loop</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=295" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Use Adaptive and Automated Systems</option> 
+   </optgroup>   <optgroup label="Detect and Recover from Failure">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=278" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Detect and Recover from Failure</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=279" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Need to Build Fault Tolerant Systems</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=280" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Marking the Unavailability of a Resource</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=282" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Code Rollout and Rollback</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=283" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Wire-on and Wire-off Feature</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=284" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Degrading and Restoring a Resource in a Controlled...</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=297" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Detect and Recover from Failure</option> 
+   </optgroup>   <optgroup label="Embrace Inconsistency ">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=285" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Lesson Objectives - Embrace Inconsistency</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=286" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Brewer's CAP Theorem</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=287" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">eBay’s Decision to Sacrifice Consistency</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=288" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Scenarios that Demand Immediate and Eventual Consi...</option> 
+   <option value="http://devtraining.corp.ebay.com/mod/quiz/view.php?id=298" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/quiz/icon.gif);">Section Review - Embrace Inconsistency</option> 
+   </optgroup>   <optgroup label="Topic 8">   <option value="http://devtraining.corp.ebay.com/mod/resource/view.php?id=308" style="background-image: url(http://devtraining.corp.ebay.com/theme/devtraining/pix/mod/resource/icon.gif);">Tutorial Survey</option> 
+    </optgroup></select><input type="hidden" name="sesskey" value="jj3WLP4Iyd" /><div id="noscriptnavmenupopup" style="display: inline;"><input type="submit" value="Go" /></div><script type="text/javascript"> 
+//<![CDATA[
+document.getElementById("noscriptnavmenupopup").style.display = "none";
+//]]>
+</script></div></form></li></ul> 
+</div></div> 
+    </div>    <div class="navbar clearfix"> 
+        <div class="breadcrumb"><h2 class="accesshide " >You are here</h2> <ul> 
+<li class="first"><a onclick="this.target='_top'" href="http://devtraining.corp.ebay.com/">Home</a></li><li class="first"> <span class="accesshide " >/&nbsp;</span><span class="arrow sep">&#x25BA;</span> <a onclick="this.target='_top'" href="http://devtraining.corp.ebay.com/course/view.php?id=14">eBayArch102</a></li><li class="first"> <span class="accesshide " >/&nbsp;</span><span class="arrow sep">&#x25BA;</span> Resources</li></ul></div> 
+        <div class="navbutton">&nbsp;</div> 
+    </div> 
+    <!-- END OF HEADER --> 
+    <div id="content" class=" clearfix"><br /><table width="80%"  cellpadding="5" cellspacing="1" class="generaltable boxaligncenter" > 
+<tr><th style="vertical-align:top; text-align:center;;white-space:nowrap;" class="header c0" scope="col">Topic</th><th style="vertical-align:top; text-align:left;;white-space:nowrap;" class="header c1" scope="col">Name</th><th style="vertical-align:top; text-align:left;;white-space:nowrap;" class="header c2 lastcol" scope="col">Summary</th></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0">1</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=242">Tutorial Overview</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=244">Pre-requisites</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0">2</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=246">Lesson Objectives - Why Best Practices are Needed for Large-Scale Web sites</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=247">Factors that Affect the ebay.com Site Design</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=248">Need for a Scalable Architecture</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=253">Demand for an Available Architecture</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=254">Need for a Manageable Architecture</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=255">Reflecting Changes on the Web site Without Delay</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=256">Cost Factors Involved in the Design of a Web site</a></td><td style=" text-align:left;" class="cell c2 lastcol"><ul><li></li></ul></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=257">Best Practices to Develop a Good Web site Architecture</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0">3</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=258">Lesson Objectives - Partition the Web site Into Manageable Chunks</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=259">Introduction to Partitioning</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=260">Need for Web site Partitioning</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=261">Partition Patterns Adopted by eBay</a></td><td style=" text-align:left;" class="cell c2 lastcol"><p></p></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=262">Illustration of how eBay Uses Different Strategies</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=263">Data Partitioning Models in eBay</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=301">CATY Scalability Model</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=302">MOD Scalability Model</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=303">Lookup Based Scalability Model</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=304">Read/Write (R/W) Scalability Model</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=305">Advertisement (AD) Distribution Model</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=264">No Session State in the Application Server Tier</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=265">Implementing Horizontal Split in Different Tiers</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0">4</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=266">Lesson Objectives - Don't Make Users Wait</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=267">eBay’s Need for Asynchronous Processing</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=268">Asynchronous Patterns Adopted by eBay</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=269">eBay’s Event Queue</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=270">At Least Once Delivery Approach</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=272">Synchronization Between the Primary Database and Search Engine</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=271">Batch Processing</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0">5</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=273">Lesson Objectives - Use Adaptive and Automated Systems</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=274">Need for Automated Systems</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=275">Automation Patterns</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=276">Minimizing Manual Configuration</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=277">Feedback Loop</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0">6</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=278">Lesson Objectives - Detect and Recover from Failure</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=279">Need to Build Fault Tolerant Systems</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=280">Marking the Unavailability of a Resource</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=282">Code Rollout and Rollback</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=283">Wire-on and Wire-off Feature</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=284">Degrading and Restoring a Resource in a Controlled Manner</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0">7</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=285">Lesson Objectives - Embrace Inconsistency</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=286">Brewer's CAP Theorem</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=287">eBay’s Decision to Sacrifice Consistency</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r0 "> 
+<td style=" text-align:center;" class="cell c0"></td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=288">Scenarios that Demand Immediate and Eventual Consistency</a></td><td style=" text-align:left;" class="cell c2 lastcol"></td></tr> 
+<tr class="r1 "> 
+<td colspan="3"><div class="tabledivider"></div></td></tr> 
+<tr class="r0  lastrow"> 
+<td style=" text-align:center;" class="cell c0">8</td><td style=" text-align:left;" class="cell c1"><a  href="view.php?id=308">Tutorial Survey</a></td><td style=" text-align:left;" class="cell c2 lastcol"><p></p></td></tr> 
+</table> 
+</div><div id="footer"><p class="helplink"></p><div class="logininfo">You are logged in as <a  href="http://devtraining.corp.ebay.com/user/view.php?id=667&amp;course=14">Qimin Wu</a>  (<a  href="http://devtraining.corp.ebay.com/login/logout.php?sesskey=jj3WLP4Iyd">Logout</a>)</div><div class="homelink"><a  href="http://devtraining.corp.ebay.com/course/view.php?id=14">eBayArch102</a></div></div> 
+</div> 
+ 
+</div> <!- pageWrapper --> 
+ 
+</body> 
+</html> 

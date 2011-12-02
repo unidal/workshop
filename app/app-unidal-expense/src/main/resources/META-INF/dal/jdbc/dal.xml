@@ -1,0 +1,125 @@
+<entities gen="true" do-package="org.unidal.expense.dal">
+	<entity name="activity" alias="a">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+	</entity>
+	<entity name="expense" alias="e">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+	</entity>
+	<entity name="expense-details" alias="ed">
+	</entity>
+	<entity name="member" alias="m">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<var name="password" value-type="String" />
+		<var name="ids" value-type="Integer[]" />
+		<query-defs>
+			<query name="find-all-by-ids" type="SELECT" multiple="true">
+				<param name="ids" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					WHERE <FIELD name='id'/> IN <IN>${ids}</IN>
+					ORDER BY <FIELD name='creation-date'/>
+				]]></statement>
+			</query>
+			<query name="find-all-by-member-id" type="SELECT" multiple="true">
+				<param name="id" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					ORDER BY <FIELD name='creation-date'/>
+				]]></statement>
+			</query>
+			<query name="authenticate" type="SELECT">
+				<param name="account" />
+				<param name="password" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='account'/>=${account}
+                  	AND <FIELD name='encrypted-password'/>=password(${password})
+                ]]>
+				</statement>
+			</query>
+			<query name="find-by-account" type="SELECT">
+				<param name="account" />
+				<statement>
+                <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='account'/>=${account}
+                ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="trip" alias="t">
+		<member name="creation-date" insert-expr="NOW()" />
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()" />
+		<var name="ids" value-type="Integer[]" />
+	    <readsets>
+	      <readset name="ID">
+	      	<member name="id"/>
+	      </readset>
+	    </readsets>
+		<query-defs>
+			<query name="find-all-by-ids" type="SELECT" multiple="true">
+				<param name="ids" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					WHERE <FIELD name='id'/> IN <IN>${ids}</IN>
+					ORDER BY <FIELD name='creation-date'/> DESC
+				]]></statement>
+			</query>
+			<query name="find-by-auth-code" type="SELECT">
+				<param name="auth-code" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					WHERE <FIELD name='auth-code'/> = ${auth-code}
+				]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+	<entity name="trip-member" alias="tm">
+		<query-defs>
+			<query name="insert" type="INSERT" batch="true">
+				<statement><![CDATA[
+					INSERT 
+					INTO <TABLE/>(<FIELDS/>) 
+					VALUES(<VALUES/>)
+				]]></statement>
+			</query>
+			<query name="delete-by-PK" type="DELETE" batch="true">
+				<param name="key-trip-id" />
+				<param name="key-member-id" />
+				<statement><![CDATA[
+					DELETE 
+					FROM <TABLE/> 
+					WHERE <FIELD name='trip-id'/> = ${key-trip-id} 
+						AND <FIELD name='member-id'/> = ${key-member-id}
+				]]></statement>
+			</query>
+			<query name="find-all-by-member-id" type="SELECT" multiple="true">
+				<param name="key-member-id" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					WHERE <FIELD name='member-id'/> = ${key-member-id}
+				]]></statement>
+			</query>
+			<query name="find-all-by-trip-id" type="SELECT" multiple="true">
+				<param name="key-trip-id" />
+				<statement><![CDATA[
+					SELECT <FIELDS/> 
+					FROM <TABLE/> 
+					WHERE <FIELD name='trip-id'/> = ${key-trip-id}
+				]]></statement>
+			</query>
+		</query-defs>
+	</entity>
+</entities>

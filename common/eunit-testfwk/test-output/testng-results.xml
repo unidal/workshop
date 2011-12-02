@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="12" passed="12">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="49" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="49" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+      <class name="com.ebay.eunit.testfwk.TestNGTest">
+        <test-method status="PASS" signature="beforeClass()" name="beforeClass" is-config="true" duration-ms="7" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test1()" name="test1" duration-ms="5" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test2()" name="test2" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name0]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name1]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name2]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name3]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name4]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name5]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name6]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name7]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name8]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[true]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="before()" name="before" is-config="true" duration-ms="1" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="test4(java.lang.String, java.lang.Boolean)" name="test4" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[name9]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[false]]>
+              </value>
+            </param>
+          </params>
+        </test-method>
+        <test-method status="PASS" signature="afterClass()" name="afterClass" is-config="true" duration-ms="3" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+        <test-method status="PASS" signature="after()" name="after" is-config="true" duration-ms="0" started-at="2011-05-16T13:07:09Z" finished-at="2011-05-16T13:07:09Z">
+        </test-method>
+      </class>
+    </test>
+  </suite>
+</testng-results>

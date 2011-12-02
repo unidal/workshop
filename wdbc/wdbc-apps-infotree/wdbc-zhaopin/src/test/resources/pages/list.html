@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>上海计算机软件招聘（求职） 计算机软件招聘（求职）尽在智联招聘</title>
+<META content="智联招聘为您提供以下信息：上海计算机软件的招聘信息，与上海计算机软件相关的工作尽在智联招聘。" name="description">
+<META content="上海计算机软件招聘，上海，计算机软件" name="keywords">
+
+<link type="text/css" rel="stylesheet" href="/images/jobs_nv3/job_search.css">
+<link type="text/css" rel="stylesheet" href="/images/jobs_nv3/popupDiv.css">
+<link type="text/css" rel="stylesheet" href="/images/jobs_nv/suggest.css">
+
+<script language="javascript" type="text/javascript" src="/js/jobs_nv3/popupDiv_shim.js">;</script>
+<script language="javascript" type="text/javascript" src="/js/jobs_nv/data.js">;</script>
+<script language="javascript" type="text/javascript" src="/js/jobs_nv3/libSearch.js">;</script>
+<script language="javascript" type="text/javascript" src="/js/jobs_nv/suggest.js">;</script>
+<script language="javascript" type="text/javascript" src="/js/jobs_nv/jobdesc.js">;</script>
+<script language="javascript" type="text/javascript" src="/js/jobs_nv/subjobtype.js">;</script>
+<script language="javascript">
+function ChkSelectAll(chknameStr,chkallnameStr){
+	var arrInput = document.getElementsByTagName('input');
+	var arrCheckbox = [];
+	var chkname = [];
+	var chkallname = [];
+	for(var j=0;j<arrInput.length;j++){
+	    if(arrInput[j].type.toLowerCase()=='checkbox') arrCheckbox[arrCheckbox.length] = arrInput[j];
+	}
+	for(j=0;j<arrCheckbox.length;j++){
+	    if(arrCheckbox[j].name==chknameStr) chkname[chkname.length] = arrCheckbox[j];
+		else if(arrCheckbox[j].name==chkallnameStr) chkallname[chkallname.length] = arrCheckbox[j];
+	}
+	
+	var length = chkname.length;   
+    if(chkallname.length==1) chkallname[0].checked = chkallname[0].checked|0;
+	else if(chkallname.length>1 && ChkSelectAll.arguments[2]) for(j=0;j<chkallname.length;j++) chkallname[j].checked =  ChkSelectAll.arguments[2].checked|0;
+
+    for (var i = 0; i < length; i++) if(!chkname[i].disabled) chkname[i].checked=chkallname[0].checked;            
+}
+function unChkSelectAll(chkallnameStr){
+	var arrInput = document.getElementsByTagName('input');
+	var arrCheckbox = [];
+	var chkallname = [];
+	for(var j=0;j<arrInput.length;j++){
+	    if(arrInput[j].type.toLowerCase()=='checkbox') arrCheckbox[arrCheckbox.length] = arrInput[j];
+	}
+	for(j=0;j<arrCheckbox.length;j++){
+		if(arrCheckbox[j].name==chkallnameStr) chkallname[chkallname.length] = arrCheckbox[j];
+	}
+	
+	for(j=0;j<chkallname.length;j++) if(chkallname[j].checked) chkallname[j].checked = chkallname[j].checked&0;
+}
+
+function trySetDefaultText(obj,txt){
+	if(obj.value==""){
+		obj.value = txt;
+		obj.style.color = '#cccccc';
+	}
+	else obj.style.color = '#000000';
+}
+function tryClearDefaultText(obj,txt){
+	if(obj.value==txt){
+		obj.value = '';
+		obj.style.color = '#000000';
+	}
+}
+
+function fnCheckKeywords(keyword,required){
+	var tempKey = keyword;
+	tempKey = tempKey.replace(/^\s*(.*)/,"$1").replace(/(.*?)\s*$/,"$1");
+	tempKey = tempKey.replace(/^　*(.*)/,"$1").replace(/(.*?)　*$/,"$1");
+	if(required){
+		if(tempKey==''){
+			alert('关键词输入不能为空, 请重新输入！');
+			return false;
+		}
+	}
+	if(tempKey!=''){
+		var regSpecialChar = new RegExp('`|~|!|@|#|\\$|%|\\^|\&|\\*|\\(|\\)|-|_|=|\\+|\\[|\\{|\\]|\\}|;|:|\'|"|\\\\|\\||,|<|\\.|>|/|\\?|。|，|《|》|、|？|；|‘|’|：|“|”|【|】|『|』|—|）|（|×|…|￥|！|～|·','gi');
+		tempKey = tempKey.replace(regSpecialChar,'');
+		tempKey = tempKey.replace(/\s/gi,'').replace(/　/gi,'');
+		if(tempKey==''){
+			alert('关键词输入不能全部为特殊字符，请重新输入！');
+			return false;
+		}
+	}
+	return true;
+}
+function JobSearch(){
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	
+	var keywords = document.frmSearch.KeyWord.value.replace(/^\s*(.*)/,"$1").replace(/(.*?)\s*$/,"$1").replace(/^　*(.*)/,"$1").replace(/(.*?)　*$/,"$1");
+	if(document.frmSearch.SchJobType.value=='' && document.frmSearch.industry.value=='' && keywords==''){
+		alert('请选择职位类别或行业类别，或者输入关键词！');
+		return false;
+	}
+	if(document.frmSearch.JobLocation.value=='' || document.frmSearch.JobLocation.value=='-1'){
+		alert('请选择工作地点！');
+		return false;
+	}
+	if(!fnCheckKeywords(document.frmSearch.KeyWord.value)) return false;
+	
+	document.frmSearch.page.value=1;
+	document.frmSearch.WorkingExp.value="";
+	document.frmSearch.EduLevel.value="";
+	document.frmSearch.CompanyType.value="";
+	document.frmSearch.CompanySize.value="";
+	document.frmSearch.submit();
+}
+
+function page(v)
+{
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	document.frmSearch.page.value=v;
+	document.frmSearch.submit()
+}
+
+function sortby(v)
+{
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	document.frmSearch.page.value=1;
+	document.frmSearch.sortby.value=v;	
+	document.frmSearch.submit()
+}
+
+function SetSearchModel(v)
+{
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	document.frmSearch.reset();
+	document.frmSearch.SearchModel.value=v;	
+	document.frmSearch.submit()
+}
+
+function navigation(v,t)
+{
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	document.frmSearch.all(t).value=v
+	document.frmSearch.page.value=1;
+	document.frmSearch.submit()
+}
+
+function fnShowJobdetail(id){
+	var div = document.getElementById('jobdetailDiv_'+id);
+	var img = document.getElementById('jobdetailImg_'+id);
+	if(div && img){
+		if(img.className.toString().toLowerCase().indexOf('open')>-1){
+			img.className = 'iconClose';
+			div.style.display = 'block';
+			
+			div.innerHTML = "<table width='300' height='50'><tr><td align='center'><img src='/images/jobs_nv/loading.gif' align='absmiddle'>&nbsp;&nbsp;Loading...</td></tr></table>";
+		}
+		else{
+			div.style.display = 'none';
+			img.className = 'iconOpen';
+		}
+	}
+}
+
+function selectSubJobtype(v)
+{
+	tryClearDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+	tryClearDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+	
+	if (document.frmSearch.subJobtype.value!="")
+	{
+		var f=true;
+		var s="";
+		var a=document.frmSearch.subJobtype.value.split(";");
+		for (var i=0;i<a.length;i++)
+		{
+			if (a[i]!=v)
+			{
+			 	s = s + a[i] + ";"
+			}
+			else
+			{
+				f=false
+			}
+		}
+		if (s.length>0) (s=s.substring(0,s.length-1))
+		if (f==true) (s = s + ";" + v)
+		document.frmSearch.subJobtype.value=s
+	}
+	else
+	{
+	document.frmSearch.subJobtype.value=v;
+	}
+
+	document.frmSearch.submit()
+}
+
+function apply(formObj){
+  var haschecked = false;
+  var ck_length=formObj.vacancyid.length;
+  var VanID="";
+  
+  if(ck_length > 1){
+	  for (i = 0;i<ck_length ; i++) {
+  	  	if (formObj.vacancyid[i].checked) {
+	  	  VanID	= VanID + formObj.vacancyid[i].value + "_1" +",";
+    	  haschecked = true;
+	    }
+  	  }
+	 VanID=VanID.substr(0,VanID.length-1);
+  }else{
+ 	  if (formObj.vacancyid.checked) {
+   	  haschecked = true;
+	  VanID	= formObj.vacancyid.value + "_1";
+    }
+	}
+	if(!haschecked){
+		alert("请选择职位！");
+		//formObj.action.value ="";
+		//return false;
+	}
+	else
+    {
+	window.open("http://my.zhaopin.com/jobseeker/req_vacancy.asp?f=ssb&VanID="+VanID);
+	}
+}
+
+function apply2(formObj){
+  var haschecked = false;
+  var ck_length=formObj.vacancyid.length;
+  var VanID="";
+  
+  if(ck_length > 1){
+	  for (i = 0;i<ck_length ; i++) {
+  	  	if (formObj.vacancyid[i].checked) {
+	  	  VanID	= VanID + formObj.vacancyid[i].value + "_1" +",";
+    	  haschecked = true;
+	    }
+  	  }
+	 VanID=VanID.substr(0,VanID.length-1);
+  }else{
+ 	  if (formObj.vacancyid.checked) {
+   	  haschecked = true;
+	  VanID	= formObj.vacancyid.value + "_1";
+    }
+	}
+	if(!haschecked){
+		alert("请选择职位！");
+		//formObj.action.value ="";
+		//return false;
+	}
+	else
+    {
+	window.open("http://my.zhaopin.com/jobseeker/req_vacancy.asp?f=ssi&VanID="+VanID);
+	}
+}
+
+
+function applythispos(pid)
+{
+	var a=document.frmMain.vacancyid
+	
+	for (var i = 0;i<a.length ; i++) {
+		a[i].checked=false
+  	  	if (a[i].value==pid) (a[i].checked=true)
+  	  }
+	
+	apply2(document.frmMain)
+	
+}
+
+function fnDoFavJob(){
+	var i;
+	var bChecked;
+	bChecked=false;
+	if(document.frmMain.vacancyid){
+		if(document.frmMain.vacancyid.length){
+			for(i=0;i<document.frmMain.vacancyid.length;i++){
+				if(document.frmMain.vacancyid[i].checked){
+					bChecked=true;
+					break;
+				}
+			}
+		}
+	}
+	if (bChecked)
+	{
+	document.frmMain.method="get"
+	document.frmMain.action = "http://my.zhaopin.com/myzhaopin/jobmng_fav_save.asp"
+	document.frmMain.submit()
+	}
+	else
+	{
+		alert("请选择一个职位");
+	}
+}
+
+function vip_search()
+{
+	window.open("http://search.zhaopin.com/jobs/VIPrequest.asp?vip_type=y&SchJobType=" + encodeURIComponent(document.frmSearch.SchJobType.value) + "&JobLocation=" + encodeURIComponent(document.frmSearch.JobLocation.value))
+}
+</script>
+<script language="javascript" type="text/javascript" src="http://my.zhaopin.com/js/analytics.js"></script>
+</head>
+
+<body onclick="hide_suggest();">
+<iframe src="http://jobs.zhaopin.com/pv.htm?f=ss&pid=CC233480816J90000003000_538,CC137144339J90000353000_538,CC188713210J90000046000_538,CC227072519J90000009000_538,CC000557918J90000038000_538,CC000146527J90002867000_538,CC000146527J90002866000_538,CC226508718J90000032000_538,CC149692411J90000036000_538,CC206017612J90000030000_538,CC206017612J90000029000_538,CC206017612J90000028000_538,CC206017612J90000027000_538,CC206017612J90000026000_538,CC206017612J90000025000_538,CC206017612J90000024000_538,CC206017612J90000023000_538,CC206017612J90000022000_538,CC206017612J90000021000_538,CC147782140J90000007000_538,CC000147543J90002549000_538,CC144175541J90000483000_538,CC156504027J90000027000_538,CC147772586J90000042000_538,CC145060300J90000085000_538," scrolling="no" width="1" height="1"></iframe>
+
+<!-- top -->
+<div id="hd">
+	<div id="lg"><a href="http://www.zhaopin.com"><img src="/images/jobs_nv/logo2.gif" align="left" hspace="0" title="智联招聘" alt="智联招聘" style="border:0px solid #f00;"/></a></div>
+	<div id="me"><a href="http://www.zhaopin.com/index.html">首　　页</a>|<a href="http://my.zhaopin.com/myzhaopin/resume_index.asp">简历中心</a>|<a href="http://my.zhaopin.com/jobseeker/job_search.asp?CurPage=1&JobLocation=null">职位搜索</a>|<a href="http://alliance.zhaopin.com/index.html">猎头职位</a>|<a href="http://student.zhaopin.com/" class="js">校园招聘</a>|<a href="http://www.zhaopin.com/jobseeker/index_industry.html">行业招聘</a>|<a href="http://cnt.zhaopin.com/Market/whole_counter.jsp?sid=85&site=05&url=http://vip.zhaopin.com/">招聘 VIP</a>|<a href="http://hr.zhaopin.com/hrclub/wb/index.html">招聘外包</a><br><a href="http://article.zhaopin.com/pub/index.html">求职指导</a>|<a href="http://www1.zhaopin.com/Publish/Evaluation/index.htm">职业测评</a>|<a href="http://training.zhaopin.com/coursesearch.do?action=next&show=index">智联培训</a>|<a href="http://fangtan.zhaopin.com/">专 访 间</a>|<a href="http://leyouba.zhaopin.com/">乐 游 吧</a>|<a href="http://bbs.zhaopin.com/" target="_blank">智联社区</a>|<a href="http://my.zhaopin.com/help/newer/pop_flash.html" target="_blank" class="js">新手指导</a>|<a href="http://english.zhaopin.com/" class="lys">&nbsp;&nbsp;English</a></div>
+	<div id="pr">
+		<ul><li class="sl"><a href="http://hr.zhaopin.com/hrclub/index.html">企业用户</a></li>
+			<li class="jh more"><a href="http://hr.zhaopin.com/hrclub/index.html">[登　录]</a></li>
+			<li><a href="http://cnt.zhaopin.com/Market/whole_counter.jsp?sid=85&site=03&url=http://epin.zhaopin.com/" target="_blank">易&nbsp;&nbsp;聘</a></li>
+			<li class="more"><a href="http://cho.zhaopin.com/" target="_blank">首席人才官</a></li></ul>
+	</div>
+	<div class="clear"></div>
+</div>
+<div id="pindao_nav_city">
+ <span style="position:relative;"><a href="javascript:void(0)" onclick="kuang()" >更多城市&gt;&gt;</a></span>
+ <script type="text/javascript" src="http://images.zhaopin.com/new4/js/tanceng2.js"></script>
+ <span><a href="http://www.zhaopin.com/beijing/">北京</a><a href="http://www.zhaopin.com/shanghai/">上海</a><a href="http://www.zhaopin.com/guangzhou/">广州</a><a href="http://www.zhaopin.com/shenzhen/">深圳</a><a href="http://www.zhaopin.com/tianjin/">天津</a></span>
+<strong id='ts'><a href="http://my.zhaopin.com/jobseeker/job_search.asp">职位搜索</a></strong></div>
+<!-- end top -->
+
+
+	<div id="middlebox">
+
+		<form name="frmSearch" method="get">
+		<input type="hidden" name="page" value="" />
+		<input type="hidden" name="SchJobType" value="" />
+		<input type="hidden" name="subJobtype" value="" />
+		<input type="hidden" name="industry" value="计算机软件" />
+		<input type="hidden" name="PublishDate" value="" />
+		<input type="hidden" name="WorkingExp" value="" />
+		<input type="hidden" name="EduLevel" value="" />
+		<input type="hidden" name="CompanyType" value="" />
+		<input type="hidden" name="CompanySize" value="" />
+		<input type="hidden" name="sortby" value="" />
+		<input type="hidden" name="SearchModel" value="0" />
+		<input type="hidden" name="vip_type" value="" />
+		
+<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" style="display:none ">
+<tr><td> <h1 style="font-size:16px;margin-bottom:5px;"> [%%search_title%%]</h1>
+</td></tr>
+</table>
+		<div id="searchbox">
+			<div class="left_o">
+				<div class="linefst">
+				<table cellpadding="0" cellspacing="0" border="0" width="100%">
+					<tr>
+						<td class="searchtitle" height="30">职位类别</td>
+						<td><input type="button" class="buttonPopupDiv200" id="buttonSelJobType" name="buttonSelJobType" value="请选择职位类别" title="请选择职位类别" disabled /></td>
+						<td class="searchtitle">职位名称</td>
+						<td><input type="button" class="buttonPopupDiv200" id="buttonSelSubJobType" name="buttonSelSubJobType" value="请选择职位名称" title="请选择职位名" disabled /></td>
+						<td class="searchtitle">行业类别</td>
+						<td><input type="button" class="buttonPopupDiv200" id="buttonSelIndustry" name="buttonSelIndustry" value="请选择行业类别" title="请选择行业类别" disabled /></td>
+					</tr>
+					<tr>
+						<td class="searchtitle">发布时间</td>
+						<td><input type="button" class="buttonPopupDiv200" id="buttonSelDate" name="buttonSelDate" value="所有日期" title="请选择发布时间" disabled></td>
+						<td class="searchtitle">工作地点</td>
+						<td><input type="text" class="textBorder" style="width:156px;" id="JobLocation" name="JobLocation"  value="上海" onkeyup="keyupdeal(event);" onkeydown="keydowndeal(event);" onclick="keyupdeal(event)" onFocus="tryClearDefaultText(this,'请输入城市名称或拼音');" onBlur="trySetDefaultText(this,'请输入城市名称或拼音');" /><input type="button" class="addbutton2" id="buttonSelCity" name="buttonSelCity" title="选择" /> </td>
+						<td class="searchtitle">关 键 词</td>
+						<td><input name="KeyWord" type="text" class="textBorder" maxlength="80" value="" onFocus="tryClearDefaultText(this,'输入公司名称或职位名称');" onBlur="trySetDefaultText(this,'输入公司名称或职位名称');" style="width:194px;" onKeyPress="if (event.keyCode==13) JobSearch();"/></td>
+					</tr>
+				</table>
+				<div id="suggest"style="position:absolute;z-index:99;top:10px;left:10px;background:#ffffff;"></div>
+
+				</div>
+				<script language="javascript">
+		<!--
+		trySetDefaultText(document.frmSearch.JobLocation,'请输入城市名称或拼音');
+		trySetDefaultText(document.frmSearch.KeyWord,'输入公司名称或职位名称');
+		var jobtypeF = new lib_jobsearch('jobtypeF',arrJobtype,'document.frmSearch.SchJobType','document.frmSearch.buttonSelJobType','职位类别');
+		jobtypeF.config = {width:520,col:3,buttonTxtLength:27};
+		var subjobtypeF = new lib_jobsearch('subjobtypeF',arrSubjobtype,'document.frmSearch.subJobtype','document.frmSearch.buttonSelSubJobType','职位名称',jobtypeF);
+		subjobtypeF.config = {width:500,col:3,buttonTxtLength:27};
+		var industryF = new lib_jobsearch('industryF',arrIndustry,'document.frmSearch.industry','document.frmSearch.buttonSelIndustry','行业类别');
+		industryF.config = {width:540,col:2,buttonTxtLength:27,max:10};
+		var cityF = new lib_jobsearch('cityF',arrCity,'document.frmSearch.JobLocation','document.frmSearch.buttonSelCity','工作地点');
+		cityF.config = {width:390,col:5,buttonTxtLength:27,tdTxtLength:6};
+		var dateF = new lib_jobsearch('dateF',arrDate,'document.frmSearch.PublishDate','document.frmSearch.buttonSelDate','发布时间');
+		dateF.config = {width:160,col:1,buttonTxtLength:27};
+		for(var index_zp_js=0;allLibJobsearch[index_zp_js];index_zp_js++) allLibJobsearch[index_zp_js]['fnIniButton']();
+			function fixButton(){
+				for(var i=0;allLibJobsearch[i];i++) allLibJobsearch[i]['fnFixButton']();
+			}
+			myAttachEvent(window,'load',fixButton);
+		//-->
+		</script>
+				<!--职位名称 sta-->	
+				<script language="javascript" type="text/javascript">
+				<!--
+				function rlwindow_fnClick(){
+					window.location='?SchJobType='+escape(document.frmSearch.SchJobType.value)+'&subJobtype='+document.frmSearch.subJobtype.value;
+				}
+				//-->
+				</script>
+				<div class="linesed">
+					<span id="aj_subjobtype"></span>
+				</div>
+				<!-- <div class="linethr" id="morejob" style="display:none;">
+				</div> -->
+			</div>
+			<!--职位名称 end-->
+			
+			<div class="right_o">
+				<input type="button" class="searchjobbutton" name="searchsubmit" onClick="JobSearch()" onfocus="blur()" />
+				<img src="" width="1" height="8" style="display:block " />
+				
+			    <span class="bluelink"><a href="/jobs_nv/advsearch.asp">进入高级搜索</a></span>
+			</div>
+			
+			
+			<div class="clear"></div>
+		</div>
+		</form>
+		
+<!--页头 sta-->		
+		<div id="pagehead">
+			<div class="left">
+				<font class="org12">当前搜索：</font> 上海 + 计算机软件
+			</div>
+			<div class="right">
+			 <!--<span class="orglink12"><img src="/images/starorgicon.gif" /> <a href="http://poll.zhaopin.com/poll.asp?pid=zhaopin-200807-02" target="_blank">意见反馈</a></span>-->
+			 <span class="bluelink"><a href="/jobseeker/job_results.asp?KeyWord=">按多关键词搜索</a></span>
+			 <span class="bluelink"><a href="/jobs_nv/pre_saveSearch.asp?SchAdv=1&CurPage=1&industry=%u8BA1%u7B97%u673A%u8F6F%u4EF6&SchJobType=&subJobType=&JobLocation=538&KeyWord=&ref=homepage">保存搜索并订阅</a></span>
+			</div>
+			
+			
+		</div>
+<!--页头 end-->	
+<div class="clear"></div>
+	
+<!-- 职位总数 & 页数 -->
+		<table width="100%" height="25" cellpadding="0" cellspacing="0" border="0" align="center" class="black12 pagehead">
+			<tr><td style="padding-left:15px;">共 <b class="blue12 num">9009</b> 个职位</td>
+			<td align="right" style="padding-right:10px;">第 <b class="blue12 num">1/160</b> 页</td></tr>
+		</table>
+<!-- 职位总数 & 页数 -->
+
+<!-- 中间部分 -->
+		<div id="contentbox">
+			
+				<form name="frmMain" method="get" style="margin:0px;">
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" id="joblisthead" class="bluelink">
+					<tr>
+						<td width="50%">
+							<input type="checkbox" name="allvacancyid" onClick="ChkSelectAll('vacancyid','allvacancyid',this)"> 全部选中
+							<img src="/images/jobs_nv/icon_submit.gif" /> <a href="javascript:apply(document.frmMain)">申请选中的职位</a> 　<img src="/images/jobs_nv/icon_arrorg.gif" /> <a href="javascript:fnDoFavJob()">收藏选中职位</a> 　<span style="display:none"><img src="/images/jobs_nv/icon_arrorg.gif" /> <a href="javascript:vip_search()" class="orglink">查看所有VIP职位</a></span>
+						</td>
+						<td width="50%" class="textr">显示风格：列表 | <a href="javascript:SetSearchModel('1')" class="blue12tline">详细</a>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						排序方式：<span class="textr">相关度 | <a href="javascript:sortby('zf')">发布时间</a></span></td>
+					</tr>
+				
+				</table>
+			
+				<table width="950px" cellpadding="0" cellspacing="0" border="0" id="joblist" class="maintable">
+					<tr class="listtitle">
+						<td width="20px"></td>
+						<td width="380px">职位名称</td>
+						<td width="300px">公司名称</td>
+						<td width="80px">工作地点</td>
+						<td width="90px">发布日期</td>
+						<td width="80px"></td>
+					</tr>
+					<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC233480816J90000003000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2334/8081/J900/000/CC233480816J90000003000.htm?f=ss" target="_blank" class="blue12line">台商上海分公司總经理</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2334/8081/CC233480816.htm?f=ss" target="_blank" class="blue12line">凌威科技有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T19:10:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC137144339J90000353000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P4/CC1371/4433/J900/003/CC137144339J90000353000.htm?f=ss" target="_blank" class="blue12line">区域销售总监(上海) Regional Sales Director（shanghai ）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P4/CC1371/4433/CC137144339.htm?f=ss" target="_blank" class="blue12line">Auralog软件开发（北京）有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T17:51:00Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC188713210J90000046000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC1887/1321/J900/000/CC188713210J90000046000.htm?f=ss" target="_blank" class="blue12line">网站美工</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC1887/1321/CC188713210.htm?f=ss" target="_blank" class="blue12line">上海宏尊网络工程有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T17:29:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC227072519J90000009000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2270/7251/J900/000/CC227072519J90000009000.htm?f=ss" target="_blank" class="blue12line">Helpdesk(Lotus Notes) 工程师</a></td>
+	  <td id="dvCompNM"><a href="/redirect.asp?url=http%3A%2F%2Fspecial%2Ezhaopin%2Ecom%2Fsh%2F2008%2Flianzhong091007%2Findex%2Ehtm&cc=CC227072519J90000009000&f=ss" target="_blank" class="blue12line">联合服务(香港)有限公司/United Service (HONGKONG) Co.,Limited</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T17:22:18Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC000557918J90000038000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC0005/5791/J900/000/CC000557918J90000038000.htm?f=ss" target="_blank" class="blue12line">工艺工程师</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC0005/5791/CC000557918.htm?f=ss" target="_blank" class="blue12line">上海艾泰科技有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T17:11:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC000146527J90002867000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P3/CC0001/4652/J900/028/CC000146527J90002867000.htm?f=ss" target="_blank" class="blue12line">Application Engineer — Aerospace background-00103064</a></td>
+	  <td id="dvCompNM"><a href="/redirect.asp?url=http%3A%2F%2Fspecial%2Ezhaopin%2Ecom%2Fsh%2F2008%2Fhn022624%2Findex%2Ehtm&cc=CC000146527J90002867000&f=ss" target="_blank" class="blue12line">霍尼韦尔（中国）有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T17:02:00Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC000146527J90002866000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P3/CC0001/4652/J900/028/CC000146527J90002866000.htm?f=ss" target="_blank" class="blue12line">SRF-Mechanical Leader-00103063</a></td>
+	  <td id="dvCompNM"><a href="/redirect.asp?url=http%3A%2F%2Fspecial%2Ezhaopin%2Ecom%2Fsh%2F2008%2Fhn022624%2Findex%2Ehtm&cc=CC000146527J90002866000&f=ss" target="_blank" class="blue12line">霍尼韦尔（中国）有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:56:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC226508718J90000032000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2265/0871/J900/000/CC226508718J90000032000.htm?f=ss" target="_blank" class="blue12line">C/C++语言高级软件工程师</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2265/0871/CC226508718.htm?f=ss" target="_blank" class="blue12line">上海和茂网络工程有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:54:00Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC149692411J90000036000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC1496/9241/J900/000/CC149692411J90000036000.htm?f=ss" target="_blank" class="blue12line">java web程序员</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC1496/9241/CC149692411.htm?f=ss" target="_blank" class="blue12line">上海半丁数码科技有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:45:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000030000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000030000.htm?f=ss" target="_blank" class="blue12line">WEB设计师</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:43:03Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000029000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000029000.htm?f=ss" target="_blank" class="blue12line">软件外包项目拓展经理</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:42:53Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000028000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000028000.htm?f=ss" target="_blank" class="blue12line">英文销售sales</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:42:42Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000027000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000027000.htm?f=ss" target="_blank" class="blue12line">(急聘)英国项目PHP工程师</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:42:26Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000026000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000026000.htm?f=ss" target="_blank" class="blue12line">PHP高级开发工程师（Senior Developer）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:42:18Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000025000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000025000.htm?f=ss" target="_blank" class="blue12line">PHP软件开发工程师（Developer）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:42:10Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000024000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000024000.htm?f=ss" target="_blank" class="blue12line">.Net高级开发工程师（Senior Developer）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:41:57Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000023000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000023000.htm?f=ss" target="_blank" class="blue12line">.Net软件开发工程师（Developer）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:41:48Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000022000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000022000.htm?f=ss" target="_blank" class="blue12line">Project Manager PHP/Mysql</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:41:37Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC206017612J90000021000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P2/CC2060/1761/J900/000/CC206017612J90000021000.htm?f=ss" target="_blank" class="blue12line">Project Manager Microsoft Technology</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P2/CC2060/1761/CC206017612.htm?f=ss" target="_blank" class="blue12line">杭州普翔软件有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:41:19Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC147782140J90000007000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P5/CC1477/8214/J900/000/CC147782140J90000007000.htm?f=ss" target="_blank" class="blue12line">Account Manager–IT Software & Services 客户经理/销售</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P5/CC1477/8214/CC147782140.htm?f=ss" target="_blank" class="blue12line">品信唯尔（北京）商业有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T16:12:00Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC000147543J90002549000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P5/CC0001/4754/J900/025/CC000147543J90002549000.htm?f=ss" target="_blank" class="blue12line">财务部_会计主管(上海)</a></td>
+	  <td id="dvCompNM"><a href="/redirect.asp?url=http%3A%2F%2Fwww1%2Ezhaopin%2Ecom%2FPublish%2FCompany%2FBaidu%2Fshezhao%2Findex%2Ejsp&cc=CC000147543J90002549000&f=ss" target="_blank" class="blue12line">百度在线网络技术(北京)有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T15:37:00Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC144175541J90000483000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P5/CC1441/7554/J900/004/CC144175541J90000483000.htm?f=ss" target="_blank" class="blue12line">微软香港地区客户服务专员（粤语）</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P5/CC1441/7554/CC144175541.htm?f=ss" target="_blank" class="blue12line">晶世科技有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T15:22:36Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC156504027J90000027000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P3/CC1565/0402/J900/000/CC156504027J90000027000.htm?f=ss" target="_blank" class="blue12line">技术客服专员</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P3/CC1565/0402/CC156504027.htm?f=ss" target="_blank" class="blue12line">翔傲信息科技(上海)有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T15:01:56Z-->
+</tr>
+<tr class="trB2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC147772586J90000042000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P9/CC1477/7258/J900/000/CC147772586J90000042000.htm?f=ss" target="_blank" class="blue12line">Sr. Process Control Engineer</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P9/CC1477/7258/CC147772586.htm?f=ss" target="_blank" class="blue12line">Dresser Shanghai</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T14:58:00Z-->
+</tr>
+<tr class="trW2">
+	  <td align="center" class="left"><input type="checkbox" name="vacancyid" value="CC145060300J90000085000_538" onClick="unChkSelectAll('allvacancyid')"></td>
+	  <td id="dvJobTit"><a href="http://jobs.zhaopin.com/P1/CC1450/6030/J900/000/CC145060300J90000085000.htm?f=ss" target="_blank" class="blue12line">COBOL Developer</a></td>
+	  <td id="dvCompNM"><a href="http://company.zhaopin.com/P1/CC1450/6030/CC145060300.htm?f=ss" target="_blank" class="blue12line">尚瑞薪才信息技术(上海)有限公司</a></td>
+	  <td >上海</td>
+	  <td >08-11-04</td>
+	  <td class="tdJobDetails" title="点击查看职位描述/要求"><span class="showJobDetail">职位描述</span></td
+	  <!--2008-11-04T14:55:00Z-->
+</tr>
+
+			  </table>
+				<script language="javascript" type="text/javascript" src="/js/new_v3/ajaxbase.js">;</script>
+				<script language="javascript" type="text/javascript" src="/js/jobs_nv3/showHideJobdetails.js"></script>
+				<!--list foot sta-->
+				<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+					<tr height="40" class="bluelink"><td style="padding-left:3px">
+						<input type="checkbox" name="allvacancyid" onClick="ChkSelectAll('vacancyid','allvacancyid',this)"> 全部选中
+						<img src="/images/jobs_nv/icon_submit.gif" /> <a href="javascript:apply(document.frmMain)">申请选中的职位</a>　 <img src="/images/jobs_nv/icon_arrorg.gif" /> <a href="javascript:fnDoFavJob()">收藏选中职位</a>
+					</td>
+					<td class="textr"> 
+ <b class=org12>[ 1 ]</b> <a class="bluelink"  href="javascript:page('2')">[ 2 ]</a>  <a class="bluelink"  href="javascript:page('3')">[ 3 ]</a>  <a class="bluelink"  href="javascript:page('4')">[ 4 ]</a>  <a class="bluelink"  href="javascript:page('5')">[ 5 ]</a>  <a class="bluelink"  href="javascript:page('6')">[ 6 ]</a>  <a class="bluelink"  href="javascript:page('7')">[ 7 ]</a>  <a class="bluelink"  href="javascript:page('8')">[ 8 ]</a>  <a class="bluelink"  href="javascript:page('9')">[ 9 ]</a>  <a class="bluelink"  href="javascript:page('10')">[ 10 ]</a>   <a class="bluelink"  href="javascript:page('2')">下一页</a>
+</td>
+					<td align="right" style="padding-right:10px">第 <b class="blue12 num">1/160</b> 页</td></tr>
+				</table>
+				<!--list foot end-->
+				</form>
+				
+				<table width="100%" cellpadding="3" cellspacing="0" border="0" align="center" style="border:#d8d8ed 2px solid;line-height:120%;">
+					<tr>
+					  <td bgcolor="#d8d8ed" style="padding:4px">你也许还对这些感兴趣：</td>
+					</tr>
+					<tr>
+					  <td style="line-height:16pt;padding:4px" id="more_search"><a href='http://search.zhaopin.com/html/l538_i160200.htm' class='blue12line'>上海/计算机硬件及网络设备</a>　<a href='http://search.zhaopin.com/html/l538_i160400.htm' class='blue12line'>上海/计算机软件</a>　<a href='http://search.zhaopin.com/html/l538_i160000.htm' class='blue12line'>上海/IT服务（系统/数据/维护）/多领域经营</a>　<a href='http://search.zhaopin.com/html/l538_i210500.htm' class='blue12line'>上海/互联网/电子商务</a>　<a href='http://search.zhaopin.com/html/l538_i160600.htm' class='blue12line'>上海/网络游戏</a>　<a href='http://search.zhaopin.com/html/l538_i160100.htm' class='blue12line'>上海/通讯（设备/运营/增值服务）</a>　<a href='http://search.zhaopin.com/html/l538_i160500.htm' class='blue12line'>上海/电子技术/半导体/集成电路</a>　<a href='http://search.zhaopin.com/html/l538_i121200.htm' class='blue12line'>上海/仪器仪表及工业自动化</a>　<a href='http://search.zhaopin.com/html/l538_i180000.htm' class='blue12line'>上海/金融/银行/投资/基金/证券</a>　<a href="http://www.zhaopin.com/bj/" class="blue12line">北京招聘</a>　<a href="http://www.zhaopin.com/sh/" class="blue12line">上海招聘</a>　<a href="http://www.zhaopin.com/sz/" class="blue12line">深圳招聘</a>　<a href="http://www.zhaopin.com/gz/" class="blue12line">广州招聘</a>　<a href="http://www.zhaopin.com/tianjin/" class="blue12line">天津招聘</a>　<a href="http://www.zhaopin.com/wuhan/" class="blue12line">武汉招聘</a>　<a href="http://www.zhaopin.com/xian/" class="blue12line">西安招聘</a>　<a href="http://www.zhaopin.com/chengdu/" class="blue12line">成都招聘</a>　<a href="http://www.zhaopin.com/dalian/" class="blue12line">大连招聘</a>　<a href="http://www.zhaopin.com/changchun/" class="blue12line">长春招聘</a>　<a href="http://www.zhaopin.com/shenyang/" class="blue12line">沈阳招聘</a>　<!--<a href="#" class="blue12line">更多地区>></a>-->
+					</td>
+					</tr>
+					</table>
+				
+	  </div>
+		<!-- 中间部分 -->
+		
+	</div>
+	
+	<!-- bottom -->
+	<script language="javascript" type="text/javascript">
+	<!--
+	function openFeedback(strTarget){
+		window.open(strTarget, "_blank","width=1,height=1,left=100,top=60,scrollbars=0,overflow=auto,status=0");
+	}
+	//-->
+	</script>
+	<div id="footer">
+	<div class="blank_lan"></div>
+	<div id="linkfootss">
+	<a href="http://jobseeker.zhaopin.com/zhaopin/aboutus/about.html" class="footerlink">智联介绍</a>  |  <a href="http://jobseeker.zhaopin.com/zhaopin/aboutus/join.html" class="footerlink">加入智联</a>  |  <a href="http://jobseeker.zhaopin.com/zhaopin/aboutus/law.html" class="footerlink">法律声明</a>  |  <a href="http://jobseeker.zhaopin.com/zhaopin/aboutus/secrecy.html" class="footerlink">保密承诺</a>  |  <a href="/loginmgr/regist_serviceitem.asp" class="footerlink">个人注册</a>  |  <a href="http://jobseeker.zhaopin.com/zhaopin/aboutus/contact.html" class="footerlink">联系方式</a>  |  <a href="http://jobseeker.zhaopin.com/zhaopin/faq/question.html" class="footerlink">常见问题</a>  | <a href="http://article.zhaopin.com/pub/ch.jsp?cid=1237" class="footerlink">媒体报道</a>
+	</div><p style="margin-top:8px;">您对 Zhaopin.com 有任何建议或意见请<a href="#" class="blue12tline" onClick="openFeedback('http://interact.zhaopin.com/feedback/feedback.asp');return false;">联系我们</a><br/>Copyright &copy; Zhaopin.com All Right Reserved.</p>
+	</div></div>
+	<!-- end bottom -->
+</body>
+</html>

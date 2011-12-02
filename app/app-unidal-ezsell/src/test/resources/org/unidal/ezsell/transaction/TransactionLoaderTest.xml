@@ -1,0 +1,12 @@
+<plexus>
+	<components>
+		<component>
+			<role>org.unidal.ezsell.api.ebay.trading.Trading</role>
+			<implementation>org.unidal.ezsell.transaction.TransactionLoaderTest$TradingMock</implementation>
+		</component>
+		<component>
+			<role>org.unidal.ezsell.api.paypal.PaypalApi</role>
+			<implementation>org.unidal.ezsell.transaction.TransactionLoaderTest$PaypalApiMock</implementation>
+		</component>
+	</components>
+</plexus>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entities gen="true">
+	<entity name="event" do-package="com.site.app.bes.dal">
+      <member name="events" select-expr="COUNT(*)" value-type="int" all="false"/>
+      <member name="creation-date-in-15m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%15" value-type="long" all="false"/>
+      <member name="creation-date-in-1h" select-expr="date_format(creation_date,'%Y%m%d%H')" value-type="long" all="false"/>
+      <member name="creation-date-in-1d" select-expr="date_format(creation_date,'%Y%m%d')" value-type="long" all="false"/>
+      <var name="date-from" value-type="Date"/>
+      <var name="date-to" value-type="Date"/>
+		<readsets>
+         <readset name="CE_15M">
+            <member name="creation-date-in-15m"/>
+            <member name="events"/>
+         </readset>
+         <readset name="CE_1H">
+            <member name="creation-date-in-1h"/>
+            <member name="events"/>
+         </readset>
+         <readset name="CE_1D">
+            <member name="creation-date-in-1d"/>
+            <member name="events"/>
+         </readset>
+		</readsets>
+		<query-defs>
+         <query name="group-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 1
+               ]]>
+            </statement>
+         </query>
+		</query-defs>
+	</entity>
+	<entity name="event-plus" do-package="com.site.app.bes.dal">
+      <member name="events" select-expr="COUNT(*)" value-type="int" all="false"/>
+      <member name="creation-date-in-15m" select-expr="date_format(creation_date,'%Y%m%d%H%i')-date_format(creation_date,'%i')%15" value-type="long" all="false"/>
+      <member name="creation-date-in-1h" select-expr="date_format(creation_date,'%Y%m%d%H')" value-type="long" all="false"/>
+      <member name="creation-date-in-1d" select-expr="date_format(creation_date,'%Y%m%d')" value-type="long" all="false"/>
+      <var name="date-from" value-type="Date"/>
+      <var name="date-to" value-type="Date"/>
+		<readsets>
+         <readset name="CEE_15M">
+            <member name="creation-date-in-15m"/>
+            <member name="event-state"/>
+            <member name="events"/>
+         </readset>
+         <readset name="CEE_1H">
+            <member name="creation-date-in-1h"/>
+            <member name="event-state"/>
+            <member name="events"/>
+         </readset>
+         <readset name="CEE_1D">
+            <member name="creation-date-in-1d"/>
+            <member name="event-state"/>
+            <member name="events"/>
+         </readset>
+		</readsets>
+		<query-defs>
+         <query name="group-by-date-range" type="SELECT" multiple="true">
+            <param name="date-from"/>
+            <param name="date-to"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE <FIELD name='creation-date'/> >= ${date-from}
+                     AND <FIELD name='creation-date'/> <= ${date-to}
+                  GROUP BY 1,2
+               ]]>
+            </statement>
+         </query>
+		</query-defs>
+	</entity>
+</entities>

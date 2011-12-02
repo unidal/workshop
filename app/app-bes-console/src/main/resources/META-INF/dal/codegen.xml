@@ -1,0 +1,265 @@
+<entities>
+   <entity name="event" table="event" alias="e">
+      <member name="event-id" field="EVENT_ID" value-type="int" nullable="false" length="11" key="true"/>
+      <member name="event-type" field="EVENT_TYPE" value-type="String" nullable="false" length="32"/>
+      <member name="payload" field="PAYLOAD" value-type="String" nullable="false" length="4000"/>
+      <member name="payload-type" field="PAYLOAD_TYPE" value-type="int" nullable="false" length="11"/>
+      <member name="ref-id" field="REF_ID" value-type="String" length="32"/>
+      <member name="producer-type" field="PRODUCER_TYPE" value-type="String" nullable="false" length="32"/>
+      <member name="producer-id" field="PRODUCER_ID" value-type="String" nullable="false" length="32"/>
+      <member name="max-retry-times" field="MAX_RETRY_TIMES" value-type="int" length="11"/>
+      <member name="schedule-date" field="SCHEDULE_DATE" value-type="Date"/>
+      <member name="creation-date" field="CREATION_DATE" value-type="Date"/>
+      <var name="key-event-id" value-type="int" key-member="event-id"/>
+      <primary-key name="PRIMARY" members="EVENT_ID"/>
+      <readsets>
+         <readset name="FULL" all="true"/>
+      </readsets>
+      <updatesets>
+         <updateset name="FULL" all="true"/>
+      </updatesets>
+      <query-defs>
+         <query name="find-by-PK" type="SELECT">
+            <param name="key-event-id"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE EVENT_ID = ${key-event-id}
+               ]]>
+            </statement>
+         </query>
+         <query name="insert" type="INSERT">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/>
+                  <FIELDS/>
+               ]]>
+            </statement>
+         </query>
+         <query name="update-by-PK" type="UPDATE">
+            <param name="key-event-id"/>
+            <statement>
+               <![CDATA[
+                  UPDATE <TABLE/>
+                  SET <FIELDS/>
+                  WHERE EVENT_ID = ${key-event-id}
+               ]]>
+            </statement>
+         </query>
+         <query name="delete-by-PK" type="DELETE">
+            <param name="key-event-id"/>
+            <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE EVENT_ID = ${key-event-id}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="event-batch-log" table="event_batch_log" alias="ebl">
+      <member name="batch-id" field="BATCH_ID" value-type="int" nullable="false" length="11" key="true"/>
+      <member name="event-type" field="EVENT_TYPE" value-type="String" nullable="false" length="32"/>
+      <member name="consumer-type" field="CONSUMER_TYPE" value-type="String" nullable="false" length="32"/>
+      <member name="start-event-id" field="START_EVENT_ID" value-type="int" nullable="false" length="11"/>
+      <member name="end-event-id" field="END_EVENT_ID" value-type="int" nullable="false" length="11"/>
+      <member name="consumer-id" field="CONSUMER_ID" value-type="String" nullable="false" length="32"/>
+      <member name="creation-date" field="CREATION_DATE" value-type="Date"/>
+      <member name="process-status" field="PROCESS_STATUS" value-type="int" nullable="false" length="11"/>
+      <member name="fetched-rows" field="FETCHED_ROWS" value-type="int" length="11"/>
+      <member name="success-count" field="SUCCESS_COUNT" value-type="int" length="11"/>
+      <member name="failure-count" field="FAILURE_COUNT" value-type="int" length="11"/>
+      <member name="fetch-time" field="FETCH_TIME" value-type="int" length="11"/>
+      <member name="max-wait-time" field="MAX_WAIT_TIME" value-type="int" length="11"/>
+      <member name="avg-wait-time" field="AVG_WAIT_TIME" value-type="int" length="11"/>
+      <member name="max-process-time" field="MAX_PROCESS_TIME" value-type="int" length="11"/>
+      <member name="avg-process-time" field="AVG_PROCESS_TIME" value-type="int" length="11"/>
+      <var name="key-batch-id" value-type="int" key-member="batch-id"/>
+      <primary-key name="PRIMARY" members="BATCH_ID"/>
+      <index name="EVENT_BATCH_LOG_P_IDX" members="PROCESS_STATUS ASC, CREATION_DATE ASC"/>
+      <readsets>
+         <readset name="FULL" all="true"/>
+      </readsets>
+      <updatesets>
+         <updateset name="FULL" all="true"/>
+      </updatesets>
+      <query-defs>
+         <query name="find-by-PK" type="SELECT">
+            <param name="key-batch-id"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE BATCH_ID = ${key-batch-id}
+               ]]>
+            </statement>
+         </query>
+         <query name="insert" type="INSERT">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/>
+                  <FIELDS/>
+               ]]>
+            </statement>
+         </query>
+         <query name="update-by-PK" type="UPDATE">
+            <param name="key-batch-id"/>
+            <statement>
+               <![CDATA[
+                  UPDATE <TABLE/>
+                  SET <FIELDS/>
+                  WHERE BATCH_ID = ${key-batch-id}
+               ]]>
+            </statement>
+         </query>
+         <query name="delete-by-PK" type="DELETE">
+            <param name="key-batch-id"/>
+            <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE BATCH_ID = ${key-batch-id}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="event-dashboard" table="event_dashboard" alias="ed">
+      <member name="event-type" field="EVENT_TYPE" value-type="String" nullable="false" length="32" key="true"/>
+      <member name="consumer-type" field="CONSUMER_TYPE" value-type="String" nullable="false" length="32" key="true"/>
+      <member name="last-fetched-id" field="LAST_FETCHED_ID" value-type="int" nullable="false" length="11"/>
+      <member name="last-scheduled-date" field="LAST_SCHEDULED_DATE" value-type="Date"/>
+      <member name="batch-timeout" field="BATCH_TIMEOUT" value-type="long" nullable="false" length="32"/>
+      <member name="creation-date" field="CREATION_DATE" value-type="Date"/>
+      <member name="last-modified-date" field="LAST_MODIFIED_DATE" value-type="Date" nullable="false"/>
+      <var name="key-event-type" value-type="String" key-member="event-type"/>
+      <var name="key-consumer-type" value-type="String" key-member="consumer-type"/>
+      <primary-key name="PRIMARY" members="EVENT_TYPE, CONSUMER_TYPE"/>
+      <readsets>
+         <readset name="FULL" all="true"/>
+      </readsets>
+      <updatesets>
+         <updateset name="FULL" all="true"/>
+      </updatesets>
+      <query-defs>
+         <query name="find-by-PK" type="SELECT">
+            <param name="key-event-type"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE EVENT_TYPE = ${key-event-type}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+         <query name="insert" type="INSERT">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/>
+                  <FIELDS/>
+               ]]>
+            </statement>
+         </query>
+         <query name="update-by-PK" type="UPDATE">
+            <param name="key-event-type"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  UPDATE <TABLE/>
+                  SET <FIELDS/>
+                  WHERE EVENT_TYPE = ${key-event-type}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+         <query name="delete-by-PK" type="DELETE">
+            <param name="key-event-type"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE EVENT_TYPE = ${key-event-type}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+   <entity name="event-plus" table="event_plus" alias="ep">
+      <member name="event-id" field="EVENT_ID" value-type="int" nullable="false" length="11" key="true"/>
+      <member name="consumer-type" field="CONSUMER_TYPE" value-type="String" nullable="false" length="32" key="true"/>
+      <member name="consumer-id" field="CONSUMER_ID" value-type="String" length="32"/>
+      <member name="event-type" field="EVENT_TYPE" value-type="String" nullable="false" length="32"/>
+      <member name="next-schedule-date" field="NEXT_SCHEDULE_DATE" value-type="Date"/>
+      <member name="max-retry-times" field="MAX_RETRY_TIMES" value-type="int" nullable="false" length="11"/>
+      <member name="retried-times" field="RETRIED_TIMES" value-type="int" nullable="false" length="11"/>
+      <member name="event-state" field="EVENT_STATE" value-type="int" nullable="false" length="11"/>
+      <member name="creation-date" field="CREATION_DATE" value-type="Date"/>
+      <member name="last-modified-date" field="LAST_MODIFIED_DATE" value-type="Date" nullable="false"/>
+      <var name="key-event-id" value-type="int" key-member="event-id"/>
+      <var name="key-consumer-type" value-type="String" key-member="consumer-type"/>
+      <primary-key name="PRIMARY" members="EVENT_ID, CONSUMER_TYPE"/>
+      <index name="EVENT_PLUS_NC_IDX" members="NEXT_SCHEDULE_DATE ASC, CONSUMER_TYPE ASC"/>
+      <readsets>
+         <readset name="FULL" all="true"/>
+      </readsets>
+      <updatesets>
+         <updateset name="FULL" all="true"/>
+      </updatesets>
+      <query-defs>
+         <query name="find-by-PK" type="SELECT">
+            <param name="key-event-id"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  SELECT <FIELDS/>
+                  FROM <TABLE/>
+                  WHERE EVENT_ID = ${key-event-id}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+         <query name="insert" type="INSERT">
+            <statement>
+               <![CDATA[
+                  INSERT
+                  INTO <TABLE/>
+                  <FIELDS/>
+               ]]>
+            </statement>
+         </query>
+         <query name="update-by-PK" type="UPDATE">
+            <param name="key-event-id"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  UPDATE <TABLE/>
+                  SET <FIELDS/>
+                  WHERE EVENT_ID = ${key-event-id}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+         <query name="delete-by-PK" type="DELETE">
+            <param name="key-event-id"/>
+            <param name="key-consumer-type"/>
+            <statement>
+               <![CDATA[
+                  DELETE
+                  FROM <TABLE/>
+                  WHERE EVENT_ID = ${key-event-id}
+                     AND CONSUMER_TYPE = ${key-consumer-type}
+               ]]>
+            </statement>
+         </query>
+      </query-defs>
+   </entity>
+</entities>

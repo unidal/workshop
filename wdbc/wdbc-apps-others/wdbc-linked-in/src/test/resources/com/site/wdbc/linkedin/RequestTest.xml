@@ -1,0 +1,94 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.wdbc.http.Session</role>
+			<implementation>com.site.wdbc.http.impl.DefaultSession</implementation>
+			<configuration>
+				<headers>
+					<header name="User-Agent">Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; Maxthon; .NET CLR 1.1.4322)</header>
+				</headers>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>login</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>https://www.linkedin.com/secure/login</action>
+				<method>POST</method>
+				<inputs>
+					<input name="session_key">qmwu2000@gmail.com</input>
+					<input name="session_password">Iamfrankie</input>
+					<input name="session_login">Sign In</input>
+				</inputs>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>search</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action>http://www.linkedin.com/search</action>
+				<method>POST</method>
+				<inputs>
+					<input name="keywords"></input>
+					<input name="kwname"></input>
+					<input name="title">Manager</input>
+					<input name="currentTitle">currentTitle</input>
+					<input name="company"></input>
+					<input name="currentCompany">currentCompany</input>
+					<input name="proposalType">Y</input>
+					<input name="newnessType">Y</input>
+					<input name="industry">4</input>
+					<input name="searchLocationType">I</input>
+					<input name="countryCode">us</input>
+					<input name="postalCode">95125</input>
+					<input name="sortCriteria">4</input>
+					<input name="excoon">false</input>
+					<input name="searchOrigin">S</input>
+					<input name="distance">-1</input>
+					<input name="search.x">1</input>
+					<input name="search.y">1</input>
+				</inputs>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.http.Request</role>
+               <role-hint>login</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>list</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action><![CDATA[
+            http://www.linkedin.com/search?search=&sik=1192812957093&currentCompany=currentCompany&encind=s4&searchLocationType=I&countryCode=us&postalCode=95125&distance=50&sortCriteria=4&title=Manager&currentTitle=currentTitle&rd=in&split_page=2
+            ]]></action>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.http.Request</role>
+               <role-hint>login</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+		<component>
+			<role>com.site.wdbc.http.Request</role>
+			<role-hint>details</role-hint>
+			<implementation>com.site.wdbc.http.impl.FormRequest</implementation>
+			<configuration>
+				<action><![CDATA[
+               http://www.linkedin.com/profile?viewProfile=&key=615702&fromSearch=0&sik=1192226777873&split_page=1&rd=in&authToken=QY2LjhFO1zr-YylLVFuym4x3kA55kRZ5jk5edjsQgkgOcQ95hk8Ocz0Tdj4S&authType=NAME_SEARCH&goback=%2Esrp_1_1192226777873_in
+            ]]></action>
+			</configuration>
+         <requirements>
+            <requirement>
+               <role>com.site.wdbc.http.Request</role>
+               <role-hint>login</role-hint>
+            </requirement>
+         </requirements>
+		</component>
+	</components>
+</plexus>

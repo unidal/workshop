@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Frankie Wu
+Build-Jdk: 1.5.0_01
+Main-Class: com.site.app.ipod.IpodNotesSplitter
+Class-Path: 

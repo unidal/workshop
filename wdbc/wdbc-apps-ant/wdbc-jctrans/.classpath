@@ -1,0 +1,24 @@
+<classpath>
+  <classpathentry kind="src" path="src/test/java" output="target/test-classes" including="**/*.java"/>
+  <classpathentry kind="src" path="src/test/resources" output="target/test-classes" excluding="**/*.java"/>
+  <classpathentry kind="src" path="src/main/java" including="**/*.java"/>
+  <classpathentry kind="src" path="src/main/resources" excluding="**/*.java"/>
+  <classpathentry kind="output" path="target/classes"/>
+  <classpathentry kind="var" path="M2_REPO/commons-codec/commons-codec/1.3/commons-codec-1.3.jar" sourcepath="M2_REPO/commons-codec/commons-codec/1.3/commons-codec-1.3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.0.4/commons-logging-1.0.4-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging-api/1.1/commons-logging-api-1.1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpclient/4.0-alpha1/httpclient-4.0-alpha1.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/httpcomponents/httpcore/4.0-alpha5/httpcore-4.0-alpha5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar" sourcepath="M2_REPO/junit/junit/4.8.1/junit-4.8.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.12/log4j-1.2.12.jar"/>
+  <classpathentry kind="src" path="/lookup"/>
+  <classpathentry kind="var" path="M2_REPO/org/codehaus/plexus/plexus-classworlds/1.2-alpha-13/plexus-classworlds-1.2-alpha-13.jar" sourcepath="M2_REPO/org/codehaus/plexus/plexus-classworlds/1.2-alpha-13/plexus-classworlds-1.2-alpha-13-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/codehaus/plexus/plexus-container-default/1.0-alpha-47/plexus-container-default-1.0-alpha-47.jar" sourcepath="M2_REPO/org/codehaus/plexus/plexus-container-default/1.0-alpha-47/plexus-container-default-1.0-alpha-47-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/codehaus/plexus/plexus-utils/1.4.5/plexus-utils-1.4.5.jar" sourcepath="M2_REPO/org/codehaus/plexus/plexus-utils/1.4.5/plexus-utils-1.4.5-sources.jar"/>
+  <classpathentry kind="src" path="/wdbc-api"/>
+  <classpathentry kind="src" path="/wdbc-domain-ant"/>
+  <classpathentry kind="src" path="/wdbc-engine-default"/>
+  <classpathentry kind="src" path="/wdbc-http-client"/>
+  <classpathentry kind="var" path="M2_REPO/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4.jar" sourcepath="M2_REPO/org/apache/xbean/xbean-reflect/3.4/xbean-reflect-3.4-sources.jar"/>
+  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+</classpath>

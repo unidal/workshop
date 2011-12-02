@@ -1,0 +1,207 @@
+<entities>
+  <entity name="activity" table="activity" alias="a">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="trip-id" field="trip_id" value-type="int" length="10" nullable="false" />
+    <member name="title" field="title" value-type="String" length="100" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="expense" table="expense" alias="e">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="activity-id" field="activity_id" value-type="int" length="10" nullable="false" />
+    <member name="title" field="title" value-type="String" length="100" nullable="false" />
+    <member name="amount" field="amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="expense-details" table="expense_details" alias="ed">
+    <member name="expense-id" field="expense_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="member-id" field="member_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="member-name" field="member_name" value-type="String" length="100" nullable="false" />
+    <member name="weight" field="weight" value-type="int" length="10" />
+    <member name="amount" field="amount" value-type="double" length="8" decimal="2" nullable="false" />
+    <var name="key-expense-id" value-type="int" key-member="expense-id" />
+    <var name="key-member-id" value-type="int" key-member="member-id" />
+    <primary-key name="PRIMARY" members="expense_id, member_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-expense-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='expense-id'/> = ${key-expense-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-expense-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='expense-id'/> = ${key-expense-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-expense-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='expense-id'/> = ${key-expense-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="member" table="member" alias="m">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="account" field="account" value-type="String" length="50" nullable="false" />
+    <member name="name" field="name" value-type="String" length="100" nullable="false" />
+    <member name="mobile-phone" field="mobile_phone" value-type="String" length="11" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="encrypted-password" field="encrypted_password" value-type="String" length="50" nullable="false" />
+    <member name="last-login-date" field="last_login_date" value-type="Date" />
+    <member name="login-failures" field="login_failures" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="trip" table="trip" alias="t">
+    <member name="id" field="id" value-type="int" length="10" nullable="false" key="true" auto-increment="true" />
+    <member name="title" field="title" value-type="String" length="100" nullable="false" />
+    <member name="owner-id" field="owner_id" value-type="int" length="10" nullable="false" />
+    <member name="auth-code" field="auth_code" value-type="String" length="6" nullable="false" />
+    <member name="status" field="status" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-id" value-type="int" key-member="id" />
+    <primary-key name="PRIMARY" members="id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='id'/> = ${key-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="trip-member" table="trip_member" alias="tm">
+    <member name="trip-id" field="trip_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="member-id" field="member_id" value-type="int" length="10" nullable="false" key="true" />
+    <var name="key-trip-id" value-type="int" key-member="trip-id" />
+    <var name="key-member-id" value-type="int" key-member="member-id" />
+    <primary-key name="PRIMARY" members="trip_id, member_id" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-trip-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='trip-id'/> = ${key-trip-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-trip-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='trip-id'/> = ${key-trip-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-trip-id" />
+        <param name="key-member-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='trip-id'/> = ${key-trip-id} AND <FIELD name='member-id'/> = ${key-member-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>

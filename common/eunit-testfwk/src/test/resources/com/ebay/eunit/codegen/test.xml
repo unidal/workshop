@@ -1,0 +1,8 @@
+<root package="com.ebay.mydomain.generated" class="X">
+   <case>
+      <name>Codegen</name>
+   </case>
+   <case>
+      <name>World</name>
+   </case>
+</root>

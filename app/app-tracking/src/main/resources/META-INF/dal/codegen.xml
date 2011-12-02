@@ -1,0 +1,176 @@
+<entities>
+  <entity name="ipother" table="ipother" alias="i">
+    <member name="startip" field="startip" value-type="String" length="20" />
+    <member name="endip" field="endip" value-type="String" length="20" />
+    <member name="country" field="country" value-type="String" length="60" />
+    <member name="local" field="local" value-type="String" length="20" />
+    <member name="startid" field="startid" value-type="long" length="19" nullable="false" />
+    <member name="endid" field="endid" value-type="long" length="19" nullable="false" />
+    <member name="city" field="city" value-type="String" length="20" />
+    <member name="isp" field="ISP" value-type="String" length="10" />
+    <primary-key />
+    <index name="startip" members="startid ASC, endid ASC" />
+    <index name="city" members="city ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/>]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/>]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <statement><![CDATA[DELETE FROM <TABLE/>]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="page-visit" table="page_visit" alias="pv">
+    <member name="page-id" field="page_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="page-url" field="page_url" value-type="String" length="200" nullable="false" />
+    <member name="total-visits" field="total_visits" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <member name="last-modified-date" field="last_modified_date" value-type="Date" nullable="false" />
+    <var name="key-page-id" value-type="int" key-member="page-id" />
+    <primary-key name="PRIMARY" members="page_id" />
+    <index name="page_visit_IDX_U" unique="true" members="page_url ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-page-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='page-id'/> = ${key-page-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-page-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='page-id'/> = ${key-page-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-page-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='page-id'/> = ${key-page-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="page-visit-log" table="page_visit_log" alias="pvl">
+    <member name="log-id" field="log_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="page-id" field="page_id" value-type="int" length="10" nullable="false" />
+    <member name="from-page" field="from_page" value-type="String" length="100" nullable="false" />
+    <member name="category1" field="category1" value-type="int" length="10" />
+    <member name="category2" field="category2" value-type="int" length="10" />
+    <member name="on-top" field="on_top" value-type="int" length="10" />
+    <member name="visits" field="visits" value-type="int" length="10" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <var name="key-log-id" value-type="int" key-member="log-id" />
+    <primary-key name="PRIMARY" members="log_id" />
+    <index name="page_visit_log_IDX_C" members="creation_date ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-log-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='log-id'/> = ${key-log-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-log-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='log-id'/> = ${key-log-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-log-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='log-id'/> = ${key-log-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="page-visit-track" table="page_visit_track" alias="pvt">
+    <member name="track-id" field="track_id" value-type="int" length="10" nullable="false" key="true" />
+    <member name="page-id" field="page_id" value-type="int" length="10" nullable="false" />
+    <member name="from-page" field="from_page" value-type="String" length="100" nullable="false" />
+    <member name="client-ip" field="client_ip" value-type="String" length="15" nullable="false" />
+    <member name="creation-date" field="creation_date" value-type="Date" nullable="false" />
+    <var name="key-track-id" value-type="int" key-member="track-id" />
+    <primary-key name="PRIMARY" members="track_id" />
+    <index name="page_visit_track_IDX_C" members="creation_date ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-track-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='track-id'/> = ${key-track-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-track-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='track-id'/> = ${key-track-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-track-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='track-id'/> = ${key-track-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+  <entity name="stats" table="stats" alias="s">
+    <member name="st-id" field="st_id" value-type="long" length="19" nullable="false" key="true" />
+    <member name="st-uri" field="st_uri" value-type="String" length="256" />
+    <member name="st-remote-ip" field="st_remote_ip" value-type="String" length="16" />
+    <member name="st-refer" field="st_refer" value-type="String" length="256" />
+    <member name="st-server-ip" field="st_server_ip" value-type="String" length="16" />
+    <member name="st-param-id" field="st_param_id" value-type="int" length="10" />
+    <member name="st-param-c1" field="st_param_c1" value-type="String" length="256" />
+    <member name="st-param-c2" field="st_param_c2" value-type="String" length="256" />
+    <member name="st-time" field="st_time" value-type="Date" />
+    <var name="key-st-id" value-type="long" key-member="st-id" />
+    <primary-key name="PRIMARY" members="st_id" />
+    <index name="st_remote_ip" members="st_remote_ip ASC" />
+    <index name="st_param_id" members="st_param_id ASC" />
+    <index name="st_time" members="st_time ASC" />
+    <readsets>
+      <readset name="FULL" all="true" />
+    </readsets>
+    <updatesets>
+      <updateset name="FULL" all="true" />
+    </updatesets>
+    <query-defs>
+      <query name="find-by-PK" type="SELECT">
+        <param name="key-st-id" />
+        <statement><![CDATA[SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='st-id'/> = ${key-st-id}]]></statement>
+      </query>
+      <query name="insert" type="INSERT">
+        <statement><![CDATA[INSERT INTO <TABLE/>(<FIELDS/>) VALUES(<VALUES/>)]]></statement>
+      </query>
+      <query name="update-by-PK" type="UPDATE">
+        <param name="key-st-id" />
+        <statement><![CDATA[UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='st-id'/> = ${key-st-id}]]></statement>
+      </query>
+      <query name="delete-by-PK" type="DELETE">
+        <param name="key-st-id" />
+        <statement><![CDATA[DELETE FROM <TABLE/> WHERE <FIELD name='st-id'/> = ${key-st-id}]]></statement>
+      </query>
+    </query-defs>
+  </entity>
+</entities>

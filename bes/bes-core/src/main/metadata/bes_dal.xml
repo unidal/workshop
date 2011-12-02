@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<entities 
+	do-src-dir="../BesCommon/src/main/java" do-package="com.site.bes.dal" gen="true">
+	<entity name="event">
+		<member name="event-id" auto-increment="true"/>
+		<member name="creation-date" insert-expr="NOW()"/>
+      <member name="max-retry-times" field="MAX_RETRY_TIMES" value-type="int" length="11"/>
+		<member name="max-event-id" field="MAX(event_id)" value-type="int" length="11" computed="true"/>
+		
+		<var name="start-event-id" value-type="int"/>
+		<var name="end-event-id" value-type="int"/>
+		<var name="start-schedule-date" value-type="Date"/>
+		<var name="end-schedule-date" value-type="Date"/>
+		<var name="consumer-type" value-type="String"/>
+		<var name="consumer-id" value-type="String"/>
+		<var name="batch-id" value-type="int"/>
+		<readsets>
+			<readset name="FETCH_EVENTS">
+				<member name="event-id"/>
+				<member name="payload"/>
+				<member name="payload-type"/>
+				<member name="ref-id"/>
+				<member name="producer-type"/>
+				<member name="producer-id"/>
+				<member name="max-retry-times"/>
+				<member name="schedule-date"/>
+				<member name="creation-date"/>
+			</readset>
+			<readset name="MAX_EVENT_ID">
+				<member name="max-event-id"/>
+			</readset>
+		</readsets>
+		<query-defs>
+			<query name="find-all-by-id-range" type="SELECT" multiple="true">
+				<param name="start-event-id"/>
+				<param name="end-event-id"/>
+				<statement>
+				<![CDATA[
+            SELECT <FIELDS/>
+				FROM <TABLE/>
+				WHERE event_id BETWEEN ${start-event-id} AND ${end-event-id}
+            ]]>
+				</statement>
+			</query>
+			<query name="fetch-events" type="SELECT" multiple="true" sp="true">
+				<param name="event-type"/>
+				<param name="consumer-type"/>
+				<param name="consumer-id"/>
+				<param name="batch-id" type="out"/>
+				<statement>
+				<![CDATA[
+                { CALL sp_fetch_events(${event-type},${consumer-type},${consumer-id},#{batch-id}) }
+                ]]>
+				</statement>
+			</query>
+			<query name="fetch-schedule-events" type="SELECT" multiple="true">
+				<param name="event-type"/>
+				<param name="consumer-type"/>
+				<param name="start-schedule-date"/>
+				<param name="end-schedule-date"/>
+				<statement>
+				<![CDATA[
+				SELECT <FIELDS/>
+				FROM event_plus ep, event e
+				WHERE e.event_id = ep.event_id
+					AND ep.event_type = ${event-type}
+					AND ep.consumer_type = ${consumer-type}
+					AND ep.event_state IN (-1, -2)
+					AND (ep.max_retry_times <= 0 OR ep.retried_times < ep.max_retry_times) 
+					AND ep.next_schedule_date > ${start-schedule-date} 
+					AND ep.next_schedule_date <= ${end-schedule-date}
+				ORDER BY ep.next_schedule_date
+				LIMIT 50
+				]]>
+				</statement>
+			</query>
+			<query name="find-by-event-type" type="SELECT" multiple="true">
+				<param name="event-type"/>
+				<statement>
+				<![CDATA[
+            SELECT <FIELDS/>
+				FROM <TABLE/>
+            WHERE event_type = ${event-type}
+            ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+   <entity name="event-dashboard">
+		<member name="creation-date" insert-expr="NOW()"/>
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()"/>
+		<query-defs>
+			<query name="upsert" type="INSERT">
+				<statement>
+				<![CDATA[
+				INSERT
+				INTO <TABLE/>
+				<FIELDS/>
+				ON DUPLICATE KEY UPDATE 
+				batch_timeout = ${batch-timeout},
+				last_fetched_id = ${last-fetched-id},
+				last_modified_date = NOW()
+            ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+    <entity name="event-batch-log">
+		<member name="creation-date" insert-expr="NOW()"/>
+      <var name="event-id" value-type="int"/>
+		<var name="deadline" value-type="Date"/>
+		<updatesets>
+			<updateset name="EVENT_STAT">
+				<member name="process-status"/>
+				<member name="fetched-rows"/>
+				<member name="success-count"/>
+				<member name="failure-count"/>
+				<member name="fetch-time"/>
+				<member name="max-wait-time"/>
+				<member name="avg-wait-time"/>
+				<member name="max-process-time"/>
+				<member name="avg-process-time"/>
+			</updateset>
+		</updatesets>
+		<query-defs>
+			<query name="find-all-unprocessed" type="SELECT" multiple="true">
+				<param name="deadline"/>
+				<statement>
+				<![CDATA[
+				SELECT <FIELDS/>
+				FROM <TABLE/>
+				WHERE process_status = 0
+				   AND CREATION_DATE < ${deadline}
+				ORDER BY CREATION_DATE
+            ]]>
+				</statement>
+			</query>
+			<query name="find-all-by-event-id" type="SELECT" multiple="true">
+				<param name="event-id"/>
+				<statement>
+				<![CDATA[
+				SELECT <FIELDS/>
+				FROM <TABLE/>
+				WHERE START_EVENT_ID <= ${event-id}
+				   AND END_EVENT_ID >= ${event-id}
+            ]]>
+				</statement>
+			</query>
+		</query-defs>
+   </entity>
+	<entity name="event-plus">
+      <member name="retried-times" insert-expr="0" update-expr="retried_times + 1"/>
+		<member name="creation-date" insert-expr="NOW()"/>
+		<member name="last-modified-date" insert-expr="NOW()" update-expr="NOW()"/>
+		<updatesets>
+			<updateset name="EVENT_STATE">
+				<member name="event-state"/>
+				<member name="consumer-id"/>
+				<member name="last-modified-date"/>
+			</updateset>
+		</updatesets>
+		<query-defs>
+			<query name="upsert" type="INSERT" batch="true">
+				<statement>
+				<![CDATA[
+				INSERT
+				INTO <TABLE/>
+				<FIELDS/>
+				ON DUPLICATE KEY UPDATE 
+				event_state = ${event-state},
+				next_schedule_date = ${next-schedule-date}, 
+				retried_times = retried_times + 1,
+				last_modified_date = NOW()
+            ]]>
+				</statement>
+			</query>
+			<query name="change-event-state-by-PK" type="UPDATE" batch="true">
+				<statement>
+				<![CDATA[
+				UPDATE <TABLE/>
+				SET <FIELDS/>
+				WHERE event_id = ${key-event-id}
+				   AND event_state != ${event-state}
+				]]>
+				</statement>
+			</query>
+			<query name="find-all-by-event-id" type="SELECT" multiple="true">
+				<param name="event-id"/>
+				<statement>
+				<![CDATA[
+				SELECT <FIELDS/>
+				FROM <TABLE/>
+				WHERE EVENT_ID = ${event-id}
+            ]]>
+				</statement>
+			</query>
+		</query-defs>
+	</entity>
+</entities>
