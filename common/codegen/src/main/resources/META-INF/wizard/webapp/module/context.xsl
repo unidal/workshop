@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:import href="../../common.xsl"/>
+<xsl:output method="html" indent="no" media-type="text/plain" encoding="utf-8"/>
+<xsl:param name="package"/>
+<xsl:param name="name"/>
+<xsl:variable name="space" select="' '"/>
+<xsl:variable name="empty" select="''"/>
+<xsl:variable name="empty-line" select="'&#x0A;'"/>
+
+<xsl:template match="/">
+   <xsl:apply-templates select="/wizard/module[@name=$name]"/>
+</xsl:template>
+
+<xsl:template match="module">
+<xsl:value-of select="$empty"/>package <xsl:value-of select="$package"/>;
+<xsl:if test="../@webres='true'">
+import java.io.File;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import com.ebay.webres.resource.runtime.ResourceConfigurator;
+import com.ebay.webres.resource.runtime.ResourceInitializer;
+import com.ebay.webres.resource.runtime.ResourceRuntime;
+import com.ebay.webres.resource.runtime.ResourceRuntimeContext;
+import com.ebay.webres.resource.spi.IResourceRegistry;
+import com.ebay.webres.tag.resource.ResourceTagConfigurator;
+import com.ebay.webres.taglib.basic.ResourceTagLibConfigurator;<xsl:value-of select="$empty"/>
+</xsl:if>
+import com.site.web.mvc.Action;
+import com.site.web.mvc.ActionContext;
+import com.site.web.mvc.ActionPayload;
+import com.site.web.mvc.Page;
+<xsl:variable name="type">
+	<xsl:value-of select="'T extends ActionPayload'"/>
+	<xsl:call-template name="generic-type">
+		<xsl:with-param name="type" select="'? extends Page, ? extends Action'"/>
+	</xsl:call-template>
+</xsl:variable>
+public class <xsl:value-of select="@context-class"/><xsl:call-template name="generic-type"><xsl:with-param name="type" select="$type"/></xsl:call-template> extends ActionContext<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'T'"/></xsl:call-template> {
+<xsl:if test="../@webres='true'">
+   @SuppressWarnings("deprecation")
+   @Override
+   public void initialize(HttpServletRequest request, HttpServletResponse response) {
+      super.initialize(request, response);
+
+      String contextPath = request.getContextPath();
+
+      if (!ResourceRuntime.INSTANCE.hasConfig(contextPath)) {
+         File warRoot = new File(request.getRealPath("/"));
+
+         ResourceRuntime.INSTANCE.removeConfig(contextPath);
+         ResourceInitializer.initialize(contextPath, warRoot);
+
+         IResourceRegistry registry = ResourceRuntime.INSTANCE.getConfig(contextPath).getRegistry();
+
+         new ResourceConfigurator().configure(registry);
+         new ResourceTagConfigurator().configure(registry);
+         new ResourceTagLibConfigurator().configure(registry);
+      }
+
+      ResourceRuntimeContext.setup(contextPath);
+   }
+</xsl:if>
+}
+</xsl:template>
+
+</xsl:stylesheet>

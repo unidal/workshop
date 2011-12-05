@@ -1,6 +1,6 @@
 <projectDescription>
   <name>wdbc-ebay-arch</name>
-  <comment>eBay architect documents</comment>
+  <comment>eBay architect documents. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
   <projects>
     <project>lookup</project>
     <project>wdbc-api</project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<wizard src-dir="src/main/java" webres="true">
+	<module module="garden" package="com.dianping.garden" path="g">
+		<page name="home" description="Home" package="com.dianping.garden.page.home" default="true" />
+		<page name="trend" description="Trend Page" package="com.dianping.garden.page.trend" />
+		<page name="test" description="Test Page" />
+	</module>
+</wizard>
