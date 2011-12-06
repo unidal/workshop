@@ -34,6 +34,12 @@
          </xsl:call-template>
       </xsl:variable>
 
+      <xsl:attribute name="package">
+         <xsl:choose>
+            <xsl:when test="@package"><xsl:value-of select="@package"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="../@package"/>.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
       <xsl:attribute name="module-class">
          <xsl:choose>
             <xsl:when test="@module-class"><xsl:value-of select="@module-class"/></xsl:when>
@@ -55,8 +61,8 @@
       
       <xsl:attribute name="webres">
          <xsl:choose>
-            <xsl:when test="@webres='false'"><xsl:value-of select="@webres"/></xsl:when>
-            <xsl:otherwise>true</xsl:otherwise>
+            <xsl:when test="@webres"><xsl:value-of select="@webres"/></xsl:when>
+            <xsl:otherwise>false</xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
       
@@ -78,6 +84,11 @@
       <xsl:variable name="normalized-name">
          <xsl:call-template name="normalize">
             <xsl:with-param name="source" select="$name"/>
+         </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="normalized-module-name">
+         <xsl:call-template name="normalize">
+            <xsl:with-param name="source" select="../@name"/>
          </xsl:call-template>
       </xsl:variable>
       <xsl:variable name="capital-name">
@@ -112,7 +123,8 @@
       <xsl:attribute name="package">
          <xsl:choose>
             <xsl:when test="@package"><xsl:value-of select="@package"/></xsl:when>
-            <xsl:otherwise><xsl:value-of select="../@package"/>.page.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
+            <xsl:when test="../@package"><xsl:value-of select="../@package"/>.page.<xsl:value-of select="$normalized-name"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="../../@package"/>.<xsl:value-of select="$normalized-module-name"/>.page.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="description">

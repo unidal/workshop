@@ -18,7 +18,7 @@
 <xsl:value-of select="$empty"/>package <xsl:value-of select="$package"/>;
 
 public enum <xsl:value-of select="@jsp-file-class"/> {
-	VIEW("/jsp/<xsl:value-of select="@name"/>/view.jsp"),
+	VIEW("/jsp/<xsl:value-of select="../@name"/>/<xsl:value-of select="@name"/>/view.jsp"),
 
 	;
 

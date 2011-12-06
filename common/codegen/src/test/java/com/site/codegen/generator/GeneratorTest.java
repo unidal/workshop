@@ -210,10 +210,10 @@ public class GeneratorTest extends ComponentTestCase {
 	}
 
 	@Test
-	public void testGenerateWizardPage() throws Exception {
+	public void testGenerateWizardWebapp() throws Exception {
 		Generator g = lookup(Generator.class, "wizard-webapp");
 		URL manifestXml = getResourceFile("wizard_webapp_manifest.xml").toURI().toURL();
-		GenerateContext ctx = new WizardGenerateContext(new File("."), "webapp", manifestXml, "../../../garden/app-garden/src/main/java");
+		GenerateContext ctx = new WizardGenerateContext(new File("."), "webapp", manifestXml);
 		long start = System.currentTimeMillis();
 
 		g.generate(ctx);
@@ -281,7 +281,7 @@ public class GeneratorTest extends ComponentTestCase {
 		private URL m_manifestXml;
 
 		public WizardGenerateContext(File projectBase, String type, URL manifestXml) {
-			super(projectBase, "/META-INF/wizard/" + type, "target/generated-test-sources/wizard-" + type);
+			super(projectBase, "/META-INF/wizard/" + type, "target/generated-java/wizard-" + type);
 
 			m_manifestXml = manifestXml;
 		}

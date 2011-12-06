@@ -1,17 +1,19 @@
 <root>
   <entity name="wizard" root="true">
+    <attribute name="base-dir" value-type="String" default-value=".">Project base directory($basedir)</attribute>
+    <attribute name="package" value-type="String" required="true">Project base package name</attribute>
+    <attribute name="webres" value-type="boolean" default-value="false">If supporting webres framework or not</attribute>
   	<entity-ref name="module" />
   </entity>
   <entity name="module" root="true">
     <attribute name="name" value-type="String" required="true">Module name</attribute>
-    <attribute name="package" value-type="String" required="true">Module package name</attribute>
     <attribute name="path" value-type="String" required="true">Module uri path</attribute>
-    <attribute name="src-dir" value-type="String" default-value="src/main/java">Source directory to place generated model classes.</attribute>
-    <attribute name="webres" value-type="boolean" default-value="true">If support webres framework</attribute>
+    <attribute name="package" value-type="String">Module package name</attribute>
     <entity-ref name="page" />
   </entity>
   <entity name="page">
     <attribute name="name" value-type="String" required='true'>Name for the generated page.</attribute>
+    <attribute name="package" value-type="String">Page package name</attribute>
     <attribute name="description" value-type="String">Description for the generated page.</attribute>
     <attribute name="default" value-type="boolean" default-value="false">If it's the default page when without page specified.</attribute>
   </entity>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<wizard>
-	<module name="garden2" package="com.dianping.garden2" path="g2">
+<wizard package="com.dianping">
+	<module name="garden2" path="g2">
 		<page name="home" package="com.dianping.garden2.page.home" default="true" />
-		<page name="trend" description="Trend Page" package="com.dianping.garden2.page.trend2" />
+		<page name="trend" description="Trend Page" package="com.dianping.garden2.page.trend3" />
 		<page name="test" description="Test Page" />
 	</module>
 </wizard>
