@@ -75,12 +75,18 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
          }
       } else { // Not in transaction
          DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
-         PooledConnection pooledConnection = trxInfo.getPooledConnection();
+         PooledConnection pooledConnection = null;
          Connection connection = null;
          SQLException exception = null;
 
          try {
-            if (pooledConnection == null) {
+            if (dataSourceName.equals(trxInfo.getDataSourceName())) {
+               pooledConnection = trxInfo.getPooledConnection();
+
+               if (pooledConnection == null) {
+                  pooledConnection = dataSource.getPooledConnection();
+               }
+            } else {
                pooledConnection = dataSource.getPooledConnection();
             }
 

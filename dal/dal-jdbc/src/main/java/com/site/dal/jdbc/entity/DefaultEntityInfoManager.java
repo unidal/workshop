@@ -54,7 +54,7 @@ public class DefaultEntityInfoManager implements EntityInfoManager, LogEnabled {
          if (type == DataField.class) {
             if (!Modifier.isStatic(field.getModifiers())) {
                throw new DalRuntimeException("Field " + field.getName() + " of " + entityClass
-                     + " should be modified as static");
+                        + " should be modified as static");
             }
 
             Relation relation = field.getAnnotation(Relation.class);
@@ -76,7 +76,7 @@ public class DefaultEntityInfoManager implements EntityInfoManager, LogEnabled {
                relations.put(dataField, relation);
             } else {
                m_logger.warn("Field " + field.getName() + " of " + entityClass + " should be annotated by "
-                     + "Attribute or Relation");
+                        + "Attribute or Relation");
             }
 
             if (dataField != null) {
@@ -88,7 +88,7 @@ public class DefaultEntityInfoManager implements EntityInfoManager, LogEnabled {
          } else if (type == Readset.class) {
             if (!Modifier.isStatic(field.getModifiers())) {
                throw new DalRuntimeException("Readset " + field.getName() + " of " + entityClass
-                     + " should be modified as static");
+                        + " should be modified as static");
             }
 
             SubObjects subobject = field.getAnnotation(SubObjects.class);
@@ -114,7 +114,7 @@ public class DefaultEntityInfoManager implements EntityInfoManager, LogEnabled {
 
       if (otherClass != null) {
          throw new DalRuntimeException("Logical name(" + entity.logicalName() + ") has been used by " + otherClass
-               + ", can't use it in " + entityClass);
+                  + ", can't use it in " + entityClass);
       } else {
          m_logicalNameToEntityClass.put(entity.logicalName(), entityClass);
       }

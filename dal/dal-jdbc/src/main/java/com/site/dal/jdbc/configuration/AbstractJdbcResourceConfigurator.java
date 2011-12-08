@@ -9,7 +9,6 @@ import com.site.dal.jdbc.datasource.JdbcDataSource;
 import com.site.dal.jdbc.datasource.JdbcDataSourceConfigurationManager;
 import com.site.dal.jdbc.mapping.SimpleTableProvider;
 import com.site.dal.jdbc.mapping.TableProvider;
-import com.site.dal.jdbc.raw.RawDao;
 import com.site.lookup.configuration.AbstractResourceConfigurator;
 import com.site.lookup.configuration.Component;
 
@@ -17,8 +16,6 @@ public abstract class AbstractJdbcResourceConfigurator extends AbstractResourceC
    private boolean m_jdbcDataSourceConfigurationManagerDefined;
 
    protected void defineDaoComponents(List<Component> all, Class<?>[] daoClasses) {
-      all.add(C(RawDao.class).req(QueryEngine.class));
-
       for (Class<?> daoClass : daoClasses) {
          all.add(C(daoClass).req(QueryEngine.class));
       }
@@ -59,8 +56,6 @@ public abstract class AbstractJdbcResourceConfigurator extends AbstractResourceC
    }
 
    protected void defineSimpleTableProviderComponents(List<Component> all, String dataSource, Class<?>[] entitiClasses) {
-      all.add(defineSimpleTableProviderComponent(dataSource, "raw", "dual"));
-
       for (Class<?> entityClass : entitiClasses) {
          Entity entityMeta = entityClass.getAnnotation(Entity.class);
          String logicalTableName = entityMeta.logicalName();
