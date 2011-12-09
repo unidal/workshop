@@ -47,38 +47,10 @@ public class Encoder {
       for (int i = 0; i < ba.length; i++) {
          byte b = ba[i];
 
-         if (b < 0x20 || b > 0x7E || b == '?' || b == '&' || b == '=') {
-            sb.append('%').append(Integer.toHexString(b));
-         } else if (b == 0x20) {
+         if (b == 0x20) {
             sb.append('+');
-         } else {
-            sb.append((char) b);
-         }
-      }
-
-      return sb.toString();
-   }
-
-   public static String csvEscape(String str) {
-      if (str == null) {
-         return null;
-      }
-
-      byte[] ba;
-
-      try {
-         ba = str.getBytes("utf-8");
-      } catch (UnsupportedEncodingException e) {
-         ba = str.getBytes();
-      }
-
-      StringBuilder sb = new StringBuilder(ba.length + 16);
-
-      for (int i = 0; i < ba.length; i++) {
-         byte b = ba[i];
-
-         if (b == '"') {
-            sb.append('"').append('"');
+         } else if (b < 0x30 || b > 0x7E || !Character.isLetterOrDigit(b)) {
+            sb.append('%').append(Integer.toHexString(b));
          } else {
             sb.append((char) b);
          }
