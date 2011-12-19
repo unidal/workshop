@@ -49,7 +49,6 @@ public class XslGenerator implements Generator {
             ctx.closeStorage();
          }
       } catch (Exception e) {
-         e.printStackTrace();
          throw e;
       }
    }

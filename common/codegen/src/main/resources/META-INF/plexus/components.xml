@@ -13,6 +13,10 @@
 			<implementation>com.site.codegen.meta.DefaultModelMeta</implementation>
 		</component>
 		<component>
+			<role>com.site.codegen.meta.WizardMeta</role>
+			<implementation>com.site.codegen.meta.DefaultWizardMeta</implementation>
+		</component>
+		<component>
 			<role>com.site.codegen.meta.XmlMetaHelper</role>
 			<implementation>com.site.codegen.meta.DefaultXmlMetaHelper</implementation>
 			<requirements>

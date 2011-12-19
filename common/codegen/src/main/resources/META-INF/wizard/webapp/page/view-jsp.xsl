@@ -19,7 +19,6 @@
 <xsl:call-template name="tag"><xsl:with-param name="body">jsp:useBean id="ctx" type="<xsl:value-of select="$package"/>.Context" scope="request"</xsl:with-param></xsl:call-template>
 <xsl:call-template name="tag"><xsl:with-param name="body">jsp:useBean id="payload" type="<xsl:value-of select="$package"/>.Payload" scope="request"</xsl:with-param></xsl:call-template>
 <xsl:call-template name="tag"><xsl:with-param name="body">jsp:useBean id="model" type="<xsl:value-of select="$package"/>.Model" scope="request"</xsl:with-param></xsl:call-template>
-
 View of <xsl:value-of select="$name"/> page under <xsl:value-of select="$module"/>
 </xsl:template>
 

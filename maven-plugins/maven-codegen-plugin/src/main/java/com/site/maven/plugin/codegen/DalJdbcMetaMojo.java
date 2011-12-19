@@ -2,6 +2,7 @@ package com.site.maven.plugin.codegen;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
+import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
@@ -31,6 +34,15 @@ import com.site.codegen.meta.TableMeta;
  * @author Frankie Wu
  */
 public class DalJdbcMetaMojo extends AbstractMojo {
+	/**
+	 * Current project
+	 * 
+	 * @parameter expression="${project}"
+	 * @required
+	 * @readonly
+	 */
+	protected MavenProject m_project;
+
 	/**
 	 * Table meta component
 	 * 
@@ -50,7 +62,7 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 	protected File baseDir;
 
 	/**
-	 * @parameter expression="${jdbc.driver}"
+	 * @parameter expression="${jdbc.driver}" default="com.mysql.jdbc.Driver"
 	 * @required
 	 */
 	protected String driver;
@@ -75,6 +87,7 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 
 	/**
 	 * @parameter expression="${jdbc.connectionProperties}"
+	 *            default-value="useUnicode=true&autoReconnect=true"
 	 */
 	protected String connectionProperties;
 
@@ -89,11 +102,27 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 	protected List<String> excludes;
 
 	/**
-	 * @parameter expression="${outputFile}"
-	 *            default-value="src/main/resources/META-INF/dal/jdbc/codegen.xml"
+	 * @parameter expression="${outputDir}"
+	 *            default-value="${basedir|/src/main/resources/META-INF/dal/jdbc"
 	 * @required
 	 */
-	protected String outputFile;
+	protected String outputDir;
+
+	/**
+	 * @parameter expression="${packageName}"
+	 */
+	protected String packageName;
+
+	private String detectPackageName() {
+		if (packageName != null) {
+			return packageName;
+		}
+
+		String groupId = m_project.getGroupId();
+		String artifactId = m_project.getArtifactId();
+
+		return (groupId + "." + artifactId + ".dal").replace('-', '.');
+	}
 
 	@SuppressWarnings("unchecked")
 	private void resolveAliasConfliction(Element entities) {
@@ -124,31 +153,39 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 			Element entities = new Element("entities");
 
 			for (String table : tables) {
-				Element entity = m_meta.getMeta(meta, table);
+				Element entity = m_meta.getTableMeta(meta, table);
 
 				entities.addContent(entity);
 			}
 
 			resolveAliasConfliction(entities);
 
-			XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
-			File file;
+			File outDir = getFile(outputDir);
+			File outFile = new File(outDir, "codegen.xml");
 
-			if (outputFile.startsWith("/") || outputFile.indexOf(':') > 0) {
-				file = new File(outputFile);
-			} else {
-				file = new File(baseDir, outputFile);
+			if (!outDir.exists()) {
+				outDir.mkdirs();
 			}
 
-			if (!file.getParentFile().exists()) {
-				file.getParentFile().mkdirs();
+			saveFile(new Document(entities), outFile);
+
+			File modelFile = new File(outDir, "dal.xml");
+
+			if (!modelFile.exists()) {
+				Document model = m_meta.getModel(detectPackageName());
+
+				saveFile(model, modelFile);
 			}
 
-			outputter.output(entities, new FileWriter(file));
-			getLog().info("File " + file.getCanonicalPath() + " generated.");
+			File manifestFile = new File(outDir, "manifest.xml");
+
+			if (!manifestFile.exists()) {
+				Document manifest = m_meta.getManifest(outFile.getName(), modelFile.getName());
+
+				saveFile(manifest, manifestFile);
+			}
 		} catch (Exception e) {
-			throw new MojoExecutionException("Error when generating DAL meta: "
-					+ e, e);
+			throw new MojoExecutionException("Error when generating DAL meta: " + e, e);
 		}
 	}
 
@@ -181,14 +218,38 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 		}
 	}
 
+	private File getFile(String path) {
+		File file;
+
+		if (path.startsWith("/") || path.indexOf(':') > 0) {
+			file = new File(path);
+		} else {
+			file = new File(baseDir, path);
+		}
+
+		return file;
+	}
+
+	private void saveFile(Document codegen, File file) throws IOException {
+		Format format = Format.getPrettyFormat();
+		XMLOutputter outputter = new XMLOutputter(format);
+		FileWriter writer = new FileWriter(file);
+
+		try {
+			outputter.output(codegen, writer);
+			getLog().info("File " + file.getCanonicalPath() + " generated.");
+		} finally {
+			writer.close();
+		}
+	}
+
 	private List<String> getTables(DatabaseMetaData meta) throws SQLException {
 		List<String> tables = new ArrayList<String>();
 
 		if (includes == null) {
 			includes = new ArrayList<String>();
 
-			ResultSet rs = meta.getTables(null, null, "%",
-					new String[] { "TABLE" });
+			ResultSet rs = meta.getTables(null, null, "%", new String[] { "TABLE" });
 
 			while (rs.next()) {
 				String table = rs.getString("TABLE_NAME");
@@ -199,8 +260,7 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 			rs.close();
 		} else {
 			for (String include : includes) {
-				ResultSet rs = meta.getTables(null, null, include,
-						new String[] { "TABLE" });
+				ResultSet rs = meta.getTables(null, null, include, new String[] { "TABLE" });
 
 				while (rs.next()) {
 					String table = rs.getString("TABLE_NAME");

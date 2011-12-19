@@ -53,12 +53,8 @@
       <xsl:value-of select="$empty"/>import java.util.Map;<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
-   <xsl:if test="//entity/attribute[@text='true'] | entity/element[not(@render='false')]">
-      <xsl:value-of select="$empty"/>import org.w3c.dom.Node;<xsl:value-of select="$empty-line"/>
-   </xsl:if>
-   <xsl:if test="//entity/attribute[@text='true'] | entity/element[not(@render='false')]">
-      <xsl:value-of select="$empty"/>import org.w3c.dom.NodeList;<xsl:value-of select="$empty-line"/>
-   </xsl:if>
+   <xsl:value-of select="$empty"/>import org.w3c.dom.Node;<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>import org.w3c.dom.NodeList;<xsl:value-of select="$empty-line"/>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
 
@@ -161,7 +157,7 @@
       <xsl:for-each select="(attribute | element)[not(@text='true' or @list='true' or @render='false')]">
          <xsl:choose>
             <xsl:when test="name()='attribute'">
-               <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = node.getAttribute(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getAttribute(node, <xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             </xsl:when>
             <xsl:otherwise>
                <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getText(node.getChildTagNode(<xsl:value-of select="@upper-name"/>));<xsl:value-of select="$empty-line"/>

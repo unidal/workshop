@@ -60,7 +60,7 @@ public class MojoTest extends ComponentTestCase {
 		mojo.m_meta = new DefaultModelMeta();
 		mojo.baseDir = new File(".");
 		mojo.inputFile = getClass().getResource("sanguo.xml").getPath();
-		mojo.outputFile = "target/generated-resources/sanguo_model_meta.xml";
+		mojo.outputDir = "target/generated-resources";
 		mojo.execute();
 
 		assertTrue("File is not generated", mojo.baseDir.exists());
@@ -77,7 +77,7 @@ public class MojoTest extends ComponentTestCase {
 
 		mojo.m_meta = new DefaultTableMeta();
 		mojo.baseDir = new File(".");
-		mojo.outputFile = "target/jdbc_codegen.xml";
+		mojo.outputDir = "target/generated-resources";
 
 		try {
 			mojo.execute();

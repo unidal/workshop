@@ -51,7 +51,8 @@ public class DalJdbcMojo extends AbstractMojo {
    /**
     * Location of manifest.xml file
     * 
-    * @parameter expression="${manifest}"
+	 * @parameter expression="${manifest}" default-value=
+	 *            "${basedir}/src/main/resources/META-INF/dal/jdbc/manifest.xml"
     * @required
     */
    protected String manifest;
@@ -81,7 +82,13 @@ public class DalJdbcMojo extends AbstractMojo {
 
    public void execute() throws MojoExecutionException, MojoFailureException {
       try {
-         final URL manifestXml = new File(manifest).toURI().toURL();
+			File manifestFile = new File(manifest);
+
+			if (!manifestFile.exists()) {
+				throw new MojoExecutionException(String.format("Manifest(%s) not found!", manifestFile.getCanonicalPath()));
+			}
+
+			final URL manifestXml = manifestFile.toURI().toURL();
          final GenerateContext ctx = new AbstractGenerateContext(m_project.getBasedir(), resouceBase, sourceDir) {
             public URL getManifestXml() {
                return manifestXml;

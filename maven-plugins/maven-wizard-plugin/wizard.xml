@@ -1,0 +1,9 @@
+<wizard package="com.test" webres="true">
+   <module name="garden" path="g">
+      <page name="trend" description="Trend" default="true"/>
+      <page name="dbquery" description="Dbquery"/>
+   </module>
+   <module name="test" path="t">
+      <page name="page" description="Page" default="true"/>
+   </module>
+</wizard>

@@ -199,7 +199,7 @@ public class Files {
             throw new IOException(String.format("Can't write to an existing directory(%s)", file));
          }
 
-         File parent = file.getParentFile();
+         File parent = file.getCanonicalFile().getParentFile();
          if (!parent.exists() && !parent.mkdirs()) {
             throw new IOException(String.format("Can't create directory(%s)!", parent));
          }

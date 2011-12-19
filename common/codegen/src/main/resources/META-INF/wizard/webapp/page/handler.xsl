@@ -44,6 +44,7 @@ public class <xsl:value-of select="@handler-class"/> implements PageHandler<xsl:
 	public void handleOutbound(<xsl:value-of select="@context-class"/> ctx) throws ServletException, IOException {
 		<xsl:value-of select="@model-class"/> model = new <xsl:value-of select="@model-class"/>(ctx);
 
+		model.setAction(Action.VIEW);
 		model.setPage(<xsl:value-of select="../@page-class"/>.<xsl:value-of select="@upper-name"/>);
 		m_jspViewer.view(ctx, model);
 	}

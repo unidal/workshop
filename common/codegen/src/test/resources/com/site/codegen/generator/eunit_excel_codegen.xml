@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
   <entity name="workbook" root="true">
     <attribute name="output" value-type="String" />
@@ -63,3 +64,4 @@
     <entity-ref name="date-time" list="true" list-name="date-times" />
   </entity>
 </model>
+

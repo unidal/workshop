@@ -13,10 +13,12 @@ import com.site.codegen.manifest.ManifestCreator;
 import com.site.codegen.manifest.ManifestParser;
 import com.site.codegen.meta.DefaultModelMeta;
 import com.site.codegen.meta.DefaultTableMeta;
+import com.site.codegen.meta.DefaultWizardMeta;
 import com.site.codegen.meta.DefaultXmlMeta;
 import com.site.codegen.meta.DefaultXmlMetaHelper;
 import com.site.codegen.meta.ModelMeta;
 import com.site.codegen.meta.TableMeta;
+import com.site.codegen.meta.WizardMeta;
 import com.site.codegen.meta.XmlMeta;
 import com.site.codegen.meta.XmlMetaHelper;
 import com.site.codegen.template.DefaultXslTemplateManager;
@@ -34,6 +36,7 @@ class ComponentsConfigurator extends AbstractResourceConfigurator {
 		all.add(C(TableMeta.class, DefaultTableMeta.class));
 		all.add(C(XmlMeta.class, DefaultXmlMeta.class));
 		all.add(C(ModelMeta.class, DefaultModelMeta.class));
+		all.add(C(WizardMeta.class, DefaultWizardMeta.class));
 		all.add(C(XmlMetaHelper.class, DefaultXmlMetaHelper.class) //
 				.req(XmlMeta.class));
 		all.add(C(ManifestCreator.class, DefaultManifestCreator.class));
