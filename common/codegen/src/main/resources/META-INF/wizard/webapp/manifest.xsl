@@ -37,6 +37,7 @@
      <xsl:with-param name="package" select="@package"/>
      <xsl:with-param name="name" select="@name"/>
      <xsl:with-param name="template" select="'module/module.xsl'"/>
+     <xsl:with-param name="mode" select="'create_or_overwrite'"/>
    </xsl:call-template>
 
    <!-- Context class -->
@@ -53,6 +54,7 @@
      <xsl:with-param name="package" select="@package"/>
      <xsl:with-param name="name" select="@name"/>
      <xsl:with-param name="template" select="'module/page.xsl'"/>
+     <xsl:with-param name="mode" select="'create_or_overwrite'"/>
    </xsl:call-template>
 </xsl:template>
 
@@ -126,7 +128,7 @@
      <xsl:with-param name="package" select="@package"/>
      <xsl:with-param name="module" select="../@name"/>
      <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="file" select="concat('jsp/', ../@name, '/', @name, '/view.jsp')"/>
+     <xsl:with-param name="file" select="substring(@view,1)"/>
      <xsl:with-param name="template" select="'page/view-jsp.xsl'"/>
    </xsl:call-template>
 </xsl:template>

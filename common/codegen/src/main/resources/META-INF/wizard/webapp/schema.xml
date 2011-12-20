@@ -16,5 +16,6 @@
     <attribute name="package" value-type="String">Page package name</attribute>
     <attribute name="description" value-type="String">Description for the generated page.</attribute>
     <attribute name="default" value-type="boolean" default-value="false">If it's the default page when without page specified.</attribute>
+    <attribute name="view" value-type="String" default-value="/jsp/{module}/{page}.jsp">View path for forwarding.</attribute>
   </entity>
 </root>

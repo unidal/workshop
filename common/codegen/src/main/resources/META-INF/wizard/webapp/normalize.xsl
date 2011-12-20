@@ -161,6 +161,14 @@
          <xsl:value-of select="$class-prefix"/><xsl:value-of select="'Payload'"/>
       </xsl:attribute>
       
+      <xsl:attribute name="view">
+         <xsl:choose>
+            <xsl:when test="starts-with(@view, '/')"><xsl:value-of select="@view"/></xsl:when>
+            <xsl:when test="@view">/jsp/<xsl:value-of select="../@name"/>/<xsl:value-of select="@view"/></xsl:when>
+            <xsl:otherwise>/jsp/<xsl:value-of select="../@name"/>/<xsl:value-of select="@name"/>.jsp</xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
+      
       <xsl:apply-templates/>
    </xsl:copy>
 </xsl:template>

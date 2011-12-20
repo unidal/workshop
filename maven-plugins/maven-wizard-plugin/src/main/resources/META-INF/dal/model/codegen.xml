@@ -15,6 +15,7 @@
     <attribute name="name" value-type="String" />
     <attribute name="description" value-type="String" />
     <attribute name="package" value-type="String" />
+    <attribute name="view" value-type="String" />
     <attribute name="default" value-type="boolean" />
   </entity>
 </model>

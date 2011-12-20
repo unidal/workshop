@@ -17,6 +17,7 @@
 <xsl:value-of select="$empty"/>package <xsl:value-of select="$package"/>;
 
 import com.site.web.mvc.Page;
+import com.site.web.mvc.annotation.ModuleMeta;
 
 public enum <xsl:value-of select="@page-class"/> implements Page {
 <xsl:for-each select="page">
@@ -53,6 +54,16 @@ public enum <xsl:value-of select="@page-class"/> implements Page {
 
 	public String getDescription() {
 		return m_description;
+	}
+
+	public String getModuleName() {
+		ModuleMeta meta = <xsl:value-of select="@module-class"/>.class.getAnnotation(ModuleMeta.class);
+
+		if (meta != null) {
+			return meta.name();
+		} else {
+			return null;
+		}
 	}
 
 	public boolean isRealPage() {

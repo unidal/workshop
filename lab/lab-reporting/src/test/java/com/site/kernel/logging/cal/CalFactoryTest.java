@@ -4,7 +4,7 @@ import com.site.kernel.common.BaseTestCase;
 
 public class CalFactoryTest extends BaseTestCase {
 	private static final long SLEEP_MILLIS = 50;
-	
+
 	public void testAbnormalCase() {
 		CalTransaction ct = CalFactory.createCalTransaction("URL", "abc1");
 
@@ -17,27 +17,23 @@ public class CalFactoryTest extends BaseTestCase {
 		try {
 			Thread.sleep(SLEEP_MILLIS);
 
-			CalTransaction ct3 = CalFactory.createCalTransaction("FILE",
-					"test3");
+			CalTransaction ct3 = CalFactory.createCalTransaction("FILE", "test3");
 			Thread.sleep(SLEEP_MILLIS);
 			ct3.complete();
 
 			CalTransaction ct0 = CalFactory.getCalTransaction("URL");
 			ct0.addData("test", "URL");
 
-			CalTransaction ct4 = CalFactory.createCalTransaction("FILE",
-					"test4");
+			CalTransaction ct4 = CalFactory.createCalTransaction("FILE", "test4");
 			Thread.sleep(SLEEP_MILLIS);
 			ct4.complete();
 
 			CalTransaction ct1 = CalFactory.getCalTransaction("FILE");
 
-			CalEvent ce1 = CalFactory.createCalEvent("Info", "cal-event info",
-					"-1", "abd");
+			CalEvent ce1 = CalFactory.createCalEvent("Info", "cal-event info", "-1", "abd");
 			ce1.complete();
 
-			CalHeartbeat ce2 = CalFactory.createCalHeartbeat("NewEntry",
-					"cal-heartbeat", "abd");
+			CalHeartbeat ce2 = CalFactory.createCalHeartbeat("NewEntry", "cal-heartbeat", "abd");
 			ce2.complete();
 
 			ct1.addData("test", "FILE");
@@ -89,12 +85,10 @@ public class CalFactoryTest extends BaseTestCase {
 		CalTransaction ct4 = CalFactory.createCalTransaction("FILE", "test4");
 		ct4.complete();
 
-		CalEvent ce1 = CalFactory.createCalEvent("Info", "cal-event info",
-				"-1", "abd");
+		CalEvent ce1 = CalFactory.createCalEvent("Info", "cal-event info", "-1", "abd");
 		ce1.complete();
 
-		CalHeartbeat ce2 = CalFactory.createCalHeartbeat("NewEntry",
-				"cal-heartbeat", "abd");
+		CalHeartbeat ce2 = CalFactory.createCalHeartbeat("NewEntry", "cal-heartbeat", "abd");
 		ce2.complete();
 
 		ct2.complete();
