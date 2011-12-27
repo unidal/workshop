@@ -18,6 +18,7 @@
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class DefaultJsonBuilder implements IVisitor {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-commons'/>
+   <xsl:call-template name='method-date-to-string'/>
    <xsl:call-template name='method-visit'/>
    <xsl:call-template name='define-entry-class'/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
@@ -76,7 +77,7 @@
 
    private StringBuilder m_sb = new StringBuilder(2048);
 
-   private Stack<xsl:value-of select="'&lt;Entry&gt;'" disable-output-escaping="yes"/> m_entries = new Stack<xsl:value-of select="'&lt;Entry&gt;'" disable-output-escaping="yes"/>();
+   private Stack<xsl:value-of select="'&lt;JsonEntry&gt;'" disable-output-escaping="yes"/> m_entries = new Stack<xsl:value-of select="'&lt;JsonEntry&gt;'" disable-output-escaping="yes"/>();
 
    protected void endArray(String name) {
       m_entries.peek().setInArray(false);
@@ -131,7 +132,7 @@
          m_sb.append(name).append(": {\r\n");
       }
 
-      m_entries.push(new Entry());
+      m_entries.push(new JsonEntry());
       m_level++;
 
       int len = nameValues.length;
@@ -205,6 +206,18 @@
    }
 </xsl:template>
 
+<xsl:template name="method-date-to-string">
+<xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
+   protected String toString(java.util.Date date, String format) {
+      if (date != null) {
+         return new java.text.SimpleDateFormat(format).format(date);
+      } else {
+         return null;
+      }
+   }
+</xsl:if>
+</xsl:template>
+
 <xsl:template name="method-visit">
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
@@ -213,7 +226,7 @@
       <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   public void <xsl:value-of select="@visit-method"/>(<xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
       <xsl:if test="@root='true'">
-         <xsl:value-of select="$empty"/>      m_entries.push(new Entry().setInArray(true));<xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>      m_entries.push(new JsonEntry().setInArray(true));<xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>      startObject(null, null);<xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty-line"/>
       </xsl:if>
@@ -304,6 +317,9 @@
          <xsl:when test="@value-type='boolean'">
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@is-method"/>()<xsl:value-of select="$empty"/>
          </xsl:when>
+         <xsl:when test="@value-type='java.util.Date'">
+            <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, toString(<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>(), "<xsl:value-of select="@format"/>")<xsl:value-of select="$empty"/>
+         </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$empty"/>
          </xsl:otherwise>
@@ -323,14 +339,14 @@
 </xsl:template>
 
 <xsl:template name="define-entry-class">
-   static class Entry {
+   static class JsonEntry {
       private boolean m_inArray;
 
       public boolean isInArray() {
          return m_inArray;
       }
 
-      public Entry setInArray(boolean inArray) {
+      public JsonEntry setInArray(boolean inArray) {
          m_inArray = inArray;
          return this;
       }

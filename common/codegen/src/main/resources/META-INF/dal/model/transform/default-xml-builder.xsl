@@ -18,6 +18,7 @@
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class DefaultXmlBuilder implements IVisitor {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-commons'/>
+   <xsl:call-template name='method-date-to-string'/>
    <xsl:call-template name='method-visit'/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
 </xsl:template>
@@ -201,6 +202,18 @@
 </xsl:if>
 </xsl:template>
 
+<xsl:template name="method-date-to-string">
+<xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
+   protected String toString(java.util.Date date, String format) {
+      if (date != null) {
+         return new java.text.SimpleDateFormat(format).format(date);
+      } else {
+         return null;
+      }
+   }
+</xsl:if>
+</xsl:template>
+
 <xsl:template name="method-visit">
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
@@ -317,6 +330,9 @@
          </xsl:when>
          <xsl:when test="@value-type='boolean'">
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@is-method"/>()<xsl:value-of select="$empty"/>
+         </xsl:when>
+         <xsl:when test="@value-type='java.util.Date'">
+            <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, toString(<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>(), "<xsl:value-of select="@format"/>")<xsl:value-of select="$empty"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$empty"/>

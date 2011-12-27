@@ -22,6 +22,7 @@
    <xsl:call-template name='method-get-child-tag-node'/>
    <xsl:call-template name='method-get-text'/>
    <xsl:call-template name='method-to-class'/>
+   <xsl:call-template name='method-to-date'/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
 </xsl:template>
 
@@ -233,6 +234,7 @@
       <xsl:when test="$value-type='byte'">Byte.parseByte(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='Byte'">Byte.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='Class&lt;?&gt;'">toClass(<xsl:value-of select="$value"/>)</xsl:when>
+      <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>")</xsl:when>
       <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
    </xsl:choose>
 </xsl:template>
@@ -253,6 +255,18 @@
          return Class.forName(className);
       } catch (ClassNotFoundException e) {
          throw new RuntimeException(e.getMessage(), e);
+      }
+   }
+</xsl:if>
+</xsl:template>
+
+<xsl:template name="method-to-date">
+<xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
+   protected java.util.Date toDate(String str, String format) {
+      try {
+         return new java.text.SimpleDateFormat(format).parse(str);
+      } catch (java.text.ParseException e) {
+         throw new RuntimeException(String.format("Unable to parse date(%s) in format(%s)!", str, format), e);
       }
    }
 </xsl:if>
