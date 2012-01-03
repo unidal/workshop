@@ -166,6 +166,13 @@
       <xsl:attribute name="param-name">
          <xsl:value-of select="$normalized-name"/>
       </xsl:attribute>
+      <xsl:attribute name="render">
+         <xsl:choose>
+            <xsl:when test="@key='true'">true</xsl:when>
+            <xsl:when test="@render"><xsl:value-of select="@render"/></xsl:when>
+            <xsl:otherwise>true</xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
       <xsl:attribute name="required">
          <xsl:choose>
             <xsl:when test="@key='true'">true</xsl:when>
@@ -400,6 +407,15 @@
             <xsl:message>Entity(<xsl:value-of select="$entity-name"/>) is not defined!</xsl:message>
          </xsl:otherwise>
       </xsl:choose>
+      
+      <!-- @map override @list -->
+      <xsl:attribute name="list">
+      	<xsl:choose>
+      	   <xsl:when test="@map='true'">false</xsl:when>
+      	   <xsl:when test="@list"><xsl:value-of select="@list"/></xsl:when>
+      	   <xsl:otherwise>false</xsl:otherwise>
+      	</xsl:choose>
+      </xsl:attribute>
       
       <xsl:apply-templates/>
    </xsl:copy>
