@@ -98,7 +98,7 @@ public class DalModelMojo extends AbstractMojo {
 					switch (logLevel) {
 					case DEBUG:
 						if (debug) {
-							getLog().debug(message);
+							getLog().info(message);
 						}
 						break;
 					case INFO:

@@ -161,7 +161,7 @@
                <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getAttribute(node, <xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             </xsl:when>
             <xsl:otherwise>
-               <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getText(node.getChildTagNode(<xsl:value-of select="@upper-name"/>));<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getText(getChildTagNode(node, <xsl:value-of select="@upper-name"/>));<xsl:value-of select="$empty-line"/>
             </xsl:otherwise>
          </xsl:choose>
       </xsl:for-each>

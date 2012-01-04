@@ -3,9 +3,9 @@
 <root>
    <node name="model" no-namespace="true">
       <node name="entity" key="name">
-         <node name="attribute" key="list-name,alias,name"/>
-         <node name="element" key="list-name,alias,name"/>
-         <node name="entity-ref" key="list-name,alias,name"/>
+         <node name="attribute" key="alias,name"/>
+         <node name="element" key="alias,name"/>
+         <node name="entity-ref" key="alias,name"/>
       </node>
    </node>
 </root>
