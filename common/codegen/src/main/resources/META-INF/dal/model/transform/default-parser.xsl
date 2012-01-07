@@ -130,15 +130,15 @@
 <xsl:template name="method-get-grand-child-tag-nodes">
    protected List<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template> getGrandChildTagNodes(Node parent, String name) {
       Node child = getChildTagNode(parent, name);
-      NodeList children = child.getChildNodes();
-      int len = children.getLength();
+      NodeList children = child == null ? null : child.getChildNodes();
+      int len = children == null ? 0 : children.getLength();
       List<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template> nodes = new ArrayList<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template>(len);
 
       for (int i = 0; i <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> len; i++) {
          Node grandChild = children.item(i);
 
          if (grandChild.getNodeType() == Node.ELEMENT_NODE) {
-            nodes.add(child);
+            nodes.add(grandChild);
          }
       }
 

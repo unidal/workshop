@@ -81,11 +81,14 @@
    </xsl:if>
    <xsl:for-each select="attribute | element | entity-ref">
       <xsl:choose>
+         <xsl:when test="@map='true'">
+            <xsl:value-of select="$empty"/>   private <xsl:value-of select='@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='@field-name'/> = new LinkedHashMap<xsl:value-of select='@value-type-generic' disable-output-escaping="yes"/>();<xsl:value-of select="$empty-line"/>
+         </xsl:when>
          <xsl:when test="@list='true'">
             <xsl:value-of select="$empty"/>   private <xsl:value-of select='@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='@field-name'/> = new ArrayList<xsl:value-of select='@value-type-generic' disable-output-escaping="yes"/>();<xsl:value-of select="$empty-line"/>
          </xsl:when>
-         <xsl:when test="@map='true'">
-            <xsl:value-of select="$empty"/>   private <xsl:value-of select='@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='@field-name'/> = new LinkedHashMap<xsl:value-of select='@value-type-generic' disable-output-escaping="yes"/>();<xsl:value-of select="$empty-line"/>
+         <xsl:when test="@default-value">
+            <xsl:value-of select="$empty"/>   private <xsl:value-of select='@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='@field-name'/> = <xsl:call-template name="field-default-value"/>;<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>   private <xsl:value-of select='@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='@field-name'/>;<xsl:value-of select="$empty-line"/>
@@ -130,14 +133,14 @@
 	     	<xsl:value-of select="'      '"/><xsl:value-of select='$entity/@field-all-children-in-sequence'/>.add(<xsl:value-of select='@param-name-element'/>);<xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:choose>
-         <xsl:when test="@list='true'">
-   	     	<xsl:value-of select="'      '"/><xsl:value-of select='@field-name'/>.add(<xsl:value-of select='@param-name-element'/>);<xsl:value-of select="$empty-line"/>
-   		</xsl:when>
          <xsl:when test="@map='true'">
             <xsl:variable name="name" select="@name"/>
    			<xsl:variable name="key" select="//entity[@name=$name]/node()[name()='attribute' or name()='entity'][@key]"/>
    	     	<xsl:value-of select="'      '"/><xsl:value-of select='@field-name'/>.put(<xsl:value-of select='@param-name-element'/>.<xsl:value-of select="$key/@get-method"/>(), <xsl:value-of select='@param-name-element'/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
+         <xsl:when test="@list='true'">
+   	     	<xsl:value-of select="'      '"/><xsl:value-of select='@field-name'/>.add(<xsl:value-of select='@param-name-element'/>);<xsl:value-of select="$empty-line"/>
+   		 </xsl:when>
          <xsl:otherwise>
          </xsl:otherwise>
       </xsl:choose>
@@ -160,6 +163,9 @@
          </xsl:for-each>
          <xsl:value-of select="$empty"/>) {<xsl:value-of select="$empty-line"/>
          <xsl:choose>
+            <xsl:when test="@map='true'">
+      	     	<xsl:value-of select="$empty"/>      return <xsl:value-of select='@field-name'/>.get(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>);<xsl:value-of select="$empty-line"/>
+            </xsl:when>
             <xsl:when test="@list='true'">
                <xsl:value-of select="$empty"/>      for (<xsl:value-of select='@value-type-element'/><xsl:value-of select="$space"/><xsl:value-of select='@param-name-element'/> : <xsl:value-of select='@field-name'/>) {<xsl:value-of select="$empty-line"/>
                <xsl:variable name="current" select="." />
@@ -188,10 +194,7 @@
                <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>      return null;<xsl:value-of select="$empty-line"/>
-   		   </xsl:when>
-            <xsl:when test="@map='true'">
-      	     	<xsl:value-of select="$empty"/>      return <xsl:value-of select='@field-name'/>.get(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>);<xsl:value-of select="$empty-line"/>
-            </xsl:when>
+   		    </xsl:when>
          </xsl:choose>
          <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty-line"/>
@@ -330,6 +333,12 @@
          </xsl:for-each>
          <xsl:value-of select="$empty"/>) {<xsl:value-of select="$empty-line"/>
          <xsl:choose>
+            <xsl:when test="@map='true'">
+               <xsl:value-of select="$empty"/>      if (<xsl:value-of select='@field-name'/>.containsKey(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>)) {<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select='@field-name'/>.remove(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>);<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>         return true;<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+            </xsl:when>
             <xsl:when test="@list='true'">
                <xsl:value-of select="$empty"/>      int len = <xsl:value-of select='@field-name'/>.size();<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty-line"/>
@@ -344,12 +353,6 @@
                   <xsl:value-of select="$empty-line"/>
                </xsl:for-each>
                <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select='@field-name'/>.remove(i);<xsl:value-of select="$empty-line"/>
-               <xsl:value-of select="$empty"/>         return true;<xsl:value-of select="$empty-line"/>
-               <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
-            </xsl:when>
-            <xsl:when test="@map='true'">
-               <xsl:value-of select="$empty"/>      if (<xsl:value-of select='@field-name'/>.containsKey(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>)) {<xsl:value-of select="$empty-line"/>
-               <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select='@field-name'/>.remove(<xsl:value-of select="$entity/attribute[@key='true'][1]/@param-name"/>);<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>         return true;<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
             </xsl:when>
@@ -382,6 +385,22 @@
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="field-default-value">
+	<xsl:choose>
+      <xsl:when test="@value-type = 'String'">"<xsl:value-of select="@default-value"/>"</xsl:when>
+      <xsl:when test="@value-type = 'Time'"><xsl:value-of select="@default-value"/>L</xsl:when>
+      <xsl:when test="@value-type = 'boolean'"><xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'byte'">(byte)<xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'char'">'<xsl:value-of select="@default-value"/>'</xsl:when>
+      <xsl:when test="@value-type = 'short'">(short)<xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'int'"><xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'long'"><xsl:value-of select="@default-value"/>L</xsl:when>
+      <xsl:when test="@value-type = 'float'"><xsl:value-of select="@default-value"/>f</xsl:when>
+      <xsl:when test="@value-type = 'double'"><xsl:value-of select="@default-value"/>d</xsl:when>
+      <xsl:otherwise><xsl:value-of select="@default-value"/></xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

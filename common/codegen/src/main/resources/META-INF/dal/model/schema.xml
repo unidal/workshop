@@ -4,11 +4,12 @@
     <attribute name="src-dir" value-type="String">Source directory to place generated model classes.</attribute>
     <attribute name="model-package" value-type="String" required='true'>The package name for generated model classes.</attribute>
     <attribute name="transform-package" value-type="String">The package name for generated transform classes. Optional, default is model-package plus '.transform'.</attribute>
-    <attribute name="disable-xml-sample" value-type="boolean">Whether to generate sample XML file or not. Default is true.</attribute>
-    <attribute name="disable-xml-schema" value-type="boolean">Whether to generate XML schema or not. Default is false.</attribute>
-    <attribute name="disable-merger" value-type="boolean">Whether merger feature is disabled or not. Default is false.</attribute>
-    <attribute name="disable-base-visitor" value-type="boolean">Whether to generate BaseVisitor class or not. Default is false.</attribute>
-    <attribute name="disable-xml-parser" value-type="boolean">Whether XML parser, maker and linker feature is disabled or not. Default is false.</attribute>
+    <attribute name="enable-xml-parser" value-type="boolean">Whether XML parser, maker and linker feature is disabled or not. Default is false.</attribute>
+    <attribute name="enable-xml-sample" value-type="boolean">Whether to generate sample XML file or not. Default is true.</attribute>
+    <attribute name="enable-xml-schema" value-type="boolean">Whether to generate XML schema or not. Default is false.</attribute>
+    <attribute name="enable-json-builder" value-type="boolean">Whether to generate JSON builder or not. Default is false.</attribute>
+    <attribute name="enable-merger" value-type="boolean">Whether merger feature is disabled or not. Default is false.</attribute>
+    <attribute name="enable-base-visitor" value-type="boolean">Whether to generate BaseVisitor class or not. Default is false.</attribute>
     <entity-ref name="entity" />
   </entity>
   <entity name="entity">
