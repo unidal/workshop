@@ -4,8 +4,8 @@
       <attribute name="ignored" value-type="Boolean" />
       <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
       <element name="group" value-type="String" type="list" names="groups" xml-indent="true" />
-      <entity-ref name="eunit-field" alias="field" list="true" list-name="fields" xml-indent="true" />
-      <entity-ref name="eunit-method" alias="method" list="true" list-name="methods" xml-indent="true" />
+      <entity-ref name="eunit-field" alias="field" type="list" names="fields" xml-indent="true" />
+      <entity-ref name="eunit-method" alias="method" type="list" names="methods" xml-indent="true" />
    </entity>
    <entity name="eunit-field">
       <attribute name="name" value-type="String" key="true" />
@@ -26,8 +26,8 @@
       <attribute name="eunit-class" value-type="EunitClass" render="false" />
       <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
       <element name="group" value-type="String" type="list" names="groups" xml-indent="true" />
-      <entity-ref name="eunit-parameter" alias="parameter" list="true" list-name="parameters" xml-indent="true" />
-      <entity-ref name="eunit-exception" alias="expected-exception" list="true" list-name="expected-exceptions" />
+      <entity-ref name="eunit-parameter" alias="parameter" type="list" names="parameters" xml-indent="true" />
+      <entity-ref name="eunit-exception" alias="expected-exception" type="list" names="expected-exceptions" />
    </entity>
    <entity name="eunit-parameter">
       <attribute name="type" value-type="Class" />

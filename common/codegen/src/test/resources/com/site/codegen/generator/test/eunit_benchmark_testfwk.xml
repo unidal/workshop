@@ -1,10 +1,10 @@
 <model model-package="com.ebay.eunit.benchmark.model" disable-xml-parser="true" disable-xml-schema="true">
    <entity name="benchmark" class-name="benchmark-entity" root="true">
-      <entity-ref name="suite" list="true" list-name="suites" />
+      <entity-ref name="suite" type="list" names="suites" />
    </entity>
    <entity name="suite" class-name="suite-entity">
       <attribute name="type" value-type="Class" key="true" />
-      <entity-ref name="case" list="true" list-name="cases" />
+      <entity-ref name="case" type="list" names="cases" />
       <entity-ref name="cpu" />
       <entity-ref name="memory" />
    </entity>

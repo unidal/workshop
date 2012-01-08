@@ -1,15 +1,15 @@
 <model model-package="com.ebay.webres.resource.variation" enable-merger='true' enable-base-visitor='true' enable-xml-parser-tag-node='false'>
   <entity name="resource-variation" root="true">
-    <entity-ref name="variation-definition" map="true" map-name="variation-definitions" xml-indent="true" />
+    <entity-ref name="variation-definition" type="map" names="variation-definitions" xml-indent="true" />
     <entity-ref name="permutation" />
-    <entity-ref name="resource-mapping" map="true" map-name="resource-mappings" xml-indent="true" />
+    <entity-ref name="resource-mapping" type="map" names="resource-mappings" xml-indent="true" />
   </entity>
   <entity name="permutation">
-    <entity-ref name="variation-ref" list="true" list-name="variation-refs" />
+    <entity-ref name="variation-ref" type="list" names="variation-refs" />
   </entity>
   <entity name="variation-definition">
     <attribute name="type" value-type="String" key="true"/>
-    <entity-ref name="variation" list="true" list-name="variations" />
+    <entity-ref name="variation" type="list" names="variations" />
   </entity>
   <entity name="variation" dynamic-attributes="true">
     <attribute name="id" value-type="String" key="true" />
@@ -21,7 +21,7 @@
   <entity name="resource-mapping">
     <attribute name="urn" value-type="String" key="true" readonly="false"/>
     <attribute name="fallback-urn" value-type="String" render="false"/>
-    <entity-ref name="rule" list="true" list-name="rules" />
+    <entity-ref name="rule" type="list" names="rules" />
   </entity>
   <entity name="rule" dynamic-attributes="true">
     <attribute name="urn" value-type="com.ebay.webres.resource.api.IResourceUrn" render="false" />

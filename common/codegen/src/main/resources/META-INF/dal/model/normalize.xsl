@@ -378,7 +378,6 @@
          <xsl:value-of select="@value-type='java.lang.annotation.Annotation'"/>
       </xsl:attribute>
 
-      <!-- new version -->
       <xsl:choose>
       	<xsl:when test="@type='list'">
       		<xsl:attribute name="list">true</xsl:attribute>
@@ -422,21 +421,15 @@
          </xsl:otherwise>
       </xsl:choose>
       
-      <!-- @map override @list -->
-      <xsl:attribute name="list">
-      	<xsl:choose>
-      	   <xsl:when test="@map='true'">false</xsl:when>
-      	   <xsl:when test="@list"><xsl:value-of select="@list"/></xsl:when>
-      	   <xsl:otherwise>false</xsl:otherwise>
-      	</xsl:choose>
-      </xsl:attribute>
-      <xsl:attribute name="list-name">
-      	<xsl:choose>
-      	   <xsl:when test="@map='true'"></xsl:when>
-      	   <xsl:otherwise><xsl:value-of select="@list-name"/></xsl:otherwise>
-      	</xsl:choose>
-      </xsl:attribute>
-      
+      <xsl:choose>
+      	<xsl:when test="@type='list'">
+      		<xsl:attribute name="list">true</xsl:attribute>
+      	</xsl:when>
+      	<xsl:when test="@type='map'">
+      		<xsl:attribute name="map">true</xsl:attribute>
+      	</xsl:when>
+      </xsl:choose>
+
       <xsl:apply-templates/>
    </xsl:copy>
 </xsl:template>
@@ -453,10 +446,9 @@
    </xsl:variable>
    <xsl:variable name="name">
       <xsl:choose>
-         <xsl:when test="@map='true' and @map-name"><xsl:value-of select="@map-name"/></xsl:when>
-         <xsl:when test="@map='true'"><xsl:value-of select="$ref-name"/>Map</xsl:when>
-         <xsl:when test="@list='true' and @list-name"><xsl:value-of select="@list-name"/></xsl:when>
-         <xsl:when test="@list='true'"><xsl:value-of select="$ref-name"/>List</xsl:when>
+         <xsl:when test="(@type='list' or @type='map') and @names"><xsl:value-of select="@names"/></xsl:when>
+         <xsl:when test="@type='map'"><xsl:value-of select="$ref-name"/>Map</xsl:when>
+         <xsl:when test="@type='list'"><xsl:value-of select="$ref-name"/>List</xsl:when>
          <xsl:otherwise><xsl:value-of select="$ref-name"/></xsl:otherwise>
       </xsl:choose>
    </xsl:variable>
@@ -536,7 +528,7 @@
    </xsl:variable>
    <xsl:variable name="value-type-generic">
        <xsl:choose>
-          <xsl:when test="@map='true'">
+          <xsl:when test="@type='map'">
              <xsl:call-template name="generic-type">
                 <xsl:with-param name="type">
                    <xsl:value-of select="$value-type-key"/>
@@ -545,7 +537,7 @@
                 </xsl:with-param>
              </xsl:call-template>
           </xsl:when>
-          <xsl:when test="@list='true'">
+          <xsl:when test="@type='list'">
              <xsl:call-template name="generic-type">
                 <xsl:with-param name="type" select="$value-type-element"/>
              </xsl:call-template>
@@ -554,11 +546,11 @@
    </xsl:variable>
    <xsl:variable name="value-type">
        <xsl:choose>
-          <xsl:when test="@map='true'">
+          <xsl:when test="@type='map'">
              <xsl:value-of select="'Map'"/>
              <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
           </xsl:when>
-          <xsl:when test="@list='true'">
+          <xsl:when test="@type='list'">
              <xsl:value-of select="'List'"/>
              <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
           </xsl:when>

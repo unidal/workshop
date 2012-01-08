@@ -43,20 +43,14 @@
     <attribute name="render" value-type="boolean" default-value='true'>If render this attribute or not. Default is true.</attribute>
     <attribute name="required" value-type="boolean" default-value='false'>If this attribute is required or optional. Default is false.</attribute>
     <attribute name="enum-value-type" value-type="boolean" default-value='false'>If value-type refers to an enum type. Default is false.</attribute>
-    <attribute name="list" value-type="boolean" />
-    <attribute name="list-name" value-type="String" />
     <attribute name="type" value-type="String" default-value="single">Possible values: 'single', 'list', 'set'.</attribute>
     <attribute name="names" value-type="String">Property name if type is not 'single'.</attribute>
   </entity>
   <entity name="entity-ref">
     <attribute name="name" value-type="String" required='true'/>
     <attribute name="alias" value-type="String" />
-    <attribute name="list" value-type="boolean" />
-    <attribute name="list-name" value-type="String" />
-    <attribute name="list-alias" value-type="String" />
-    <attribute name="map" value-type="boolean" />
-    <attribute name="map-name" value-type="String" />
-    <attribute name="map-alias" value-type="String" />
+    <attribute name="type" value-type="String" default-value="single">Possible values: 'single', 'list', 'map'.</attribute>
+    <attribute name="names" value-type="String">Property name if type is not 'single'.</attribute>
     <attribute name="xml-indent" value-type="boolean">If render XML elements in an indent hierarchy structure or flatten. Default is false. It will be false if enclosing entity with @all-children-in-sequence='true'</attribute>
     <attribute name="required" value-type="boolean" default-value='false'>If this element is required or optional. Default is false.</attribute>
   </entity>

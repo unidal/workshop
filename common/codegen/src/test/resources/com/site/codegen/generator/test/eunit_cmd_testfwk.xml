@@ -1,6 +1,6 @@
 <model model-package="com.ebay.eunit.cmd.model">
    <entity name="root" class-name="root-entity" root="true">
-      <entity-ref name="command" list="true" list-name="commands" />
+      <entity-ref name="command" type="list" names="commands" />
    </entity>
    <entity name="command" class-name="command-entity">
       <attribute name="method-name" value-type="String" key="true" />
@@ -12,15 +12,15 @@
       <attribute name="request-method" value-type="String" />
       <attribute name="request-url" value-type="String" />
       <attribute name="form-data" value-type="String" />
-      <entity-ref name="parameter" map="true" map-name="parameters" xml-indent="true" />
-      <entity-ref name="header" map="true" map-name="headers" xml-indent="true" />
+      <entity-ref name="parameter" type="map" names="parameters" xml-indent="true" />
+      <entity-ref name="header" type="map" names="headers" xml-indent="true" />
    </entity>
    <entity name="response" class-name="response-entity">
       <attribute name="code" value-type="int" />
       <attribute name="content-length" value-type="int" />
       <attribute name="content-type" value-type="String" />
       <attribute name="body" value-type="String" />
-      <entity-ref name="header" map="true" map-name="headers" xml-indent="true" />
+      <entity-ref name="header" type="map" names="headers" xml-indent="true" />
    </entity>
    <entity name="parameter" class-name="parameter-entity">
       <attribute name="name" value-type="String" key="true"/>

@@ -3,15 +3,15 @@
   <entity name="workbook" root="true">
     <attribute name="output" value-type="String" />
     <attribute name="template" value-type="String" />
-    <entity-ref name="sheet" list="true" list-name="sheets" />
+    <entity-ref name="sheet" type="list" names="sheets" />
   </entity>
   <entity name="sheet">
     <attribute name="id" value-type="int" />
     <attribute name="name" value-type="String" />
-    <entity-ref name="format" list="true" list-name="formats" />
-    <entity-ref name="row" list="true" list-name="rows" />
-    <entity-ref name="empty" list="true" list-name="empties" />
-    <entity-ref name="col" list="true" list-name="cols" />
+    <entity-ref name="format" type="list" names="formats" />
+    <entity-ref name="row" type="list" names="rows" />
+    <entity-ref name="empty" type="list" names="empties" />
+    <entity-ref name="col" type="list" names="cols" />
   </entity>
   <entity name="format">
     <attribute name="id" value-type="String" />
@@ -32,10 +32,10 @@
     <attribute name="start-col" value-type="int" />
     <attribute name="start-row" value-type="int" />
     <attribute name="create" value-type="boolean" />
-    <entity-ref name="label" list="true" list-name="labels" />
-    <entity-ref name="number" list="true" list-name="numbers" />
-    <entity-ref name="empty" list="true" list-name="empties" />
-    <entity-ref name="date-time" list="true" list-name="date-times" />
+    <entity-ref name="label" type="list" names="labels" />
+    <entity-ref name="number" type="list" names="numbers" />
+    <entity-ref name="empty" type="list" names="empties" />
+    <entity-ref name="date-time" type="list" names="date-times" />
   </entity>
   <entity name="label">
     <attribute name="format" value-type="String" />
@@ -58,10 +58,10 @@
     <attribute name="start-row" value-type="int" />
     <attribute name="start-col" value-type="int" />
     <attribute name="create" value-type="boolean" />
-    <entity-ref name="label" list="true" list-name="labels" />
-    <entity-ref name="number" list="true" list-name="numbers" />
-    <entity-ref name="empty" list="true" list-name="empties" />
-    <entity-ref name="date-time" list="true" list-name="date-times" />
+    <entity-ref name="label" type="list" names="labels" />
+    <entity-ref name="number" type="list" names="numbers" />
+    <entity-ref name="empty" type="list" names="empties" />
+    <entity-ref name="date-time" type="list" names="date-times" />
   </entity>
 </model>
 

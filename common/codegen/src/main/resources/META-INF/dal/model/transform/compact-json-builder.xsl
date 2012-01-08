@@ -52,7 +52,7 @@
       <xsl:sort select="@upper-name"/>
 
       <xsl:variable name="upper-name" select="@upper-name"/>
-      <xsl:if test="generate-id((//entity | //entity/entity-ref[not(@render='false' or @map='true')])[@upper-name=$upper-name][1])=generate-id()">
+      <xsl:if test="generate-id((//entity | //entity/entity-ref[not(@render='false' or @list='true' or @map='true')])[@upper-name=$upper-name][1])=generate-id()">
          <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
       </xsl:if>
    </xsl:for-each>

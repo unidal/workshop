@@ -1,17 +1,17 @@
 <model model-package="com.ebay.esf.resource.testfwk.model">
   <entity name="model" root="true">
-    <entity-ref name="function" map="true" map-name="functions" xml-indent="true" />
+    <entity-ref name="function" type="map" names="functions" xml-indent="true" />
     <!-- the following are target models -->
-    <entity-ref name="case" map="true" map-name="cases" xml-indent="true" />
+    <entity-ref name="case" type="map" names="cases" xml-indent="true" />
     <entity-ref name="tag-env"/>
-    <entity-ref name="tag" map="true" map-name="tags" xml-indent="true" />
-    <entity-ref name="body-provider" map="true" map-name="body-providers" xml-indent="true" />
-    <entity-ref name="event-handler" map="true" map-name="event-handlers" xml-indent="true" />
-    <entity-ref name="defer-handler" map="true" map-name="defer-handlers" xml-indent="true" />
+    <entity-ref name="tag" type="map" names="tags" xml-indent="true" />
+    <entity-ref name="body-provider" type="map" names="body-providers" xml-indent="true" />
+    <entity-ref name="event-handler" type="map" names="event-handlers" xml-indent="true" />
+    <entity-ref name="defer-handler" type="map" names="defer-handlers" xml-indent="true" />
   </entity>
   <entity name="function">
     <attribute name="method-name" value-type="String" key="true" />
-    <entity-ref name="tag" list="true" list-name="tags" xml-indent="true"/>
+    <entity-ref name="tag" type="list" names="tags" xml-indent="true"/>
     <entity-ref name="tag-env" />
     <entity-ref name="tag-body" />
     <entity-ref name="tag-listener" />
@@ -21,14 +21,14 @@
   <entity name="case" class-name="case-entity">
     <attribute name="method-name" value-type="String" key="true" />
     <entity-ref name="tag-env" />
-    <entity-ref name="tag" list="true" list-name="tags" xml-indent="true"/>
+    <entity-ref name="tag" type="list" names="tags" xml-indent="true"/>
     <entity-ref name="tag-listener" />
     <entity-ref name="defer-handler" />
     <entity-ref name="injectable" />
   </entity>
   <entity name="injectable">
     <attribute name="method" value-type="java.lang.reflect.Method" render="false"/>
-    <entity-ref name="param" list="true" list-name="params" xml-indent="true"/>
+    <entity-ref name="param" type="list" names="params" xml-indent="true"/>
   </entity>
   <entity name="param">
     <attribute name="type" value-type="Class" />
@@ -38,15 +38,15 @@
     <attribute name="type" value-type="String" key="true" />
   </entity>
   <entity name="tag-listener">
-    <element name="state" value-type="Object" list="true" list-name="states" xml-indent='true' />
-    <element name="tag-ref" value-type="String" list="true" list-name="tag-refs" />
+    <element name="state" value-type="Object" type="list" names="states" xml-indent='true' />
+    <element name="tag-ref" value-type="String" type="list" names="tag-refs" />
     <entity-ref name="event-handler" />
   </entity>
   <entity name="tag" class-name="tag-entity">
     <attribute name="id" value-type="String" key="true" />
     <attribute name="ref" value-type="String" />
     <attribute name="type" value-type="Class" required="true" />
-    <entity-ref name="tag-attr" list="true" list-name="tag-attrs" />
+    <entity-ref name="tag-attr" type="list" names="tag-attrs" />
     <entity-ref name="tag-body" />
   </entity>
   <entity name="tag-attr">
