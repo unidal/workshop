@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.site.codegen.manifest.FileMode;
 import com.site.codegen.manifest.Manifest;
 import com.site.codegen.manifest.ManifestParser;
 import com.site.lookup.ComponentTestCase;
 
+@RunWith(JUnit4.class)
 public class ManifestParserTest extends ComponentTestCase {
    @Test
    public void testParseJdbcManifest() throws Exception {

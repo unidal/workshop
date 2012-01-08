@@ -14,7 +14,7 @@ import com.site.lookup.ComponentTestCase;
 
 @RunWith(JUnit4.class)
 public class PluginGeneratorTest extends ComponentTestCase {
-	private boolean verbose = true;
+	private boolean verbose = false;
 
 	private boolean debug = false;
 

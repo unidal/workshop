@@ -46,16 +46,16 @@ public class DefaultModelMeta implements ModelMeta {
 			elementRef.setAttribute("name", e.getName());
 
 			if (e.isList() || e.isList(parentName)) {
-				elementRef.setAttribute("list", "true");
+				elementRef.setAttribute("type", "list");
 
 				if (e.getListName() == null) {
 					String listName = guessListName(e);
 
 					if (listName != null) {
-						elementRef.setAttribute("list-name", listName);
+						elementRef.setAttribute("names", listName);
 					}
 				} else {
-					elementRef.setAttribute("list-name", e.getListName());
+					elementRef.setAttribute("names", e.getListName());
 					elementRef.setAttribute("xml-indent", "true");
 				}
 			}
@@ -76,16 +76,16 @@ public class DefaultModelMeta implements ModelMeta {
 			}
 
 			if (e.isList(parentName)) {
-				element.setAttribute("list", "true");
+				element.setAttribute("type", "list");
 
 				if (e.getListName() == null) {
 					String listName = guessListName(e);
 
 					if (listName != null) {
-						element.setAttribute("list-name", listName);
+						element.setAttribute("names", listName);
 					}
 				} else {
-					element.setAttribute("list-name", e.getListName());
+					element.setAttribute("names", e.getListName());
 				}
 			}
 

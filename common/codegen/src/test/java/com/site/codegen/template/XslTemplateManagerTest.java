@@ -5,10 +5,13 @@ import java.net.URL;
 import javax.xml.transform.Templates;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.site.codegen.template.XslTemplateManager;
 import com.site.lookup.ComponentTestCase;
 
+@RunWith(JUnit4.class)
 public class XslTemplateManagerTest extends ComponentTestCase {
    private void checkTemplate(String resource) throws Exception {
       XslTemplateManager manager = lookup(XslTemplateManager.class);

@@ -4,11 +4,14 @@ import java.io.File;
 
 import org.codehaus.plexus.util.IOUtil;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.site.codegen.aggregator.XmlAggregator;
 import com.site.lookup.ComponentTestCase;
 import com.site.lookup.util.StringUtils;
 
+@RunWith(JUnit4.class)
 public class XmlAggregatorTest extends ComponentTestCase {
    @Test
    public void testAggregateJdbc() throws Exception {

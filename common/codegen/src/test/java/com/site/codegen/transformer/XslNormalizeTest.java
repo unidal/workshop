@@ -3,84 +3,96 @@ package com.site.codegen.transformer;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-import org.codehaus.plexus.util.IOUtil;
-import org.junit.Test;
+import junit.framework.Assert;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
+import com.site.helper.Files;
 import com.site.lookup.ComponentTestCase;
 
+@RunWith(JUnit4.class)
 public class XslNormalizeTest extends ComponentTestCase {
-   private static final String JDBC_NORMALIZE_XSL = "/META-INF/dal/jdbc/normalize.xsl";
+	private static final String JDBC_NORMALIZE_XSL = "/META-INF/dal/jdbc/normalize.xsl";
 
-   private static final String XML_NORMALIZE_XSL = "/META-INF/dal/xml/normalize.xsl";
+	private static final String XML_NORMALIZE_XSL = "/META-INF/dal/xml/normalize.xsl";
 
-   @Test
-   public void testJdbcBasic() throws Exception {
-      testJdbcNormalize("basic");
-   }
+	private void assertEquals2(String message, String expected, String actual) {
+		String e = expected.replace("\r\n", "\n");
+		String a = actual.replace("\r\n", "\n");
 
-   @Test
-   public void testJdbcEntity() throws Exception {
-      testJdbcNormalize("entity");
-   }
+		Assert.assertEquals(message, e, a);
+	}
 
-   @Test
-   public void testJdbcFlag() throws Exception {
-      testJdbcNormalize("flag");
-   }
+	private void checkJdbcNormalize(String caseName) throws Exception {
+		XslTransformer transformer = lookup(XslTransformer.class);
+		InputStream in = getClass().getResourceAsStream(caseName + "_in.xml");
+		InputStream out = getClass().getResourceAsStream(caseName + "_out.xml");
 
-   @Test
-   public void testJdbcMember() throws Exception {
-      testJdbcNormalize("member");
-   }
+		if (in == null) {
+			throw new FileNotFoundException("Resource not found: " + caseName + "_in.xml");
+		} else if (out == null) {
+			throw new FileNotFoundException("Resource not found: " + caseName + "_out.xml");
+		}
 
-   private void testJdbcNormalize(String caseName) throws Exception {
-      XslTransformer transformer = lookup(XslTransformer.class);
-      InputStream in = getClass().getResourceAsStream(caseName + "_in.xml");
-      InputStream out = getClass().getResourceAsStream(caseName + "_out.xml");
+		String source = Files.forIO().readFrom(in, "utf-8");
+		String expected = Files.forIO().readFrom(out, "utf-8");
+		String result = transformer.transform(getClass().getResource(JDBC_NORMALIZE_XSL), source);
 
-      if (in == null) {
-         throw new FileNotFoundException("Resource not found: " + caseName + "_in.xml");
-      } else if (out == null) {
-         throw new FileNotFoundException("Resource not found: " + caseName + "_out.xml");
-      }
+		assertEquals2("[" + caseName + "] Content does not match.", expected, result);
+	}
 
-      String source = IOUtil.toString(in);
-      String expected = IOUtil.toString(out);
-      String result = transformer.transform(getClass().getResource(JDBC_NORMALIZE_XSL), source);
+	private void checkXmlNormalize(String caseName) throws Exception {
+		XslTransformer transformer = lookup(XslTransformer.class);
+		InputStream in = getClass().getResourceAsStream(caseName + "_in.xml");
+		InputStream out = getClass().getResourceAsStream(caseName + "_out.xml");
 
-      assertEquals("[" + caseName + "] Content does not match.", expected, result);
-   }
+		if (in == null) {
+			throw new FileNotFoundException("Resource not found: " + caseName + "_in.xml");
+		} else if (out == null) {
+			throw new FileNotFoundException("Resource not found: " + caseName + "_out.xml");
+		}
 
-   @Test
-   public void testJdbcRelation() throws Exception {
-      testJdbcNormalize("relation");
-   }
+		String source = Files.forIO().readFrom(in, "utf-8");
+		String expected = Files.forIO().readFrom(out, "utf-8");
+		String result = transformer.transform(getClass().getResource(XML_NORMALIZE_XSL), source);
 
-   @Test
-   public void testJdbcValueType() throws Exception {
-      testJdbcNormalize("valuetype");
-   }
+		assertEquals2("[" + caseName + "] Content does not match.", expected, result);
+	}
 
-   @Test
-   public void testXmlElement() throws Exception {
-      testXmlNormalize("element");
-   }
+	@Test
+	public void testJdbcBasic() throws Exception {
+		checkJdbcNormalize("basic");
+	}
 
-   private void testXmlNormalize(String caseName) throws Exception {
-      XslTransformer transformer = lookup(XslTransformer.class);
-      InputStream in = getClass().getResourceAsStream(caseName + "_in.xml");
-      InputStream out = getClass().getResourceAsStream(caseName + "_out.xml");
+	@Test
+	public void testJdbcEntity() throws Exception {
+		checkJdbcNormalize("entity");
+	}
 
-      if (in == null) {
-         throw new FileNotFoundException("Resource not found: " + caseName + "_in.xml");
-      } else if (out == null) {
-         throw new FileNotFoundException("Resource not found: " + caseName + "_out.xml");
-      }
+	@Test
+	public void testJdbcFlag() throws Exception {
+		checkJdbcNormalize("flag");
+	}
 
-      String source = IOUtil.toString(in);
-      String expected = IOUtil.toString(out);
-      String result = transformer.transform(getClass().getResource(XML_NORMALIZE_XSL), source);
+	@Test
+	public void testJdbcMember() throws Exception {
+		checkJdbcNormalize("member");
+	}
 
-      assertEquals("[" + caseName + "] Content does not match.", expected, result);
-   }
+	@Test
+	public void testJdbcRelation() throws Exception {
+		checkJdbcNormalize("relation");
+	}
+
+	@Test
+	public void testJdbcValueType() throws Exception {
+		checkJdbcNormalize("valuetype");
+	}
+
+	@Test
+	public void testXmlElement() throws Exception {
+		checkXmlNormalize("element");
+	}
 }

@@ -1,17 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
   <entity name="game" root="true">
     <element name="script" value-type="String" />
     <element name="time" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
     <entity-ref name="village" />
     <entity-ref name="actions" />
-    <entity-ref name="reso" list="true" list-name="resos" />
+    <entity-ref name="reso" type="list" names="resos" xml-indent="true" />
     <entity-ref name="question" />
-    <entity-ref name="village" list="true" list-name="villagelist" />
+    <entity-ref name="village" type="list" names="villagelist" xml-indent="true" />
     <entity-ref name="reports" />
     <entity-ref name="studyqueue" />
     <entity-ref name="tasks" />
     <entity-ref name="soldiers" />
-    <entity-ref name="html" list="true" list-name="htmls" />
+    <entity-ref name="html" type="list" names="htmls" xml-indent="true" />
   </entity>
   <entity name="village">
     <attribute name="name" value-type="String" />
@@ -59,7 +60,7 @@
   </entity>
   <entity name="tasks">
     <attribute name="zjzbid" value-type="int" />
-    <entity-ref name="task" list="true" list-name="tasks" />
+    <entity-ref name="task" type="list" names="tasks" />
   </entity>
   <entity name="task">
     <attribute name="type" value-type="int" />
@@ -70,7 +71,7 @@
   </entity>
   <entity name="soldiers">
     <attribute name="zjzbid" value-type="int" />
-    <entity-ref name="soldier" list="true" list-name="soldiers" />
+    <entity-ref name="soldier" type="list" names="soldiers" />
   </entity>
   <entity name="soldier">
     <attribute name="vid" value-type="int" />
@@ -83,3 +84,4 @@
     <element name="text" value-type="String" text="true" />
   </entity>
 </model>
+
