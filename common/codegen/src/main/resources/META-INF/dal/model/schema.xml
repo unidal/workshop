@@ -31,7 +31,9 @@
     <attribute name="render" value-type="boolean" default-value='true'>If render this attribute or not. Default is true.</attribute>
     <attribute name="required" value-type="boolean" default-value='false'>If this attribute is required or optional. Default is false.</attribute>
     <attribute name="readonly" value-type="boolean" default-value='false'>If this attribute is read-only or writable. Default is false.</attribute>
+    <attribute name="primitive" value-type="boolean" default-value='false'>If a Java wrapper class will be used for Java primitive type, default is false.</attribute>
     <attribute name="enum-value-type" value-type="boolean" default-value='false'>If value-type refers to an enum type. Default is false.</attribute>
+    <attribute name="default-value" value-type="String">Default value of the attribute. Please noted that, this is NOT a bi-directional feature for parser and builder.</attribute>
   </entity>
   <entity name="element">
     <attribute name="name" value-type="String" required='true'/>
@@ -43,6 +45,8 @@
     <attribute name="enum-value-type" value-type="boolean" default-value='false'>If value-type refers to an enum type. Default is false.</attribute>
     <attribute name="list" value-type="boolean" />
     <attribute name="list-name" value-type="String" />
+    <attribute name="type" value-type="String" default-value="single">Possible values: 'single', 'list', 'set'.</attribute>
+    <attribute name="names" value-type="String">Property name if type is not 'single'.</attribute>
   </entity>
   <entity name="entity-ref">
     <attribute name="name" value-type="String" required='true'/>

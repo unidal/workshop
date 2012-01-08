@@ -1,4 +1,4 @@
-package com.site.codegen.generator;
+package com.site.codegen.generator.test;
 
 import java.io.File;
 import java.io.InputStreamReader;
@@ -7,21 +7,19 @@ import java.io.StringWriter;
 import org.jdom.Document;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.BlockJUnit4ClassRunner;
+import org.junit.runners.JUnit4;
 
 import com.site.codegen.meta.ModelMeta;
 import com.site.helper.Files;
 import com.site.lookup.ComponentTestCase;
 
-@RunWith(BlockJUnit4ClassRunner.class)
+@RunWith(JUnit4.class)
 public class MetaGeneratorTest extends ComponentTestCase {
 	private boolean verbose = true;
 
 	@Test
-	// @Ignore
 	public void testGenerateReportExcelMetaModel() throws Exception {
 		long start = System.currentTimeMillis();
 
@@ -47,7 +45,6 @@ public class MetaGeneratorTest extends ComponentTestCase {
 	}
 
 	@Test
-	@Ignore
 	public void testGenerateEunitResourceMetaModel() throws Exception {
 		long start = System.currentTimeMillis();
 

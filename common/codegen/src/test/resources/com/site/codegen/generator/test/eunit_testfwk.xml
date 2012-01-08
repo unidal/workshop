@@ -2,8 +2,8 @@
    <entity name="eunit-class" root="true">
       <attribute name="type" value-type="Class" />
       <attribute name="ignored" value-type="Boolean" />
-      <element name="annotation" value-type="java.lang.annotation.Annotation" list="true" list-name="annotations" render="false" />
-      <element name="group" value-type="String" list="true" list-name="groups" xml-indent="true" />
+      <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
+      <element name="group" value-type="String" type="list" names="groups" xml-indent="true" />
       <entity-ref name="eunit-field" alias="field" list="true" list-name="fields" xml-indent="true" />
       <entity-ref name="eunit-method" alias="method" list="true" list-name="methods" xml-indent="true" />
    </entity>
@@ -12,7 +12,7 @@
       <attribute name="type" value-type="Class" />
       <attribute name="field" value-type="java.lang.reflect.Field" render="false" />
       <attribute name="eunit-class" value-type="EunitClass" render="false" />
-      <element name="annotation" value-type="java.lang.annotation.Annotation" list="true" list-name="annotations" render="false" />
+      <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
    </entity>
    <entity name="eunit-method">
       <attribute name="name" value-type="String" key="true" />
@@ -24,8 +24,8 @@
       <attribute name="return-type" value-type="Class" />
       <attribute name="method" value-type="java.lang.reflect.Method" render="false" />
       <attribute name="eunit-class" value-type="EunitClass" render="false" />
-      <element name="annotation" value-type="java.lang.annotation.Annotation" list="true" list-name="annotations" render="false" />
-      <element name="group" value-type="String" list="true" list-name="groups" xml-indent="true" />
+      <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
+      <element name="group" value-type="String" type="list" names="groups" xml-indent="true" />
       <entity-ref name="eunit-parameter" alias="parameter" list="true" list-name="parameters" xml-indent="true" />
       <entity-ref name="eunit-exception" alias="expected-exception" list="true" list-name="expected-exceptions" />
    </entity>
@@ -34,7 +34,7 @@
       <attribute name="id" value-type="String" />
       <attribute name="index" value-type="int" render="false" />
       <attribute name="eunit-method" value-type="EunitMethod" render="false" />
-      <element name="annotation" value-type="java.lang.annotation.Annotation" list="true" list-name="annotations" render="false" />
+      <element name="annotation" value-type="java.lang.annotation.Annotation" type="list" names="annotations" render="false" />
    </entity>
    <entity name="eunit-exception">
       <attribute name="type" value-type="Class" required="true" />

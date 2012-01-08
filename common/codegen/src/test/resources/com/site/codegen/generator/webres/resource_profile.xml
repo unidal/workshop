@@ -1,4 +1,4 @@
-<model model-package="com.ebay.webres.resource.profile" enable-merger="true" enable-empty-visitor='true' enable-xml-parser-tag-node='true' enable-xml-schema="true">
+<model model-package="com.ebay.webres.resource.profile" enable-merger="true" enable-empty-visitor='true' enable-xml-parser-tag-node='false' enable-xml-schema="true">
   <entity name="profile" root="true">
     <entity-ref name="js-slot" alias="common-js-slot" list="true" list-name="common-js-slots" xml-indent="true" />
     <entity-ref name="css-slot" alias="common-css-slot" list="true" list-name="common-css-slots" xml-indent="true" />

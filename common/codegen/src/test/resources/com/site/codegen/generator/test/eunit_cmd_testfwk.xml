@@ -24,10 +24,10 @@
    </entity>
    <entity name="parameter" class-name="parameter-entity">
       <attribute name="name" value-type="String" key="true"/>
-      <element name="value" value-type="String" list="true" list-name="values"/>
+      <element name="value" value-type="String" type="list" names="values"/>
    </entity>
    <entity name="header" class-name="header-entity">
       <attribute name="name" value-type="String" key="true"/>
-      <element name="value" value-type="String" list="true" list-name="values"/>
+      <element name="value" value-type="String" type="list" names="values"/>
    </entity>
 </model>

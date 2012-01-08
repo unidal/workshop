@@ -38,7 +38,7 @@
       <xsl:variable name="upper-name" select="@upper-name"/>
       <xsl:if test="generate-id(//entity/element[@upper-name=$upper-name][1])=generate-id()">
          <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name-element"/>;<xsl:value-of select="$empty-line"/>
-         <xsl:if test="@list='true' and @xml-indent='true'">
+         <xsl:if test="(@list='true' or @set='true') and @xml-indent='true'">
             <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
          </xsl:if>
       </xsl:if>
@@ -223,7 +223,7 @@
       <xsl:value-of select="$empty"/>   public void <xsl:value-of select="@visit-method"/>(<xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="@all-children-in-sequence='true'">
-            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      for (BaseEntity<xsl:value-of select="'&lt;?&gt;'" disable-output-escaping="yes"/> child : <xsl:value-of select="@param-name"/>.<xsl:value-of select="@method-get-all-children-in-sequence"/>()) {<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         child.accept(this);<xsl:value-of select="$empty-line"/>
@@ -261,7 +261,7 @@
       <xsl:variable name="name" select="@name"/>
       <xsl:variable name="entity" select="//entity[@name=$name]"/>
       <xsl:choose>
-         <xsl:when test="@list='true' or @map='true'">
+         <xsl:when test="@list='true' or @map='true' or @set='true'">
             <xsl:variable name="suffix">
                <xsl:choose>
                   <xsl:when test="@map='true'">.values()</xsl:when>

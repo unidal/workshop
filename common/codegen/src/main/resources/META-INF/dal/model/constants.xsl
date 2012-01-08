@@ -42,7 +42,7 @@
       <xsl:if test="generate-id((//entity/element)[@upper-name=$upper-name][1])=generate-id()">
          <xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name-element"/> = "<xsl:value-of select="@name"/>";<xsl:value-of select="$empty-line"/>
-         <xsl:if test="@list='true'">
+         <xsl:if test="@list='true' or @set='true'">
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name"/> = "<xsl:value-of select="@tag-name"/>";<xsl:value-of select="$empty-line"/>
          </xsl:if>

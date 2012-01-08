@@ -27,8 +27,8 @@
 </xsl:template>
 
 <xsl:template name="import-list">
-   <xsl:if test="entity/element[@list='true' and not(@render='false')]">
-      <xsl:for-each select="entity/element[@list='true' and not(@render='false')]">
+   <xsl:if test="entity/element[(@list='true' or @set='true') and not(@render='false')]">
+      <xsl:for-each select="entity/element[(@list='true' or @set='true') and not(@render='false')]">
          <xsl:sort select="@upper-name"/>
    
          <xsl:variable name="upper-name" select="@upper-name"/>
@@ -218,7 +218,7 @@
    <xsl:param name="indent"/>
    
    <xsl:variable name="current" select="."/>
-   <xsl:for-each select="element[@list='true' and not(@render='false')]">
+   <xsl:for-each select="element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:value-of select="$indent"/>for (Node child : <xsl:value-of select="$empty"/>
       <xsl:choose>
          <xsl:when test="@xml-indent='true'">getGrandChildTagNodes(node, <xsl:value-of select="@upper-name"/>)</xsl:when>

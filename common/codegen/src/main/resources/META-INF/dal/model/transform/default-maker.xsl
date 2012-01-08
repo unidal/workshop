@@ -38,7 +38,7 @@
       </xsl:for-each>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
-   <xsl:if test="entity/element[not(@list='true' or @render='false')][not(@text='true')]">
+   <xsl:if test="entity/element[not(@list='true' or @set='true' or @render='false')][not(@text='true')]">
       <xsl:for-each select="entity/element[not(@list='true' or @render='false')][not(@text='true')]">
          <xsl:sort select="@upper-name"/>
    
@@ -65,7 +65,7 @@
 </xsl:template>
 
 <xsl:template name="method-build-children">
-   <xsl:for-each select="entity | entity/element[@list='true' and not(@render='false')]">
+   <xsl:for-each select="entity | entity/element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:sort select="@build-method"/>
 
       <xsl:value-of select="$empty-line"/>
@@ -73,7 +73,7 @@
          <xsl:when test="name()='element'">
             <xsl:variable name="build-method" select="@build-method"/>
             
-            <xsl:if test="generate-id(//entity/element[@build-method=$build-method][@list='true' and not(@render='false')][1])=generate-id()">
+            <xsl:if test="generate-id(//entity/element[@build-method=$build-method][(@list='true' or @set='true') and not(@render='false')][1])=generate-id()">
                <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>   public <xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@build-method"/>(Node node) {<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>      return <xsl:value-of select="$empty"/>
@@ -154,7 +154,7 @@
 </xsl:template>
 
 <xsl:template name="define-variable-from-attributes">
-   <xsl:if test="(attribute | element)[not(@text='true' or @list='true' or @render='false')]">
+   <xsl:if test="(attribute | element)[not(@text='true' or @list='true' or @set='true' or @render='false')]">
       <xsl:for-each select="(attribute | element)[not(@text='true' or @list='true' or @render='false')]">
          <xsl:choose>
             <xsl:when test="name()='attribute'">
@@ -190,7 +190,7 @@
 <xsl:template name="set-optional-fields">
    <xsl:param name="entity" select="."/>
    
-   <xsl:for-each select="(attribute | element)[not(@key='true' or @render='false' or @list='true')]">
+   <xsl:for-each select="(attribute | element)[not(@key='true' or @render='false' or @list='true' or @set='true')]">
       <xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="@text='true'">

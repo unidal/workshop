@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <model>
   <entity name="test-plan" root="true">
     <entity-ref name="test-case" list="true" list-name="test-cases" />
@@ -15,3 +16,4 @@
     <element name="pattern" value-type="String" />
   </entity>
 </model>
+

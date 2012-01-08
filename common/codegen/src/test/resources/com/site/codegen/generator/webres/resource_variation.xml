@@ -1,4 +1,4 @@
-<model model-package="com.ebay.webres.resource.variation" enable-merger='true' enable-base-visitor='true' enable-xml-parser-tag-node='true'>
+<model model-package="com.ebay.webres.resource.variation" enable-merger='true' enable-base-visitor='true' enable-xml-parser-tag-node='false'>
   <entity name="resource-variation" root="true">
     <entity-ref name="variation-definition" map="true" map-name="variation-definitions" xml-indent="true" />
     <entity-ref name="permutation" />

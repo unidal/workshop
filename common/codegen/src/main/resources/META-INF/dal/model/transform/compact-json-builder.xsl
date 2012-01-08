@@ -39,7 +39,7 @@
       <xsl:variable name="upper-name" select="@upper-name"/>
       <xsl:if test="generate-id(//entity/element[@upper-name=$upper-name][1])=generate-id()">
          <xsl:choose>
-            <xsl:when test="@list-name">
+            <xsl:when test="@list='true' or @set='true'">
 	            <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
             </xsl:when>
             <xsl:otherwise>
@@ -113,7 +113,7 @@
       if (m_entries.peek().isInArray()) {
          m_sb.append("{");
       } else {
-         m_sb.append(name).append(":{");
+         m_sb.append('"').append(name).append("\":{");
       }
 
       m_entries.push(new JsonEntry());

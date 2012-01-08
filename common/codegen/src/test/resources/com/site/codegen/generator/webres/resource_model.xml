@@ -1,4 +1,4 @@
-<model model-package="com.ebay.webres.resource.model" enable-merger="true" enable-base-visitor='true' enable-xml-parser-tag-node='true'>
+<model model-package="com.ebay.webres.resource.model" enable-merger="true" enable-base-visitor='true' enable-xml-parser-tag-node='false'>
   <entity name="root" root="true">
     <entity-ref name="slot" alias="common-slot" list="true" list-name="common-slots" xml-indent="true" />
     <entity-ref name="page" list="true" list-name="pages" xml-indent="true" />

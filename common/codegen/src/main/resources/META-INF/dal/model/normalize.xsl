@@ -3,7 +3,6 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:import href="../naming.xsl"/>
 <xsl:output method="xml" indent="yes" media-type="text/xml" encoding="utf-8"/>
-<xsl:variable name="disable-merger" select="/model/@disable-merger"/>
 
 <xsl:template match="/">
    <xsl:apply-templates/>
@@ -237,8 +236,9 @@
       </xsl:variable>
       <xsl:variable name="name">
          <xsl:choose>
-            <xsl:when test="@list='true' and @list-name"><xsl:value-of select="@list-name"/></xsl:when>
-            <xsl:when test="@list='true'"><xsl:value-of select="$element-name"/>List</xsl:when>
+            <xsl:when test="(@type='list' or @type='set') and @names"><xsl:value-of select="@names"/></xsl:when>
+            <xsl:when test="@type='set'"><xsl:value-of select="$element-name"/>Set</xsl:when>
+            <xsl:when test="@type='list'"><xsl:value-of select="$element-name"/>List</xsl:when>
             <xsl:when test="@alias"><xsl:value-of select="@alias"/></xsl:when>
             <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
          </xsl:choose>
@@ -284,7 +284,7 @@
       </xsl:variable>
       <xsl:variable name="value-type-generic">
           <xsl:choose>
-             <xsl:when test="@list='true'">
+             <xsl:when test="@type='list' or @type='set'">
                 <xsl:call-template name="generic-type">
                    <xsl:with-param name="type" select="$value-type-element"/>
                 </xsl:call-template>
@@ -296,7 +296,11 @@
       </xsl:variable>
       <xsl:variable name="value-type">
           <xsl:choose>
-             <xsl:when test="@list='true'">
+             <xsl:when test="@type='set'">
+                <xsl:value-of select="'Set'"/>
+                <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
+             </xsl:when>
+             <xsl:when test="@type='list'">
                 <xsl:value-of select="'List'"/>
                 <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
              </xsl:when>
@@ -373,6 +377,16 @@
       <xsl:attribute name="is-annotation">
          <xsl:value-of select="@value-type='java.lang.annotation.Annotation'"/>
       </xsl:attribute>
+
+      <!-- new version -->
+      <xsl:choose>
+      	<xsl:when test="@type='list'">
+      		<xsl:attribute name="list">true</xsl:attribute>
+      	</xsl:when>
+      	<xsl:when test="@type='set'">
+      		<xsl:attribute name="set">true</xsl:attribute>
+      	</xsl:when>
+      </xsl:choose>
       
       <xsl:apply-templates/>
    </xsl:copy>
@@ -635,7 +649,19 @@
       <xsl:when test="$value-type = 'String'">String</xsl:when>
       <xsl:when test="$value-type = 'Date'">java.util.Date</xsl:when>
       <xsl:when test="$value-type = 'Time'">Long</xsl:when>
-      <xsl:when test="$disable-merger='true'"><xsl:value-of select="$value-type"/></xsl:when>
+      <xsl:when test="@primitive='true'">
+      	<xsl:choose>
+	      <xsl:when test="$value-type = 'boolean'">boolean</xsl:when>
+	      <xsl:when test="$value-type = 'byte'">byte</xsl:when>
+	      <xsl:when test="$value-type = 'char'">character</xsl:when>
+	      <xsl:when test="$value-type = 'short'">short</xsl:when>
+	      <xsl:when test="$value-type = 'int'">int</xsl:when>
+	      <xsl:when test="$value-type = 'long'">long</xsl:when>
+	      <xsl:when test="$value-type = 'float'">float</xsl:when>
+	      <xsl:when test="$value-type = 'double'">double</xsl:when>
+	      <xsl:otherwise><xsl:value-of select="$value-type"/></xsl:otherwise>
+      	</xsl:choose>
+      </xsl:when>
       <xsl:when test="$value-type = 'boolean'">Boolean</xsl:when>
       <xsl:when test="$value-type = 'byte'">Byte</xsl:when>
       <xsl:when test="$value-type = 'char'">Character</xsl:when>

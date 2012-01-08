@@ -31,14 +31,14 @@
 </xsl:template>
 
 <xsl:template name="method-build-children">
-   <xsl:for-each select="entity | entity/element[@list='true' and not(@render='false')]">
+   <xsl:for-each select="entity | entity/element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:sort select="@build-method"/>
 
       <xsl:choose>
          <xsl:when test="name()='element'">
             <xsl:variable name="build-method" select="@build-method"/>
             
-            <xsl:if test="generate-id(//entity/element[@build-method=$build-method][@list='true' and not(@render='false')][1])=generate-id()">
+            <xsl:if test="generate-id(//entity/element[@build-method=$build-method][(@list='true' or @set='true') and not(@render='false')][1])=generate-id()">
                <xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>   public <xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@build-method"/>(T node);<xsl:value-of select="$empty-line"/>
             </xsl:if>
