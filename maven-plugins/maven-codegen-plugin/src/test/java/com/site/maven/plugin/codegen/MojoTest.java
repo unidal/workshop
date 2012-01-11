@@ -61,6 +61,7 @@ public class MojoTest extends ComponentTestCase {
 		mojo.baseDir = new File(".");
 		mojo.inputFile = getClass().getResource("sanguo.xml").getPath();
 		mojo.outputDir = "target/generated-resources";
+		mojo.packageName = "com.site.sango.xml";
 		mojo.execute();
 
 		assertTrue("File is not generated", mojo.baseDir.exists());

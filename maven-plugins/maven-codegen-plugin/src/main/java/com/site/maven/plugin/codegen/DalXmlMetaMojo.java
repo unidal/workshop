@@ -1,8 +1,10 @@
 package com.site.maven.plugin.codegen;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -54,7 +56,8 @@ public class DalXmlMetaMojo extends AbstractMojo {
    public void execute() throws MojoExecutionException, MojoFailureException {
       try {
          File inFile = getFile(inputFile);
-         Element root = m_meta.getMeta(new FileReader(inFile));
+			Reader reader = new InputStreamReader(new FileInputStream(inFile), "utf-8");
+         Element root = m_meta.getMeta(reader);
          XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
          File outFile = getFile(outputFile);
 

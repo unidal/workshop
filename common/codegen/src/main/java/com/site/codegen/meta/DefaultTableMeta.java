@@ -252,6 +252,8 @@ public class DefaultTableMeta implements TableMeta {
 		case Types.VARBINARY:
 		case Types.LONGVARBINARY:
 			return "byte[]";
+		case Types.TINYINT:
+		case Types.SMALLINT:
 		case Types.INTEGER:
 			if (size < 12) {
 				return "int";
@@ -261,6 +263,7 @@ public class DefaultTableMeta implements TableMeta {
 		case Types.BIGINT:
 			return "long";
 		case Types.REAL:
+		case Types.DOUBLE:
 		case Types.DECIMAL:
 			if (decimal == 0) {
 				if (size < 12) {
@@ -326,7 +329,7 @@ public class DefaultTableMeta implements TableMeta {
 
 	@Override
 	public Document getModel(String packageName) {
-		Element model = new Element("model");
+		Element model = new Element("entities");
 
 		model.setAttribute("do-package", packageName);
 		model.setAttribute("gen", "true");

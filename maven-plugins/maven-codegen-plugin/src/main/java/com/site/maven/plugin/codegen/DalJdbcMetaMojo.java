@@ -103,7 +103,7 @@ public class DalJdbcMetaMojo extends AbstractMojo {
 
 	/**
 	 * @parameter expression="${outputDir}"
-	 *            default-value="${basedir|/src/main/resources/META-INF/dal/jdbc"
+	 *            default-value="${basedir}/src/main/resources/META-INF/dal/jdbc"
 	 * @required
 	 */
 	protected String outputDir;

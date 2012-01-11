@@ -241,9 +241,27 @@
       <xsl:choose>
          <xsl:when test="@map='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
+            <xsl:choose>
+	            <xsl:when test="@list-name">
+	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+	            </xsl:when>
+	            <xsl:otherwise>
+	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+	            </xsl:otherwise>
+            </xsl:choose>
+            <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().values()) {<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty-line"/>
+            <xsl:choose>
+               <xsl:when test="@list-name">
+                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:otherwise>
+            </xsl:choose>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:when test="@list='true'">

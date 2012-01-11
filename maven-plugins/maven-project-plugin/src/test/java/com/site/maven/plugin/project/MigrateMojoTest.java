@@ -37,7 +37,7 @@ public class MigrateMojoTest extends ComponentTestCase {
       Injector.setField(mojo, "sourcePackage", "com.ebay.eunit");
       Injector.setField(mojo, "targetPackage", "com.site.eunit");
       Injector.setField(mojo, "targetDir", "target/eunit-testfwk");
-      Injector.setField(mojo, "verbose", true);
+      Injector.setField(mojo, "verbose", false);
 
       mojo.execute();
    }

@@ -16,12 +16,25 @@ import com.site.lookup.ComponentTestCase;
 public class JdbcGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
-	private boolean debug = false;
+	private boolean debug = true;
 
 	@Test
-	public void testGenerateXml() throws Exception {
+	public void testGenerateJdbc() throws Exception {
 		Generator g = lookup(Generator.class, "dal-jdbc");
 		URL manifestXml = getResourceFile("jdbc_manifest.xml").toURI().toURL();
+		GenerateContext ctx = new DalGenerateContext(new File("."), "jdbc", manifestXml);
+
+		g.generate(ctx);
+
+		if (verbose) {
+			System.out.println(ctx.getGeneratedFiles() + " files generated.");
+		}
+	}
+
+	@Test
+	public void testGenerateJdbc2() throws Exception {
+		Generator g = lookup(Generator.class, "dal-jdbc");
+		URL manifestXml = getResourceFile("garden-manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "jdbc", manifestXml);
 
 		g.generate(ctx);

@@ -1,9 +1,11 @@
 package com.site.maven.plugin.codegen;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -81,7 +83,8 @@ public class DalModelMetaMojo extends AbstractMojo {
 	public void execute() throws MojoExecutionException, MojoFailureException {
 		try {
 			File inFile = getFile(inputFile);
-			Document codegen = m_meta.getCodegen(new FileReader(inFile));
+			Reader reader = new InputStreamReader(new FileInputStream(inFile), "utf-8");
+			Document codegen = m_meta.getCodegen(reader);
 			File outDir = getFile(outputDir);
 			File outFile = new File(outDir, "codegen.xml");
 

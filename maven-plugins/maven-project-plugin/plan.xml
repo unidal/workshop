@@ -9,6 +9,11 @@
             <version>1.0-alpha-47</version>
          </dependency>
          <dependency>
+            <groupId>aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.5.3</version>
+         </dependency>
+         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.0-alpha1</version>
@@ -106,17 +111,27 @@
          <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jetty</artifactId>
-            <version>6.1.15</version>
+            <version>6.1.9</version>
+         </dependency>
+         <dependency>
+            <groupId>org.mortbay.jetty</groupId>
+            <artifactId>jetty-util</artifactId>
+            <version>6.1.9</version>
          </dependency>
          <dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jsp-2.1</artifactId>
-            <version>6.1.14</version>
+            <version>6.1.9</version>
          </dependency>
          <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
+         </dependency>
+         <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>2.1</version>
          </dependency>
          <dependency>
             <groupId>org.json</groupId>
@@ -142,6 +157,10 @@
                      <groupId>org.codehaus.plexus</groupId>
                      <artifactId>plexus-container-default</artifactId>
                   </dependency>
+                  <dependency>
+                     <groupId>aspectj</groupId>
+                     <artifactId>aspectjrt</artifactId>
+                  </dependency>
                </dependencies>
             </project>
             <project artifactId="converter" packaging="jar">
@@ -152,14 +171,9 @@
                      <groupId>com.site.common</groupId>
                      <artifactId>lookup</artifactId>
                   </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
                </dependencies>
             </project>
-            <project artifactId="codegen" packaging="jar">
+            <project artifactId="codegen" version="1.0.0-a2" packaging="jar">
                <name>Common code generator</name>
                <path>codegen</path>
                <dependencies>
@@ -170,11 +184,6 @@
                   <dependency>
                      <groupId>jdom</groupId>
                      <artifactId>jdom</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
                   </dependency>
                </dependencies>
             </project>
@@ -268,11 +277,6 @@
                      <groupId>com.site.common</groupId>
                      <artifactId>converter</artifactId>
                   </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
                </dependencies>
             </project>
             <project artifactId="dal-jdbc" packaging="jar">
@@ -288,80 +292,9 @@
                      <artifactId>commons-dbcp</artifactId>
                   </dependency>
                   <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
-                  <dependency>
                      <groupId>mysql</groupId>
                      <artifactId>mysql-connector-java</artifactId>
                      <scope>test</scope>
-                  </dependency>
-               </dependencies>
-            </project>
-         </projects>
-      </project>
-      <project artifactId="parent" groupId="com.site.lab" packaging="pom">
-         <name>Laboratory parent</name>
-         <path>lab</path>
-         <projects>
-            <project artifactId="lab-performance" packaging="jar">
-               <name>Laboratory for Performance</name>
-               <path>lab-performance</path>
-               <dependencies>
-                  <dependency>
-                     <groupId>com.site.dal</groupId>
-                     <artifactId>dal-xml</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
-               </dependencies>
-            </project>
-            <project artifactId="lab-reporting" packaging="jar">
-               <name>Laboratory for Reporting</name>
-               <path>lab-reporting</path>
-               <dependencies>
-                  <dependency>
-                     <groupId>com.site.dal</groupId>
-                     <artifactId>dal-xml</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.lowagie</groupId>
-                     <artifactId>itext</artifactId>
-                     <version>1.4.8</version>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.lowagie</groupId>
-                     <artifactId>itext-asian</artifactId>
-                     <version>1.0</version>
-                  </dependency>
-               </dependencies>
-            </project>
-            <project artifactId="lab-email" packaging="jar">
-               <name>Laboratory for Email Service</name>
-               <path>lab-email</path>
-               <dependencies>
-                  <dependency>
-                     <groupId>com.site.dal</groupId>
-                     <artifactId>dal-xml</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>test-framework</artifactId>
-                     <scope>test</scope>
-                  </dependency>
-                  <dependency>
-                     <groupId>org.apache.commons</groupId>
-                     <artifactId>commons-email</artifactId>
-                     <version>1.1</version>
                   </dependency>
                </dependencies>
             </project>
@@ -399,14 +332,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.0-a2" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0</version>
+                     <version>1.0.0-a2</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
@@ -468,19 +401,444 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-media-plugin" packaging="maven-plugin">
-               <name>Maven Media Plugin</name>
-               <path>maven-media-plugin</path>
+            <project artifactId="maven-wizard-plugin" packaging="maven-plugin">
+               <name>Maven Wizard Plugin</name>
+               <path>maven-wizard-plugin</path>
                <dependencies>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>codegen</artifactId>
+                     <version>1.0.0</version>
+                  </dependency>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
                   </dependency>
+               </dependencies>
+            </project>
+         </projects>
+      </project>
+      <project artifactId="parent" groupId="com.site.lab" packaging="pom">
+         <name>Laboratory parent</name>
+         <path>lab</path>
+         <projects>
+            <project artifactId="lab-performance" packaging="jar">
+               <name>Laboratory for Performance</name>
+               <path>lab-performance</path>
+               <dependencies>
                   <dependency>
-                     <groupId>jdom</groupId>
-                     <artifactId>jdom</artifactId>
+                     <groupId>com.site.dal</groupId>
+                     <artifactId>dal-xml</artifactId>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>test-framework</artifactId>
+                     <scope>test</scope>
                   </dependency>
                </dependencies>
+            </project>
+            <project artifactId="lab-reporting" packaging="jar">
+               <name>Laboratory for Reporting</name>
+               <path>lab-reporting</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>com.site.dal</groupId>
+                     <artifactId>dal-xml</artifactId>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.lowagie</groupId>
+                     <artifactId>itext</artifactId>
+                     <version>1.4.8</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.lowagie</groupId>
+                     <artifactId>itext-asian</artifactId>
+                     <version>1.0</version>
+                  </dependency>
+               </dependencies>
+            </project>
+            <project artifactId="lab-email" packaging="jar">
+               <name>Laboratory for Email Service</name>
+               <path>lab-email</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>com.site.dal</groupId>
+                     <artifactId>dal-xml</artifactId>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>test-framework</artifactId>
+                     <scope>test</scope>
+                  </dependency>
+                  <dependency>
+                     <groupId>org.apache.commons</groupId>
+                     <artifactId>commons-email</artifactId>
+                     <version>1.1</version>
+                  </dependency>
+               </dependencies>
+            </project>
+         </projects>
+      </project>
+      <project artifactId="default" groupId="com.site.wdbc" packaging="pom">
+         <name>WDBC</name>
+         <path>wdbc</path>
+         <dependencyManagement>
+            <dependencies>
+               <dependency>
+                  <groupId>com.site.common</groupId>
+                  <artifactId>lookup</artifactId>
+                  <version>1.0.0</version>
+               </dependency>
+               <dependency>
+                  <groupId>com.site.dal</groupId>
+                  <artifactId>dal-core</artifactId>
+                  <version>1.0.0</version>
+               </dependency>
+               <dependency>
+                  <groupId>com.site.dal</groupId>
+                  <artifactId>dal-xml</artifactId>
+                  <version>1.0.0</version>
+               </dependency>
+               <dependency>
+                  <groupId>com.site.wdbc</groupId>
+                  <artifactId>wdbc-api</artifactId>
+                  <version>${project.version}</version>
+               </dependency>
+               <dependency>
+                  <groupId>com.site.wdbc</groupId>
+                  <artifactId>wdbc-engine-default</artifactId>
+                  <version>${project.version}</version>
+               </dependency>
+               <dependency>
+                  <groupId>com.site.wdbc</groupId>
+                  <artifactId>wdbc-http-client</artifactId>
+                  <version>${project.version}</version>
+               </dependency>
+            </dependencies>
+         </dependencyManagement>
+         <projects>
+            <project artifactId="wdbc-api" packaging="jar">
+               <name>WDBC API</name>
+               <path>wdbc-api</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>org.codehaus.plexus</groupId>
+                     <artifactId>plexus-container-default</artifactId>
+                  </dependency>
+               </dependencies>
+            </project>
+            <project artifactId="wdbc-engine-default" packaging="jar">
+               <name>WDBC Engine Default</name>
+               <path>wdbc-engine-default</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>lookup</artifactId>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.wdbc</groupId>
+                     <artifactId>wdbc-api</artifactId>
+                  </dependency>
+               </dependencies>
+            </project>
+            <project artifactId="wdbc-http-client" packaging="jar">
+               <name>WDBC HTTP Client</name>
+               <path>wdbc-http-client</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>org.apache.httpcomponents</groupId>
+                     <artifactId>httpclient</artifactId>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.wdbc</groupId>
+                     <artifactId>wdbc-engine-default</artifactId>
+                  </dependency>
+               </dependencies>
+            </project>
+            <project artifactId="default" groupId="com.site.wdbc.infotree" packaging="pom">
+               <name>WDBC Applications for infotree</name>
+               <path>wdbc-apps-infotree</path>
+               <dependencyManagement>
+                  <dependencies>
+                     <dependency>
+                        <groupId>com.site.wdbc.infotree</groupId>
+                        <artifactId>wdbc-domain-infotree</artifactId>
+                        <version>${project.version}</version>
+                     </dependency>
+                  </dependencies>
+               </dependencyManagement>
+               <projects>
+                  <project artifactId="wdbc-domain-infotree" packaging="jar">
+                     <name>WDBC Domain Infotree</name>
+                     <path>wdbc-domain-infotree</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-kijiji" packaging="jar">
+                     <name>WDBC Kijiji</name>
+                     <path>wdbc-kijiji</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-wuba" packaging="jar">
+                     <name>WDBC 58.com</name>
+                     <path>wdbc-wuba</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-ganji" packaging="jar">
+                     <name>WDBC ganji.com</name>
+                     <path>wdbc-ganji</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-zhantai" packaging="jar">
+                     <name>WDBC zhantai.com</name>
+                     <path>wdbc-zhantai</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-sosoko" packaging="jar">
+                     <name>WDBC sosoko.com</name>
+                     <path>wdbc-sosoko</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-petking" packaging="jar">
+                     <name>WDBC petking.cn</name>
+                     <path>wdbc-petking</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-whycools" packaging="jar">
+                     <name>WDBC whycools.com</name>
+                     <path>wdbc-whycools</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-taobao" packaging="jar">
+                     <name>WDBC taobao.com</name>
+                     <path>wdbc-taobao</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-eachnet" packaging="jar">
+                     <name>WDBC eachnet.com</name>
+                     <path>wdbc-eachnet</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-51job" packaging="jar">
+                     <name>WDBC 51job.com</name>
+                     <path>wdbc-51job</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-dianping" packaging="jar">
+                     <name>WDBC dianping.com</name>
+                     <path>wdbc-dianping</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-koubei" packaging="jar">
+                     <name>WDBC koubei.com</name>
+                     <path>wdbc-koubei</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-8j" packaging="jar">
+                     <name>WDBC 8j.com</name>
+                     <path>wdbc-8j</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-qm120" packaging="jar">
+                     <name>WDBC qm120.com</name>
+                     <path>wdbc-qm120</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-baixing" packaging="jar">
+                     <name>WDBC baixing.com</name>
+                     <path>wdbc-baixing</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-zhaopin" packaging="jar">
+                     <name>WDBC zhaopin.com</name>
+                     <path>wdbc-zhaopin</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.infotree</groupId>
+                           <artifactId>wdbc-domain-infotree</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+               </projects>
+            </project>
+            <project artifactId="default" groupId="com.site.wdbc.ant" packaging="pom">
+               <name>WDBC Applications for Ant network</name>
+               <path>wdbc-apps-ant</path>
+               <dependencyManagement>
+                  <dependencies>
+                     <dependency>
+                        <groupId>com.site.wdbc.ant</groupId>
+                        <artifactId>wdbc-domain-ant</artifactId>
+                        <version>${project.version}</version>
+                     </dependency>
+                  </dependencies>
+               </dependencyManagement>
+               <projects>
+                  <project artifactId="wdbc-domain-ant" packaging="jar">
+                     <name>WDBC Domain Ant</name>
+                     <path>wdbc-domain-ant</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-jctrans" packaging="jar">
+                     <name>WDBC jctrains.com</name>
+                     <path>wdbc-jctrans</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc.ant</groupId>
+                           <artifactId>wdbc-domain-ant</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+               </projects>
+            </project>
+            <project artifactId="default" groupId="com.site.wdbc.others" packaging="pom">
+               <name>WDBC Applications for others</name>
+               <path>wdbc-apps-others</path>
+               <projects>
+                  <project artifactId="wdbc-whois" packaging="jar">
+                     <name>WDBC Whois</name>
+                     <description>WhoIs domain name search</description>
+                     <path>wdbc-whois</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-linked-in" packaging="jar">
+                     <name>WDBC LinkedIn</name>
+                     <path>wdbc-linked-in</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                        <dependency>
+                           <groupId>mysql</groupId>
+                           <artifactId>mysql-connector-java</artifactId>
+                        </dependency>
+                        <dependency>
+                           <groupId>jdom</groupId>
+                           <artifactId>jdom</artifactId>
+                           <scope>test</scope>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-sanguo" packaging="jar">
+                     <name>Sanguo Online</name>
+                     <path>wdbc-sanguo</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.dal</groupId>
+                           <artifactId>dal-xml</artifactId>
+                        </dependency>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+                  <project artifactId="wdbc-ebay-arch" packaging="jar">
+                     <name>WDBC eBay Arch</name>
+                     <description>eBay architect documents</description>
+                     <path>wdbc-ebay-arch</path>
+                     <dependencies>
+                        <dependency>
+                           <groupId>com.site.wdbc</groupId>
+                           <artifactId>wdbc-http-client</artifactId>
+                        </dependency>
+                        <dependency>
+                           <groupId>jdom</groupId>
+                           <artifactId>jdom</artifactId>
+                        </dependency>
+                     </dependencies>
+                  </project>
+               </projects>
             </project>
          </projects>
       </project>

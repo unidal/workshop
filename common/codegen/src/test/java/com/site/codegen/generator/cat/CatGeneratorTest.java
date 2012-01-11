@@ -16,7 +16,23 @@ import com.site.lookup.ComponentTestCase;
 public class CatGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
-	private boolean debug = false;
+	private boolean debug = true;
+
+	@Test
+	public void testGenerateConfig() throws Exception {
+		Generator g = lookup(Generator.class, "dal-model");
+		URL manifestXml = getResourceFile("config-manifest.xml").toURI().toURL();
+		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
+		long start = System.currentTimeMillis();
+
+		g.generate(ctx);
+
+		if (verbose) {
+			long now = System.currentTimeMillis();
+
+			System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
+		}
+	}
 
 	@Test
 	public void testGenerateFailureReport() throws Exception {
