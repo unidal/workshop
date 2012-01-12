@@ -30,13 +30,22 @@ public abstract class AbstractWebComponentsConfigurator extends AbstractResource
 			Inject inject = field.getAnnotation(Inject.class);
 
 			if (inject != null) {
-				Class<?> role = inject.type() != Inject.Default.class ? inject.type() : type;
+				Class<?> role = inject.type();
 				String roleHint = inject.value();
+				String fieldName = null;
+
+				if (role == Inject.Default.class) {
+					role = type;
+				} else {
+					fieldName = field.getName();
+				}
 
 				if (roleHint.length() == 0) {
 					component.req(role);
-				} else {
+				} else if (fieldName == null) {
 					component.req(role, roleHint);
+				} else {
+					component.req(role, roleHint, fieldName);
 				}
 			}
 
@@ -75,7 +84,7 @@ public abstract class AbstractWebComponentsConfigurator extends AbstractResource
 	}
 
 	protected void defineModuleRegistry(List<Component> all, Class<? extends AbstractModule> defaultModuleClass,
-			Class<? extends AbstractModule>... moduleClasses) {
+	      Class<? extends AbstractModule>... moduleClasses) {
 		Configuration modules = E("modules");
 
 		for (Class<?> moduleClass : moduleClasses) {

@@ -25,8 +25,7 @@ import com.site.web.mvc.model.ModuleModel;
 import com.site.web.mvc.model.OutboundActionModel;
 import com.site.web.mvc.payload.ParameterProvider;
 
-public class DefaultRequestLifecycle extends ContainerHolder implements
-		RequestLifecycle, LogEnabled {
+public class DefaultRequestLifecycle extends ContainerHolder implements RequestLifecycle, LogEnabled {
 	@Inject
 	private ModelManager m_modelManager;
 
@@ -35,12 +34,9 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 
 	private Logger m_logger;
 
-	private ActionContext<?> createActionContext(
-			final HttpServletRequest request,
-			final HttpServletResponse response, RequestContext requestContext,
-			InboundActionModel inboundAction) {
-		ActionContext<?> context = createInstance(inboundAction
-				.getContextClass());
+	private ActionContext<?> createActionContext(final HttpServletRequest request, final HttpServletResponse response,
+	      RequestContext requestContext, InboundActionModel inboundAction) {
+		ActionContext<?> context = createInstance(inboundAction.getContextClass());
 
 		context.initialize(request, response);
 		context.setRequestContext(requestContext);
@@ -50,8 +46,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		return context;
 	}
 
-	private RequestContext createRequestContext(
-			ParameterProvider parameterProvider) {
+	private RequestContext createRequestContext(ParameterProvider parameterProvider) {
 		String moduleName = getModuleName(parameterProvider.getRequest());
 		final ModuleModel module = m_modelManager.getModule(moduleName);
 
@@ -59,11 +54,9 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 			return null;
 		}
 
-		ActionResolver actionResolver = (ActionResolver) module
-				.getActionResolverInstance();
+		ActionResolver actionResolver = (ActionResolver) module.getActionResolverInstance();
 		UrlMapping urlMapping = actionResolver.parseUrl(parameterProvider);
-		InboundActionModel inboundAction = getInboundAction(module,
-				urlMapping.getAction());
+		InboundActionModel inboundAction = getInboundAction(module, urlMapping.getAction());
 
 		if (inboundAction == null) {
 			return null;
@@ -76,10 +69,8 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		context.setUrlMapping(urlMapping);
 		context.setModule(module);
 		context.setInboundAction(inboundAction);
-		context.setTransition(module.getTransitions().get(
-				inboundAction.getTransitionName()));
-		context.setError(module.getErrors().get(
-				inboundAction.getErrorActionName()));
+		context.setTransition(module.getTransitions().get(inboundAction.getTransitionName()));
+		context.setError(module.getErrors().get(inboundAction.getErrorActionName()));
 
 		return context;
 	}
@@ -91,15 +82,12 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 	/**
 	 * get in-bound action from current module or default module
 	 */
-	private InboundActionModel getInboundAction(ModuleModel module,
-			String actionName) {
+	private InboundActionModel getInboundAction(ModuleModel module, String actionName) {
 		InboundActionModel inboundAction = module.getInbounds().get(actionName);
 
 		// try to get the action with default action name
-		if (inboundAction == null
-				&& module.getDefaultInboundActionName() != null) {
-			inboundAction = module.getInbounds().get(
-					module.getDefaultInboundActionName());
+		if (inboundAction == null && module.getDefaultInboundActionName() != null) {
+			inboundAction = module.getInbounds().get(module.getDefaultInboundActionName());
 		}
 
 		return inboundAction;
@@ -135,8 +123,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		return "default";
 	}
 
-	private ParameterProvider getParameterProvider(
-			final HttpServletRequest request) {
+	private ParameterProvider getParameterProvider(final HttpServletRequest request) {
 		String contentType = request.getContentType();
 		String mimeType = getMimeType(contentType);
 		ParameterProvider provider = lookup(ParameterProvider.class, mimeType);
@@ -156,8 +143,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		}
 	}
 
-	public void handle(final HttpServletRequest request,
-			final HttpServletResponse response) throws IOException {
+	public void handle(final HttpServletRequest request, final HttpServletResponse response) throws IOException {
 		ParameterProvider parameterProvider = getParameterProvider(request);
 		RequestContext requestContext = createRequestContext(parameterProvider);
 
@@ -168,15 +154,12 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 
 		ModuleModel module = requestContext.getModule();
 		InboundActionModel inboundAction = requestContext.getInboundAction();
-		ActionContext<?> actionContext = createActionContext(request, response,
-				requestContext, inboundAction);
+		ActionContext<?> actionContext = createActionContext(request, response, requestContext, inboundAction);
 
 		if (inboundAction.getPreActionNames() != null) {
 			for (String actionName : inboundAction.getPreActionNames()) {
-				InboundActionModel action = module.getInbounds()
-						.get(actionName);
-				ActionContext<?> ctx = createActionContext(request, response,
-						requestContext, action);
+				InboundActionModel action = module.getInbounds().get(actionName);
+				ActionContext<?> ctx = createActionContext(request, response, requestContext, action);
 
 				ctx.setParent(actionContext);
 				requestContext.setInboundAction(action);
@@ -220,8 +203,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		ErrorModel error = requestContext.getError();
 
 		if (error != null) {
-			ErrorHandler errorHandler = m_actionHandlerManager.getErrorHandler(
-					requestContext.getModule(), error);
+			ErrorHandler errorHandler = m_actionHandlerManager.getErrorHandler(requestContext.getModule(), error);
 
 			errorHandler.handle(actionContext, e);
 		} else {
@@ -233,46 +215,36 @@ public class DefaultRequestLifecycle extends ContainerHolder implements
 		}
 	}
 
-	private void handleInboundAction(ModuleModel module,
-			ActionContext<?> actionContext) throws ActionException {
-		InboundActionModel inboundAction = actionContext.getRequestContext()
-				.getInboundAction();
-		InboundActionHandler inboundActionHandler = m_actionHandlerManager
-				.getInboundActionHandler(module, inboundAction);
+	private void handleInboundAction(ModuleModel module, ActionContext<?> actionContext) throws ActionException {
+		InboundActionModel inboundAction = actionContext.getRequestContext().getInboundAction();
+		InboundActionHandler inboundActionHandler = m_actionHandlerManager.getInboundActionHandler(module, inboundAction);
 
 		inboundActionHandler.handle(actionContext);
 	}
 
-	private void handleOutboundAction(ModuleModel module,
-			ActionContext<?> actionContext) throws ActionException {
+	private void handleOutboundAction(ModuleModel module, ActionContext<?> actionContext) throws ActionException {
 		String outboundActionName = actionContext.getOutboundAction();
-		OutboundActionModel outboundAction = module.getOutbounds().get(
-				outboundActionName);
+		OutboundActionModel outboundAction = module.getOutbounds().get(outboundActionName);
 
 		if (outboundAction == null) {
-			throw new ActionException("No method annotated by @"
-					+ OutboundActionMeta.class.getSimpleName() + "("
-					+ outboundActionName + ") found in "
-					+ module.getModuleClass());
+			throw new ActionException("No method annotated by @" + OutboundActionMeta.class.getSimpleName() + "("
+			      + outboundActionName + ") found in " + module.getModuleClass());
 		} else {
-			OutboundActionHandler outboundActionHandler = m_actionHandlerManager
-					.getOutboundActionHandler(module, outboundAction);
+			OutboundActionHandler outboundActionHandler = m_actionHandlerManager.getOutboundActionHandler(module,
+			      outboundAction);
 
 			outboundActionHandler.handle(actionContext);
 		}
 	}
 
-	private void handleTransition(ModuleModel module,
-			ActionContext<?> actionContext) throws ActionException {
-		TransitionHandler transitionHandler = m_actionHandlerManager
-				.getTransitionHandler(module, actionContext.getRequestContext()
-						.getTransition());
+	private void handleTransition(ModuleModel module, ActionContext<?> actionContext) throws ActionException {
+		TransitionHandler transitionHandler = m_actionHandlerManager.getTransitionHandler(module, actionContext
+		      .getRequestContext().getTransition());
 
 		transitionHandler.handle(actionContext);
 	}
 
-	private void showPageNotFound(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	private void showPageNotFound(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		response.sendError(HttpServletResponse.SC_NOT_FOUND, "Not found");
 	}
 }
