@@ -48,7 +48,12 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 
 	private RequestContext createRequestContext(ParameterProvider parameterProvider) {
 		String moduleName = getModuleName(parameterProvider.getRequest());
-		final ModuleModel module = m_modelManager.getModule(moduleName);
+		ModuleModel module = m_modelManager.getModule(moduleName);
+
+		// try default module
+		if (module == null) {
+			module = m_modelManager.getModule(null);
+		}
 
 		if (module == null) {
 			return null;

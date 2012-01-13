@@ -24,7 +24,8 @@ import com.site.web.mvc.annotation.ModulePagesMeta;
 @ModulePagesMeta({
 <xsl:for-each select="page">
    <xsl:value-of select="$empty-line"/>
-   <xsl:value-of select="@package"/>.<xsl:value-of select="@handler-class"/>.class,
+   <xsl:value-of select="@package"/>.<xsl:value-of select="@handler-class"/>.class<xsl:value-of select="$empty"/>
+   <xsl:if test="position()!=last()">,<xsl:value-of select="$empty-line"/></xsl:if>
 </xsl:for-each>
 })
 public class <xsl:value-of select="@module-class"/> extends AbstractModule {

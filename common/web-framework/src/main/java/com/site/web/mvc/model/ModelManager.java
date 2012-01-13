@@ -39,8 +39,8 @@ public class ModelManager extends ContainerHolder implements Initializable {
 
 	private void assertErrorExists(ModuleModel module, String errorActionName) {
 		if (!module.getErrors().containsKey(errorActionName)) {
-			throw new IllegalArgumentException("No method is annotated by @" + ErrorActionMeta.class.getSimpleName() + "(name = \""
-					+ errorActionName + "\") defined in " + module.getModuleClass());
+			throw new IllegalArgumentException("No method is annotated by @" + ErrorActionMeta.class.getSimpleName()
+			      + "(name = \"" + errorActionName + "\") defined in " + module.getModuleClass());
 		}
 	}
 
@@ -51,14 +51,14 @@ public class ModelManager extends ContainerHolder implements Initializable {
 			throw new IllegalArgumentException("Only one parameter is allowed by " + method);
 		} else if (!ActionContext.class.isAssignableFrom(parameters[0])) {
 			throw new IllegalArgumentException("Parameter(" + parameters[0] + ") of " + method + " msut be subclass of "
-					+ ActionContext.class);
+			      + ActionContext.class);
 		}
 	}
 
 	private void assertTransitionExists(ModuleModel module, String transitionName) {
 		if (!module.getTransitions().containsKey(transitionName)) {
-			throw new IllegalArgumentException("No method is annotated by @" + TransitionMeta.class.getSimpleName() + "(name = \""
-					+ transitionName + "\") in " + module.getModuleClass());
+			throw new IllegalArgumentException("No method is annotated by @" + TransitionMeta.class.getSimpleName()
+			      + "(name = \"" + transitionName + "\") in " + module.getModuleClass());
 		}
 	}
 
@@ -87,17 +87,17 @@ public class ModelManager extends ContainerHolder implements Initializable {
 	}
 
 	private InboundActionModel buildInbound(ModuleModel module, Method method, InboundActionMeta inMeta,
-			PreInboundActionMeta preInMeta) {
+	      PreInboundActionMeta preInMeta) {
 		if (preInMeta != null && inMeta == null) {
-			throw new RuntimeException(PreInboundActionMeta.class + " can only be used with " + InboundActionMeta.class + " for "
-					+ method);
+			throw new RuntimeException(PreInboundActionMeta.class + " can only be used with " + InboundActionMeta.class
+			      + " for " + method);
 		}
 
 		InboundActionModel existed = module.getInbounds().get(inMeta.name());
 
 		if (existed != null) {
-			throw new RuntimeException("Duplicated name(" + inMeta.name() + ") found between " + method.getName() + "() and "
-					+ existed.getActionMethod().getName() + "() of " + module.getModuleClass());
+			throw new RuntimeException("Duplicated name(" + inMeta.name() + ") found between " + method.getName()
+			      + "() and " + existed.getActionMethod().getName() + "() of " + module.getModuleClass());
 		}
 
 		assertParameter(method);
@@ -106,7 +106,8 @@ public class ModelManager extends ContainerHolder implements Initializable {
 
 		inbound.setActionName(inMeta.name());
 		inbound.setTransitionName(isEmpty(inMeta.transition()) ? module.getDefaultTransitionName() : inMeta.transition());
-		inbound.setErrorActionName(isEmpty(inMeta.errorAction()) ? module.getDefaultErrorActionName() : inMeta.errorAction());
+		inbound.setErrorActionName(isEmpty(inMeta.errorAction()) ? module.getDefaultErrorActionName() : inMeta
+		      .errorAction());
 		inbound.setActionMethod(method);
 		inbound.setContextClass(method.getParameterTypes()[0]);
 
@@ -172,14 +173,14 @@ public class ModelManager extends ContainerHolder implements Initializable {
 			TransitionMeta transitionMeta = method.getAnnotation(TransitionMeta.class);
 			ErrorActionMeta errorMeta = method.getAnnotation(ErrorActionMeta.class);
 			int num = (inMeta == null ? 0 : 1) + (outMeta == null ? 0 : 1) + (transitionMeta == null ? 0 : 1)
-					+ (errorMeta == null ? 0 : 1);
+			      + (errorMeta == null ? 0 : 1);
 
 			if (num == 0) {
 				// Not annotated, ignored
 				continue;
 			} else if (num > 1) {
 				throw new RuntimeException(method + " can only be annotated by one of " + InboundActionMeta.class + ", "
-						+ OutboundActionMeta.class + ", " + TransitionMeta.class + " or " + ErrorActionMeta.class);
+				      + OutboundActionMeta.class + ", " + TransitionMeta.class + " or " + ErrorActionMeta.class);
 			}
 
 			if (inMeta != null) {
@@ -235,6 +236,19 @@ public class ModelManager extends ContainerHolder implements Initializable {
 		return transition;
 	}
 
+	public ModuleModel getModule(String name) {
+		return m_modules.get(name);
+	}
+
+	public void initialize() throws InitializationException {
+		Class<?> defaultModuleClass = m_registry.getDefaultModuleClass();
+		List<Class<?>> moduleClasses = m_registry.getModuleClasses();
+
+		for (Class<?> moduleClass : moduleClasses) {
+			register(moduleClass, defaultModuleClass == moduleClass);
+		}
+	}
+
 	protected <T> T lookupOrNewInstance(Class<T> clazz) {
 		if (hasComponent(clazz)) {
 			return lookup(clazz);
@@ -243,25 +257,21 @@ public class ModelManager extends ContainerHolder implements Initializable {
 		}
 	}
 
-	public ModuleModel getModule(String name) {
-		return m_modules.get(name);
-	}
-
-	public void initialize() throws InitializationException {
-		List<Class<?>> moduleClasses = m_registry.getModuleClasses();
-
-		for (Class<?> moduleClass : moduleClasses) {
-			register(moduleClass);
-		}
-	}
-
 	void register(Class<?> moduleClass) {
+		register(moduleClass, false);
+	}
+
+	void register(Class<?> moduleClass, boolean defaultModule) {
 		ModuleModel module = build(moduleClass);
 		ModuleModel oldModule = m_modules.put(module.getModuleName(), module);
 
 		if (oldModule != null && oldModule.getModuleClass() != moduleClass) {
 			throw new RuntimeException("Two modules(" + oldModule.getModuleClass() + " and " + moduleClass
-					+ ") can't have same module name(" + module.getModuleName() + ").");
+			      + ") can't have same module name(" + module.getModuleName() + ").");
+		}
+
+		if (defaultModule) {
+			m_modules.put(null, module);
 		}
 	}
 
@@ -276,8 +286,8 @@ public class ModelManager extends ContainerHolder implements Initializable {
 
 		for (InboundActionModel inbound : module.getInbounds().values()) {
 			if (isEmpty(inbound.getTransitionName())) {
-				throw new IllegalArgumentException("Please specify transition() of @" + InboundActionMeta.class.getSimpleName()
-						+ " of " + inbound.getActionMethod());
+				throw new IllegalArgumentException("Please specify transition() of @"
+				      + InboundActionMeta.class.getSimpleName() + " of " + inbound.getActionMethod());
 			} else {
 				assertTransitionExists(module, inbound.getTransitionName());
 			}

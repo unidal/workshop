@@ -22,9 +22,13 @@ import com.site.web.mvc.annotation.ModuleMeta;
 public enum <xsl:value-of select="@page-class"/> implements Page {
 <xsl:for-each select="page">
    <xsl:value-of select="$empty-line"/>
-   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@description"/>", true),
+   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@description"/>", true)<xsl:value-of select="$empty"/>
+   <xsl:choose>
+   	 <xsl:when test="position()=last()">;</xsl:when>
+   	 <xsl:otherwise>,</xsl:otherwise>
+   </xsl:choose>
+   <xsl:value-of select="$empty-line"/>
 </xsl:for-each>
-	;
 
 	private String m_name;
 
