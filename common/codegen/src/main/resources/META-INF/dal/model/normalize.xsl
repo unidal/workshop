@@ -576,6 +576,12 @@
    <xsl:attribute name="value-type">
       <xsl:value-of select="$value-type"/>
    </xsl:attribute>
+   <xsl:if test="@type='map'">
+   	  <xsl:attribute name="value-type-entry">
+         <xsl:value-of select="'Map.Entry'"/>
+         <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
+   	  </xsl:attribute>
+   </xsl:if>
    <xsl:attribute name="param-name-element">
       <xsl:value-of select="$normalized-name-element"/>
    </xsl:attribute>

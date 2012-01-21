@@ -18,9 +18,7 @@
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class DefaultJsonBuilder implements IVisitor {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-commons'/>
-   <xsl:call-template name='method-date-to-string'/>
    <xsl:call-template name='method-visit'/>
-   <xsl:call-template name='define-entry-class'/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
 </xsl:template>
 
@@ -48,17 +46,17 @@
          </xsl:choose>
       </xsl:if>
    </xsl:for-each>
-   <xsl:for-each select="entity | entity/entity-ref[not(@render='false')]">
+   <xsl:for-each select="entity/entity-ref[not(@render='false')]">
       <xsl:sort select="@upper-name"/>
 
       <xsl:variable name="upper-name" select="@upper-name"/>
-      <xsl:if test="generate-id((//entity | //entity/entity-ref[not(@render='false')])[@upper-name=$upper-name][1])=generate-id()">
+      <xsl:if test="generate-id((//entity/entity-ref[not(@render='false')])[@upper-name=$upper-name][1])=generate-id()">
          <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
       </xsl:if>
    </xsl:for-each>
    <xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>import java.util.List;<xsl:value-of select="$empty-line"/>
-   <xsl:value-of select="$empty"/>import java.util.Stack;<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>import java.util.Map;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>
    <xsl:if test="//entity[@all-children-in-sequence='true']">
       <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.BaseEntity;<xsl:value-of select="$empty-line"/>
@@ -77,10 +75,14 @@
 
    private StringBuilder m_sb = new StringBuilder(2048);
 
-   private Stack<xsl:value-of select="'&lt;JsonEntry&gt;'" disable-output-escaping="yes"/> m_entries = new Stack<xsl:value-of select="'&lt;JsonEntry&gt;'" disable-output-escaping="yes"/>();
+   protected void arrayBegin(String name) {
+      indent();
+      m_sb.append('"').append(name).append("\": [\r\n");
 
-   protected void endArray(String name) {
-      m_entries.peek().setInArray(false);
+      m_level++;
+   }
+
+   protected void arrayEnd(String name) {
       m_level--;
 
       trimComma();
@@ -88,13 +90,48 @@
       m_sb.append("],\r\n");
    }
 
-   protected void endObject(String name) {
-      m_level--;
-      m_entries.pop();
+   protected void attributes(Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
+      int len = nameValues.length;
 
-      trimComma();
-      indent();
-      m_sb.append("},\r\n");
+      for (int i = 0; i + 1 <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> len; i += 2) {
+         Object attrName = nameValues[i];
+         Object attrValue = nameValues[i + 1];
+
+         if (attrValue != null) {
+            if (attrValue instanceof List) {
+               @SuppressWarnings("unchecked")
+               List<xsl:value-of select="'&lt;Object&gt;'" disable-output-escaping="yes"/> list = (List<xsl:value-of select="'&lt;Object&gt;'" disable-output-escaping="yes"/>) attrValue;
+
+               if (!list.isEmpty()) {
+                  indent();
+                  m_sb.append('"').append(attrName).append("\": [");
+
+                  for (Object item : list) {
+                     m_sb.append(' ');
+                     toString(m_sb, item);
+                     m_sb.append(',');
+                  }
+
+                  m_sb.setLength(m_sb.length() - 1);
+                  m_sb.append(" ],\r\n");
+               }
+            } else {
+               indent();
+               m_sb.append('"').append(attrName).append("\": ");
+               toString(m_sb, attrValue);
+               m_sb.append(",\r\n");
+            }
+         }
+      }
+
+      if (dynamicAttributes != null) {
+         for (Map.Entry<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> e : dynamicAttributes.entrySet()) {
+            indent();
+            m_sb.append('"').append(e.getKey()).append("\": ");
+            toString(m_sb, e.getValue());
+            m_sb.append(",\r\n");
+         }
+      }
    }
 
    public String getString() {
@@ -107,86 +144,34 @@
       }
    }
 
-   protected void startArray(String name) {
-      indent();
-      m_sb.append('"').append(name).append("\": [\r\n");
-
-      m_entries.peek().setInArray(true);
-      m_level++;
-   }
-
-   protected void startObject(String name) {
-      startObject(name, null, false);
-   }
-
-   protected void startObject(String name, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
-      startObject(name, dynamicAttributes, false, nameValues);
-   }
-
-   protected void startObject(String name, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, boolean closed, Object... nameValues) {
+   protected void objectBegin(String name) {
       indent();
 
-      if (m_entries.peek().isInArray()) {
+      if (name == null) {
          m_sb.append("{\r\n");
       } else {
          m_sb.append('"').append(name).append("\": {\r\n");
       }
 
-      m_entries.push(new JsonEntry());
       m_level++;
-
-      int len = nameValues.length;
-
-      for (int i = 0; i + 1 <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> len; i += 2) {
-         Object attrName = nameValues[i];
-         Object attrValue = nameValues[i + 1];
-
-         if (attrValue != null) {
-	         if (attrValue instanceof List) {
-	            @SuppressWarnings("unchecked")
-	            List<xsl:value-of select="'&lt;Object&gt;'" disable-output-escaping="yes"/> list = (List<xsl:value-of select="'&lt;Object&gt;'" disable-output-escaping="yes"/>) attrValue;
-	
-	            if (!list.isEmpty()) {
-		            indent();
-	               m_sb.append('"').append(attrName).append("\": [");
-	
-	               for (Object item : list) {
-	                  m_sb.append(' ');
-	                  toString(m_sb, item);
-	                  m_sb.append(',');
-	               }
-	
-	               m_sb.setLength(m_sb.length() - 1);
-	               m_sb.append(" ],\r\n");
-	            }
-	         } else {
-               indent();
-	            m_sb.append('"').append(attrName).append("\": ");
-	            toString(m_sb, attrValue);
-	            m_sb.append(",\r\n");
-	         }
-         }
-      }
-
-      if (dynamicAttributes != null) {
-         for (java.util.Map.Entry<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> e : dynamicAttributes.entrySet()) {
-            indent();
-            m_sb.append('"').append(e.getKey()).append("\": ");
-            toString(m_sb, e.getValue());
-            m_sb.append(",\r\n");
-         }
-      }
-
-      if (closed) {
-         trimComma();
-
-         m_level--;
-         m_entries.pop();
-         indent();
-         m_sb.append("},\r\n");
-      }
    }
 
+   protected void objectEnd(String name) {
+      m_level--;
+
+      trimComma();
+      indent();
+      m_sb.append("},\r\n");
+   }
+<xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
+   protected String toString(java.util.Date date, String format) {
+      if (date != null) {
+         return new java.text.SimpleDateFormat(format).format(date);
+      } else {
+         return null;
+      }
+   }
+</xsl:if>
    protected void toString(StringBuilder sb, Object value) {
       if (value instanceof String) {
          sb.append('"').append(value).append('"');
@@ -206,18 +191,6 @@
    }
 </xsl:template>
 
-<xsl:template name="method-date-to-string">
-<xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
-   protected String toString(java.util.Date date, String format) {
-      if (date != null) {
-         return new java.text.SimpleDateFormat(format).format(date);
-      } else {
-         return null;
-      }
-   }
-</xsl:if>
-</xsl:template>
-
 <xsl:template name="method-visit">
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
@@ -226,48 +199,48 @@
       <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   public void <xsl:value-of select="@visit-method"/>(<xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
       <xsl:if test="@root='true'">
-         <xsl:value-of select="$empty"/>      m_entries.push(new JsonEntry().setInArray(true));<xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>      objectBegin(null);<xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:choose>
          <xsl:when test="@all-children-in-sequence='true'">
-            <xsl:value-of select="$empty"/>      startObject(<xsl:value-of select="@upper-name"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      objectBegin(<xsl:value-of select="@upper-name"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      for (BaseEntity<xsl:value-of select="'&lt;?&gt;'" disable-output-escaping="yes"/> child : <xsl:value-of select="@param-name"/>.<xsl:value-of select="@method-get-all-children-in-sequence"/>()) {<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         child.accept(this);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>      endObject(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:when test="element[not(@render='false') and (@list='true' or @set='true')]">
-           <xsl:value-of select="$empty"/>      startObject(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
-           <xsl:value-of select="$empty-line"/>
-		   <xsl:variable name="entity" select="."/>
-		   <xsl:for-each select="element[not(@render='false') and (@list='true' or @set='true')]">
-		      <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
-		       <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>            indent();<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append("\",\r\n");<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
-		      <xsl:value-of select="$empty-line"/>
-		   </xsl:for-each>
-           <xsl:value-of select="$empty"/>      endObject(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+         <xsl:variable name="entity" select="."/>
+         <xsl:for-each select="element[not(@render='false') and (@list='true' or @set='true')]">
+            <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
+             <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            indent();<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append("\",\r\n");<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+            <xsl:if test="position()!=last()">
+               <xsl:value-of select="$empty-line"/>
+            </xsl:if>
+         </xsl:for-each>
          </xsl:when>
          <xsl:when test="entity-ref[not(@render='false')]">
-            <xsl:value-of select="$empty"/>      startObject(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      attributes(<xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:call-template name="visit-children"/>
-            <xsl:value-of select="$empty"/>      endObject(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:otherwise>
-            <xsl:value-of select="$empty"/>      startObject(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/>, true<xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      attributes(<xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
       <xsl:if test="@root='true'">
+         <xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>      objectEnd(null);<xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>      trimComma();<xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
@@ -283,24 +256,26 @@
          <xsl:when test="@map='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
             <xsl:choose>
-	            <xsl:when test="@names">
-	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-	            </xsl:when>
-	            <xsl:otherwise>
-	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
-	            </xsl:otherwise>
+               <xsl:when test="@names">
+                  <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:otherwise>
             </xsl:choose>
             <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().values()) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-entry" disable-output-escaping="yes"/> e : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().entrySet()) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectBegin(e.getKey());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(e.getValue());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectEnd(e.getKey());<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:choose>
                <xsl:when test="@names">
-                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
             </xsl:choose>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
@@ -308,35 +283,41 @@
          <xsl:when test="@list='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
             <xsl:choose>
-	            <xsl:when test="@names">
-	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-	            </xsl:when>
-	            <xsl:otherwise>
-	               <xsl:value-of select="$empty"/>         startArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
-	            </xsl:otherwise>
+               <xsl:when test="@names">
+                  <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:otherwise>
             </xsl:choose>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectBegin(null);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectEnd(null);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:choose>
                <xsl:when test="@names">
-                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>         endArray(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="$entity/@upper-name"/>);<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
             </xsl:choose>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>      if (<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() != null) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:value-of select="$empty-line"/>
+      <xsl:if test="position()!=last()">
+         <xsl:value-of select="$empty-line"/>
+      </xsl:if>
    </xsl:for-each>
 </xsl:template>
 
@@ -370,21 +351,6 @@
       </xsl:when>
       <xsl:otherwise>null</xsl:otherwise>
    </xsl:choose>
-</xsl:template>
-
-<xsl:template name="define-entry-class">
-   static class JsonEntry {
-      private boolean m_inArray;
-
-      public boolean isInArray() {
-         return m_inArray;
-      }
-
-      public JsonEntry setInArray(boolean inArray) {
-         m_inArray = inArray;
-         return this;
-      }
-   }
 </xsl:template>
 
 </xsl:stylesheet>

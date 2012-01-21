@@ -16,7 +16,7 @@ import com.site.lookup.ComponentTestCase;
 public class CatGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
-	private boolean debug = true;
+	private boolean debug = false;
 
 	@Test
 	public void testGenerateConfig() throws Exception {

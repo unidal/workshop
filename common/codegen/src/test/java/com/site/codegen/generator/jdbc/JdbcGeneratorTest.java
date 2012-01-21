@@ -16,7 +16,7 @@ import com.site.lookup.ComponentTestCase;
 public class JdbcGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
-	private boolean debug = true;
+	private boolean debug = false;
 
 	@Test
 	public void testGenerateJdbc() throws Exception {
