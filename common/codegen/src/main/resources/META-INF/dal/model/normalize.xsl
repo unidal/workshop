@@ -206,7 +206,10 @@
       </xsl:attribute>
       <xsl:attribute name="get-method">
          <xsl:value-of select="'get'"/>
-         <xsl:value-of select="$capital-name"/>
+         <xsl:choose>
+            <xsl:when test="$capital-name='Class'">Clazz</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$capital-name"/></xsl:otherwise>
+         </xsl:choose>
       </xsl:attribute>
       <xsl:if test="@value-type='boolean' or @value-type='Boolean'">
          <xsl:attribute name="is-method">
@@ -216,7 +219,10 @@
       </xsl:if>
       <xsl:attribute name="set-method">
          <xsl:value-of select="'set'"/>
-         <xsl:value-of select="$capital-name"/>
+         <xsl:choose>
+            <xsl:when test="$capital-name='Class'">Clazz</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$capital-name"/></xsl:otherwise>
+         </xsl:choose>
       </xsl:attribute>
       
       <xsl:apply-templates/>
@@ -651,7 +657,7 @@
       	<xsl:choose>
 	      <xsl:when test="$value-type = 'boolean'">boolean</xsl:when>
 	      <xsl:when test="$value-type = 'byte'">byte</xsl:when>
-	      <xsl:when test="$value-type = 'char'">character</xsl:when>
+	      <xsl:when test="$value-type = 'char'">char</xsl:when>
 	      <xsl:when test="$value-type = 'short'">short</xsl:when>
 	      <xsl:when test="$value-type = 'int'">int</xsl:when>
 	      <xsl:when test="$value-type = 'long'">long</xsl:when>

@@ -1,15 +1,15 @@
 <model model-package="com.dianping.cat.consumer.failure.model" enable-merger="true" enable-json-builder="true"
-	enable-xml-parser="true" enable-base-visitor="true">
-	<entity name="failure-report" root="true">
-		<entity-ref name="segment" type="map" />
-	</entity>
-	<entity name="machines">
-		<element name="machine" type="set" />
-	</entity>
-	<entity name="threads">
-		<element name="thread" type="set" />
-	</entity>
-	<entity name="segment">
-		<attribute name="id" key="true" />
-	</entity>
+   enable-xml-parser="true" enable-base-visitor="true" enable-xml-schema="true" enable-xml-sample="true">
+   <entity name="failure-report" root="true">
+      <entity-ref name="segment" type="map" />
+   </entity>
+   <entity name="machines">
+      <element name="machine" type="set" />
+   </entity>
+   <entity name="threads">
+      <element name="thread" type="set" />
+   </entity>
+   <entity name="segment">
+      <attribute name="id" key="true" />
+   </entity>
 </model>

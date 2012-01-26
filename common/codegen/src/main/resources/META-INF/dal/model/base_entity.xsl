@@ -23,7 +23,16 @@ public abstract class BaseEntity<xsl:call-template name="generic-type"><xsl:with
          throw new IllegalArgumentException(String.format("Mismatched entity(%s) found! Same %s attribute is expected! %s: %s.", entityName, name, entityName, instance));
       }
    }
-
+<xsl:if test="//entity/attribute[@value-type='java.util.Date' and @default-value] | //entity/element[@value-type='java.util.Date' and @default-value]">
+   protected java.util.Date toDate(String format, String text) {
+      try {
+         return new java.text.SimpleDateFormat(format).parse(text);
+      } catch (java.text.ParseException e) {
+         throw new IllegalArgumentException(
+               String.format("Error when parsing date(%s) with format(%s)!", text, format), e);
+      }
+   }
+</xsl:if>
    @Override
    public String toString() {
       DefaultXmlBuilder builder = new DefaultXmlBuilder();

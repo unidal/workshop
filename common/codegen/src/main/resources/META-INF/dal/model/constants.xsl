@@ -27,7 +27,7 @@
       <xsl:sort select="@name"/>
 
       <xsl:variable name="name" select="@name"/>
-      <xsl:if test="generate-id(//entity/attribute[@name=$name][1])=generate-id()">
+      <xsl:if test="generate-id(//entity/attribute[not(@text='true' or @render='false')][@name=$name][1])=generate-id()">
          <xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name"/> = "<xsl:value-of select="@name"/>";<xsl:value-of select="$empty-line"/>
       </xsl:if>
@@ -35,17 +35,18 @@
 </xsl:template>
 
 <xsl:template name="constant-elements">
-   <xsl:for-each select="entity/element[not(@render='false')]">
+   <xsl:for-each select="entity/element[not(@text='true' or @render='false')]">
       <xsl:sort select="@upper-name"/>
 
       <xsl:variable name="upper-name" select="@upper-name"/>
-      <xsl:if test="generate-id((//entity/element)[@upper-name=$upper-name][1])=generate-id()">
+      <xsl:variable name="upper-name-element" select="@upper-name-element"/>
+      <xsl:if test="generate-id(//entity/element[not(@text='true' or @render='false')][@upper-name=$upper-name or @upper-name-element=$upper-name-element][1])=generate-id()">
          <xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name-element"/> = "<xsl:value-of select="@name"/>";<xsl:value-of select="$empty-line"/>
-         <xsl:if test="@list='true' or @set='true'">
-            <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name"/> = "<xsl:value-of select="@tag-name"/>";<xsl:value-of select="$empty-line"/>
-         </xsl:if>
+      </xsl:if>
+      <xsl:if test="generate-id(//entity/element[(@list='true' or @set='true') and not(@text='true' or @render='false')][@upper-name-element=$upper-name-element][1])=generate-id()">
+         <xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name"/> = "<xsl:value-of select="@tag-name"/>";<xsl:value-of select="$empty-line"/>
       </xsl:if>
    </xsl:for-each>
 </xsl:template>

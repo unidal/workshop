@@ -186,30 +186,26 @@
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
-         <xsl:when test="element[not(@render='false') and (@list='true' or @set='true')]">
-         <xsl:variable name="entity" select="."/>
-         <xsl:for-each select="element[not(@render='false') and (@list='true' or @set='true')]">
-            <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
-             <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append("\",");<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
-            <xsl:if test="position()!=last()">
-               <xsl:value-of select="$empty-line"/>
-            </xsl:if>
-         </xsl:for-each>
-         </xsl:when>
-         <xsl:when test="entity-ref[not(@render='false')]">
-            <xsl:value-of select="$empty"/>      attributes(<xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty-line"/>
-            <xsl:call-template name="visit-children"/>
-         </xsl:when>
          <xsl:otherwise>
-            <xsl:value-of select="$empty"/>      attributes(<xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:if test="(attribute | element)[not(@render='false' or @list='true' or @set='true')]">
+               <xsl:value-of select="$empty"/>      attributes(<xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            </xsl:if>
+            <xsl:if test="element[not(@render='false') and (@list='true' or @set='true')]">
+               <xsl:variable name="entity" select="."/>
+               <xsl:for-each select="element[not(@render='false') and (@list='true' or @set='true')]">
+                  <xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append("\",");<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+               </xsl:for-each>
+            </xsl:if>
+            <xsl:call-template name="visit-children"/>
          </xsl:otherwise>
       </xsl:choose>
       <xsl:if test="@root='true'">
@@ -226,6 +222,7 @@
    <xsl:for-each select="entity-ref[not(@render='false')]">
       <xsl:variable name="name" select="@name"/>
       <xsl:variable name="entity" select="//entity[@name=$name]"/>
+      <xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="@map='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
@@ -289,9 +286,6 @@
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="position()!=last()">
-         <xsl:value-of select="$empty-line"/>
-      </xsl:if>
    </xsl:for-each>
 </xsl:template>
 

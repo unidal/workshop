@@ -11,12 +11,12 @@
 	<artifactId>maven-wizard-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
 	<name>Maven Wizard Plugin</name>
-	<version>1.0.0</version>
+	<version>1.0.0-a1</version>
 	<dependencies>
 		<dependency>
 			<groupId>com.site.common</groupId>
 			<artifactId>codegen</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.0-a3</version>
 		</dependency>
 		<dependency>
 			<groupId>com.site.maven.plugins</groupId>

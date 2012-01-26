@@ -148,7 +148,7 @@
 		         <xsl:choose>
 		            <xsl:when test="@list='true' or @map='true'">
 		               <xsl:value-of select="$empty"/>         old = <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@find-method"/>(<xsl:value-of select="$empty"/>
-		               <xsl:for-each select="$current/attribute[@key='true']">
+		               <xsl:for-each select="($current/attribute | $current/element)[@key='true']">
 		                  <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$empty"/>
 		                  <xsl:if test="position()!=last()">, </xsl:if>
 		               </xsl:for-each>

@@ -32,18 +32,19 @@
          <xsl:sort select="@upper-name"/>
    
          <xsl:variable name="name" select="@name"/>
-         <xsl:if test="generate-id(//entity/attribute[@name=$name][1])=generate-id()">
+         <xsl:if test="generate-id(//entity/attribute[not(@text='true' or @render='false')][@name=$name][1])=generate-id()">
             <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
          </xsl:if>
       </xsl:for-each>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
-   <xsl:if test="entity/element[not(@list='true' or @set='true' or @render='false')][not(@text='true')]">
-      <xsl:for-each select="entity/element[not(@list='true' or @render='false')][not(@text='true')]">
+   <xsl:if test="entity/element[not(@list='true' or @set='true' or @text='true' or @render='false')]">
+      <xsl:for-each select="entity/element[not(@list='true' or @set='true' or @text='true' or @render='false')]">
          <xsl:sort select="@upper-name"/>
    
-         <xsl:variable name="name" select="@name"/>
-         <xsl:if test="generate-id(//entity/element[@name=$name][1])=generate-id()">
+         <xsl:variable name="upper-name" select="@upper-name"/>
+         <xsl:variable name="upper-name-element" select="@upper-name-element"/>
+         <xsl:if test="generate-id(//entity/element[not(@list='true' or @set='true' or @text='true' or @render='false')][@upper-name=$upper-name][1])=generate-id()">
             <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
          </xsl:if>
       </xsl:for-each>
@@ -155,7 +156,7 @@
 
 <xsl:template name="define-variable-from-attributes">
    <xsl:if test="(attribute | element)[not(@text='true' or @list='true' or @set='true' or @render='false')]">
-      <xsl:for-each select="(attribute | element)[not(@text='true' or @list='true' or @render='false')]">
+      <xsl:for-each select="(attribute | element)[not(@text='true' or @list='true' or @set='true' or @render='false')]">
          <xsl:choose>
             <xsl:when test="name()='attribute'">
                <xsl:value-of select="$empty"/>      String <xsl:value-of select="@param-name"/> = getAttribute(node, <xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
@@ -233,6 +234,8 @@
       <xsl:when test="$value-type='Double'">Double.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='byte'">Byte.parseByte(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='Byte'">Byte.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
+      <xsl:when test="$value-type='char'"><xsl:value-of select="$value"/>.length() != 0 ? <xsl:value-of select="$value"/>.charAt(0) : (char) 0</xsl:when>
+      <xsl:when test="$value-type='Character'"><xsl:value-of select="$value"/>.length() != 0 ? Character.valueOf(<xsl:value-of select="$value"/>.charAt(0)) : null</xsl:when>
       <xsl:when test="$value-type='Class&lt;?&gt;'">toClass(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>")</xsl:when>
       <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
