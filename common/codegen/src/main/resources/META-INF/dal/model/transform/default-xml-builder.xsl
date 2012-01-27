@@ -276,20 +276,20 @@
             </xsl:if>
             <xsl:choose>
                <xsl:when test="name()='element'">
-                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
                   <xsl:choose>
                      <xsl:when test="@value-type-element='String'">
-                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
                      </xsl:when>
                      <xsl:otherwise>
-                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@param-name-element"/> == null ? "" : String.valueOf(<xsl:value-of select="@param-name-element"/>));<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/> == null ? "" : String.valueOf(<xsl:value-of select="@local-name-element"/>));<xsl:value-of select="$empty-line"/>
                      </xsl:otherwise>
                   </xsl:choose>
                   <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
             </xsl:choose>

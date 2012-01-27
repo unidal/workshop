@@ -12,10 +12,12 @@
       <entity-ref name="element-with-text"/>
       <entity-ref name="attribute-element" />
       <entity-ref name="attribute-element-with-default" />
+      <entity-ref name="attribute-element-with-text" />
       <entity-ref name="list-item" type="list" names="plain-list" />
       <entity-ref name="list-item" type="list" names="indented-list" xml-indent="true" />
       <entity-ref name="map-item" type="map" names="plain-map" />
       <entity-ref name="map-item" type="map" names="indented-map" xml-indent="true" />
+      <entity-ref name="node" type="list" xml-indent="true"/>
    </entity>
    <entity name="all-primitive-types">
       <attribute name="o1" value-type="boolean" />
@@ -159,6 +161,11 @@
       <element name="s2" value-type="String" default-value="default value here."/>
       <element name="d2" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:35:58"/>
    </entity>
+   <entity name="attribute-element-with-text">
+      <attribute name="a1" value-type="boolean"/>
+      <element name="e1" value-type="int" text="true"/>
+      <element name="e2" value-type="String"/>
+   </entity>
    <entity name="list-item">
       <attribute name="a1" value-type="String" key="true"/>
       <attribute name="a2" value-type="String" default-value="default value here"/>
@@ -170,5 +177,10 @@
       <attribute name="a2" value-type="String" default-value="default value here"/>
       <element name="e1" value-type="String" key="true"/>
       <element name="e2" value-type="String" default-value="default value here"/>
+   </entity>
+   <entity name="node" class-name="TreeNode">
+      <attribute name="value" value-type="String"/>
+      <entity-ref name="node" alias="current"/>
+      <entity-ref name="node" type="list" xml-indent="true"/>
    </entity>
 </model>

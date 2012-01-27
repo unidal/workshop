@@ -90,11 +90,11 @@
             <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   public <xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@build-method"/>(Node node) {<xsl:value-of select="$empty-line"/>
             <xsl:call-template name="define-variable-from-attributes"/>
-            <xsl:value-of select="'      '"/><xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/> = <xsl:call-template name="create-entity-instance"/>
+            <xsl:value-of select="'      '"/><xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name"/> = <xsl:call-template name="create-entity-instance"/>
             <xsl:call-template name="set-optional-fields"/>
             <xsl:call-template name="set-dynamic-attributes"/>
             <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>      return <xsl:value-of select="@param-name"/>;<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      return <xsl:value-of select="@local-name"/>;<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
@@ -182,7 +182,7 @@
          <xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:value-of select="$empty"/>      for (Map.Entry<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> e : dynamicAttributes.entrySet()) {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="@param-name"/>.setDynamicAttribute(e.getKey(), e.getValue());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="@local-name"/>.setDynamicAttribute(e.getKey(), e.getValue());<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
       
    </xsl:if>
@@ -195,7 +195,7 @@
       <xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="@text='true'">
-            <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@set-method"/>(<xsl:value-of select="$empty"/>
+            <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@local-name"/>.<xsl:value-of select="@set-method"/>(<xsl:value-of select="$empty"/>
             <xsl:call-template name="convert-type">
                <xsl:with-param name="value" select="'getText(node)'"/>
             </xsl:call-template>
@@ -203,7 +203,7 @@
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>      if (<xsl:value-of select="@param-name"/> != null) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@set-method"/>(<xsl:value-of select="$empty"/>
+            <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="$entity/@local-name"/>.<xsl:value-of select="@set-method"/>(<xsl:value-of select="$empty"/>
             <xsl:call-template name="convert-type"/>
             <xsl:value-of select="$empty"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>

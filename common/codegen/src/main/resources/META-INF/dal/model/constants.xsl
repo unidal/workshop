@@ -35,16 +35,16 @@
 </xsl:template>
 
 <xsl:template name="constant-elements">
-   <xsl:for-each select="entity/element[not(@text='true' or @render='false')]">
+   <xsl:for-each select="entity/element[not(@render='false')]">
       <xsl:sort select="@upper-name"/>
 
       <xsl:variable name="upper-name" select="@upper-name"/>
       <xsl:variable name="upper-name-element" select="@upper-name-element"/>
-      <xsl:if test="generate-id(//entity/element[not(@text='true' or @render='false')][@upper-name=$upper-name or @upper-name-element=$upper-name-element][1])=generate-id()">
+      <xsl:if test="generate-id(//entity/element[not(@render='false')][@upper-name=$upper-name or @upper-name-element=$upper-name-element][1])=generate-id()">
          <xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name-element"/> = "<xsl:value-of select="@name"/>";<xsl:value-of select="$empty-line"/>
       </xsl:if>
-      <xsl:if test="generate-id(//entity/element[(@list='true' or @set='true') and not(@text='true' or @render='false')][@upper-name-element=$upper-name-element][1])=generate-id()">
+      <xsl:if test="generate-id(//entity/element[(@list='true' or @set='true') and not(@render='false')][@upper-name-element=$upper-name-element][1])=generate-id()">
          <xsl:value-of select="$empty-line"/>
          <xsl:value-of select="$empty"/>   public static final String <xsl:value-of select="@upper-name"/> = "<xsl:value-of select="@tag-name"/>";<xsl:value-of select="$empty-line"/>
       </xsl:if>

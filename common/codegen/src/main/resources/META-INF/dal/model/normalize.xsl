@@ -99,6 +99,14 @@
       <xsl:attribute name="param-name">
          <xsl:value-of select="$normalized-name"/>
       </xsl:attribute>
+      <xsl:attribute name="local-name">
+         <xsl:choose>
+            <xsl:when test="$normalized-name='node'">node_</xsl:when>
+            <xsl:otherwise>
+               <xsl:value-of select="$normalized-name"/>
+            </xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
       <xsl:attribute name="get-method">
          <xsl:value-of select="'get'"/>
          <xsl:value-of select="$capital-name"/>
@@ -326,14 +334,25 @@
       <xsl:attribute name="value-type">
          <xsl:value-of select="$value-type"/>
       </xsl:attribute>
-      <xsl:attribute name="param-name-element">
-         <xsl:value-of select="$normalized-name-element"/>
-      </xsl:attribute>
       <xsl:attribute name="capital-name-element">
          <xsl:value-of select="$capital-name-element"/>
       </xsl:attribute>
+      <xsl:attribute name="param-name-element">
+         <xsl:value-of select="$normalized-name-element"/>
+      </xsl:attribute>
       <xsl:attribute name="param-name">
          <xsl:value-of select="$normalized-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="local-name-element">
+         <xsl:value-of select="$normalized-name-element"/>
+      </xsl:attribute>
+      <xsl:attribute name="local-name">
+         <xsl:choose>
+            <xsl:when test="$normalized-name='node'">node_</xsl:when>
+            <xsl:otherwise>
+               <xsl:value-of select="$normalized-name"/>
+            </xsl:otherwise>
+         </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="upper-name">
          <xsl:value-of select="'ELEMENT_'"/>
@@ -420,6 +439,7 @@
          <xsl:when test="$entity">
             <xsl:call-template name="entity">
                <xsl:with-param name="entity" select="$entity"/>
+               <xsl:with-param name="loop" select="boolean($entity/entity-ref[@name=$entity-name])"/>
             </xsl:call-template>
          </xsl:when>
          <xsl:otherwise>
@@ -442,6 +462,7 @@
 
 <xsl:template name="entity">
     <xsl:param name="entity"/>
+    <xsl:param name="loop" select="'false'"/>
    
    <!-- variable definition -->
    <xsl:variable name="ref-name">
@@ -593,6 +614,19 @@
    </xsl:attribute>
    <xsl:attribute name="param-name">
       <xsl:value-of select="$normalized-name"/>
+   </xsl:attribute>
+   <xsl:attribute name="local-name-element">
+      <xsl:value-of select="$normalized-name-element"/>
+      <xsl:if test="$loop='true'">_</xsl:if>
+   </xsl:attribute>
+   <xsl:attribute name="local-name">
+      <xsl:choose>
+         <xsl:when test="$normalized-name='node'">node_</xsl:when>
+         <xsl:otherwise>
+            <xsl:value-of select="$normalized-name"/>
+            <xsl:if test="$loop='true'">_</xsl:if>
+         </xsl:otherwise>
+      </xsl:choose>
    </xsl:attribute>
    <xsl:attribute name="upper-name">
       <xsl:value-of select="'ENTITY_'"/>

@@ -52,10 +52,10 @@
       <xsl:sort select="@upper-name"/>
 
       <xsl:variable name="upper-name" select="@upper-name"/>
-      <xsl:if test="generate-id(//entity/entity-ref[@upper-name=$upper-name][1])=generate-id() or @root='true'">
+      <xsl:if test="generate-id(//entity/entity-ref[not(@render='false')][@upper-name=$upper-name][1])=generate-id() or @root='true'">
          <xsl:variable name="upper-name">
             <xsl:choose>
-               <xsl:when test="@xml-indent='true'">
+               <xsl:when test="@xml-indent='true' or @alias">
                   <xsl:value-of select="@upper-name"/>
                </xsl:when>
                <xsl:otherwise>
@@ -225,9 +225,9 @@
          <xsl:otherwise>getChildTagNodes(node, <xsl:value-of select="@upper-name-element"/>)</xsl:otherwise>
       </xsl:choose>
       <xsl:value-of select="$empty"/>) {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> = maker.<xsl:value-of select="@build-method"/>(child);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> = maker.<xsl:value-of select="@build-method"/>(child);<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$indent"/>   parent.<xsl:value-of select="@add-method"/>(<xsl:value-of select="@param-name-element"/>);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$indent"/>   parent.<xsl:value-of select="@add-method"/>(<xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$indent"/>}<xsl:value-of select="$empty-line"/>
       <xsl:if test="position()!=last()">
          <xsl:value-of select="$empty-line"/>
@@ -249,19 +249,19 @@
             <xsl:choose>
                <xsl:when test="@list='true' or @map='true'">
                   <xsl:value-of select="$empty"/>if (child.getNodeName().equals(<xsl:value-of select="$entity/@upper-name"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>      if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@param-name-element"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>         parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@param-name-element"/>, child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>      if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@local-name-element"/>)) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>         parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@local-name-element"/>, child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>      }<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>   }<xsl:value-of select="$empty"/>
                </xsl:when>
                <xsl:otherwise>
                   <xsl:value-of select="$empty"/>if (child.getNodeName().equals(<xsl:value-of select="$entity/@upper-name"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'      '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>      if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@param-name-element"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>         parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@param-name-element"/>, child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>      if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@local-name-element"/>)) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>         parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@local-name-element"/>, child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>      }<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>   }<xsl:value-of select="$empty"/>
                </xsl:otherwise>
@@ -281,10 +281,10 @@
                      <xsl:otherwise>getChildTagNodes(node, <xsl:value-of select="$entity/@upper-name"/>)</xsl:otherwise>
                   </xsl:choose>
                   <xsl:value-of select="$empty"/>) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@param-name-element"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>      parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@param-name-element"/>, child);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@local-name-element"/>)) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>      parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@local-name-element"/>, child);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>   }<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>}<xsl:value-of select="$empty-line"/>
                </xsl:when>
@@ -292,10 +292,10 @@
                   <xsl:value-of select="$indent"/>Node <xsl:value-of select="@param-name"/>Node = getChildTagNode(node, <xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>if (<xsl:value-of select="@param-name"/>Node != null) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(<xsl:value-of select="@param-name"/>Node);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   <xsl:value-of select="'   '"/><xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> = maker.<xsl:value-of select="$entity/@build-method"/>(<xsl:value-of select="@param-name"/>Node);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>   if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@param-name-element"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$indent"/>      parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@param-name-element"/>, <xsl:value-of select="@param-name"/>Node);<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>   if (linker.<xsl:value-of select="@on-event-method"/>(parent, <xsl:value-of select="@local-name-element"/>)) {<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$indent"/>      parseFor<xsl:value-of select="$entity/@entity-class"/>(maker, linker, <xsl:value-of select="@local-name-element"/>, <xsl:value-of select="@param-name"/>Node);<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>   }<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$indent"/>}<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
