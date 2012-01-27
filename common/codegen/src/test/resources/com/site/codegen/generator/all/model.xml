@@ -181,6 +181,6 @@
    <entity name="node" class-name="TreeNode">
       <attribute name="value" value-type="String"/>
       <entity-ref name="node" alias="current"/>
-      <entity-ref name="node" type="list" xml-indent="true"/>
+      <entity-ref name="node" type="list" names="children" xml-indent="true"/>
    </entity>
 </model>

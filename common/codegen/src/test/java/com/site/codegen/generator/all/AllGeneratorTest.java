@@ -19,7 +19,7 @@ public class AllGeneratorTest extends ComponentTestCase {
 	private boolean debug = false;
 
 	@Test
-	public void testGenerateConfig() throws Exception {
+	public void testGenerate() throws Exception {
 		Generator g = lookup(Generator.class, "dal-model");
 		URL manifestXml = getResourceFile("manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);

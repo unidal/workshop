@@ -107,6 +107,9 @@
             </xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
+      <xsl:attribute name="ref-name">
+         <xsl:value-of select="$name"/>
+      </xsl:attribute>
       <xsl:attribute name="get-method">
          <xsl:value-of select="'get'"/>
          <xsl:value-of select="$capital-name"/>
@@ -172,6 +175,9 @@
       </xsl:attribute>
       <xsl:attribute name="param-name">
          <xsl:value-of select="$normalized-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="ref-name">
+         <xsl:value-of select="$name"/>
       </xsl:attribute>
       <xsl:attribute name="render">
          <xsl:choose>
@@ -353,6 +359,9 @@
                <xsl:value-of select="$normalized-name"/>
             </xsl:otherwise>
          </xsl:choose>
+      </xsl:attribute>
+      <xsl:attribute name="ref-name">
+         <xsl:value-of select="$element-name"/>
       </xsl:attribute>
       <xsl:attribute name="upper-name">
          <xsl:value-of select="'ELEMENT_'"/>
@@ -627,6 +636,9 @@
             <xsl:if test="$loop='true'">_</xsl:if>
          </xsl:otherwise>
       </xsl:choose>
+   </xsl:attribute>
+   <xsl:attribute name="ref-name">
+      <xsl:value-of select="$ref-name"/>
    </xsl:attribute>
    <xsl:attribute name="upper-name">
       <xsl:value-of select="'ENTITY_'"/>

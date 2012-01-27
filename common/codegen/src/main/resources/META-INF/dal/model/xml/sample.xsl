@@ -44,16 +44,16 @@
    <xsl:choose>
       <xsl:when test="(@list='true' or @set='true') and @xml-indent='true'">
          <xsl:element name="{@tag-name}">
-            <xsl:element name="{@name}">{<xsl:value-of select="@name"/>}</xsl:element>
+            <xsl:element name="{@ref-name}">{<xsl:value-of select="@name"/>}</xsl:element>
             <xsl:comment> more <xsl:value-of select="@name"/><xsl:value-of select="$space"/></xsl:comment>
          </xsl:element>
       </xsl:when>
       <xsl:when test="@list='true' or @set='true'">
-         <xsl:element name="{@name}">{<xsl:value-of select="@name"/>}</xsl:element>
+         <xsl:element name="{@ref-name}">{<xsl:value-of select="@name"/>}</xsl:element>
          <xsl:comment> more <xsl:value-of select="@name"/><xsl:value-of select="$space"/></xsl:comment>
       </xsl:when>
       <xsl:otherwise>
-         <xsl:element name="{@name}">{<xsl:value-of select="@name"/>}</xsl:element>
+         <xsl:element name="{@ref-name}">{<xsl:value-of select="@name"/>}</xsl:element>
       </xsl:otherwise>
    </xsl:choose>
 </xsl:template>
@@ -61,12 +61,12 @@
 <xsl:template name="entity">
    <xsl:param name="entity" select="."/>
    
-   <xsl:element name="{$entity/@name}">
+   <xsl:element name="{$entity/@ref-name}">
       <xsl:if test="$entity/@root='true'">
          <xsl:attribute name="xsi:noNamespaceSchemaLocation" namespace="{$xsi-namespace}"><xsl:value-of select="$entity/@name"/>.xsd</xsl:attribute>
       </xsl:if>
       <xsl:for-each select="$entity/attribute[@required='true' and not(@text='true')]">
-         <xsl:attribute name="{@name}">
+         <xsl:attribute name="{@ref-name}">
             <xsl:choose>
                <xsl:when test="@value-type='Boolean'">false</xsl:when>
                <xsl:when test="@value-type='Integer'">0</xsl:when>
