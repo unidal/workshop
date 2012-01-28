@@ -62,6 +62,9 @@
 				<requirement>
 					<role>com.site.web.mvc.lifecycle.ActionHandlerManager</role>
 				</requirement>
+				<requirement>
+					<role>com.dianping.cat.message.MessageProducer</role>
+				</requirement>
 			</requirements>
 		</component>
 		<component>

@@ -16,7 +16,6 @@
 			<groupId>com.dianping.cat</groupId>
 			<artifactId>cat-core</artifactId>
 			<version>0.1.0</version>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>com.site.dal</groupId>

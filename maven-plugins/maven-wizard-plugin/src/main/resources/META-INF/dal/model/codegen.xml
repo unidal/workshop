@@ -13,6 +13,7 @@
   </entity>
   <entity name="page">
     <attribute name="name" value-type="String" />
+    <attribute name="path" value-type="String" />
     <attribute name="description" value-type="String" />
     <attribute name="package" value-type="String" />
     <attribute name="view" value-type="String" />

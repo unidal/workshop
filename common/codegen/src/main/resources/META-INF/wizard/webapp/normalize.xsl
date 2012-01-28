@@ -127,6 +127,12 @@
             <xsl:otherwise><xsl:value-of select="../../@package"/>.<xsl:value-of select="$normalized-module-name"/>.page.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
+      <xsl:attribute name="path">
+         <xsl:choose>
+            <xsl:when test="@path"><xsl:value-of select="@path"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
       <xsl:attribute name="description">
          <xsl:choose>
             <xsl:when test="@description"><xsl:value-of select="@description"/></xsl:when>

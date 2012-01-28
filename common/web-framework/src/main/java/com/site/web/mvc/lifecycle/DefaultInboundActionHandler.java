@@ -22,7 +22,7 @@ import com.site.web.mvc.payload.annotation.PayloadProviderMeta;
 
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class DefaultInboundActionHandler extends ContainerHolder implements InboundActionHandler, LogEnabled {
-	private InboundActionModel m_inboundAction;
+   private InboundActionModel m_inboundAction;
 
 	private Class<?> m_payloadClass;
 

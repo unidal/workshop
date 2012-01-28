@@ -236,6 +236,10 @@ public class PayloadProviderTest extends ComponentTestCase {
 		public String getName() {
 			return null;
 		}
+
+		public String getPath() {
+		   return null;
+		}
 	}
 
 	static final class QueryStringMock extends HttpServletRequestWrapper {

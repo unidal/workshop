@@ -38,7 +38,7 @@ public abstract class ViewModel<P extends Page, A extends Action, M extends Acti
 	}
 
 	public String getPageUri() {
-		return buildPageUri(m_page.getName(), null);
+		return buildPageUri(m_page.getPath(), null);
 	}
 
 	public String getWebapp() {

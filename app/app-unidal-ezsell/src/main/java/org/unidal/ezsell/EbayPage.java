@@ -52,6 +52,10 @@ public enum EbayPage implements Page {
    public String getName() {
       return m_name;
    }
+   
+   public String getPath() {
+      return m_name;
+   }
 
    public String getDescription() {
       return m_description;

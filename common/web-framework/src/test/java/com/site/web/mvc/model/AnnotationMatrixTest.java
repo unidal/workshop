@@ -58,6 +58,10 @@ public class AnnotationMatrixTest extends ComponentTestCase {
 		public String getName() {
 			return null;
 		}
+
+		public String getPath() {
+		   return null;
+		}
 	}
 
 	public static final class MockPayload implements ActionPayload<DummyPage, NormalAction> {

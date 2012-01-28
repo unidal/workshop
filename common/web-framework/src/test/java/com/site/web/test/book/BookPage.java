@@ -22,8 +22,12 @@ public enum BookPage implements Page {
 
 		return defaultAction;
 	}
-
+	
 	public String getName() {
+	   return m_name;
+	}
+
+	public String getPath() {
 		return m_name;
 	}
 }

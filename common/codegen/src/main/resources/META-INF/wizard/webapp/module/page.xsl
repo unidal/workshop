@@ -22,61 +22,69 @@ import com.site.web.mvc.annotation.ModuleMeta;
 public enum <xsl:value-of select="@page-class"/> implements Page {
 <xsl:for-each select="page">
    <xsl:value-of select="$empty-line"/>
-   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@description"/>", true)<xsl:value-of select="$empty"/>
+   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@path"/>", "<xsl:value-of select="@description"/>", true)<xsl:value-of select="$empty"/>
    <xsl:choose>
-   	 <xsl:when test="position()=last()">;</xsl:when>
-   	 <xsl:otherwise>,</xsl:otherwise>
+       <xsl:when test="position()=last()">;</xsl:when>
+       <xsl:otherwise>,</xsl:otherwise>
    </xsl:choose>
    <xsl:value-of select="$empty-line"/>
 </xsl:for-each>
+   private String m_name;
 
-	private String m_name;
+   private String m_path;
 
-	private String m_description;
+   private String m_description;
 
-	private boolean m_realPage;
+   private boolean m_realPage;
 
-	private <xsl:value-of select="@page-class" />(String name, String description, boolean realPage) {
-		m_name = name;
-		m_description = description;
-		m_realPage = realPage;
-	}
+   private <xsl:value-of select="@page-class" />(String name, String path, String description, boolean realPage) {
+      m_name = name;
+      m_path = path;
+      m_description = description;
+      m_realPage = realPage;
+   }
 
-	public static <xsl:value-of select="@page-class"/> getByName(String name, <xsl:value-of select="@page-class"/> defaultPage) {
-		for (<xsl:value-of select="@page-class"/> action : <xsl:value-of select="@page-class"/>.values()) {
-			if (action.getName().equals(name)) {
-				return action;
-			}
-		}
+   public static <xsl:value-of select="@page-class"/> getByName(String name, <xsl:value-of select="@page-class"/> defaultPage) {
+      for (<xsl:value-of select="@page-class"/> action : <xsl:value-of select="@page-class"/>.values()) {
+         if (action.getName().equals(name)) {
+            return action;
+         }
+      }
 
-		return defaultPage;
-	}
+      return defaultPage;
+   }
 
-	public String getName() {
-		return m_name;
-	}
+   public String getDescription() {
+      return m_description;
+   }
 
-	public String getDescription() {
-		return m_description;
-	}
+   public String getModuleName() {
+      ModuleMeta meta = <xsl:value-of select="@module-class"/>.class.getAnnotation(ModuleMeta.class);
 
-	public String getModuleName() {
-		ModuleMeta meta = <xsl:value-of select="@module-class"/>.class.getAnnotation(ModuleMeta.class);
+      if (meta != null) {
+         return meta.name();
+      } else {
+         return null;
+      }
+   }
 
-		if (meta != null) {
-			return meta.name();
-		} else {
-			return null;
-		}
-	}
+   @Override
+   public String getName() {
+      return m_name;
+   }
 
-	public boolean isRealPage() {
-		return m_realPage;
-	}
+   @Override
+   public String getPath() {
+      return m_path;
+   }
 
-	public <xsl:value-of select="@page-class"/>[] getValues() {
-		return <xsl:value-of select="@page-class"/>.values();
-	}
+   public boolean isRealPage() {
+      return m_realPage;
+   }
+
+   public <xsl:value-of select="@page-class"/>[] getValues() {
+      return <xsl:value-of select="@page-class"/>.values();
+   }
 }
 </xsl:template>
 
