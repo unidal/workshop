@@ -15,7 +15,7 @@ import com.site.test.user.dal.UserEntity;
 public class InTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testInConstant() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>...</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>...</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -28,7 +28,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInNormalParameter() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -43,7 +43,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInArrayParameter() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id-array}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id-array}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
       long[] userIdArray = new long[] { 1L, 2L, 3L, 4L };
@@ -59,7 +59,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInEmptyArrayParameter() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id-array}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id-array}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -73,7 +73,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInListParameter() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id-list}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id-list}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -88,7 +88,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInEmptyListParameter() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id-list}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id-list}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
       List<Long> emptyList = Collections.emptyList();
@@ -103,7 +103,7 @@ public class InTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInBothParameters() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<IN>${user-id},${user-id-array}</IN>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<IN>${user-id},${user-id-array}</IN>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
       long[] userIdArray = new long[] { 1, 2, 3, 4 };

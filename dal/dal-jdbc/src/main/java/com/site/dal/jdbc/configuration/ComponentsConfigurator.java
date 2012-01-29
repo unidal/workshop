@@ -3,6 +3,7 @@ package com.site.dal.jdbc.configuration;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dianping.cat.message.MessageProducer;
 import com.site.dal.jdbc.QueryEngine;
 import com.site.dal.jdbc.datasource.DataSourceManager;
 import com.site.dal.jdbc.datasource.DefaultDataSourceManager;
@@ -67,7 +68,8 @@ public class ComponentsConfigurator extends AbstractResourceConfigurator {
       all.add(C(QueryResolver.class, "MySql", MySqlQueryResolver.class) //
                .req(TokenParser.class));
       all.add(C(QueryExecutor.class, DefaultQueryExecutor.class) //
-               .req(TransactionManager.class, DataObjectAccessor.class, DataObjectAssembly.class));
+               .req(TransactionManager.class, DataObjectAccessor.class, DataObjectAssembly.class) //
+               .req(MessageProducer.class));
       all.add(C(TransactionManager.class, DefaultTransactionManager.class) //
                .req(TableProviderManager.class, DataSourceManager.class));
 

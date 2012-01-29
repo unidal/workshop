@@ -14,7 +14,7 @@ import com.site.test.user.dal.UserEntity;
 public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testSelect() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -26,7 +26,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testSelect2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields/>");
       Readset<?> readset = UserEntity.READSET_FULL_U;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -39,7 +39,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testSelect3() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields excludes='user-name,last-modified-date'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields excludes='user-name,last-modified-date'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -55,7 +55,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testSelect4() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields/> <fields excludes='user-name,last-modified-date' output='false'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields/> <fields excludes='user-name,last-modified-date' output='false'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -68,7 +68,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testSelectOnTwoTables() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields/>");
       Readset<?> readset = UserEntity.READSET_FULL_WITH_HOME_ADDRESS_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -82,7 +82,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testSelectOnThreeTables() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<fields/>");
       Readset<?> readset = UserEntity.READSET_FULL_WITH_HOME_OFFICE_ADDRESS_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -97,7 +97,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInsert1() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<fields/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -108,7 +108,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testInsert2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<fields/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
       
@@ -120,7 +120,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testUpdateWithoutFieldUsed() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.UPDATE, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.UPDATE, "<fields/>");
       Updateset<User> updateset = UserEntity.UPDATESET_FULL;
       User user = new User();
       QueryContext ctx = getUpdateContext(query, user, updateset);
@@ -132,7 +132,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testUpdateWithoutFieldUsed2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.UPDATE, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.UPDATE, "<fields/>");
       Updateset<User> updateset = UserEntity.UPDATESET_PASS;
       User user = new User();
       QueryContext ctx = getUpdateContext(query, user, updateset);
@@ -144,7 +144,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testUpdateWithFieldUsed() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.UPDATE, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.UPDATE, "<fields/>");
       Updateset<User> updateset = UserEntity.UPDATESET_FULL;
       User user = new User();
       QueryContext ctx = getUpdateContext(query, user, updateset);
@@ -159,7 +159,7 @@ public class FieldsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testDelete() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.DELETE, "<fields/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.DELETE, "<fields/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);

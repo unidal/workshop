@@ -14,7 +14,7 @@ import com.site.test.user.dal.UserEntity;
 public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testSelectOneTable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<JOINS/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -25,7 +25,7 @@ public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testSelectOneTable2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<JOINS/>");
       Readset<?> readset = UserEntity.READSET_FULL_U;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -36,7 +36,7 @@ public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testSelectTwoTables() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<JOINS/>");
       Readset<?> readset = UserEntity.READSET_FULL_WITH_HOME_ADDRESS_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -47,7 +47,7 @@ public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testInsert() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<JOINS/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -62,7 +62,7 @@ public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testUpdate() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.UPDATE, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.UPDATE, "<JOINS/>");
       Updateset<User> updateset = UserEntity.UPDATESET_FULL;
       User user = new User();
       QueryContext ctx = getUpdateContext(query, user, updateset);
@@ -78,7 +78,7 @@ public class JoinsTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testDelete() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.DELETE, "<JOINS/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.DELETE, "<JOINS/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 

@@ -31,10 +31,6 @@
 			<version>1.0.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.site.common</groupId>
-			<artifactId>codegen</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 		</dependency>
@@ -95,6 +91,7 @@
 			<plugin>
 				<groupId>com.site.maven.plugins</groupId>
 				<artifactId>maven-codegen-plugin</artifactId>
+                                <version>1.0.0-a3</version>
 				<configuration>
 					<manifest>${basedir}/src/main/resources/META-INF/dal/jdbc/manifest.xml</manifest>
 				</configuration>

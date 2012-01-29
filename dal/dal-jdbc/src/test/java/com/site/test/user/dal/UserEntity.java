@@ -87,30 +87,30 @@ public final class UserEntity {
    
    public static Updateset<User> UPDATESET_PASS = new Updateset<User>(ENCRYPTED_PASSWORD);
 
-   public static QueryDef FIND_BY_PK = new QueryDef(UserEntity.class, QueryType.SELECT,
+   public static QueryDef FIND_BY_PK = new QueryDef("find-by-pk", UserEntity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id}");
 
-   public static QueryDef FIND_WITH_SUBOBJECTS_BY_PK = new QueryDef(UserEntity.class, QueryType.SELECT,
+   public static QueryDef FIND_WITH_SUBOBJECTS_BY_PK = new QueryDef("find-with-subobjects-by-pk", UserEntity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLES/> WHERE <JOINS/> AND <FIELD name='user-id'/> = ${key-user-id}");
 
-   public static QueryDef FIND_ALL_BY_USER_ID_IN = new QueryDef(UserEntity.class, QueryType.SELECT,
+   public static QueryDef FIND_ALL_BY_USER_ID_IN = new QueryDef("find-all-by-user-id", UserEntity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-id'/> IN <IN>${ids}</IN>");
 
-   public static QueryDef FIND_ALL_BY_USER_NAME = new QueryDef(UserEntity.class, QueryType.SELECT,
+   public static QueryDef FIND_ALL_BY_USER_NAME = new QueryDef("find-all-by-user-name", UserEntity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-name'/> = ${user-name}");
 
-   public static final QueryDef INSERT = new QueryDef(UserEntity.class, QueryType.INSERT,
+   public static final QueryDef INSERT = new QueryDef("insert", UserEntity.class, QueryType.INSERT,
          "INSERT INTO <TABLE/> (<FIELDS/>) VALUES (<VALUES/>)");
 
-   public static final QueryDef UPDATE_BY_PK = new QueryDef(UserEntity.class, QueryType.UPDATE,
+   public static final QueryDef UPDATE_BY_PK = new QueryDef("update-by-pk", UserEntity.class, QueryType.UPDATE,
          "UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='user-id'/> = ${key-user-id}");
 
-   public static final QueryDef DELETE_BY_PK = new QueryDef(UserEntity.class, QueryType.DELETE,
+   public static final QueryDef DELETE_BY_PK = new QueryDef("delete-by-pk", UserEntity.class, QueryType.DELETE,
          "DELETE FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id}");
 
-   public static final QueryDef DELETE_BY_USERNAME = new QueryDef(UserEntity.class, QueryType.DELETE,
+   public static final QueryDef DELETE_BY_USERNAME = new QueryDef("delete-by-username", UserEntity.class, QueryType.DELETE,
          "DELETE FROM <TABLE/> WHERE <FIELD name='user-name'/> = ${user-name}");
 
-   public static final QueryDef FIND_ALL_USERS = new QueryDef(UserEntity.class, QueryType.SELECT,
+   public static final QueryDef FIND_ALL_USERS = new QueryDef("find-all-users", UserEntity.class, QueryType.SELECT,
          "{ CALL all_users(#{page-size}) }", true);
 }

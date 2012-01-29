@@ -16,7 +16,7 @@ public class RawDao extends AbstractDao {
 
    public List<RawDataObject> executeQuery(String dataSource, String sql) throws DalException {
       RawDataObject proto = new RawDataObject();
-      QueryDef query = new QueryDef(RawEntity.class, QueryType.SELECT, sql);
+      QueryDef query = new QueryDef("raw", RawEntity.class, QueryType.SELECT, sql);
 
       RawTableProvider.setDataSourceName(dataSource);
 

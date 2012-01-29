@@ -31,19 +31,19 @@ public class UserAddressEntity {
 
    public static Updateset<UserAddress> UPDATESET_FULL = new Updateset<UserAddress>(TYPE, ADDRESS);
 
-   public static QueryDef FIND_BY_PK = new QueryDef(UserAddressEntity.class, QueryType.SELECT,
+   public static QueryDef FIND_BY_PK = new QueryDef("find-by-pk", UserAddressEntity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='type'/> = ${key-type}");
 
-   public static final QueryDef INSERT = new QueryDef(UserAddressEntity.class, QueryType.INSERT,
+   public static final QueryDef INSERT = new QueryDef("insert", UserAddressEntity.class, QueryType.INSERT,
          "INSERT INTO <TABLE/> (<FIELDS/>) VALUES (<VALUES/>)");
 
-   public static final QueryDef UPDATE_BY_PK = new QueryDef(UserAddressEntity.class, QueryType.UPDATE,
+   public static final QueryDef UPDATE_BY_PK = new QueryDef("update-by-pk", UserAddressEntity.class, QueryType.UPDATE,
          "UPDATE <TABLE/> SET <FIELDS/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='type'/> = ${key-type}");
 
-   public static final QueryDef DELETE_BY_PK = new QueryDef(UserAddressEntity.class, QueryType.DELETE,
+   public static final QueryDef DELETE_BY_PK = new QueryDef("delete-by-pk", UserAddressEntity.class, QueryType.DELETE,
          "DELETE FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id} AND <FIELD name='type'/> = ${key-type}");
 
-   public static final QueryDef DELETE_ALL_BY_USER_ID = new QueryDef(UserAddressEntity.class, QueryType.DELETE,
+   public static final QueryDef DELETE_ALL_BY_USER_ID = new QueryDef("delete-all-by-user-id", UserAddressEntity.class, QueryType.DELETE,
          "DELETE FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id}");
 
 }

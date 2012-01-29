@@ -11,7 +11,7 @@ import com.site.test.user.dal.UserEntity;
 public class ValuesTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testInsert1() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<values/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<values/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -23,7 +23,7 @@ public class ValuesTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testInsert2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<values/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<values/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
       

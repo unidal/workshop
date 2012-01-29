@@ -12,7 +12,7 @@ import com.site.test.user.dal.UserEntity;
 public class StringTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testString() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "anything");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "anything");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);

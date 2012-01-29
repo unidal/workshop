@@ -14,7 +14,7 @@ import com.site.test.user.dal.UserEntity;
 public class TableTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testAnotherTableRelated() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE name='home-address'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE name='home-address'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -25,7 +25,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testAnotherTableRelatedWithAlias() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE name='home-address' alias='address'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE name='home-address' alias='address'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -36,7 +36,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testAnotherTableNonrelated() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE name='user2'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE name='user2'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -52,7 +52,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -63,7 +63,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTable2() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE name='user'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE name='user'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -74,7 +74,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTableWithAlias() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE alias='user'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE alias='user'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -85,7 +85,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testNonExistTable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<TABLE name='unknown'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<TABLE name='unknown'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -101,7 +101,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTableForInsert() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<TABLE/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<TABLE/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -111,7 +111,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTableForUpdate() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.UPDATE, "<TABLE/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.UPDATE, "<TABLE/>");
       Updateset<User> updateset = UserEntity.UPDATESET_FULL;
       User user = new User();
       QueryContext ctx = getUpdateContext(query, user, updateset);
@@ -122,7 +122,7 @@ public class TableTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testCurrentTableForDelete() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.DELETE, "<TABLE/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.DELETE, "<TABLE/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 

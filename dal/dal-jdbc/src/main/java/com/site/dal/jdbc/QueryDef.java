@@ -7,6 +7,8 @@ import com.site.dal.jdbc.query.token.TokenParser;
 import com.site.dal.jdbc.raw.RawEntity;
 
 public class QueryDef {
+   private String m_name;
+
    private Class<?> m_entityClass;
 
    private String m_pattern;
@@ -19,21 +21,26 @@ public class QueryDef {
 
    private boolean m_raw;
 
-   public QueryDef(Class<?> entityClass, QueryType type, String pattern) {
+   public QueryDef(String name, Class<?> entityClass, QueryType type, String pattern) {
+      m_name = name;
       m_entityClass = entityClass;
       m_type = type;
       m_pattern = pattern;
       m_raw = RawEntity.class.isAssignableFrom(entityClass);
    }
 
-   public QueryDef(Class<?> entityClass, QueryType type, String pattern, boolean isStoreProcedure) {
-      this(entityClass, type, pattern);
+   public QueryDef(String name, Class<?> entityClass, QueryType type, String pattern, boolean isStoreProcedure) {
+      this(name, entityClass, type, pattern);
 
       m_storeProcedure = isStoreProcedure;
    }
 
    public Class<?> getEntityClass() {
       return m_entityClass;
+   }
+
+   public String getName() {
+      return m_name;
    }
 
    public QueryType getType() {

@@ -24,6 +24,6 @@ public final class User2Entity {
 
    public static Updateset<Object> UPDATESET_FULL = new Updateset<Object>(USER_NAME);
 
-   public static QueryDef FIND_BY_PK = new QueryDef(User2Entity.class, QueryType.SELECT,
+   public static QueryDef FIND_BY_PK = new QueryDef("find-by-pk", User2Entity.class, QueryType.SELECT,
          "SELECT <FIELDS/> FROM <TABLE/> WHERE <FIELD name='user-id'/> = ${key-user-id}");
 }

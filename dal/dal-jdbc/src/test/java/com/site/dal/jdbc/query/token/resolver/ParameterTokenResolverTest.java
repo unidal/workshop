@@ -13,7 +13,7 @@ import com.site.test.user.dal.UserEntity;
 public class ParameterTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testNonExistField() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "${unknown}");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "${unknown}");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -29,7 +29,7 @@ public class ParameterTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testAttribute() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "${user-id}");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "${user-id}");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -42,7 +42,7 @@ public class ParameterTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testAttributeWithDefaultValue() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "${user-id}");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "${user-id}");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -54,7 +54,7 @@ public class ParameterTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testVariable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "${key-user-id}");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "${key-user-id}");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);

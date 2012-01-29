@@ -9,10 +9,13 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
 
+import com.dianping.cat.message.MessageProducer;
+import com.dianping.cat.message.Transaction;
 import com.site.dal.jdbc.DalException;
 import com.site.dal.jdbc.DalRuntimeException;
 import com.site.dal.jdbc.DataField;
 import com.site.dal.jdbc.DataObject;
+import com.site.dal.jdbc.QueryDef;
 import com.site.dal.jdbc.QueryType;
 import com.site.dal.jdbc.annotation.Attribute;
 import com.site.dal.jdbc.engine.QueryContext;
@@ -20,13 +23,20 @@ import com.site.dal.jdbc.entity.DataObjectAccessor;
 import com.site.dal.jdbc.entity.DataObjectAssembly;
 import com.site.dal.jdbc.entity.EntityInfo;
 import com.site.dal.jdbc.transaction.TransactionManager;
+import com.site.lookup.annotation.Inject;
 
 public class DefaultQueryExecutor implements QueryExecutor {
+   @Inject
    private DataObjectAssembly m_assembly;
 
+   @Inject
    private DataObjectAccessor m_accessor;
 
+   @Inject
    private TransactionManager m_transactionManager;
+
+   @Inject
+   private MessageProducer m_cat;
 
    protected PreparedStatement createPreparedStatement(QueryContext ctx) throws SQLException {
       Connection conn = m_transactionManager.getConnection(ctx);
@@ -44,8 +54,11 @@ public class DefaultQueryExecutor implements QueryExecutor {
    @Override
    @SuppressWarnings("unchecked")
    public <T extends DataObject> List<T> executeQuery(QueryContext ctx) throws DalException {
+      Transaction t = m_cat.newTransaction("SQL", getQueryName(ctx));
       T proto = (T) ctx.getProto();
       PreparedStatement ps = null;
+
+      t.addData(ctx.getSqlStatement());
 
       try {
          ps = createPreparedStatement(ctx);
@@ -67,10 +80,12 @@ public class DefaultQueryExecutor implements QueryExecutor {
          // Get OUT parameters if have
          retrieveOutParameters(ps, ctx.getParameters(), proto);
 
+         t.setStatus(Transaction.SUCCESS);
          return rows;
       } catch (SQLException e) {
+         t.setStatus(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: " + proto
-                  + ", message: " + e, e);
+               + ", message: " + e, e);
       } finally {
          if (ps != null) {
             try {
@@ -81,13 +96,24 @@ public class DefaultQueryExecutor implements QueryExecutor {
          }
 
          m_transactionManager.closeConnection();
+         t.complete();
       }
+   }
+
+   protected String getQueryName(QueryContext ctx) {
+      QueryDef query = ctx.getQuery();
+      EntityInfo entity = ctx.getEntityInfo();
+
+      return entity.getLogicalName() + "." + query.getName();
    }
 
    @Override
    public int executeUpdate(QueryContext ctx) throws DalException {
+      Transaction t = m_cat.newTransaction("SQL", getQueryName(ctx));
       DataObject proto = ctx.getProto();
       PreparedStatement ps = null;
+
+      t.addData(ctx.getSqlStatement());
 
       try {
          ps = createPreparedStatement(ctx);
@@ -109,10 +135,12 @@ public class DefaultQueryExecutor implements QueryExecutor {
             retrieveGeneratedKeys(ctx, ps, proto);
          }
 
+         t.setStatus(Transaction.SUCCESS);
          return rowCount;
       } catch (SQLException e) {
+         t.setStatus(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: " + proto
-                  + ", message: " + e, e);
+               + ", message: " + e, e);
       } finally {
          if (ps != null) {
             try {
@@ -123,15 +151,19 @@ public class DefaultQueryExecutor implements QueryExecutor {
          }
 
          m_transactionManager.closeConnection();
+         t.complete();
       }
    }
 
    @Override
    public <T extends DataObject> int[] executeUpdateBatch(QueryContext ctx, T[] protos) throws DalException {
+      Transaction t = m_cat.newTransaction("SQL", getQueryName(ctx));
       PreparedStatement ps = null;
       int[] rowCounts = new int[protos.length];
       boolean inTransaction = m_transactionManager.isInTransaction();
       boolean updated = false;
+
+      t.addData(ctx.getSqlStatement());
 
       try {
          ps = createPreparedStatement(ctx);
@@ -183,6 +215,7 @@ public class DefaultQueryExecutor implements QueryExecutor {
             // executeBatch()
          }
 
+         t.setStatus(Transaction.SUCCESS);
          return rowCounts;
       } catch (SQLException e) {
          if (!inTransaction && updated) {
@@ -194,8 +227,9 @@ public class DefaultQueryExecutor implements QueryExecutor {
             }
          }
 
+         t.setStatus(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: "
-                  + ctx.getProto() + ", message: " + e, e);
+               + ctx.getProto() + ", message: " + e, e);
       } finally {
          if (ps != null) {
             try {
@@ -206,6 +240,7 @@ public class DefaultQueryExecutor implements QueryExecutor {
          }
 
          m_transactionManager.closeConnection();
+         t.complete();
       }
    }
 
@@ -234,7 +269,7 @@ public class DefaultQueryExecutor implements QueryExecutor {
    }
 
    protected <T extends DataObject> void retrieveOutParameters(PreparedStatement ps, List<Parameter> parameters, T proto)
-            throws SQLException {
+         throws SQLException {
       if (ps instanceof CallableStatement) {
          int len = parameters.size();
          CallableStatement cs = (CallableStatement) ps;
@@ -252,7 +287,7 @@ public class DefaultQueryExecutor implements QueryExecutor {
    }
 
    protected <T extends DataObject> void setupInOutParameters(PreparedStatement ps, List<Parameter> parameters, T proto)
-            throws SQLException {
+         throws SQLException {
       int len = parameters.size();
 
       if (len > 0) {

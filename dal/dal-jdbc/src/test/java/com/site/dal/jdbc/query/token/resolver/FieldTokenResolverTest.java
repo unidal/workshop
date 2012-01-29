@@ -13,7 +13,7 @@ import com.site.test.user.dal.UserEntity;
 public class FieldTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testField() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='user-id'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='user-id'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -24,7 +24,7 @@ public class FieldTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testFieldOfSelectExpr() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='upper-user-name'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='upper-user-name'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -35,7 +35,7 @@ public class FieldTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testFieldWithAnotherTable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='home-address'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='home-address'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -46,7 +46,7 @@ public class FieldTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testFieldWithAnotherTableNonrelated() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='user2'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='user2'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -62,7 +62,7 @@ public class FieldTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testFieldWithSameTable() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='user'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='user-id' table='user'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);
@@ -73,7 +73,7 @@ public class FieldTokenResolverTest extends AbstractTokenResolverTest {
 
    @Test
    public void testNonExistField() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.SELECT, "<FIELD name='unknown'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.SELECT, "<FIELD name='unknown'/>");
       Readset<?> readset = UserEntity.READSET_FULL;
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, readset);

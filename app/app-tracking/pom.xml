@@ -86,6 +86,7 @@
 			<plugin>
 				<groupId>com.site.maven.plugins</groupId>
 				<artifactId>maven-codegen-plugin</artifactId>
+                                <version>1.0.0-a3</version>
 				<configuration>
 					<manifest>${basedir}/src/main/resources/META-INF/dal/manifest.xml</manifest>
 				</configuration>

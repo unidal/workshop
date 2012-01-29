@@ -169,7 +169,7 @@
 <xsl:template name="query-definition">
    <xsl:variable name="entity" select="."/>
    <xsl:for-each select="query-defs/query">
-      <xsl:value-of select="$empty"/>   public static final QueryDef <xsl:value-of select="@upper-name"/> = new QueryDef(<xsl:value-of select="$empty"/>
+      <xsl:value-of select="$empty"/>   public static final QueryDef <xsl:value-of select="@upper-name"/> = new QueryDef("<xsl:value-of select="@name"/>", <xsl:value-of select="$empty"/>
       <xsl:value-of select="$entity/@entity-class"/>.class, QueryType.<xsl:value-of select="@type"/>, <xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      "<xsl:value-of select="normalize-space(statement)" disable-output-escaping="yes"/>"<xsl:if test="@sp = 'true'">, true</xsl:if>
       <xsl:value-of select="$empty"/>);<xsl:value-of select='$empty-line'/>

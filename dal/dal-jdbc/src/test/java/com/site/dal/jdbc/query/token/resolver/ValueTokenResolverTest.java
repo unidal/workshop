@@ -11,7 +11,7 @@ import com.site.test.user.dal.UserEntity;
 public class ValueTokenResolverTest extends AbstractTokenResolverTest {
    @Test
    public void testUserName() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<value name='user-name'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<value name='user-name'/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
@@ -23,7 +23,7 @@ public class ValueTokenResolverTest extends AbstractTokenResolverTest {
    
    @Test
    public void testEncryptedPassword() throws Exception {
-      QueryDef query = new QueryDef(UserEntity.class, QueryType.INSERT, "<value name='encrypted-password'/>");
+      QueryDef query = new QueryDef("test", UserEntity.class, QueryType.INSERT, "<value name='encrypted-password'/>");
       User user = new User();
       QueryContext ctx = getSelectContext(query, user, null);
 
