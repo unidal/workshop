@@ -12,6 +12,7 @@
 			<role>com.site.test.browser.Browser</role>
 			<role-hint>memory</role-hint>
 			<implementation>com.site.test.browser.MemoryBrowser</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
 		</component>
 		<component>
 			<role>com.site.test.browser.Browser</role>

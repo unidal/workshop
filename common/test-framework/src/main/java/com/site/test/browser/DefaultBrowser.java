@@ -1,9 +1,17 @@
 package com.site.test.browser;
 
+import com.site.test.env.Platform;
+
 public class DefaultBrowser extends AbstractBrowser {
    @Override
    public String[] getCommandLine(String url) {
-      return new String[] { "rundll32", "url.dll,FileProtocolHandler", url };
+      if (Platform.isWindows()) {
+         return new String[] { "rundll32", "url.dll,FileProtocolHandler", url };
+      } else if (Platform.isMac()) {
+         return new String[] { "open", url };
+      } else {
+         throw new RuntimeException(String.format("Not supported OS(%s)!", System.getProperty("os.name")));
+      }
    }
 
    public boolean isAvailable() {

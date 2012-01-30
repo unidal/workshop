@@ -26,7 +26,7 @@ public class ComponentsConfigurator extends AbstractResourceConfigurator {
 
       all.add(C(BrowserManager.class));
       all.add(C(Browser.class, BrowserType.DEFAULT.getId(), DefaultBrowser.class));
-      all.add(C(Browser.class, BrowserType.MEMORY.getId(), MemoryBrowser.class));
+      all.add(C(Browser.class, BrowserType.MEMORY.getId(), MemoryBrowser.class).is(PER_LOOKUP));
       all.add(C(Browser.class, BrowserType.CONSOLE.getId(), ConsoleBrowser.class));
       all.add(C(Browser.class, BrowserType.FIREFOX.getId(), FirefoxBrowser.class));
       all.add(C(Browser.class, BrowserType.INTERNET_EXPLORER.getId(), InternetExplorerBrowser.class));

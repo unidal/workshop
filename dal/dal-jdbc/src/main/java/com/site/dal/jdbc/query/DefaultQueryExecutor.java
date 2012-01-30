@@ -83,7 +83,8 @@ public class DefaultQueryExecutor implements QueryExecutor {
          t.setStatus(Transaction.SUCCESS);
          return rows;
       } catch (SQLException e) {
-         t.setStatus(e);
+         t.setStatus(e.getClass().getSimpleName());
+         m_cat.logError(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: " + proto
                + ", message: " + e, e);
       } finally {
@@ -138,7 +139,8 @@ public class DefaultQueryExecutor implements QueryExecutor {
          t.setStatus(Transaction.SUCCESS);
          return rowCount;
       } catch (SQLException e) {
-         t.setStatus(e);
+         t.setStatus(e.getClass().getSimpleName());
+         m_cat.logError(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: " + proto
                + ", message: " + e, e);
       } finally {
@@ -227,7 +229,8 @@ public class DefaultQueryExecutor implements QueryExecutor {
             }
          }
 
-         t.setStatus(e);
+         t.setStatus(e.getClass().getSimpleName());
+         m_cat.logError(e);
          throw new DalException("Error when executing query(" + ctx.getSqlStatement() + ") failed, Proto: "
                + ctx.getProto() + ", message: " + e, e);
       } finally {

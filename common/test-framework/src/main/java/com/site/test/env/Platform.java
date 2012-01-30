@@ -15,6 +15,12 @@ public class Platform {
       return os != null && os.startsWith("Windows");
    }
 
+   public static boolean isMac() {
+      final String os = System.getProperty("os.name");
+
+      return os != null && os.toLowerCase().indexOf("mac") >= 0;
+   }
+
    public static File getProgramFile(String relativePath) {
       File dir = new File(isWindows2K3() ? "c:/program files (x86)" : "c:/program files");
       File file = new File(dir, relativePath);

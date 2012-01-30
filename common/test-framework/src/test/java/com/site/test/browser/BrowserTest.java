@@ -2,36 +2,41 @@ package com.site.test.browser;
 
 import java.net.URL;
 
-import com.site.lookup.ComponentTestCase;
-import com.site.test.browser.AbstractBrowser;
-import com.site.test.browser.Browser;
-import com.site.test.browser.BrowserType;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+import com.site.lookup.ComponentTestCase;
+import com.site.test.env.Platform;
+
+@RunWith(JUnit4.class)
 public class BrowserTest extends ComponentTestCase {
    private URL m_url;
 
-   private boolean VERBOSE = false;
+   private boolean VERBOSE = true;
+
+   public static void main(String[] args) throws Exception {
+      BrowserTest test = new BrowserTest();
+
+      test.setUrl(new URL("http://www.google.com/"));
+      test.setUp();
+      test.testBrowsers();
+
+      // Browser console = test.lookup(Browser.class, "console");
+      // console.display(new URL("http://www.google.com/"));
+
+      Browser browser = test.lookup(Browser.class, "default");
+      browser.display(new URL("http://www.google.com/"));
+   }
+
+   private void println(String message) {
+      if (VERBOSE) {
+         System.out.println(message);
+      }
+   }
 
    public void setUrl(URL url) {
       m_url = url;
-   }
-
-   public void testBrowserDefault() throws Exception {
-      Browser browser = lookup(Browser.class, "default");
-      String url = "http://www.example.com/";
-      String[] cmdLine = ((AbstractBrowser) browser).getCommandLine(url);
-      int index = 0;
-
-      assertTrue(browser.isAvailable());
-      assertEquals("rundll32", cmdLine[index++]);
-      assertEquals("url.dll,FileProtocolHandler", cmdLine[index++]);
-      assertEquals(url, cmdLine[index++]);
-   }
-
-   public void testBrowsers() throws Exception {
-      testBrowser(BrowserType.INTERNET_EXPLORER);
-      testBrowser(BrowserType.FIREFOX);
-      testBrowser(BrowserType.OPERA);
    }
 
    private void testBrowser(BrowserType browserType) throws Exception {
@@ -50,20 +55,29 @@ public class BrowserTest extends ComponentTestCase {
       }
    }
 
-   private void println(String message) {
-      if (VERBOSE) {
-         System.out.println(message);
+   @Test
+   public void testBrowserDefault() throws Exception {
+      Browser browser = lookup(Browser.class, "default");
+      String url = "http://www.example.com/";
+      String[] cmdLine = ((AbstractBrowser) browser).getCommandLine(url);
+      int index = 0;
+
+      assertTrue(browser.isAvailable());
+
+      if (Platform.isWindows()) {
+         assertEquals("rundll32", cmdLine[index++]);
+         assertEquals("url.dll,FileProtocolHandler", cmdLine[index++]);
+         assertEquals(url, cmdLine[index++]);
+      } else if (Platform.isMac()) {
+         assertEquals("open", cmdLine[index++]);
+         assertEquals(url, cmdLine[index++]);
       }
    }
 
-   public static void main(String[] args) throws Exception {
-      BrowserTest test = new BrowserTest();
-
-      test.setUrl(new URL("http://www.google.cn/"));
-      test.setUp();
-      test.testBrowsers();
-
-      Browser console = test.lookup(Browser.class, "console");
-      console.display(new URL("http://www.google.cn/"));
+   @Test
+   public void testBrowsers() throws Exception {
+      testBrowser(BrowserType.INTERNET_EXPLORER);
+      testBrowser(BrowserType.FIREFOX);
+      testBrowser(BrowserType.OPERA);
    }
 }

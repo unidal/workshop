@@ -8,9 +8,8 @@ import java.net.URL;
 import org.codehaus.plexus.logging.LogEnabled;
 import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.util.cli.CommandLineUtils;
-import org.codehaus.plexus.util.cli.Commandline;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
-import org.codehaus.plexus.util.cli.shell.CmdShell;
+import org.codehaus.plexus.util.cli.Commandline;
 
 import com.site.test.env.Platform;
 
@@ -37,8 +36,25 @@ public abstract class AbstractBrowser implements Browser, LogEnabled {
       if (Platform.isWindows()) {
          try {
             String[] commandLine = getCommandLine(url.toExternalForm());
-            CmdShell shell = new CmdShell();
-            Commandline cmdLine = new Commandline(shell);
+            Commandline cmdLine = new Commandline();
+            StringStreamConsumer consumer = new StringStreamConsumer();
+
+            cmdLine.addArguments(commandLine);
+
+            CommandLineUtils.executeCommandLine(cmdLine, consumer, consumer);
+
+            String output = consumer.getOutput();
+
+            if (output != null && output.length() > 0) {
+               m_logger.info(output);
+            }
+         } catch (Exception e) {
+            throw new RuntimeException("Error when display page(" + url.toExternalForm() + ")", e);
+         }
+      } else if (Platform.isMac()) {
+         try {
+            String[] commandLine = getCommandLine(url.toExternalForm());
+            Commandline cmdLine = new Commandline();
             StringStreamConsumer consumer = new StringStreamConsumer();
 
             cmdLine.addArguments(commandLine);

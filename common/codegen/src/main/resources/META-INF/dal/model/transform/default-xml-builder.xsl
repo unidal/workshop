@@ -213,6 +213,15 @@
       }
    }
 </xsl:if>
+<xsl:if test="(//entity/attribute | //entity/element)[@format and not(@value-type='java.util.Date')][not(@render='false')]">
+   protected String toString(Number number, String format) {
+      if (number != null) {
+         return new java.text.DecimalFormat(format).format(number);
+      } else {
+         return null;
+      }
+   }
+</xsl:if>
 </xsl:template>
 
 <xsl:template name="method-visit">
@@ -332,7 +341,7 @@
          <xsl:when test="@value-type='boolean'">
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@is-method"/>()<xsl:value-of select="$empty"/>
          </xsl:when>
-         <xsl:when test="@value-type='java.util.Date'">
+         <xsl:when test="@format">
             <xsl:value-of select="$empty"/>, <xsl:value-of select="@upper-name"/>, toString(<xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>(), "<xsl:value-of select="@format"/>")<xsl:value-of select="$empty"/>
          </xsl:when>
          <xsl:otherwise>

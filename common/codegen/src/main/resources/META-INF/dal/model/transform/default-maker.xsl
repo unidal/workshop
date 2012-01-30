@@ -220,6 +220,25 @@
    <xsl:choose>
       <xsl:when test="$enum-value-type='true'"><xsl:value-of select="$value-type"/>.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='String'"><xsl:value-of select="$value"/></xsl:when>
+      <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>")</xsl:when>
+      <xsl:when test="@format">
+         <xsl:value-of select="$empty"/>toNumber(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>").<xsl:value-of select="$empty"/>
+         <xsl:choose>
+            <xsl:when test="$value-type='int'">intValue()</xsl:when>
+            <xsl:when test="$value-type='Integer'">intValue()</xsl:when>
+            <xsl:when test="$value-type='long'">longValue()</xsl:when>
+            <xsl:when test="$value-type='Long'">longValue()</xsl:when>
+            <xsl:when test="$value-type='short'">shortValue()</xsl:when>
+            <xsl:when test="$value-type='Short'">shortValue()</xsl:when>
+            <xsl:when test="$value-type='float'">floatValue()</xsl:when>
+            <xsl:when test="$value-type='Float'">floatValue()</xsl:when>
+            <xsl:when test="$value-type='double'">doubleValue()</xsl:when>
+            <xsl:when test="$value-type='Double'">doubleValue()</xsl:when>
+            <xsl:when test="$value-type='byte'">byteValue()</xsl:when>
+            <xsl:when test="$value-type='Byte'">byteValue()</xsl:when>
+            <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
+         </xsl:choose>
+      </xsl:when>
       <xsl:when test="$value-type='boolean'">Boolean.parseBoolean(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='Boolean'">Boolean.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='int'">Integer.parseInt(<xsl:value-of select="$value"/>)</xsl:when>
@@ -237,7 +256,6 @@
       <xsl:when test="$value-type='char'"><xsl:value-of select="$value"/>.length() != 0 ? <xsl:value-of select="$value"/>.charAt(0) : (char) 0</xsl:when>
       <xsl:when test="$value-type='Character'"><xsl:value-of select="$value"/>.length() != 0 ? Character.valueOf(<xsl:value-of select="$value"/>.charAt(0)) : null</xsl:when>
       <xsl:when test="$value-type='Class&lt;?&gt;'">toClass(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>")</xsl:when>
       <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
    </xsl:choose>
 </xsl:template>
@@ -270,6 +288,15 @@
          return new java.text.SimpleDateFormat(format).parse(str);
       } catch (java.text.ParseException e) {
          throw new RuntimeException(String.format("Unable to parse date(%s) in format(%s)!", str, format), e);
+      }
+   }
+</xsl:if>
+<xsl:if test="(//entity/attribute | //entity/element)[@format and not(@value-type='java.util.Date')][not(@render='false')]">
+   protected Number toNumber(String str, String format) {
+      try {
+         return new java.text.DecimalFormat(format).parse(str);
+      } catch (java.text.ParseException e) {
+         throw new RuntimeException(String.format("Unable to parse number(%s) in format(%s)!", str, format), e);
       }
    }
 </xsl:if>
