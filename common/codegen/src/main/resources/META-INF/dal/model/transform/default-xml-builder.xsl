@@ -163,7 +163,7 @@
 
       if (text != null <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> closed) {
          m_sb.append('<xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>');
-         m_sb.append(text == null ? "" : escape(text, true));
+         m_sb.append(escape(text, true));
          m_sb.append("<xsl:value-of select="'&lt;/'" disable-output-escaping="yes"/>").append(name).append("<xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>\r\n");
       } else {
          if (closed) {
