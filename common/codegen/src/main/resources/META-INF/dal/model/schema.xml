@@ -34,6 +34,8 @@
     <attribute name="primitive" value-type="boolean" default-value='false'>If a Java wrapper class will be used for Java primitive type, default is false.</attribute>
     <attribute name="enum-value-type" value-type="boolean" default-value='false'>If value-type refers to an enum type. Default is false.</attribute>
     <attribute name="default-value" value-type="String">Default value of the attribute. Please noted that, this is NOT a bi-directional feature for parser and builder.</attribute>
+    <attribute name="method-inc" value-type="boolean">If generate an incXXX() helper method in the entity class.</attribute>
+    <attribute name="method-find-or-create" value-type="boolean">If generate an findOrCreateXXX() helper method in the entity class.</attribute>
   </entity>
   <entity name="element">
     <attribute name="name" value-type="String" required='true'/>

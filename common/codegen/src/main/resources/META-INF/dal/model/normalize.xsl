@@ -238,6 +238,12 @@
             <xsl:otherwise><xsl:value-of select="$capital-name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
+      <xsl:if test="@method-inc='true'">
+         <xsl:attribute name="inc-method">
+            <xsl:value-of select="'inc'"/>
+            <xsl:value-of select="$capital-name"/>
+         </xsl:attribute>
+      </xsl:if>
       
       <xsl:apply-templates/>
    </xsl:copy>
@@ -411,6 +417,12 @@
       <xsl:attribute name="is-annotation">
          <xsl:value-of select="@value-type='java.lang.annotation.Annotation'"/>
       </xsl:attribute>
+      <xsl:if test="@method-inc='true'">
+         <xsl:attribute name="inc-method">
+            <xsl:value-of select="'inc'"/>
+            <xsl:value-of select="$capital-name"/>
+         </xsl:attribute>
+      </xsl:if>
 
       <xsl:choose>
       	<xsl:when test="@type='list'">
@@ -677,6 +689,14 @@
       <xsl:value-of select="'on'"/>
       <xsl:value-of select="$capital-name-element"/>
    </xsl:attribute>
+
+   <xsl:if test="@method-find-or-create='true'">
+      <xsl:attribute name="find-or-create-method">
+         <xsl:value-of select="'findOrCreate'"/>
+         <xsl:value-of select="$capital-name-element"/>
+      </xsl:attribute>
+   </xsl:if>
+
    <xsl:attribute name="xml-indent">
       <xsl:choose>
          <xsl:when test="../@all-children-in-sequence='true'">false</xsl:when>

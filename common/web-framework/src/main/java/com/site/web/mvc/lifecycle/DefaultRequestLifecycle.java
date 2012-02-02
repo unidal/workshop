@@ -11,6 +11,7 @@ import org.codehaus.plexus.logging.LogEnabled;
 import org.codehaus.plexus.logging.Logger;
 
 import com.dianping.cat.message.Event;
+import com.dianping.cat.message.Message;
 import com.dianping.cat.message.MessageProducer;
 import com.dianping.cat.message.Transaction;
 import com.site.lookup.ContainerHolder;
@@ -169,7 +170,8 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 
       Transaction t = m_cat.newTransaction("URL", requestContext.getAction());
 
-      m_cat.logEvent("URL", "Payload", Event.SUCCESS, request.getRequestURI());
+      logRequestClientInfo(request);
+      logRequestPayload(request);
 
       t.setStatus(Transaction.SUCCESS);
 
@@ -279,6 +281,32 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
             .getRequestContext().getTransition());
 
       transitionHandler.handle(actionContext);
+   }
+
+   private void logRequestClientInfo(HttpServletRequest req) {
+      StringBuilder sb = new StringBuilder(1024);
+
+      sb.append("RemoteIP=").append(req.getRemoteAddr());
+      sb.append("&Server=").append(req.getServerName());
+      sb.append("&Referer=").append(req.getHeader("referer"));
+      sb.append("&Agent=").append(req.getHeader("user-agent"));
+
+      m_cat.logEvent("URL", "ClientInfo", Message.SUCCESS, sb.toString());
+   }
+
+   private void logRequestPayload(HttpServletRequest req) {
+      StringBuilder sb = new StringBuilder(256);
+
+      sb.append(req.getScheme().toUpperCase()).append('/');
+      sb.append(req.getMethod()).append(' ').append(req.getRequestURI());
+
+      String qs = req.getQueryString();
+
+      if (qs != null) {
+         sb.append('?').append(qs);
+      }
+
+      m_cat.logEvent("URL", "Payload", Event.SUCCESS, sb.toString());
    }
 
    private void showPageNotFound(HttpServletRequest request, HttpServletResponse response) throws IOException {

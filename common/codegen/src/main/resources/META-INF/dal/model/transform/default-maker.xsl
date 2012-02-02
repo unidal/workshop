@@ -263,7 +263,14 @@
 <xsl:template name="create-entity-instance">
    <xsl:value-of select="$empty"/>new <xsl:value-of select="@entity-class"/>(<xsl:value-of select="$empty"/>
    <xsl:for-each select="(attribute | element)[@key='true']">
-      <xsl:call-template name="convert-type"/>
+      <xsl:choose>
+         <xsl:when test="@value-type='String'">
+            <xsl:value-of select="@param-name"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:value-of select="@param-name"/> == null ? null : <xsl:call-template name="convert-type"/>
+         </xsl:otherwise>
+      </xsl:choose>
       <xsl:if test="position()!=last()">, </xsl:if>
    </xsl:for-each>
    <xsl:value-of select="$empty"/>);<xsl:value-of select="$empty-line"/>

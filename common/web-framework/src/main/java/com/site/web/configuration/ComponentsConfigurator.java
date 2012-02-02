@@ -37,9 +37,12 @@ class ComponentsConfigurator extends AbstractResourceConfigurator {
       all.add(C(ModuleRegistry.class));
       all.add(C(ModelManager.class).req(ModuleRegistry.class, AnnotationMatrix.class));
       all.add(C(ActionResolver.class, DefaultActionResolver.class));
-      all.add(C(InboundActionHandler.class, DefaultInboundActionHandler.class).is(PER_LOOKUP));
-      all.add(C(OutboundActionHandler.class, DefaultOutboundActionHandler.class).is(PER_LOOKUP));
-      all.add(C(TransitionHandler.class, DefaultTransitionHandler.class));
+      all.add(C(InboundActionHandler.class, DefaultInboundActionHandler.class).is(PER_LOOKUP) //
+            .req(MessageProducer.class));
+      all.add(C(OutboundActionHandler.class, DefaultOutboundActionHandler.class).is(PER_LOOKUP) //
+            .req(MessageProducer.class));
+      all.add(C(TransitionHandler.class, DefaultTransitionHandler.class).is(PER_LOOKUP) //
+            .req(MessageProducer.class));
       all.add(C(ErrorHandler.class, DefaultErrorHandler.class));
       all.add(C(DefaultPayloadProvider.class));
       all.add(C(ActionHandlerManager.class, DefaultActionHandlerManager.class));

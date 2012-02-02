@@ -68,7 +68,17 @@
 <xsl:template name="method-commons">
    private int m_level;
 
-   private StringBuilder m_sb = new StringBuilder(2048);
+   private StringBuilder m_sb = new StringBuilder(4096);
+
+   private boolean m_compact;
+
+   public DefaultXmlBuilder() {
+      this(false);
+   }
+
+   public DefaultXmlBuilder(boolean compact) {
+      m_compact = compact;
+   }
 
    protected void endTag(String name) {
       m_level--;
@@ -122,8 +132,10 @@
    }
 
    protected void indent() {
-      for (int i = m_level - 1; i <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>= 0; i--) {
-         m_sb.append("   ");
+      if (!m_compact) {
+         for (int i = m_level - 1; i <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>= 0; i--) {
+            m_sb.append("   ");
+         }
       }
    }
 

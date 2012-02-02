@@ -76,10 +76,19 @@
 
    private StringBuilder m_sb = new StringBuilder(2048);
 
+   private boolean m_compact;
+
+   public DefaultJsonBuilder() {
+      this(false);
+   }
+
+   public DefaultJsonBuilder(boolean compact) {
+      m_compact = compact;
+   }
+
    protected void arrayBegin(String name) {
       indent();
-      m_sb.append('"').append(name).append("\": [\r\n");
-
+      m_sb.append('"').append(name).append(m_compact ? "\":[" : "\": [\r\n");
       m_level++;
    }
 
@@ -88,7 +97,7 @@
 
       trimComma();
       indent();
-      m_sb.append("],\r\n");
+      m_sb.append("],").append(m_compact ? "" : "\r\n");
    }
 
    protected void attributes(Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
@@ -105,7 +114,7 @@
 
                if (!list.isEmpty()) {
                   indent();
-                  m_sb.append('"').append(attrName).append("\": [");
+                  m_sb.append('"').append(attrName).append(m_compact ? "\":[" : "\": [");
 
                   for (Object item : list) {
                      m_sb.append(' ');
@@ -114,23 +123,35 @@
                   }
 
                   m_sb.setLength(m_sb.length() - 1);
-                  m_sb.append(" ],\r\n");
+                  m_sb.append(m_compact ? "]," : " ],\r\n");
                }
             } else {
-               indent();
-               m_sb.append('"').append(attrName).append("\": ");
-               toString(m_sb, attrValue);
-               m_sb.append(",\r\n");
+               if (m_compact) {
+                  m_sb.append('"').append(attrName).append("\":");
+                  toString(m_sb, attrValue);
+                  m_sb.append(",");
+               } else {
+                  indent();
+                  m_sb.append('"').append(attrName).append("\": ");
+                  toString(m_sb, attrValue);
+                  m_sb.append(",\r\n");
+               }
             }
          }
       }
 
       if (dynamicAttributes != null) {
          for (Map.Entry<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> e : dynamicAttributes.entrySet()) {
-            indent();
-            m_sb.append('"').append(e.getKey()).append("\": ");
-            toString(m_sb, e.getValue());
-            m_sb.append(",\r\n");
+            if (m_compact) {
+               m_sb.append('"').append(e.getKey()).append("\":");
+               toString(m_sb, e.getValue());
+               m_sb.append(",");
+            } else {
+               indent();
+               m_sb.append('"').append(e.getKey()).append("\": ");
+               toString(m_sb, e.getValue());
+               m_sb.append(",\r\n");
+            }
          }
       }
    }
@@ -140,8 +161,10 @@
    }
 
    protected void indent() {
-      for (int i = m_level - 1; i <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>= 0; i--) {
-         m_sb.append("   ");
+      if (!m_compact) {
+         for (int i = m_level - 1; i <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/>= 0; i--) {
+            m_sb.append("   ");
+         }
       }
    }
 
@@ -149,9 +172,9 @@
       indent();
 
       if (name == null) {
-         m_sb.append("{\r\n");
+         m_sb.append("{").append(m_compact ? "" : "\r\n");
       } else {
-         m_sb.append('"').append(name).append("\": {\r\n");
+         m_sb.append('"').append(name).append(m_compact ? "\":{" : "\": {\r\n");
       }
 
       m_level++;
@@ -162,7 +185,7 @@
 
       trimComma();
       indent();
-      m_sb.append("},\r\n");
+      m_sb.append(m_compact ? "}," : "},\r\n");
    }
 <xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
    protected String toString(java.util.Date date, String format) {
@@ -195,8 +218,14 @@
    protected void trimComma() {
       int len = m_sb.length();
 
-      if (len <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/> 3 <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> m_sb.charAt(len - 3) == ',') {
-         m_sb.replace(len - 3, len - 2, "");
+      if (m_compact) {
+         if (len <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/> 1 <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> m_sb.charAt(len - 1) == ',') {
+            m_sb.replace(len - 1, len, "");
+         }
+      } else {
+         if (len <xsl:value-of select="'&gt;'" disable-output-escaping="yes"/> 3 <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> m_sb.charAt(len - 3) == ',') {
+            m_sb.replace(len - 3, len - 2, "");
+         }
       }
    }
 </xsl:template>
@@ -234,7 +263,7 @@
                   <xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name-element"/> : <xsl:value-of select="$entity/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty"/>            indent();<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append("\",\r\n");<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>            m_sb.append('"').append(<xsl:value-of select="@param-name-element"/>).append(m_compact ? "\"," : "\",\r\n");<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty-line"/>
                   <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
@@ -265,9 +294,11 @@
             <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-entry" disable-output-escaping="yes"/> e : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().entrySet()) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>            objectBegin(e.getKey());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            String key = String.valueOf(e.getKey());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectBegin(key);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(e.getValue());<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>            objectEnd(e.getKey());<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            objectEnd(key);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>

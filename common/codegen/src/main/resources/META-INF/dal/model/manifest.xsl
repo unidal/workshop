@@ -113,12 +113,6 @@
    </xsl:variable>
 
    <xsl:if test="$policy-json-builder='true'">
-      <!-- CompactJsonBuilder class -->
-      <xsl:call-template name="generate-java">
-        <xsl:with-param name="class" select="'CompactJsonBuilder'"/>
-        <xsl:with-param name="package" select="$transform-package"/>
-        <xsl:with-param name="template" select="'transform/compact-json-builder.xsl'"/>
-      </xsl:call-template>
       <!-- DefaultJsonBuilder class -->
       <xsl:call-template name="generate-java">
         <xsl:with-param name="class" select="'DefaultJsonBuilder'"/>

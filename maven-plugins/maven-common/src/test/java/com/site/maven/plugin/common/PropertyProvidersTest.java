@@ -1,7 +1,9 @@
-package com.site.maven.plugin.wizard;
+package com.site.maven.plugin.common;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
+import com.site.maven.plugin.common.PropertyProviders;
 
 public class PropertyProvidersTest {
 	@Test

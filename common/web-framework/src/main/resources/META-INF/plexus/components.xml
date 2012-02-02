@@ -29,15 +29,31 @@
 			<role>com.site.web.mvc.lifecycle.InboundActionHandler</role>
 			<implementation>com.site.web.mvc.lifecycle.DefaultInboundActionHandler</implementation>
 			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.message.MessageProducer</role>
+				</requirement>
+			</requirements>
 		</component>
 		<component>
 			<role>com.site.web.mvc.lifecycle.OutboundActionHandler</role>
 			<implementation>com.site.web.mvc.lifecycle.DefaultOutboundActionHandler</implementation>
 			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.message.MessageProducer</role>
+				</requirement>
+			</requirements>
 		</component>
 		<component>
 			<role>com.site.web.mvc.lifecycle.TransitionHandler</role>
 			<implementation>com.site.web.mvc.lifecycle.DefaultTransitionHandler</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.dianping.cat.message.MessageProducer</role>
+				</requirement>
+			</requirements>
 		</component>
 		<component>
 			<role>com.site.web.mvc.lifecycle.ErrorHandler</role>

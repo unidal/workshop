@@ -9,12 +9,22 @@ import com.dianping.cat.consumer.failure.model.transform.DefaultParser;
 import com.site.helper.Files;
 
 public class XmlTest {
-	@Test
-	public void testDefault() throws Exception {
-		DefaultParser parser = new DefaultParser();
-		String xml = Files.forIO().readFrom(getClass().getResourceAsStream("failure.xml"), "utf-8");
-		FailureReport report = parser.parse(xml);
+   @Test
+   public void testDefault() throws Exception {
+      DefaultParser parser = new DefaultParser();
+      String expected = Files.forIO().readFrom(getClass().getResourceAsStream("failure.xml"), "utf-8");
+      FailureReport report = parser.parse(expected);
 
-		Assert.assertEquals("XML is not well parsed!", xml, report.toString().replace("\r", ""));
-	}
+      Assert.assertEquals("XML is not well parsed!", expected.replace("\r", ""), report.toString().replace("\r", ""));
+   }
+   
+   @Test
+   public void testCompact() throws Exception {
+      DefaultParser parser = new DefaultParser();
+      String expected = Files.forIO().readFrom(getClass().getResourceAsStream("failure-compact.xml"), "utf-8");
+      FailureReport report = parser.parse(expected);
+      String xml = String.format("%1.0s", report);
+      
+      Assert.assertEquals("XML is not well parsed!", expected.replace("\r", ""), xml.replace("\r", ""));
+   }
 }

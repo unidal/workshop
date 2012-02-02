@@ -23,6 +23,7 @@ import com.site.codegen.generator.GenerateContext;
 import com.site.codegen.generator.Generator;
 import com.site.codegen.meta.WizardMeta;
 import com.site.helper.Files;
+import com.site.maven.plugin.common.PropertyProviders;
 import com.site.maven.plugin.wizard.model.entity.Module;
 import com.site.maven.plugin.wizard.model.entity.Page;
 import com.site.maven.plugin.wizard.model.entity.Wizard;

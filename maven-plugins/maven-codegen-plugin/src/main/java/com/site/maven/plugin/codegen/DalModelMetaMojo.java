@@ -16,6 +16,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import com.site.codegen.meta.ModelMeta;
+import com.site.maven.plugin.common.PropertyProviders;
 
 /**
  * DAL Metadata generator for Model
@@ -24,118 +25,138 @@ import com.site.codegen.meta.ModelMeta;
  * @author Frankie Wu
  */
 public class DalModelMetaMojo extends AbstractMojo {
-	/**
-	 * Current project
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	protected MavenProject m_project;
+   /**
+    * Current project
+    * 
+    * @parameter expression="${project}"
+    * @required
+    * @readonly
+    */
+   protected MavenProject m_project;
 
-	/**
-	 * XML meta component
-	 * 
-	 * @component
-	 * @required
-	 * @readonly
-	 */
-	protected ModelMeta m_meta;
+   /**
+    * XML meta component
+    * 
+    * @component
+    * @required
+    * @readonly
+    */
+   protected ModelMeta m_meta;
 
-	/**
-	 * Current project base directory
-	 * 
-	 * @parameter expression="${basedir}"
-	 * @required
-	 * @readonly
-	 */
-	protected File baseDir;
+   /**
+    * Current project base directory
+    * 
+    * @parameter expression="${basedir}"
+    * @required
+    * @readonly
+    */
+   protected File baseDir;
 
-	/**
-	 * @parameter expression="${inputFile}"
-	 * @required
-	 */
-	protected String inputFile;
+   /**
+    * @parameter expression="${inputFile}"
+    */
+   protected String inputFile;
 
-	/**
-	 * @parameter expression="${outputDir}"
-	 *            default-value="${basedir}/src/main/resources/META-INF/dal/model"
-	 * @required
-	 */
-	protected String outputDir;
+   /**
+    * @parameter expression="${outputDir}"
+    *            default-value="${basedir}/src/main/resources/META-INF/dal/model"
+    * @required
+    */
+   protected String outputDir;
 
-	/**
-	 * @parameter expression="${packageName}"
-	 */
-	protected String packageName;
+   /**
+    * @parameter expression="${packageName}"
+    */
+   protected String packageName;
 
-	private String detectPackageName() {
-		if (packageName != null) {
-			return packageName;
-		}
+   /**
+    * @parameter expression="${prefix}"
+    */
+   protected String prefix;
 
-		String groupId = m_project.getGroupId();
-		String artifactId = m_project.getArtifactId();
+   private String defaultPackageName() {
+      if (packageName != null) {
+         return packageName;
+      }
 
-		return (groupId + "." + artifactId + ".model").replace('-', '.');
-	}
+      String groupId = m_project.getGroupId();
+      String artifactId = m_project.getArtifactId();
 
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		try {
-			File inFile = getFile(inputFile);
-			Reader reader = new InputStreamReader(new FileInputStream(inFile), "utf-8");
-			Document codegen = m_meta.getCodegen(reader);
-			File outDir = getFile(outputDir);
-			File outFile = new File(outDir, "codegen.xml");
+      return (groupId + "." + artifactId + ".model").replace('-', '.');
+   }
 
-			if (!outDir.exists()) {
-				outDir.mkdirs();
-			}
+   public void execute() throws MojoExecutionException, MojoFailureException {
+      String f = getProperty(inputFile, "inputFile", "Sample XML file path:", null);
+      String n = getProperty(packageName, "packageName", "Package name of generated model:", defaultPackageName());
+      String p = getProperty(prefix, "prefix", "Prefix name of target files:", null);
 
-			saveFile(codegen, outFile);
+      if (f == null) {
+         throw new MojoExecutionException("please provide sample XML file path via -DinputFile=...");
+      }
 
-			File modelFile = new File(outDir, "model.xml");
+      try {
+         File inFile = getFile(f);
+         Reader reader = new InputStreamReader(new FileInputStream(inFile), "utf-8");
+         Document codegen = m_meta.getCodegen(reader);
+         File outDir = getFile(outputDir);
+         File outFile = new File(outDir, p == null ? "codegen.xml" : p + "-codegen.xml");
 
-			if (!modelFile.exists()) {
-				Document model = m_meta.getModel(detectPackageName());
+         if (!outDir.exists()) {
+            outDir.mkdirs();
+         }
 
-				saveFile(model, modelFile);
-			}
+         saveFile(codegen, outFile);
 
-			File manifestFile = new File(outDir, "manifest.xml");
+         File modelFile = new File(outDir, p == null ? "model.xml" : p + "-model.xml");
 
-			if (!manifestFile.exists()) {
-				Document manifest = m_meta.getManifest(outFile.getName(), modelFile.getName());
+         if (!modelFile.exists()) {
+            Document model = m_meta.getModel(n);
 
-				saveFile(manifest, manifestFile);
-			}
-		} catch (Exception e) {
-			throw new MojoExecutionException("Error when generating model meta: " + e, e);
-		}
-	}
+            saveFile(model, modelFile);
+         }
 
-	private File getFile(String path) {
-		File file;
+         File manifestFile = new File(outDir, p == null ? "manifest.xml" : p + "-manifest.xml");
 
-		if (path.startsWith("/") || path.indexOf(':') > 0) {
-			file = new File(path);
-		} else {
-			file = new File(baseDir, path);
-		}
+         if (!manifestFile.exists()) {
+            Document manifest = m_meta.getManifest(outFile.getName(), modelFile.getName());
 
-		return file;
-	}
+            saveFile(manifest, manifestFile);
+         }
+      } catch (Exception e) {
+         throw new MojoExecutionException("Error when generating model meta: " + e, e);
+      }
+   }
 
-	private void saveFile(Document codegen, File file) throws IOException {
-		Format format = Format.getPrettyFormat();
-		XMLOutputter outputter = new XMLOutputter(format);
-		FileWriter writer = new FileWriter(file);
+   private String getProperty(String value, String name, String prompt, String defaultValue) {
+      if (value != null) {
+         return value;
+      } else {
+         return PropertyProviders.fromConsole().forString(name, prompt, defaultValue, null);
+      }
+   }
 
-		try {
-			outputter.output(codegen, writer);
-			getLog().info("File " + file.getCanonicalPath() + " generated.");
-		} finally {
-			writer.close();
-		}
-	}
+   private File getFile(String path) {
+      File file;
+
+      if (path.startsWith("/") || path.indexOf(':') > 0) {
+         file = new File(path);
+      } else {
+         file = new File(baseDir, path);
+      }
+
+      return file;
+   }
+
+   private void saveFile(Document codegen, File file) throws IOException {
+      Format format = Format.getPrettyFormat();
+      XMLOutputter outputter = new XMLOutputter(format);
+      FileWriter writer = new FileWriter(file);
+
+      try {
+         outputter.output(codegen, writer);
+         getLog().info("File " + file.getCanonicalPath() + " generated.");
+      } finally {
+         writer.close();
+      }
+   }
 }

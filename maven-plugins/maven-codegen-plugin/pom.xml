@@ -11,16 +11,17 @@
    <artifactId>maven-codegen-plugin</artifactId>
    <packaging>maven-plugin</packaging>
    <name>Code Generation Maven Plugin</name>
-   <version>1.0.0-a5</version>
+   <version>1.0.4</version>
    <dependencies>
       <dependency>
          <groupId>com.site.common</groupId>
          <artifactId>codegen</artifactId>
-         <version>1.0.0-a5</version>
+         <version>1.0.0-a8</version>
       </dependency>
       <dependency>
          <groupId>com.site.maven.plugins</groupId>
          <artifactId>maven-common</artifactId>
+         <version>1.0.0-a1</version>
       </dependency>
       <dependency>
          <groupId>mysql</groupId>
