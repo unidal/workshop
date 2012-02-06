@@ -168,7 +168,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
       InboundActionModel inboundAction = requestContext.getInboundAction();
       ActionContext<?> actionContext = createActionContext(request, response, requestContext, inboundAction);
 
-      Transaction t = m_cat.newTransaction("URL", requestContext.getAction());
+      Transaction t = m_cat.newTransaction("URL", inboundAction.getActionName());
 
       logRequestClientInfo(request);
       logRequestPayload(request);
@@ -191,9 +191,9 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
          }
 
          handleTransition(module, actionContext);
-         handleOutboundAction(module, actionContext);
 
          t.addData("out", actionContext.getOutboundAction());
+         handleOutboundAction(module, actionContext);
       } catch (ActionException e) {
          t.setStatus(e);
          handleException(e, actionContext);

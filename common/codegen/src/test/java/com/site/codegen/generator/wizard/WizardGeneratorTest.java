@@ -1,4 +1,4 @@
-package com.site.codegen.generator.plugin;
+package com.site.codegen.generator.wizard;
 
 import java.io.File;
 import java.net.URL;
@@ -13,7 +13,7 @@ import com.site.codegen.generator.Generator;
 import com.site.lookup.ComponentTestCase;
 
 @RunWith(JUnit4.class)
-public class PluginGeneratorTest extends ComponentTestCase {
+public class WizardGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
 	private boolean debug = false;
@@ -38,7 +38,7 @@ public class PluginGeneratorTest extends ComponentTestCase {
 		private URL m_manifestXml;
 
 		public WizardGenerateContext(File projectBase, String type, URL manifestXml) {
-			super(projectBase, "/META-INF/wizard/" + type, "target/generated-model/plugin");
+			super(projectBase, "/META-INF/wizard/" + type, "target/generated-wizard/webapp");
 
 			m_manifestXml = manifestXml;
 		}

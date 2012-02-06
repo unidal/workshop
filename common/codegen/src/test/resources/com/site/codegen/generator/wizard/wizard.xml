@@ -6,7 +6,7 @@
       <page name="trend" title="Trend Page" package="com.dianping.garden2.page.trend3">
          <description>Trend Page Here</description>
       </page>
-      <page name="test" title="Test Page">
+      <page name="test" title="Test Page" standalone="false">
          <description>Test Page Here</description>
       </page>
    </module>

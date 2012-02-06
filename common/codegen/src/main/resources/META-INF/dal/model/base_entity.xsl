@@ -40,21 +40,18 @@ public abstract class BaseEntity<xsl:call-template name="generic-type"><xsl:with
       if (useJson) {
          DefaultJsonBuilder builder = new DefaultJsonBuilder(compact);
 
-         accept(builder);
-         formatter.format(builder.getString());
+         formatter.format(builder.buildJson(this));
       } else {
          DefaultXmlBuilder builder = new DefaultXmlBuilder(compact);
 
-         accept(builder);
-         formatter.format(builder.getString());
+         formatter.format(builder.buildXml(this));
       }<xsl:value-of select="$empty"/>
 </xsl:when>
 <xsl:otherwise>
       boolean compact = (precision == 0);
       DefaultXmlBuilder builder = new DefaultXmlBuilder(compact);
 
-      accept(builder);
-      formatter.format(builder.toString());<xsl:value-of select="$empty"/>
+      formatter.format(builder.buildXml(this));<xsl:value-of select="$empty"/>
 </xsl:otherwise>
 </xsl:choose>
    }
@@ -63,14 +60,13 @@ public abstract class BaseEntity<xsl:call-template name="generic-type"><xsl:with
       try {
          return new java.text.SimpleDateFormat(format).parse(text);
       } catch (java.text.ParseException e) {
-         throw new IllegalArgumentException(
-               String.format("Error when parsing date(%s) with format(%s)!", text, format), e);
+         throw new IllegalArgumentException(String.format("Error when parsing date(%s) with format(%s)!", text, format), e);
       }
    }
 </xsl:if>
    @Override
    public String toString() {
-      return String.format("%s", this);
+      return new DefaultXmlBuilder().buildXml(this);
    }
 }
 </xsl:template>

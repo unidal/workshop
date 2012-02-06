@@ -62,6 +62,7 @@
    <xsl:if test="//entity[@all-children-in-sequence='true']">
       <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.BaseEntity;<xsl:value-of select="$empty-line"/>
    </xsl:if>
+   <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.IEntity;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.IVisitor;<xsl:value-of select="$empty-line"/>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
@@ -156,7 +157,9 @@
       }
    }
 
-   public String getString() {
+   public String buildJson(IEntity<xsl:value-of select="'&lt;?&gt;'" disable-output-escaping="yes"/> entity) {
+      m_sb.setLength(0);
+      entity.accept(this);
       return m_sb.toString();
    }
 

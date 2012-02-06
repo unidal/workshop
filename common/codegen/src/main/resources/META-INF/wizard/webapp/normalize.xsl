@@ -133,9 +133,16 @@
             <xsl:otherwise><xsl:value-of select="@name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
+      <xsl:attribute name="title">
+         <xsl:choose>
+            <xsl:when test="@title"><xsl:value-of select="@title"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="$capital-name"/></xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
       <xsl:attribute name="description">
          <xsl:choose>
             <xsl:when test="@description"><xsl:value-of select="@description"/></xsl:when>
+            <xsl:when test="description"><xsl:value-of select="normalize-space(description)"/></xsl:when>
             <xsl:otherwise><xsl:value-of select="$capital-name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
@@ -143,6 +150,12 @@
          <xsl:choose>
             <xsl:when test="@default='true'">true</xsl:when>
             <xsl:otherwise>false</xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
+      <xsl:attribute name="standalone">
+         <xsl:choose>
+            <xsl:when test="@standalone='false'">false</xsl:when>
+            <xsl:otherwise>true</xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="action-class">

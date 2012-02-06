@@ -35,214 +35,218 @@ import com.site.maven.plugin.wizard.model.transform.DefaultParser;
  * @goal webapp
  */
 public class WebAppMojo extends AbstractMojo {
-	/**
-	 * Current project
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	protected MavenProject m_project;
+   /**
+    * Current project
+    * 
+    * @parameter expression="${project}"
+    * @required
+    * @readonly
+    */
+   protected MavenProject m_project;
 
-	/**
-	 * Current project base directory
-	 * 
-	 * @parameter expression="${basedir}"
-	 * @required
-	 * @readonly
-	 */
-	protected File baseDir;
+   /**
+    * Current project base directory
+    * 
+    * @parameter expression="${basedir}"
+    * @required
+    * @readonly
+    */
+   protected File baseDir;
 
-	/**
-	 * XSL code generator implementation
-	 * 
-	 * @component role="com.site.codegen.generator.Generator"
-	 *            role-hint="wizard-webapp"
-	 * @required
-	 * @readonly
-	 */
-	protected Generator m_generator;
+   /**
+    * XSL code generator implementation
+    * 
+    * @component role="com.site.codegen.generator.Generator"
+    *            role-hint="wizard-webapp"
+    * @required
+    * @readonly
+    */
+   protected Generator m_generator;
 
-	/**
-	 * Wizard meta component
-	 * 
-	 * @component
-	 * @required
-	 * @readonly
-	 */
-	protected WizardMeta m_meta;
+   /**
+    * Wizard meta component
+    * 
+    * @component
+    * @required
+    * @readonly
+    */
+   protected WizardMeta m_meta;
 
-	/**
-	 * Current project base directory
-	 * 
-	 * @parameter expression="${sourceDir}" default-value="${basedir}"
-	 * @required
-	 */
-	protected String sourceDir;
+   /**
+    * Current project base directory
+    * 
+    * @parameter expression="${sourceDir}" default-value="${basedir}"
+    * @required
+    */
+   protected String sourceDir;
 
-	/**
-	 * Location of manifest.xml file
-	 * 
-	 * @parameter expression="${manifest}" default-value=
-	 *            "${basedir}/src/main/resources/META-INF/wizard/webapp/manifest.xml"
-	 * @required
-	 */
-	protected String manifest;
+   /**
+    * Location of manifest.xml file
+    * 
+    * @parameter expression="${manifest}" default-value=
+    *            "${basedir}/src/main/resources/META-INF/wizard/webapp/manifest.xml"
+    * @required
+    */
+   protected String manifest;
 
-	/**
-	 * Location of generated source directory
-	 * 
-	 * @parameter expression="${resource.base}"
-	 *            default-value="/META-INF/wizard/webapp"
-	 * @required
-	 */
-	protected String resouceBase;
+   /**
+    * Location of generated source directory
+    * 
+    * @parameter expression="${resource.base}"
+    *            default-value="/META-INF/wizard/webapp"
+    * @required
+    */
+   protected String resouceBase;
 
-	/**
-	 * Verbose information or not
-	 * 
-	 * @parameter expression="${verbose}" default-value="false"
-	 */
-	protected boolean verbose;
+   /**
+    * Verbose information or not
+    * 
+    * @parameter expression="${verbose}" default-value="false"
+    */
+   protected boolean verbose;
 
-	/**
-	 * Verbose information or not
-	 * 
-	 * @parameter expression="${debug}" default-value="false"
-	 */
-	protected boolean debug;
+   /**
+    * Verbose information or not
+    * 
+    * @parameter expression="${debug}" default-value="false"
+    */
+   protected boolean debug;
 
-	protected Wizard buildWizard(File wizardFile) throws IOException, SAXException {
-		Wizard wizard;
+   protected Wizard buildWizard(File wizardFile) throws IOException, SAXException {
+      Wizard wizard;
 
-		if (wizardFile.isFile()) {
-			String content = Files.forIO().readFrom(wizardFile, "utf-8");
+      if (wizardFile.isFile()) {
+         String content = Files.forIO().readFrom(wizardFile, "utf-8");
 
-			wizard = new DefaultParser().parse(content);
-		} else {
-			wizard = new Wizard();
-			String packageName = PropertyProviders.fromConsole().forString("package", "Wizard Package:", null, null);
-			boolean webres = PropertyProviders.fromConsole().forBoolean("webres", "Support WebRes framework?", false);
+         wizard = new DefaultParser().parse(content);
+      } else {
+         wizard = new Wizard();
+         String packageName = PropertyProviders.fromConsole().forString("package", "Java package name for webapp:",
+               null, null);
+         boolean webres = PropertyProviders.fromConsole().forBoolean("webres", "Support WebRes framework?", false);
 
-			wizard.setPackage(packageName);
-			wizard.setWebres(webres);
-		}
+         wizard.setPackage(packageName);
+         wizard.setWebres(webres);
+      }
 
-		List<String> moduleNames = new ArrayList<String>(wizard.getModules().size());
+      List<String> moduleNames = new ArrayList<String>(wizard.getModules().size());
 
-		for (Module module : wizard.getModules()) {
-			moduleNames.add(module.getName());
-		}
+      for (Module module : wizard.getModules()) {
+         moduleNames.add(module.getName());
+      }
 
-		String moduleName = PropertyProviders.fromConsole().forString("module", "Module name:", moduleNames, null, null);
-		Module module = wizard.findModule(moduleName);
+      String moduleName = PropertyProviders.fromConsole().forString("module", "Module name:", moduleNames, null, null);
+      Module module = wizard.findModule(moduleName);
 
-		if (module == null) {
-			String path = PropertyProviders.fromConsole().forString("path", "Module path:", moduleName.substring(0, 1),
-			      null);
+      if (module == null) {
+         String path = PropertyProviders.fromConsole().forString("path", "Module path:", moduleName.substring(0, 1),
+               null);
 
-			module = new Module(moduleName);
+         module = new Module(moduleName);
 
-			module.setPath(path);
-			wizard.addModule(module);
-		}
+         module.setPath(path);
+         wizard.addModule(module);
+      }
 
-		List<String> pageNames = new ArrayList<String>(module.getPages().size());
+      List<String> pageNames = new ArrayList<String>(module.getPages().size());
 
-		for (Page page : module.getPages()) {
-			moduleNames.add(page.getName());
-		}
+      for (Page page : module.getPages()) {
+         pageNames.add(page.getName());
+      }
 
-		String pageName = PropertyProviders.fromConsole().forString("page", "Page name:", pageNames, null, null);
-		Page page = module.findPage(pageName);
+      String pageName = PropertyProviders.fromConsole().forString("page", "Page name:", pageNames, null, null);
+      Page page = module.findPage(pageName);
 
-		if (page == null) {
-			page = new Page(pageName);
+      if (page == null) {
+         String path = PropertyProviders.fromConsole().forString("path", "Page path:", pageName, null);
 
-			if (module.getPages().isEmpty()) {
-				page.setDefault(true);
-			}
+         page = new Page(pageName);
 
-			page.setDescription(Character.toUpperCase(pageName.charAt(0)) + pageName.substring(1));
-			module.addPage(page);
-		}
+         if (module.getPages().isEmpty()) {
+            page.setDefault(true);
+         }
 
-		return wizard;
-	}
+         page.setPath(path);
+         page.setDescription(Character.toUpperCase(pageName.charAt(0)) + pageName.substring(1));
+         module.addPage(page);
+      }
 
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		try {
-			final File manifestFile = getFile(manifest);
-			File wizardFile = new File(manifestFile.getParentFile(), "wizard.xml");
-			Reader reader = new StringReader(buildWizard(wizardFile).toString());
+      return wizard;
+   }
 
-			if (!manifestFile.exists()) {
-				saveFile(m_meta.getManifest("wizard.xml"), manifestFile);
-			}
+   public void execute() throws MojoExecutionException, MojoFailureException {
+      try {
+         final File manifestFile = getFile(manifest);
+         File wizardFile = new File(manifestFile.getParentFile(), "wizard.xml");
+         Reader reader = new StringReader(buildWizard(wizardFile).toString());
 
-			saveFile(m_meta.getWizard(reader), wizardFile);
+         if (!manifestFile.exists()) {
+            saveFile(m_meta.getManifest("wizard.xml"), manifestFile);
+         }
 
-			final URL manifestXml = manifestFile.toURI().toURL();
-			final GenerateContext ctx = new AbstractGenerateContext(m_project.getBasedir(), resouceBase, sourceDir) {
-				public URL getManifestXml() {
-					return manifestXml;
-				}
+         saveFile(m_meta.getWizard(reader), wizardFile);
 
-				public void log(LogLevel logLevel, String message) {
-					switch (logLevel) {
-					case DEBUG:
-						if (debug) {
-							getLog().debug(message);
-						}
-						break;
-					case INFO:
-						if (debug || verbose) {
-							getLog().info(message);
-						}
-						break;
-					case ERROR:
-						getLog().error(message);
-						break;
-					}
-				}
-			};
+         final URL manifestXml = manifestFile.toURI().toURL();
+         final GenerateContext ctx = new AbstractGenerateContext(m_project.getBasedir(), resouceBase, sourceDir) {
+            public URL getManifestXml() {
+               return manifestXml;
+            }
 
-			m_generator.generate(ctx);
-			m_project.addCompileSourceRoot(sourceDir);
-			getLog().info(ctx.getGeneratedFiles() + " files generated.");
-		} catch (Exception e) {
-			throw new MojoExecutionException("Code generating failed.", e);
-		}
-	}
+            public void log(LogLevel logLevel, String message) {
+               switch (logLevel) {
+               case DEBUG:
+                  if (debug) {
+                     getLog().debug(message);
+                  }
+                  break;
+               case INFO:
+                  if (debug || verbose) {
+                     getLog().info(message);
+                  }
+                  break;
+               case ERROR:
+                  getLog().error(message);
+                  break;
+               }
+            }
+         };
 
-	private File getFile(String path) {
-		File file;
+         m_generator.generate(ctx);
+         m_project.addCompileSourceRoot(sourceDir);
+         getLog().info(ctx.getGeneratedFiles() + " files generated.");
+      } catch (Exception e) {
+         throw new MojoExecutionException("Code generating failed.", e);
+      }
+   }
 
-		if (path.startsWith("/") || path.indexOf(':') > 0) {
-			file = new File(path);
-		} else {
-			file = new File(baseDir, path);
-		}
+   private File getFile(String path) {
+      File file;
 
-		return file;
-	}
+      if (path.startsWith("/") || path.indexOf(':') > 0) {
+         file = new File(path);
+      } else {
+         file = new File(baseDir, path);
+      }
 
-	private void saveFile(Document codegen, File file) throws IOException {
-		File parent = file.getCanonicalFile().getParentFile();
+      return file;
+   }
 
-		if (!parent.exists()) {
-			parent.mkdirs();
-		}
+   private void saveFile(Document codegen, File file) throws IOException {
+      File parent = file.getCanonicalFile().getParentFile();
 
-		Format format = Format.getPrettyFormat();
-		XMLOutputter outputter = new XMLOutputter(format);
-		FileWriter writer = new FileWriter(file);
+      if (!parent.exists()) {
+         parent.mkdirs();
+      }
 
-		try {
-			outputter.output(codegen, writer);
-			getLog().info("File " + file.getCanonicalPath() + " generated.");
-		} finally {
-			writer.close();
-		}
-	}
+      Format format = Format.getPrettyFormat();
+      XMLOutputter outputter = new XMLOutputter(format);
+      FileWriter writer = new FileWriter(file);
+
+      try {
+         outputter.output(codegen, writer);
+         getLog().info("File " + file.getCanonicalPath() + " generated.");
+      } finally {
+         writer.close();
+      }
+   }
 }

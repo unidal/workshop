@@ -129,7 +129,7 @@
      <xsl:with-param name="module" select="../@name"/>
      <xsl:with-param name="name" select="@name"/>
      <xsl:with-param name="file" select="substring(@view,1)"/>
-     <xsl:with-param name="template" select="'page/view-jsp.xsl'"/>
+     <xsl:with-param name="template" select="'pres/view-jsp.xsl'"/>
    </xsl:call-template>
 </xsl:template>
 

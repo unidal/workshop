@@ -22,7 +22,7 @@ import com.site.web.mvc.annotation.ModuleMeta;
 public enum <xsl:value-of select="@page-class"/> implements Page {
 <xsl:for-each select="page">
    <xsl:value-of select="$empty-line"/>
-   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@path"/>", "<xsl:value-of select="@description"/>", true)<xsl:value-of select="$empty"/>
+   <xsl:value-of select="'   '"/><xsl:value-of select="@upper-name"/>("<xsl:value-of select="@name"/>", "<xsl:value-of select="@path"/>", "<xsl:value-of select="@title"/>", "<xsl:value-of select="@description"/>", <xsl:value-of select="@standalone"/>)<xsl:value-of select="$empty"/>
    <xsl:choose>
        <xsl:when test="position()=last()">;</xsl:when>
        <xsl:otherwise>,</xsl:otherwise>
@@ -33,15 +33,18 @@ public enum <xsl:value-of select="@page-class"/> implements Page {
 
    private String m_path;
 
+   private String m_title;
+
    private String m_description;
 
-   private boolean m_realPage;
+   private boolean m_standalone;
 
-   private <xsl:value-of select="@page-class" />(String name, String path, String description, boolean realPage) {
+   private <xsl:value-of select="@page-class" />(String name, String path, String title, String description, boolean standalone) {
       m_name = name;
       m_path = path;
+      m_title = title;
       m_description = description;
-      m_realPage = realPage;
+      m_standalone = standalone;
    }
 
    public static <xsl:value-of select="@page-class"/> getByName(String name, <xsl:value-of select="@page-class"/> defaultPage) {
@@ -78,8 +81,12 @@ public enum <xsl:value-of select="@page-class"/> implements Page {
       return m_path;
    }
 
-   public boolean isRealPage() {
-      return m_realPage;
+   public String getTitle() {
+      return m_title;
+   }
+
+   public boolean isStandalone() {
+      return m_standalone;
    }
 
    public <xsl:value-of select="@page-class"/>[] getValues() {
