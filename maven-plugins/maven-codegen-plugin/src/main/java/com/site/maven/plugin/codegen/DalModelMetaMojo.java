@@ -87,7 +87,6 @@ public class DalModelMetaMojo extends AbstractMojo {
 
    public void execute() throws MojoExecutionException, MojoFailureException {
       String f = getProperty(inputFile, "inputFile", "Sample XML file path:", null);
-      String n = getProperty(packageName, "packageName", "Package name of generated model:", defaultPackageName());
       String p = getProperty(prefix, "prefix", "Prefix name of target files:", null);
 
       if (f == null) {
@@ -110,6 +109,7 @@ public class DalModelMetaMojo extends AbstractMojo {
          File modelFile = new File(outDir, p == null ? "model.xml" : p + "-model.xml");
 
          if (!modelFile.exists()) {
+            String n = getProperty(packageName, "packageName", "Package name of generated model:", defaultPackageName());
             Document model = m_meta.getModel(n);
 
             saveFile(model, modelFile);

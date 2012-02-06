@@ -24,6 +24,15 @@ import <xsl:value-of select="@transform-package"/>.DefaultXmlBuilder;
 <xsl:value-of select="$empty"/>import <xsl:value-of select="@transform-package"/>.DefaultJsonBuilder;
 </xsl:if>
 public abstract class BaseEntity<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'T'"/></xsl:call-template> implements IEntity<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'T'"/></xsl:call-template>, Formattable {
+<xsl:if test="$enable-json">
+   public static final String JSON = "%2s";
+
+   public static final String JSON_COMPACT = "%2.0s";
+</xsl:if>
+   public static final String XML = "%1s";
+   
+   public static final String XML_COMPACT = "%1.0s";
+   
    protected void assertAttributeEquals(Object instance, String entityName, String name, Object expectedValue, Object actualValue) {
       if (expectedValue == null <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> actualValue != null || expectedValue != null <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> !expectedValue.equals(actualValue)) {
          throw new IllegalArgumentException(String.format("Mismatched entity(%s) found! Same %s attribute is expected! %s: %s.", entityName, name, entityName, instance));
