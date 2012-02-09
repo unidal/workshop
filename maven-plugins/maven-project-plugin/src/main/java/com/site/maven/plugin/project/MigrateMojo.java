@@ -1,6 +1,7 @@
 package com.site.maven.plugin.project;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.maven.model.Resource;
@@ -10,6 +11,8 @@ import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 
 import com.site.helper.Files;
+import com.site.helper.Joiners;
+import com.site.helper.Splitters;
 
 /**
  * Migrate all source files from one project to another project using a
@@ -40,7 +43,8 @@ public class MigrateMojo extends AbstractMojo {
    private String targetPackage;
 
    /**
-    * @parameter expression="${targetDir}" default-value="target/${project.artifactId}"
+    * @parameter expression="${targetDir}"
+    *            default-value="target/${project.artifactId}"
     * @required
     */
    private String targetDir;
@@ -51,18 +55,29 @@ public class MigrateMojo extends AbstractMojo {
     */
    private boolean verbose;
 
+   private String m_reversedSourcePackage;
+
+   private String m_reversedTargetPackage;
+
    private int m_success;
+
+   private int m_changed;
 
    private int m_failure;
 
    @SuppressWarnings("unchecked")
    public void execute() throws MojoExecutionException, MojoFailureException {
+      m_reversedSourcePackage = reversePackage(sourcePackage);
+      m_reversedTargetPackage = reversePackage(targetPackage);
+
       try {
          File baseDir = project.getBasedir();
-         File targetBase = new File(baseDir, targetDir).getCanonicalFile();
+         File targetBase = targetDir.startsWith("/") ? new File(targetDir) : new File(baseDir, targetDir)
+               .getCanonicalFile();
          long start = System.currentTimeMillis();
 
          m_success = 0;
+         m_changed = 0;
          m_failure = 0;
 
          for (String source : (List<String>) project.getCompileSourceRoots()) {
@@ -85,26 +100,22 @@ public class MigrateMojo extends AbstractMojo {
             migrateFile(new File(baseDir, "pom.xml"), new File(targetBase, "pom.xml"));
          }
 
-         log(String.format("[INFO] %s files migrated%s in %s ms.", m_success, m_failure == 0 ? "" : " but " + m_failure
-               + " failures", (System.currentTimeMillis() - start)));
+         if ("war".equals(project.getPackaging())) {
+            migrateSource(baseDir, targetBase, "src/main/webapp");
+         }
+
+         long timeUsed = System.currentTimeMillis() - start;
+
+         getLog().info(
+               String.format("%s files migrated in %s ms, with %s changed and %s failures.", m_success, timeUsed,
+                     m_changed, m_failure));
       } catch (Exception e) {
-         throw new MojoFailureException(String.format(
-               "[ERROR] Error when migrating project[sourcePackage: %s, targetPackage: %s, targetDir: %s].", sourcePackage,
-               targetPackage, targetDir), e);
-      }
-   }
+         String message = String.format(
+               "Error when migrating project[sourcePackage: %s, targetPackage: %s, targetDir: %s].", sourcePackage,
+               targetPackage, targetDir);
 
-   protected void log(String message) {
-      log(message, null);
-   }
-
-   protected void log(String message, Exception e) {
-      if (verbose) {
-         System.out.println(message);
-      }
-
-      if (e != null) {
-         e.printStackTrace(System.err);
+         getLog().error(message);
+         throw new MojoFailureException(message, e);
       }
    }
 
@@ -113,6 +124,7 @@ public class MigrateMojo extends AbstractMojo {
 
       if (sourcePackageName != null && sourcePackageName.startsWith(sourcePackage)) {
          String targetPackageName = targetPackage + sourcePackageName.substring(sourcePackage.length());
+
          targetPath = targetPackageName.replace('.', '/');
       } else {
          targetPath = sourcePath;
@@ -121,16 +133,18 @@ public class MigrateMojo extends AbstractMojo {
       File base = sourcePath == null ? source : new File(source, sourcePath);
       String[] names = base.list();
 
-      for (String name : names) {
-         File file = new File(base, name);
+      if (names != null) {
+         for (String name : names) {
+            File file = new File(base, name);
 
-         if (file.isDirectory()) {
-            String newPath = sourcePath == null ? name : sourcePath + "/" + name;
-            String newPackageName = sourcePackageName == null ? name : sourcePackageName + "." + name;
+            if (file.isDirectory()) {
+               String newPath = sourcePath == null ? name : sourcePath + "/" + name;
+               String newPackageName = sourcePackageName == null ? name : sourcePackageName + "." + name;
 
-            migrateDirectory(source, target, newPath, newPackageName);
-         } else if (file.isFile()) {
-            migrateFile(file, new File(target, targetPath + "/" + name));
+               migrateDirectory(source, target, newPath, newPackageName);
+            } else if (file.isFile()) {
+               migrateFile(file, new File(target, targetPath + "/" + name));
+            }
          }
       }
    }
@@ -140,11 +154,27 @@ public class MigrateMojo extends AbstractMojo {
          String original = Files.forIO().readFrom(source, "utf-8");
          String migrated = replaceAll(original, sourcePackage, targetPackage);
 
+         // for tld uri, cookie domain name etc.
+         migrated = replaceAll(migrated, m_reversedSourcePackage, m_reversedTargetPackage);
+
          Files.forIO().writeTo(target, migrated);
-         log(String.format("[INFO] File(%s) created, content length is %s.", target, target.length()));
          m_success++;
+
+         boolean changed = !original.equals(migrated);
+
+         if (changed) {
+            m_changed++;
+         }
+
+         if (verbose) {
+            if (changed) {
+               getLog().info(String.format("File(%s) migrated, content length is %s.", target, target.length()));
+            } else {
+               getLog().info(String.format("File(%s) copied, content length is %s.", target, target.length()));
+            }
+         }
       } catch (Exception e) {
-         log(String.format("[ERROR] Error when migrating file(%s)!", source), e);
+         getLog().warn(String.format("Error when migrating file(%s)!", source), e);
          m_failure++;
       }
    }
@@ -186,5 +216,13 @@ public class MigrateMojo extends AbstractMojo {
       }
 
       return sb.toString();
+   }
+
+   protected String reversePackage(String packageName) {
+      List<String> parts = Splitters.by('.').split(packageName);
+
+      Collections.reverse(parts);
+
+      return Joiners.by('.').join(parts);
    }
 }

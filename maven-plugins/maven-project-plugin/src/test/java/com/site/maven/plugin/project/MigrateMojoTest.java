@@ -2,12 +2,19 @@ package com.site.maven.plugin.project;
 
 import java.io.File;
 
+import junit.framework.Assert;
+
 import org.apache.maven.model.Resource;
 import org.apache.maven.project.MavenProject;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.site.lookup.ComponentTestCase;
 import com.site.maven.plugin.common.Injector;
 
+@RunWith(JUnit4.class)
 public class MigrateMojoTest extends ComponentTestCase {
    @SuppressWarnings("unchecked")
    private MavenProject createMavenProject(String finalName, String path) throws Exception {
@@ -30,6 +37,8 @@ public class MigrateMojoTest extends ComponentTestCase {
       return resource;
    }
 
+   @Test
+   @Ignore
    public void testMigrate() throws Exception {
       MigrateMojo mojo = new MigrateMojo();
 
@@ -40,5 +49,20 @@ public class MigrateMojoTest extends ComponentTestCase {
       Injector.setField(mojo, "verbose", false);
 
       mojo.execute();
+   }
+
+   @Test
+   public void testReversePackage() {
+      checkReverse("a.b", "b.a");
+      checkReverse("a.b.c", "c.b.a");
+      
+      checkReverse("a.b.", ".b.a");
+      checkReverse("a.b.c.", ".c.b.a");
+   }
+
+   private void checkReverse(String packageName, String reversedPackageName) {
+      String actual = new MigrateMojo().reversePackage(packageName);
+
+      Assert.assertEquals("Reversed package name incorrecct!", reversedPackageName, actual);
    }
 }

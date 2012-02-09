@@ -18,6 +18,7 @@
       <module>maven-misc-plugin</module>
       <module>maven-flex-plugin</module>
       <module>maven-project-plugin</module>
+      <module>maven-webres-plugin</module>
       <module>maven-wizard-plugin</module>
    </modules>
    <dependencyManagement>

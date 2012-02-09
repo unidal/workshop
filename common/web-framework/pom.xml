@@ -41,17 +41,17 @@
 			<plugin>
 				<groupId>com.site.maven.plugins</groupId>
 				<artifactId>maven-codegen-plugin</artifactId>
-				<version>1.0.0-a4</version>
-				<configuration>
-					<manifest>${basedir}/src/main/resources/META-INF/dal/xml/manifest.xml</manifest>
-				</configuration>
+				<version>1.0.6</version>
 				<executions>
 					<execution>
-						<id>generating mvc model</id>
+						<id>default-cli</id>
 						<phase>generate-sources</phase>
 						<goals>
 							<goal>dal-xml</goal>
 						</goals>
+         				<configuration>
+         					<manifest>${basedir}/src/main/resources/META-INF/dal/xml/manifest.xml</manifest>
+         				</configuration>
 					</execution>
 				</executions>
 			</plugin>

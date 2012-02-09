@@ -65,11 +65,6 @@
          </dependency>
          <dependency>
             <groupId>com.site.common</groupId>
-            <artifactId>codegen</artifactId>
-            <version>1.0.0</version>
-         </dependency>
-         <dependency>
-            <groupId>com.site.common</groupId>
             <artifactId>eunit-testfwk</artifactId>
             <version>1.0.0</version>
          </dependency>
@@ -89,6 +84,11 @@
             <version>1.0.0</version>
          </dependency>
          <dependency>
+            <groupId>com.dianping.cat</groupId>
+            <artifactId>cat-core</artifactId>
+            <version>0.1.0</version>
+         </dependency>
+         <dependency>
             <groupId>com.site.dal</groupId>
             <artifactId>dal-xml</artifactId>
             <version>1.0.0</version>
@@ -96,7 +96,7 @@
          <dependency>
             <groupId>com.site.dal</groupId>
             <artifactId>dal-jdbc</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.0-a1</version>
          </dependency>
          <dependency>
             <groupId>com.site.app</groupId>
@@ -173,7 +173,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="codegen" version="1.0.0-a2" packaging="jar">
+            <project artifactId="codegen" version="1.0.0-a10" packaging="jar">
                <name>Common code generator</name>
                <path>codegen</path>
                <dependencies>
@@ -187,7 +187,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="test-framework" packaging="jar">
+            <project artifactId="test-framework" version="1.0.0-a1" packaging="jar">
                <name>Common test framework</name>
                <path>test-framework</path>
                <dependencies>
@@ -205,10 +205,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="web-framework" packaging="jar">
+            <project artifactId="web-framework" version="1.0.0-a3" packaging="jar">
                <name>Common web framework</name>
                <path>web-framework</path>
                <dependencies>
+                  <dependency>
+                     <groupId>com.dianping.cat</groupId>
+                     <artifactId>cat-core</artifactId>
+                  </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
                      <artifactId>dal-xml</artifactId>
@@ -217,11 +221,6 @@
                      <groupId>com.site.common</groupId>
                      <artifactId>test-framework</artifactId>
                      <scope>test</scope>
-                  </dependency>
-                  <dependency>
-                     <groupId>javax.servlet</groupId>
-                     <artifactId>servlet-api</artifactId>
-                     <scope>provided</scope>
                   </dependency>
                   <dependency>
                      <groupId>org.mortbay.jetty</groupId>
@@ -279,10 +278,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="dal-jdbc" packaging="jar">
+            <project artifactId="dal-jdbc" version="1.0.0-a1" packaging="jar">
                <name>DAL JDBC</name>
                <path>dal-jdbc</path>
                <dependencies>
+                  <dependency>
+                     <groupId>com.dianping.cat</groupId>
+                     <artifactId>cat-core</artifactId>
+                  </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
                      <artifactId>dal-xml</artifactId>
@@ -318,7 +321,7 @@
             </dependencies>
          </dependencyManagement>
          <projects>
-            <project artifactId="maven-common" packaging="jar">
+            <project artifactId="maven-common" version="1.0.0-a1" packaging="jar">
                <name>Maven Common</name>
                <path>maven-common</path>
                <dependencies>
@@ -332,18 +335,19 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" version="1.0.0-a2" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.6" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0-a2</version>
+                     <version>1.0.0-a10</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
+                     <version>1.0.0-a1</version>
                   </dependency>
                   <dependency>
                      <groupId>mysql</groupId>
@@ -401,18 +405,61 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-wizard-plugin" packaging="maven-plugin">
+            <project artifactId="maven-webres-plugin" packaging="maven-plugin">
+               <name>Web Resource Maven Plugin</name>
+               <path>maven-webres-plugin</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>org.unidal.webres</groupId>
+                     <artifactId>WebResBase</artifactId>
+                     <version>1.2.0</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>javax.servlet</groupId>
+                     <artifactId>servlet-api</artifactId>
+                     <version>2.5</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>javax.servlet.jsp</groupId>
+                     <artifactId>jsp-api</artifactId>
+                     <version>2.1</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>org.apache.maven</groupId>
+                     <artifactId>maven-core</artifactId>
+                     <version>3.0.3</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>org.codehaus.plexus</groupId>
+                     <artifactId>plexus-archiver</artifactId>
+                     <version>1.0-alpha-10</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>org.codehaus.plexus</groupId>
+                     <artifactId>plexus-utils</artifactId>
+                     <version>1.5.4</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>junit</groupId>
+                     <artifactId>junit</artifactId>
+                     <version>4.8.1</version>
+                     <scope>test</scope>
+                  </dependency>
+               </dependencies>
+            </project>
+            <project artifactId="maven-wizard-plugin" version="1.0.3" packaging="maven-plugin">
                <name>Maven Wizard Plugin</name>
                <path>maven-wizard-plugin</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0</version>
+                     <version>1.0.0-a9</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
+                     <version>1.0.0-a1</version>
                   </dependency>
                </dependencies>
             </project>
@@ -912,10 +959,6 @@
                      <version>1.0.0</version>
                   </dependency>
                   <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>codegen</artifactId>
-                  </dependency>
-                  <dependency>
                      <groupId>commons-lang</groupId>
                      <artifactId>commons-lang</artifactId>
                   </dependency>
@@ -964,6 +1007,12 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
+                     <version>1.0.0-a3</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.lab</groupId>
+                     <artifactId>lab-reporting</artifactId>
+                     <version>1.0.0</version>
                   </dependency>
                   <dependency>
                      <groupId>commons-lang</groupId>
@@ -978,11 +1027,6 @@
                      <groupId>com.site.common</groupId>
                      <artifactId>test-framework</artifactId>
                      <scope>test</scope>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.lab</groupId>
-                     <artifactId>lab-reporting</artifactId>
-                     <version>1.0.0</version>
                   </dependency>
                   <dependency>
                      <groupId>org.json</groupId>
@@ -1026,15 +1070,6 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>web-framework</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.lab</groupId>
-                     <artifactId>lab-reporting</artifactId>
-                     <version>1.0.0</version>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>codegen</artifactId>
                   </dependency>
                   <dependency>
                      <groupId>commons-lang</groupId>
@@ -1082,15 +1117,6 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>web-framework</artifactId>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.lab</groupId>
-                     <artifactId>lab-reporting</artifactId>
-                     <version>1.0.0</version>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>codegen</artifactId>
                   </dependency>
                   <dependency>
                      <groupId>commons-lang</groupId>
