@@ -16,7 +16,8 @@ import com.site.helper.Splitters;
 
 /**
  * Migrate all source files from one project to another project using a
- * different package base.
+ * different package base.If current project is a pom project, then all its
+ * module project will be migrated as well.
  * 
  * @goal migrate
  */
@@ -71,10 +72,34 @@ public class MigrateMojo extends AbstractMojo {
       m_reversedTargetPackage = reversePackage(targetPackage);
 
       try {
-         File baseDir = project.getBasedir();
-         File targetBase = targetDir.startsWith("/") ? new File(targetDir) : new File(baseDir, targetDir)
-               .getCanonicalFile();
          long start = System.currentTimeMillis();
+         File baseDir = project.getBasedir().getCanonicalFile();
+         File currentDir = new File(".").getCanonicalFile();
+         File targetBase;
+
+         if (baseDir.equals(currentDir)) { // current project
+            if (targetDir.startsWith("/")) {
+               targetBase = new File(targetDir);
+            } else {
+               targetBase = new File(currentDir, targetDir);
+            }
+         } else {
+            String basePath = baseDir.getCanonicalPath();
+            String currentPath = currentDir.getCanonicalPath();
+
+            if (basePath.startsWith(currentPath)) { // sub-module
+               String relativePath = basePath.substring(currentPath.length());
+
+               if (targetDir.startsWith("/")) {
+                  targetBase = new File(targetDir, relativePath);
+               } else {
+                  targetBase = new File(new File(currentDir, targetDir), relativePath);
+               }
+            } else {
+               throw new IllegalStateException(String.format(
+                     "Invalid directory to run maven build! base: %s, current: %s.", basePath, currentPath));
+            }
+         }
 
          m_success = 0;
          m_changed = 0;
