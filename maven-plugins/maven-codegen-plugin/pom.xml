@@ -11,17 +11,20 @@
    <artifactId>maven-codegen-plugin</artifactId>
    <packaging>maven-plugin</packaging>
    <name>Code Generation Maven Plugin</name>
-   <version>1.0.6</version>
+   <version>1.0.7</version>
+   <prerequisites>
+      <maven>3.0.3</maven>
+   </prerequisites>
    <dependencies>
+      <dependency>
+         <groupId>com.site.maven.plugins</groupId>
+         <artifactId>maven-common</artifactId>
+         <version>1.0.1</version>
+      </dependency>
       <dependency>
          <groupId>com.site.common</groupId>
          <artifactId>codegen</artifactId>
          <version>1.0.0-a10</version>
-      </dependency>
-      <dependency>
-         <groupId>com.site.maven.plugins</groupId>
-         <artifactId>maven-common</artifactId>
-         <version>1.0.0-a1</version>
       </dependency>
       <dependency>
          <groupId>mysql</groupId>
@@ -34,10 +37,20 @@
          <plugin>
             <groupId>com.site.maven.plugins</groupId>
             <artifactId>maven-codegen-plugin</artifactId>
-            <version>1.0.0</version>
-            <configuration>
-               <manifest>${basedir}/src/main/resources/META-INF/dal/model/dbconfig_manifest.xml</manifest>
-            </configuration>
+            <version>1.0.6</version>
+            <executions>
+               <execution>
+                  <!-- <id>generate profile model</id> -->
+                  <id>default-cli</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                     <goal>dal-model</goal>
+                  </goals>
+                  <configuration>
+                     <manifest>${basedir}/src/main/resources/META-INF/dal/model/profile-manifest.xml</manifest>
+                  </configuration>
+               </execution>
+            </executions>
          </plugin>
       </plugins>
    </build>

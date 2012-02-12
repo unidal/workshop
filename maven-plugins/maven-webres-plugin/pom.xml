@@ -11,8 +11,16 @@
    <artifactId>maven-webres-plugin</artifactId>
    <packaging>maven-plugin</packaging>
    <name>Web Resource Maven Plugin</name>
-   <version>1.0.0</version>
+   <version>1.0.1</version>
+   <prerequisites>
+      <maven>3.0.3</maven>
+   </prerequisites>
    <dependencies>
+      <dependency>
+         <groupId>com.site.maven.plugins</groupId>
+         <artifactId>maven-common</artifactId>
+         <version>1.0.1</version>
+      </dependency>
       <dependency>
          <groupId>org.unidal.webres</groupId>
          <artifactId>WebResBase</artifactId>
@@ -27,11 +35,6 @@
          <groupId>javax.servlet.jsp</groupId>
          <artifactId>jsp-api</artifactId>
          <version>2.1</version>
-      </dependency>
-      <dependency>
-         <groupId>org.apache.maven</groupId>
-         <artifactId>maven-core</artifactId>
-         <version>3.0.3</version>
       </dependency>
       <dependency>
          <groupId>org.codehaus.plexus</groupId>
@@ -60,25 +63,4 @@
          <scope>test</scope>
       </dependency>
    </dependencies>
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>com.site.maven.plugins</groupId>
-            <artifactId>maven-codegen-plugin</artifactId>
-            <version>1.0.6</version>
-            <configuration>
-               <manifest>${basedir}/src/main/resources/META-INF/dal/model/report_manifest.xml</manifest>
-            </configuration>
-            <executions>
-               <execution>
-                  <id>default-cli</id>
-                  <goals>
-                     <goal>dal-model</goal>
-                  </goals>
-                  <phase>generate-sources</phase>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
 </project>

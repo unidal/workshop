@@ -16,7 +16,6 @@ import com.site.maven.plugin.common.Injector;
 
 @RunWith(JUnit4.class)
 public class MigrateMojoTest extends ComponentTestCase {
-   @SuppressWarnings("unchecked")
    private MavenProject createMavenProject(String finalName, String path) throws Exception {
       File baseDir = new File(path).getCanonicalFile();
       MavenProject project = new MavenProject();

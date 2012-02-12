@@ -13,10 +13,14 @@
    <name>Flex Maven Plugin</name>
    <version>1.0.0</version>
    <description>The Maven plugin is used to generate Adobe Flash files (*.swf and *.swc) from Flex source files (*.mxml, *.as and *.css etc).</description>
+   <prerequisites>
+      <maven>3.0.3</maven>
+   </prerequisites>
    <dependencies>
-      <dependency>
-         <groupId>com.site.maven.plugins</groupId>
-         <artifactId>maven-common</artifactId>
-      </dependency>
+         <dependency>
+            <groupId>com.site.maven.plugins</groupId>
+            <artifactId>maven-common</artifactId>
+            <version>1.0.1</version>
+         </dependency>
    </dependencies>
 </project>

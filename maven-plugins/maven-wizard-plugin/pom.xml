@@ -11,17 +11,17 @@
    <artifactId>maven-wizard-plugin</artifactId>
    <packaging>maven-plugin</packaging>
    <name>Maven Wizard Plugin</name>
-   <version>1.0.3</version>
+   <version>1.0.4</version>
    <dependencies>
-      <dependency>
-         <groupId>com.site.common</groupId>
-         <artifactId>codegen</artifactId>
-         <version>1.0.0-a9</version>
-      </dependency>
       <dependency>
          <groupId>com.site.maven.plugins</groupId>
          <artifactId>maven-common</artifactId>
-         <version>1.0.0-a1</version>
+         <version>1.0.1</version>
+      </dependency>
+      <dependency>
+         <groupId>com.site.common</groupId>
+         <artifactId>codegen</artifactId>
+         <version>1.0.0-a10</version>
       </dependency>
    </dependencies>
    <build>
@@ -29,7 +29,7 @@
          <plugin>
             <groupId>com.site.maven.plugins</groupId>
             <artifactId>maven-codegen-plugin</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
             <executions>
                <execution>
                   <id>default-cli</id>

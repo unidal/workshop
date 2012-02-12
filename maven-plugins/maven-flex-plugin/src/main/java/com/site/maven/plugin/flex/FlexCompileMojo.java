@@ -19,7 +19,6 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.resolver.filter.ArtifactFilter;
-import org.apache.maven.artifact.resolver.filter.TypeArtifactFilter;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -28,7 +27,7 @@ import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.util.IOUtil;
 import org.codehaus.plexus.util.StringUtils;
 
-import com.site.maven.plugin.common.AbstractDependencyResolveMojo;
+import com.site.maven.plugin.common.AbstractMojoWithDependency;
 
 /**
  * Flex compile mojo to generate .swc or/and .swf file on Flex SDK 2 &amp; 3.
@@ -42,11 +41,11 @@ import com.site.maven.plugin.common.AbstractDependencyResolveMojo;
  * @goal compile
  * @author qwu
  */
-public class FlexCompileMojo extends AbstractDependencyResolveMojo {
+public class FlexCompileMojo extends AbstractMojoWithDependency {
    /**
     * Maven Project Helper
     * 
-    * @component role="org.apache.maven.project.MavenProjectHelper"
+    * @component role="org.apache.maven.m_project.MavenProjectHelper"
     * @required
     * @readonly
     */
@@ -55,7 +54,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
    /**
     * Type of output, currently two types supported: swf and swc
     * 
-    * @parameter default-value="${project.packaging}"
+    * @parameter default-value="${m_project.packaging}"
     * @readonly
     */
    private String packaging;
@@ -73,7 +72,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
     * Source file (for example, .mxml/.css). It's required for swf compilation.
     * 
     * @parameter expression="${flex.sourceFile}"
-    *            default-value="${project.build.sourceDirectory}/main.mxml"
+    *            default-value="${m_project.build.sourceDirectory}/main.mxml"
     */
    private File sourceFile;
 
@@ -205,11 +204,11 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
          }
       }
 
-      getLog().info("Executing command at " + project.getBasedir());
+      getLog().info("Executing command at " + m_project.getBasedir());
       getLog().info("   " + sb.toString());
 
       try {
-         Process process = Runtime.getRuntime().exec(sb.toString(), null, project.getBasedir());
+         Process process = Runtime.getRuntime().exec(sb.toString(), null, m_project.getBasedir());
          InputStream stdin = process.getInputStream();
          InputStream stderr = process.getErrorStream();
 
@@ -273,9 +272,9 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
    }
 
    private File doPackageAsdoc() throws MojoExecutionException {
-      File outputDirectory = getAbsoluteFile(project.getBuild().getOutputDirectory());
+      File outputDirectory = getAbsoluteFile(m_project.getBuild().getOutputDirectory());
       File source = new File(outputDirectory, "asdoc");
-      File outputFile = new File(outputDirectory, project.getArtifactId() + "-" + project.getVersion() + "-"
+      File outputFile = new File(outputDirectory, m_project.getArtifactId() + "-" + m_project.getVersion() + "-"
             + classifier + ".jar");
 
       try {
@@ -307,18 +306,18 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
 
          File file = getOutput();
 
-         if (project.getArtifact().getFile() == null) {
-            project.getArtifact().setFile(file);
+         if (m_project.getArtifact().getFile() == null) {
+            m_project.getArtifact().setFile(file);
          }
 
-         projectHelper.attachArtifact(project, project.getPackaging(), classifier, file);
+         projectHelper.attachArtifact(m_project, m_project.getPackaging(), classifier, file);
       } else if ("asdoc".equals(classifier)) {
          try {
             doFixesForAsdoc();
             doBuild();
 
             File file = doPackageAsdoc();
-            projectHelper.attachArtifact(project, "jar", classifier, file);
+            projectHelper.attachArtifact(m_project, "jar", classifier, file);
          } catch (Exception e) {
             getLog().warn("Error when building asdoc:" + e, e);
             getLog().info("It's skipped.");
@@ -332,7 +331,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
       if (new File(file).isAbsolute()) {
          return new File(file);
       } else {
-         File basedir = project.getBasedir();
+         File basedir = m_project.getBasedir();
 
          return new File(basedir, file);
       }
@@ -405,10 +404,11 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
       List<String> libraries = new ArrayList<String>();
 
       if (dependencies != null) {
-         ArtifactFilter filter = "asdoc".equals(classifier) ? new TypeArtifactFilter("swc")
-               : new TypeClassiferArtifactFilter("swc", classifier);
+         // ArtifactFilter filter = "asdoc".equals(classifier) ? new
+         // TypeClassiferArtifactFilter("swc", null)
+         // : new TypeClassiferArtifactFilter("swc", classifier);
 
-         resolveDependencies(dependencies, artifacts, filter);
+         // resolveDependencies(dependencies, artifacts, filter);
       }
 
       for (Artifact artifact : artifacts) {
@@ -441,11 +441,11 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
    }
 
    private File getOutput() throws MojoExecutionException {
-      File outputDirectory = getAbsoluteFile(project.getBuild().getOutputDirectory());
+      File outputDirectory = getAbsoluteFile(m_project.getBuild().getOutputDirectory());
 
       if ("flex2".equals(classifier) || "flex3".equals(classifier)) {
-         return new File(outputDirectory, project.getArtifactId() + "-" + project.getVersion() + "-" + classifier + "."
-               + project.getPackaging());
+         return new File(outputDirectory, m_project.getArtifactId() + "-" + m_project.getVersion() + "-" + classifier
+               + "." + m_project.getPackaging());
       } else if ("asdoc".equals(classifier)) {
          return new File(outputDirectory, "asdoc");
       } else {
@@ -455,7 +455,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
    }
 
    private File getSourcePath() {
-      File sourceDirectory = getAbsoluteFile(project.getBuild().getSourceDirectory());
+      File sourceDirectory = getAbsoluteFile(m_project.getBuild().getSourceDirectory());
 
       return sourceDirectory;
    }
@@ -578,7 +578,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
       }
 
       if (!"swf".equalsIgnoreCase(packaging) && !"swc".equalsIgnoreCase(packaging)) {
-         throw new MojoExecutionException("Only 'swf' or 'swc' is allowed as project packaging");
+         throw new MojoExecutionException("Only 'swf' or 'swc' is allowed as m_project packaging");
       }
 
       if (flexConfig != null && !flexConfig.exists()) {
@@ -595,7 +595,7 @@ public class FlexCompileMojo extends AbstractDependencyResolveMojo {
       }
    }
 
-   private static final class TypeClassiferArtifactFilter implements ArtifactFilter {
+   static final class TypeClassiferArtifactFilter implements ArtifactFilter {
       private String m_type = "jar";
 
       private String m_classifier;

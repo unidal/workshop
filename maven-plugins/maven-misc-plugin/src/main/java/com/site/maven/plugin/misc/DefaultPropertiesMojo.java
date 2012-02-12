@@ -121,7 +121,6 @@ public class DefaultPropertiesMojo extends AbstractMojo {
       }
    }
 
-   @SuppressWarnings("unchecked")
    private Profile getProfile(String id) throws Exception {
       MavenProject current = project;
 

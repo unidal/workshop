@@ -1,14 +1,15 @@
 package com.site.maven.plugin.webres;
 
 import java.io.File;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.resolver.ArtifactNotFoundException;
-import org.apache.maven.artifact.resolver.ArtifactResolutionException;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
 import org.unidal.webres.helper.Splitters;
 import org.unidal.webres.tag.build.TldGenerator;
 import org.unidal.webres.tag.meta.TagLibMeta;
@@ -19,9 +20,19 @@ import org.unidal.webres.tag.meta.TagLibMeta;
  * 
  * @goal taglib
  * @phase process-classes
+ * @requiresDependencyResolution compile
  * @author Frankie Wu
  */
-public class TagLibraryMojo extends AbstractMojoWithDependency {
+public class TagLibraryMojo extends AbstractMojo {
+   /**
+    * Current project
+    * 
+    * @parameter expression="${project}"
+    * @required
+    * @readonly
+    */
+   protected MavenProject m_project;
+
    /**
     * Tag library class names list in the format of
     * <code>classname[:alias],...</code>
@@ -54,7 +65,7 @@ public class TagLibraryMojo extends AbstractMojoWithDependency {
       ClassLoader old = Thread.currentThread().getContextClassLoader();
 
       try {
-         ClassLoader classLoader = makeClassLoader();
+         ClassLoader classLoader = makeClassLoader(m_project.getCompileClasspathElements());
 
          Thread.currentThread().setContextClassLoader(classLoader);
 
@@ -105,18 +116,21 @@ public class TagLibraryMojo extends AbstractMojoWithDependency {
          Thread.currentThread().setContextClassLoader(old);
       }
    }
+   
 
-   protected ClassLoader makeClassLoader() throws ArtifactResolutionException, ArtifactNotFoundException {
-      final List<Artifact> artifacts = new ArrayList<Artifact>();
-      final ArtifactHandler handler = new ArtifactHandler() {
-         @Override
-         public void handle(Artifact artifact) {
-            artifacts.add(artifact);
+   protected ClassLoader makeClassLoader(List<String> classpathElements) {
+      List<URL> urls = new ArrayList<URL>(classpathElements.size());
+
+      try {
+         for (String element : classpathElements) {
+            File file = new File(element);
+
+            urls.add(file.toURI().toURL());
          }
-      };
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
 
-      resolveProjectDependency(m_project, ScopeArtifactFilter.NO_TEST, handler, "compile");
-
-      return makeClassLoader(artifacts);
+      return new URLClassLoader(urls.toArray(new URL[0]), Thread.currentThread().getContextClassLoader());
    }
 }

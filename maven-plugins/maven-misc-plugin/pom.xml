@@ -16,6 +16,7 @@
       <dependency>
          <groupId>com.site.maven.plugins</groupId>
          <artifactId>maven-common</artifactId>
+         <version>1.0.1</version>
       </dependency>
    </dependencies>
 </project>

@@ -311,17 +311,12 @@
                <dependency>
                   <groupId>org.apache.maven</groupId>
                   <artifactId>maven-core</artifactId>
-                  <version>2.0.9</version>
-               </dependency>
-               <dependency>
-                  <groupId>com.site.maven.plugins</groupId>
-                  <artifactId>maven-common</artifactId>
-                  <version>1.0.0</version>
+                  <version>3.0.3</version>
                </dependency>
             </dependencies>
          </dependencyManagement>
          <projects>
-            <project artifactId="maven-common" version="1.0.0-a1" packaging="jar">
+            <project artifactId="maven-common" version="1.0.1" packaging="jar">
                <name>Maven Common</name>
                <path>maven-common</path>
                <dependencies>
@@ -335,19 +330,19 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" version="1.0.6" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.7" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
                   <dependency>
+                     <groupId>com.site.maven.plugins</groupId>
+                     <artifactId>maven-common</artifactId>
+                     <version>1.0.1</version>
+                  </dependency>
+                  <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
                      <version>1.0.0-a10</version>
-                  </dependency>
-                  <dependency>
-                     <groupId>com.site.maven.plugins</groupId>
-                     <artifactId>maven-common</artifactId>
-                     <version>1.0.0-a1</version>
                   </dependency>
                   <dependency>
                      <groupId>mysql</groupId>
@@ -363,6 +358,7 @@
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
+                     <version>1.0.1</version>
                   </dependency>
                </dependencies>
             </project>
@@ -374,6 +370,7 @@
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
+                     <version>1.0.1</version>
                   </dependency>
                </dependencies>
             </project>
@@ -384,6 +381,12 @@
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
+                     <version>1.0.1</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>codegen</artifactId>
+                     <version>1.0.0-a10</version>
                   </dependency>
                   <dependency>
                      <groupId>org.codehaus.plexus</groupId>
@@ -405,10 +408,15 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-webres-plugin" packaging="maven-plugin">
+            <project artifactId="maven-webres-plugin" version="1.0.1" packaging="maven-plugin">
                <name>Web Resource Maven Plugin</name>
                <path>maven-webres-plugin</path>
                <dependencies>
+                  <dependency>
+                     <groupId>com.site.maven.plugins</groupId>
+                     <artifactId>maven-common</artifactId>
+                     <version>1.0.1</version>
+                  </dependency>
                   <dependency>
                      <groupId>org.unidal.webres</groupId>
                      <artifactId>WebResBase</artifactId>
@@ -423,11 +431,6 @@
                      <groupId>javax.servlet.jsp</groupId>
                      <artifactId>jsp-api</artifactId>
                      <version>2.1</version>
-                  </dependency>
-                  <dependency>
-                     <groupId>org.apache.maven</groupId>
-                     <artifactId>maven-core</artifactId>
-                     <version>3.0.3</version>
                   </dependency>
                   <dependency>
                      <groupId>org.codehaus.plexus</groupId>
@@ -447,19 +450,19 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-wizard-plugin" version="1.0.3" packaging="maven-plugin">
+            <project artifactId="maven-wizard-plugin" version="1.0.4" packaging="maven-plugin">
                <name>Maven Wizard Plugin</name>
                <path>maven-wizard-plugin</path>
                <dependencies>
                   <dependency>
-                     <groupId>com.site.common</groupId>
-                     <artifactId>codegen</artifactId>
-                     <version>1.0.0-a9</version>
-                  </dependency>
-                  <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
-                     <version>1.0.0-a1</version>
+                     <version>1.0.1</version>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>codegen</artifactId>
+                     <version>1.0.0-a10</version>
                   </dependency>
                </dependencies>
             </project>

@@ -131,7 +131,6 @@ public class CreateTemplateMojo extends AbstractMojo {
       }
    }
 
-   @SuppressWarnings( { "unchecked" })
    public void execute() throws MojoExecutionException, MojoFailureException {
       Build build = project.getBuild();
       String packageName = getFromConsole("package", detectJavaPackage());

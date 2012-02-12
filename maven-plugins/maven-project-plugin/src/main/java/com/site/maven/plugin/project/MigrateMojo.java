@@ -66,7 +66,6 @@ public class MigrateMojo extends AbstractMojo {
 
    private int m_failure;
 
-   @SuppressWarnings("unchecked")
    public void execute() throws MojoExecutionException, MojoFailureException {
       m_reversedSourcePackage = reversePackage(sourcePackage);
       m_reversedTargetPackage = reversePackage(targetPackage);

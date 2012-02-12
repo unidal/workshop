@@ -26,15 +26,10 @@
          <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>2.0.9</version>
-         </dependency>
-         <dependency>
-            <groupId>com.site.maven.plugins</groupId>
-            <artifactId>maven-common</artifactId>
-            <version>1.0.0</version>
+            <version>3.0.3</version>
          </dependency>
       </dependencies>
-   </dependencyManagement>   
+   </dependencyManagement>
    <build>
       <plugins>
          <plugin>
@@ -47,6 +42,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
+            <version>2.9</version>
             <executions>
                <execution>
                   <phase>pre-site</phase>
@@ -73,6 +69,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-project-info-reports-plugin</artifactId>
+            <version>2.4</version>
             <reportSets>
                <reportSet>
                   <reports>
@@ -93,6 +90,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-changes-plugin</artifactId>
+            <version>2.6</version>
             <configuration>
                <xmlPath>${basedir}/src/site/changes.xml</xmlPath>
             </configuration>
@@ -107,6 +105,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-plugin-plugin</artifactId>
+            <version>2.9</version>
             <reportSets>
                <reportSet>
                   <reports>
@@ -118,6 +117,7 @@
          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-pmd-plugin</artifactId>
+            <version>2.7</version>
          </plugin>
       </plugins>
    </reporting>

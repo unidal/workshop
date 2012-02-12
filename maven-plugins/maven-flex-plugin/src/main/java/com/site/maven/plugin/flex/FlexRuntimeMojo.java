@@ -16,7 +16,6 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.resolver.filter.TypeArtifactFilter;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -24,7 +23,7 @@ import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.IOUtil;
 
-import com.site.maven.plugin.common.AbstractDependencyResolveMojo;
+import com.site.maven.plugin.common.AbstractMojoWithDependency;
 
 /**
  * Build Flex runtime environment for a web application.
@@ -40,7 +39,7 @@ import com.site.maven.plugin.common.AbstractDependencyResolveMojo;
  * @goal runtime
  * @author qwu
  */
-public class FlexRuntimeMojo extends AbstractDependencyResolveMojo {
+public class FlexRuntimeMojo extends AbstractMojoWithDependency {
    /**
     * war source directory of current project
     * 
@@ -248,7 +247,7 @@ public class FlexRuntimeMojo extends AbstractDependencyResolveMojo {
          throw new MojoExecutionException("Flex runtime zip file not found: " + flexRuntime);
       }
 
-      m_workingDirectory = new File(project.getBasedir(), warSourceDirectory);
+      m_workingDirectory = new File(m_project.getBasedir(), warSourceDirectory);
 
       if (!m_workingDirectory.exists()) {
          throw new MojoExecutionException("War source directory not exist: " + warSourceDirectory);
@@ -259,7 +258,8 @@ public class FlexRuntimeMojo extends AbstractDependencyResolveMojo {
       if (dependencies != null) {
          List<Artifact> artifacts = new ArrayList<Artifact>();
 
-         resolveDependencies(dependencies, artifacts, new TypeArtifactFilter("swf"));
+         // resolveDependencies(dependencies, artifacts, new
+         // TypeClassiferArtifactFilter("swf", null));
 
          for (Artifact a : artifacts) {
             if (a.getFile() != null) {

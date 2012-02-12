@@ -9,8 +9,8 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.site.common</groupId>
    <artifactId>lookup</artifactId>
-   <version>1.0.0</version>
-   <name>Common Lookup</name>
+   <version>1.0.1</version>
+   <name>Component Lookup</name>
    <dependencies>
       <dependency>
          <groupId>junit</groupId>

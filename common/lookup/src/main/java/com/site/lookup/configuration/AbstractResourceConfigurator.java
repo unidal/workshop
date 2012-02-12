@@ -80,6 +80,16 @@ public abstract class AbstractResourceConfigurator {
       }
    }
 
+   protected boolean isEnv(String name) {
+      String env = System.getProperty("env");
+
+      if (env != null && env.equals(name)) {
+         return false;
+      } else {
+         return false;
+      }
+   }
+
    protected boolean isTestConfiguration() {
       return false;
    }
@@ -120,6 +130,10 @@ public abstract class AbstractResourceConfigurator {
       if (superClass != null) {
          processInjectFields(map, superClass, component);
       }
+   }
+
+   protected String property(String name, String defaultValue) {
+      return System.getProperty(name, defaultValue);
    }
 
    protected void saveToFile() throws IOException {
