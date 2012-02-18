@@ -181,10 +181,10 @@ public class WebAppMojo extends AbstractMojo {
          Reader reader = new StringReader(buildWizard(wizardFile).toString());
 
          if (!manifestFile.exists()) {
-            saveFile(m_meta.getManifest("wizard.xml"), manifestFile);
+            saveXml(m_meta.getManifest("wizard.xml"), manifestFile);
          }
 
-         saveFile(m_meta.getWizard(reader), wizardFile);
+         saveXml(m_meta.getWizard(reader), wizardFile);
 
          final URL manifestXml = manifestFile.toURI().toURL();
          final GenerateContext ctx = new AbstractGenerateContext(m_project.getBasedir(), resouceBase, sourceDir) {
@@ -219,7 +219,7 @@ public class WebAppMojo extends AbstractMojo {
       }
    }
 
-   private File getFile(String path) {
+   protected File getFile(String path) {
       File file;
 
       if (path.startsWith("/") || path.indexOf(':') > 0) {
@@ -231,7 +231,7 @@ public class WebAppMojo extends AbstractMojo {
       return file;
    }
 
-   private void saveFile(Document codegen, File file) throws IOException {
+   protected void saveXml(Document doc, File file) throws IOException {
       File parent = file.getCanonicalFile().getParentFile();
 
       if (!parent.exists()) {
@@ -243,7 +243,7 @@ public class WebAppMojo extends AbstractMojo {
       FileWriter writer = new FileWriter(file);
 
       try {
-         outputter.output(codegen, writer);
+         outputter.output(doc, writer);
          getLog().info("File " + file.getCanonicalPath() + " generated.");
       } finally {
          writer.close();

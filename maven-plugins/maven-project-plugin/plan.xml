@@ -56,7 +56,7 @@
          <dependency>
             <groupId>com.site.common</groupId>
             <artifactId>lookup</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
          </dependency>
          <dependency>
             <groupId>com.site.common</groupId>
@@ -145,8 +145,8 @@
          <name>Common parent</name>
          <path>common</path>
          <projects>
-            <project artifactId="lookup" packaging="jar">
-               <name>Common Lookup</name>
+            <project artifactId="lookup" version="1.0.1" packaging="jar">
+               <name>Component Lookup</name>
                <path>lookup</path>
                <dependencies>
                   <dependency>
@@ -347,7 +347,7 @@
                   <dependency>
                      <groupId>mysql</groupId>
                      <artifactId>mysql-connector-java</artifactId>
-                     <scope>test</scope>
+                     <scope>runtime</scope>
                   </dependency>
                </dependencies>
             </project>
@@ -374,7 +374,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-project-plugin" packaging="maven-plugin">
+            <project artifactId="maven-project-plugin" version="1.0.1" packaging="maven-plugin">
                <name>Maven Project Plugin</name>
                <path>maven-project-plugin</path>
                <dependencies>

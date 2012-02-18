@@ -232,9 +232,9 @@
 
          <!-- TagNodeBasedParser class -->
          <xsl:call-template name="generate-java">
-           <xsl:with-param name="class" select="'DefaultParser'"/>
+           <xsl:with-param name="class" select="'DefaultXmlParser'"/>
            <xsl:with-param name="package" select="$transform-package"/>
-           <xsl:with-param name="template" select="'transform/default-parser.xsl'"/>
+           <xsl:with-param name="template" select="'transform/default-xml-parser.xsl'"/>
          </xsl:call-template>
       </xsl:if>
    </xsl:if>

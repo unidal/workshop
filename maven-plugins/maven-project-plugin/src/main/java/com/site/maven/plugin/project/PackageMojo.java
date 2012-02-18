@@ -64,6 +64,8 @@ public class PackageMojo extends AbstractMojo {
 
          a.setDestFile(new File(outputFile));
          a.createArchive();
+
+         getLog().info(String.format("File(%s) created.", a.getDestFile().getCanonicalPath()));
       } catch (Exception e) {
          throw new MojoExecutionException("Can't create archiver: " + outputFile, e);
       }

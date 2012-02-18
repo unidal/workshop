@@ -34,13 +34,13 @@ public class <xsl:value-of select="@handler-class"/> implements PageHandler<xsl:
 
 	@Override
 	@PayloadMeta(<xsl:value-of select="@payload-class"/>.class)
-	@InboundActionMeta(name = "<xsl:value-of select="$name"/>")
+	@InboundActionMeta(name = "<xsl:value-of select="@path"/>")
 	public void handleInbound(<xsl:value-of select="@context-class"/> ctx) throws ServletException, IOException {
 		// display only, no action here
 	}
 
 	@Override
-	@OutboundActionMeta(name = "<xsl:value-of select="$name"/>")
+	@OutboundActionMeta(name = "<xsl:value-of select="@path"/>")
 	public void handleOutbound(<xsl:value-of select="@context-class"/> ctx) throws ServletException, IOException {
 		<xsl:value-of select="@model-class"/> model = new <xsl:value-of select="@model-class"/>(ctx);
 

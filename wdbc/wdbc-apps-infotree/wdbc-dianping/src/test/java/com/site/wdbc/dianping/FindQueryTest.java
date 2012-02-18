@@ -17,6 +17,7 @@ public class FindQueryTest extends ComponentTestCase {
       WdbcSource source = new ResourceSource(WdbcSourceType.HTML, "/pages/list.html");
       WdbcResult result = engine.execute(query, source);
 
+      System.out.println(result);
       assertNotNull(result);
       assertEquals(4, result.getRowSize());
    }

@@ -18,6 +18,7 @@
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class DefaultMerger implements IVisitor {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-commons'/>
+   <xsl:call-template name='method-merge'/>
    <xsl:call-template name='method-visit'/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
 </xsl:template>
@@ -75,6 +76,17 @@
       </xsl:choose>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:call-template name="method-visit-children"/>
+   </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="method-merge">
+   <xsl:for-each select="entity">
+      <xsl:sort select="@visit-method"/>
+
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   protected void <xsl:value-of select="@merge-method"/>(<xsl:value-of select="@entity-class"/> old, <xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      old.mergeAttributes(<xsl:value-of select="@param-name"/>);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
    </xsl:for-each>
 </xsl:template>
 
@@ -169,7 +181,7 @@
 		            </xsl:otherwise>
 		         </xsl:choose>
 		         <xsl:value-of select="$empty"/>         } else {<xsl:value-of select="$empty-line"/>
-		         <xsl:value-of select="$empty"/>            old.mergeAttributes(<xsl:value-of select="$current/@param-name"/>);<xsl:value-of select="$empty-line"/>
+		         <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$current/@merge-method"/>(old, <xsl:value-of select="$current/@param-name"/>);<xsl:value-of select="$empty-line"/>
 		         <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty"/>
             </xsl:otherwise>
          </xsl:choose>

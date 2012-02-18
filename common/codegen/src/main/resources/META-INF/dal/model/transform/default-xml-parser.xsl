@@ -16,7 +16,7 @@
    <xsl:value-of select="$empty"/>package <xsl:value-of select="$package"/>;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>
    <xsl:call-template name='import-list'/>
-   <xsl:value-of select="$empty"/>public class DefaultParser implements IParser<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template> {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>public class DefaultXmlParser implements IParser<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template> {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-get-child-tag-node'/>
    <xsl:call-template name='method-get-child-tag-nodes'/>
    <xsl:call-template name='method-get-document'/>
@@ -180,7 +180,7 @@
       <xsl:value-of select="$empty"/>         throw new RuntimeException(String.format("<xsl:value-of select="@tag-name"/> element(%s) is expected!", <xsl:value-of select="@upper-name"/>));<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>      return new DefaultParser().parse(new DefaultMaker(), new DefaultLinker(), rootNode);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      return parse(new DefaultMaker(), new DefaultLinker(), rootNode);<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:for-each>

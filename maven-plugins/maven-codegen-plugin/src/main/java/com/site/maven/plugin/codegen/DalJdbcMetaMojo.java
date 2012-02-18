@@ -26,6 +26,7 @@ import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import com.site.codegen.meta.TableMeta;
+import com.site.maven.plugin.common.PropertyProviders;
 
 /**
  * DAL Metadata generator for JDBC
@@ -34,258 +35,273 @@ import com.site.codegen.meta.TableMeta;
  * @author Frankie Wu
  */
 public class DalJdbcMetaMojo extends AbstractMojo {
-	/**
-	 * Current project
-	 * 
-	 * @parameter expression="${project}"
-	 * @required
-	 * @readonly
-	 */
-	protected MavenProject m_project;
+   /**
+    * Current project
+    * 
+    * @parameter expression="${project}"
+    * @required
+    * @readonly
+    */
+   protected MavenProject m_project;
 
-	/**
-	 * Table meta component
-	 * 
-	 * @component
-	 * @required
-	 * @readonly
-	 */
-	protected TableMeta m_meta;
+   /**
+    * Table meta component
+    * 
+    * @component
+    * @required
+    * @readonly
+    */
+   protected TableMeta m_meta;
 
-	/**
-	 * Current project base directory
-	 * 
-	 * @parameter expression="${basedir}"
-	 * @required
-	 * @readonly
-	 */
-	protected File baseDir;
+   /**
+    * Current project base directory
+    * 
+    * @parameter expression="${basedir}"
+    * @required
+    * @readonly
+    */
+   protected File baseDir;
 
-	/**
-	 * @parameter expression="${jdbc.driver}" default="com.mysql.jdbc.Driver"
-	 * @required
-	 */
-	protected String driver;
+   /**
+    * @parameter expression="${jdbc.driver}"
+    */
+   protected String driver;
 
-	/**
-	 * @parameter expression="${jdbc.url}"
-	 * @required
-	 */
-	protected String url;
+   /**
+    * @parameter expression="${jdbc.url}"
+    */
+   protected String url;
 
-	/**
-	 * @parameter expression="${jdbc.user}"
-	 * @required
-	 */
-	protected String user;
+   /**
+    * @parameter expression="${jdbc.user}"
+    */
+   protected String user;
 
-	/**
-	 * @parameter expression="${jdbc.password}"
-	 * @required
-	 */
-	protected String password;
+   /**
+    * @parameter expression="${jdbc.password}"
+    */
+   protected String password;
 
-	/**
-	 * @parameter expression="${jdbc.connectionProperties}"
-	 *            default-value="useUnicode=true&autoReconnect=true"
-	 */
-	protected String connectionProperties;
+   /**
+    * @parameter expression="${jdbc.connectionProperties}"
+    */
+   protected String connectionProperties;
 
-	/**
-	 * @parameter
-	 */
-	protected List<String> includes;
+   /**
+    * @parameter
+    */
+   protected List<String> includes;
 
-	/**
-	 * @parameter
-	 */
-	protected List<String> excludes;
+   /**
+    * @parameter
+    */
+   protected List<String> excludes;
 
-	/**
-	 * @parameter expression="${outputDir}"
-	 *            default-value="${basedir}/src/main/resources/META-INF/dal/jdbc"
-	 * @required
-	 */
-	protected String outputDir;
+   /**
+    * @parameter expression="${outputDir}"
+    *            default-value="${basedir}/src/main/resources/META-INF/dal/jdbc"
+    * @required
+    */
+   protected String outputDir;
 
-	/**
-	 * @parameter expression="${packageName}"
-	 */
-	protected String packageName;
+   /**
+    * @parameter expression="${packageName}"
+    */
+   protected String packageName;
 
-	private String detectPackageName() {
-		if (packageName != null) {
-			return packageName;
-		}
+   private void validateParameters() {
+      driver = getProperty(driver, "jdbc.driver", "JDBC driver:", "com.mysql.jdbc.Driver");
+      url = getProperty(url, "jdbc.url", "JDBC URL[for example, jdbc:mysql://localhost:3306/test]:", null);
+      user = getProperty(user, "jdbc.user", "JDBC user:", null);
+      password = getProperty(password, "jdbc.password", "JDBC password:", null);
+      connectionProperties = getProperty(connectionProperties, "jdbc.connectionProperties",
+            "JDBC connection properties:", "useUnicode=true&autoReconnect=true");
+      packageName = getProperty(packageName, "packageName", "Target package name:", null);
+   }
 
-		String groupId = m_project.getGroupId();
-		String artifactId = m_project.getArtifactId();
+   private String detectPackageName() {
+      if (packageName != null) {
+         return packageName;
+      }
 
-		return (groupId + "." + artifactId + ".dal").replace('-', '.');
-	}
+      String groupId = m_project.getGroupId();
+      String artifactId = m_project.getArtifactId();
 
-	@SuppressWarnings("unchecked")
-	private void resolveAliasConfliction(Element entities) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		List<Element> children = entities.getChildren("entity");
+      return (groupId + "." + artifactId + ".dal").replace('-', '.');
+   }
 
-		for (Element entity : children) {
-			String alias = entity.getAttributeValue("alias");
-			Integer count = map.get(alias);
+   @SuppressWarnings("unchecked")
+   private void resolveAliasConfliction(Element entities) {
+      Map<String, Integer> map = new HashMap<String, Integer>();
+      List<Element> children = entities.getChildren("entity");
 
-			if (count == null) {
-				map.put(alias, 1);
-			} else {
-				count++;
-				map.put(alias, count);
-				entity.setAttribute("alias", alias + (count));
-			}
-		}
-	}
+      for (Element entity : children) {
+         String alias = entity.getAttributeValue("alias");
+         Integer count = map.get(alias);
 
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		Connection conn = setupConnection();
+         if (count == null) {
+            map.put(alias, 1);
+         } else {
+            count++;
+            map.put(alias, count);
+            entity.setAttribute("alias", alias + (count));
+         }
+      }
+   }
 
-		try {
-			DatabaseMetaData meta = conn.getMetaData();
-			List<String> tables = getTables(meta);
+   public void execute() throws MojoExecutionException, MojoFailureException {
+      validateParameters();
 
-			Element entities = new Element("entities");
+      Connection conn = setupConnection();
 
-			for (String table : tables) {
-				Element entity = m_meta.getTableMeta(meta, table);
+      try {
+         DatabaseMetaData meta = conn.getMetaData();
+         List<String> tables = getTables(meta);
 
-				entities.addContent(entity);
-			}
+         Element entities = new Element("entities");
 
-			resolveAliasConfliction(entities);
+         for (String table : tables) {
+            Element entity = m_meta.getTableMeta(meta, table);
 
-			File outDir = getFile(outputDir);
-			File outFile = new File(outDir, "codegen.xml");
+            entities.addContent(entity);
+         }
 
-			if (!outDir.exists()) {
-				outDir.mkdirs();
-			}
+         resolveAliasConfliction(entities);
 
-			saveFile(new Document(entities), outFile);
+         File outDir = getFile(outputDir);
+         File outFile = new File(outDir, "codegen.xml");
 
-			File modelFile = new File(outDir, "dal.xml");
+         if (!outDir.exists()) {
+            outDir.mkdirs();
+         }
 
-			if (!modelFile.exists()) {
-				Document model = m_meta.getModel(detectPackageName());
+         saveFile(new Document(entities), outFile);
 
-				saveFile(model, modelFile);
-			}
+         File modelFile = new File(outDir, "dal.xml");
 
-			File manifestFile = new File(outDir, "manifest.xml");
+         if (!modelFile.exists()) {
+            Document model = m_meta.getModel(detectPackageName());
 
-			if (!manifestFile.exists()) {
-				Document manifest = m_meta.getManifest(outFile.getName(), modelFile.getName());
+            saveFile(model, modelFile);
+         }
 
-				saveFile(manifest, manifestFile);
-			}
-		} catch (Exception e) {
-			throw new MojoExecutionException("Error when generating DAL meta: " + e, e);
-		}
-	}
+         File manifestFile = new File(outDir, "manifest.xml");
 
-	private Connection setupConnection() throws MojoExecutionException {
-		Properties info = new Properties();
+         if (!manifestFile.exists()) {
+            Document manifest = m_meta.getManifest(outFile.getName(), modelFile.getName());
 
-		info.put("user", user);
-		info.put("password", password);
+            saveFile(manifest, manifestFile);
+         }
+      } catch (Exception e) {
+         throw new MojoExecutionException("Error when generating DAL meta: " + e, e);
+      }
+   }
 
-		if (connectionProperties != null) {
-			String[] pairs = connectionProperties.split(Pattern.quote("&"));
+   private String getProperty(String value, String name, String prompt, String defaultValue) {
+      if (value != null) {
+         return value;
+      } else {
+         return PropertyProviders.fromConsole().forString(name, prompt, defaultValue, null);
+      }
+   }
 
-			for (String pair : pairs) {
-				int pos = pair.indexOf('=');
+   private Connection setupConnection() throws MojoExecutionException {
+      Properties info = new Properties();
 
-				if (pos > 0) {
-					info.put(pair.substring(0, pos), pair.substring(pos + 1));
-				} else {
-					getLog().warn("invalid property: " + pair + " ignored.");
-				}
-			}
-		}
+      info.put("user", user);
+      info.put("password", password);
 
-		try {
-			Class.forName(driver);
+      if (connectionProperties != null) {
+         String[] pairs = connectionProperties.split(Pattern.quote("&"));
 
-			return DriverManager.getConnection(url, info);
-		} catch (Exception e) {
-			throw new MojoExecutionException("Can't get connection: " + e, e);
-		}
-	}
+         for (String pair : pairs) {
+            int pos = pair.indexOf('=');
 
-	private File getFile(String path) {
-		File file;
+            if (pos > 0) {
+               info.put(pair.substring(0, pos), pair.substring(pos + 1));
+            } else {
+               getLog().warn("invalid property: " + pair + " ignored.");
+            }
+         }
+      }
 
-		if (path.startsWith("/") || path.indexOf(':') > 0) {
-			file = new File(path);
-		} else {
-			file = new File(baseDir, path);
-		}
+      try {
+         Class.forName(driver);
 
-		return file;
-	}
+         return DriverManager.getConnection(url, info);
+      } catch (Exception e) {
+         throw new MojoExecutionException("Can't get connection: " + e, e);
+      }
+   }
 
-	private void saveFile(Document codegen, File file) throws IOException {
-		Format format = Format.getPrettyFormat();
-		XMLOutputter outputter = new XMLOutputter(format);
-		FileWriter writer = new FileWriter(file);
+   private File getFile(String path) {
+      File file;
 
-		try {
-			outputter.output(codegen, writer);
-			getLog().info("File " + file.getCanonicalPath() + " generated.");
-		} finally {
-			writer.close();
-		}
-	}
+      if (path.startsWith("/") || path.indexOf(':') > 0) {
+         file = new File(path);
+      } else {
+         file = new File(baseDir, path);
+      }
 
-	private List<String> getTables(DatabaseMetaData meta) throws SQLException {
-		List<String> tables = new ArrayList<String>();
+      return file;
+   }
 
-		if (includes == null) {
-			includes = new ArrayList<String>();
+   private void saveFile(Document codegen, File file) throws IOException {
+      Format format = Format.getPrettyFormat();
+      XMLOutputter outputter = new XMLOutputter(format);
+      FileWriter writer = new FileWriter(file);
 
-			ResultSet rs = meta.getTables(null, null, "%", new String[] { "TABLE" });
+      try {
+         outputter.output(codegen, writer);
+         getLog().info("File " + file.getCanonicalPath() + " generated.");
+      } finally {
+         writer.close();
+      }
+   }
 
-			while (rs.next()) {
-				String table = rs.getString("TABLE_NAME");
+   private List<String> getTables(DatabaseMetaData meta) throws SQLException {
+      List<String> tables = new ArrayList<String>();
 
-				tables.add(table);
-			}
+      if (includes == null) {
+         includes = new ArrayList<String>();
 
-			rs.close();
-		} else {
-			for (String include : includes) {
-				ResultSet rs = meta.getTables(null, null, include, new String[] { "TABLE" });
+         ResultSet rs = meta.getTables(null, null, "%", new String[] { "TABLE" });
 
-				while (rs.next()) {
-					String table = rs.getString("TABLE_NAME");
+         while (rs.next()) {
+            String table = rs.getString("TABLE_NAME");
 
-					if (!tables.contains(table)) {
-						tables.add(table);
-					}
-				}
+            tables.add(table);
+         }
 
-				rs.close();
-			}
-		}
+         rs.close();
+      } else {
+         for (String include : includes) {
+            ResultSet rs = meta.getTables(null, null, include, new String[] { "TABLE" });
 
-		if (excludes != null) {
-			for (String exclude : excludes) {
-				int index = tables.indexOf(exclude);
+            while (rs.next()) {
+               String table = rs.getString("TABLE_NAME");
 
-				if (index >= 0) {
-					tables.remove(index);
-				}
-			}
-		}
+               if (!tables.contains(table)) {
+                  tables.add(table);
+               }
+            }
 
-		Collections.sort(tables);
+            rs.close();
+         }
+      }
 
-		return tables;
-	}
+      if (excludes != null) {
+         for (String exclude : excludes) {
+            int index = tables.indexOf(exclude);
+
+            if (index >= 0) {
+               tables.remove(index);
+            }
+         }
+      }
+
+      Collections.sort(tables);
+
+      return tables;
+   }
 }

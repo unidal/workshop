@@ -6,6 +6,10 @@ import java.sql.SQLException;
 
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import com.site.codegen.generator.Generator;
 import com.site.codegen.manifest.ManifestCreator;
@@ -15,7 +19,9 @@ import com.site.codegen.meta.DefaultXmlMeta;
 import com.site.codegen.meta.XmlMetaHelper;
 import com.site.lookup.ComponentTestCase;
 
+@RunWith(JUnit4.class)
 public class MojoTest extends ComponentTestCase {
+   @Test
    public void testGenerateDalJdbc() throws Exception {
       DalJdbcMojo mojo = new DalJdbcMojo();
       MavenProject project = new MavenProject();
@@ -34,6 +40,7 @@ public class MojoTest extends ComponentTestCase {
       assertTrue("Files are not generated", new File(mojo.sourceDir).exists());
    }
 
+   @Test
    public void testGenerateDalModel() throws Exception {
       DalModelMojo mojo = new DalModelMojo();
       MavenProject project = new MavenProject();
@@ -52,6 +59,7 @@ public class MojoTest extends ComponentTestCase {
       assertTrue("Files are not generated", new File(mojo.sourceDir).exists());
    }
 
+   @Test
    public void testGenerateDalModelMeta() throws Exception {
       DalModelMetaMojo mojo = new DalModelMetaMojo();
 
@@ -66,6 +74,8 @@ public class MojoTest extends ComponentTestCase {
       assertTrue("File is not generated", mojo.baseDir.exists());
    }
 
+   @Test
+   @Ignore
    public void testGenerateDalJdbcMeta() throws Exception {
       DalJdbcMetaMojo mojo = new DalJdbcMetaMojo();
 
@@ -99,6 +109,7 @@ public class MojoTest extends ComponentTestCase {
       }
    }
 
+   @Test
    public void testGenerateDalXml() throws Exception {
       DalXmlMojo mojo = new DalXmlMojo();
       MavenProject project = new MavenProject();
@@ -133,7 +144,9 @@ public class MojoTest extends ComponentTestCase {
       assertTrue("Files are not generated", new File(mojo.sourceDir).exists());
    }
 
-   public void notestGenerateDalXml2() throws Exception {
+   @Test
+   @Ignore
+   public void testGenerateDalXml2() throws Exception {
       DalXmlMojo mojo = new DalXmlMojo();
       MavenProject project = new MavenProject();
       File baseDir = new File(".");
@@ -154,6 +167,7 @@ public class MojoTest extends ComponentTestCase {
       assertTrue("Files are not generated", new File(mojo.sourceDir).exists());
    }
 
+   @Test
    public void testGenerateDalXmlMeta() throws Exception {
       DalXmlMetaMojo mojo = new DalXmlMetaMojo();
 

@@ -118,6 +118,10 @@
          <xsl:value-of select="'visit'"/>
          <xsl:value-of select="$capital-name"/>
       </xsl:attribute>
+      <xsl:attribute name="merge-method">
+         <xsl:value-of select="'merge'"/>
+         <xsl:value-of select="$capital-name"/>
+      </xsl:attribute>
       <xsl:attribute name="visit-children-method">
          <xsl:value-of select="'visit'"/>
          <xsl:value-of select="$capital-name"/>

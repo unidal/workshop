@@ -4,13 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.dianping.cat.consumer.failure.model.entity.FailureReport;
-import com.dianping.cat.consumer.failure.model.transform.DefaultParser;
+import com.dianping.cat.consumer.failure.model.transform.DefaultXmlParser;
 import com.site.helper.Files;
 
 public class JsonTest {
    @Test
    public void testDefault() throws Exception {
-      DefaultParser parser = new DefaultParser();
+      DefaultXmlParser parser = new DefaultXmlParser();
       String xml = Files.forIO().readFrom(getClass().getResourceAsStream("failure.xml"), "utf-8");
       FailureReport report = parser.parse(xml);
       String json = String.format("%2.1s", report);
@@ -21,7 +21,7 @@ public class JsonTest {
 
    @Test
    public void testCompact() throws Exception {
-      DefaultParser parser = new DefaultParser();
+      DefaultXmlParser parser = new DefaultXmlParser();
       String xml = Files.forIO().readFrom(getClass().getResourceAsStream("failure.xml"), "utf-8");
       FailureReport report = parser.parse(xml);
       String json = String.format("%2.0s", report);

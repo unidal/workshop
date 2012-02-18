@@ -5,13 +5,13 @@ import junit.framework.Assert;
 import org.junit.Test;
 
 import com.dianping.cat.consumer.failure.model.entity.FailureReport;
-import com.dianping.cat.consumer.failure.model.transform.DefaultParser;
+import com.dianping.cat.consumer.failure.model.transform.DefaultXmlParser;
 import com.site.helper.Files;
 
 public class XmlTest {
    @Test
    public void testDefault() throws Exception {
-      DefaultParser parser = new DefaultParser();
+      DefaultXmlParser parser = new DefaultXmlParser();
       String expected = Files.forIO().readFrom(getClass().getResourceAsStream("failure.xml"), "utf-8");
       FailureReport report = parser.parse(expected);
 
@@ -20,7 +20,7 @@ public class XmlTest {
    
    @Test
    public void testCompact() throws Exception {
-      DefaultParser parser = new DefaultParser();
+      DefaultXmlParser parser = new DefaultXmlParser();
       String expected = Files.forIO().readFrom(getClass().getResourceAsStream("failure-compact.xml"), "utf-8");
       FailureReport report = parser.parse(expected);
       String xml = String.format("%1.0s", report);
