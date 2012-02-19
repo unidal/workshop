@@ -4,6 +4,7 @@
 <xsl:import href="../../common.xsl" />
 <xsl:output method="html" indent="no" media-type="text/plain" encoding="utf-8" />
 <xsl:param name="package" />
+<xsl:param name="class" />
 <xsl:variable name="space" select="' '" />
 <xsl:variable name="empty" select="''" />
 <xsl:variable name="empty-line" select="'&#x0A;'" />
@@ -25,7 +26,7 @@ import org.junit.runners.Suite.SuiteClasses;
 // add test classes here
 
 })
-public class AllTests {
+public class <xsl:value-of select="$class" /> {
 
 }
 </xsl:template>

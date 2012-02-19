@@ -4,10 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.site.codegen.generator.all.AllGeneratorTest;
 import com.site.codegen.generator.jdbc.JdbcGeneratorTest;
-import com.site.codegen.generator.test.TestGeneratorTest;
-import com.site.codegen.generator.webres.WebresGeneratorTest;
+import com.site.codegen.generator.model.all.AllGeneratorTest;
+import com.site.codegen.generator.model.cat.CatGeneratorTest;
+import com.site.codegen.generator.model.test.TestGeneratorTest;
+import com.site.codegen.generator.model.webres.WebresGeneratorTest;
+import com.site.codegen.generator.model.wizard.WizardModelGeneratorTest;
 import com.site.codegen.generator.wizard.WizardGeneratorTest;
 import com.site.codegen.generator.xml.XmlGeneratorTest;
 
@@ -16,13 +18,17 @@ import com.site.codegen.generator.xml.XmlGeneratorTest;
 
 AllGeneratorTest.class,
 
-JdbcGeneratorTest.class,
-
-WizardGeneratorTest.class,
+CatGeneratorTest.class,
 
 TestGeneratorTest.class,
 
 WebresGeneratorTest.class,
+
+WizardModelGeneratorTest.class,
+
+WizardGeneratorTest.class,
+
+JdbcGeneratorTest.class,
 
 XmlGeneratorTest.class
 

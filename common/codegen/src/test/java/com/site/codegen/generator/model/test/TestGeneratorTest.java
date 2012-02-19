@@ -1,4 +1,4 @@
-package com.site.codegen.generator.webres;
+package com.site.codegen.generator.model.test;
 
 import java.io.File;
 import java.net.URL;
@@ -13,15 +13,15 @@ import com.site.codegen.generator.Generator;
 import com.site.lookup.ComponentTestCase;
 
 @RunWith(JUnit4.class)
-public class WebresGeneratorTest extends ComponentTestCase {
+public class TestGeneratorTest extends ComponentTestCase {
 	private boolean verbose = false;
 
 	private boolean debug = false;
 
 	@Test
-	public void testGenerateResourceModel() throws Exception {
+	public void testGenerateBenchmarkTestFwkModel() throws Exception {
 		Generator g = lookup(Generator.class, "dal-model");
-		URL manifestXml = getResourceFile("resource_model_manifest.xml").toURI().toURL();
+		URL manifestXml = getResourceFile("eunit_benchmark_testfwk_manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
 		long start = System.currentTimeMillis();
 
@@ -35,9 +35,26 @@ public class WebresGeneratorTest extends ComponentTestCase {
 	}
 
 	@Test
-	public void testGenerateResourceProfile() throws Exception {
+	public void testGenerateCmdTestFwkModel() throws Exception {
 		Generator g = lookup(Generator.class, "dal-model");
-		URL manifestXml = getResourceFile("resource_profile_manifest.xml").toURI().toURL();
+		final URL manifestXml = getResourceFile("eunit_cmd_testfwk_manifest.xml").toURI().toURL();
+		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
+
+		long start = System.currentTimeMillis();
+
+		g.generate(ctx);
+
+		if (verbose) {
+			long now = System.currentTimeMillis();
+
+			System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
+		}
+	}
+
+	@Test
+	public void testGenerateCompatibilityTestModel() throws Exception {
+		Generator g = lookup(Generator.class, "dal-model");
+		URL manifestXml = getResourceFile("ctest_report_model_manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
 		long start = System.currentTimeMillis();
 
@@ -51,9 +68,9 @@ public class WebresGeneratorTest extends ComponentTestCase {
 	}
 
 	@Test
-	public void testGenerateResourceTestFwkModel() throws Exception {
+	public void testGenerateEunitResourceModel() throws Exception {
 		Generator g = lookup(Generator.class, "dal-model");
-		URL manifestXml = getResourceFile("resource_testfwk_manifest.xml").toURI().toURL();
+		URL manifestXml = getResourceFile("eunit_resource_manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
 		long start = System.currentTimeMillis();
 
@@ -67,9 +84,26 @@ public class WebresGeneratorTest extends ComponentTestCase {
 	}
 
 	@Test
-	public void testGenerateResourceVariation() throws Exception {
+	public void testGenerateEunitTestFwkModel() throws Exception {
 		Generator g = lookup(Generator.class, "dal-model");
-		URL manifestXml = getResourceFile("resource_variation_manifest.xml").toURI().toURL();
+		final URL manifestXml = getResourceFile("eunit_testfwk_manifest.xml").toURI().toURL();
+		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
+
+		long start = System.currentTimeMillis();
+
+		g.generate(ctx);
+
+		if (verbose) {
+			long now = System.currentTimeMillis();
+
+			System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
+		}
+	}
+
+	@Test
+	public void testGenerateReportExcelModel() throws Exception {
+		Generator g = lookup(Generator.class, "dal-model");
+		URL manifestXml = getResourceFile("eunit_excel_manifest.xml").toURI().toURL();
 		GenerateContext ctx = new DalGenerateContext(new File("."), "model", manifestXml);
 		long start = System.currentTimeMillis();
 
@@ -86,7 +120,7 @@ public class WebresGeneratorTest extends ComponentTestCase {
 		private URL m_manifestXml;
 
 		public DalGenerateContext(File projectBase, String type, URL manifestXml) {
-			super(projectBase, "/META-INF/dal/" + type, "target/generated-model/webres");
+			super(projectBase, "/META-INF/dal/" + type, "target/generated-model/test");
 
 			m_manifestXml = manifestXml;
 		}

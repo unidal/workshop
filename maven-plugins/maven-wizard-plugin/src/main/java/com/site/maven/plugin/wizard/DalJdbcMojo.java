@@ -24,10 +24,11 @@ import com.site.codegen.generator.Generator;
 import com.site.codegen.meta.WizardMeta;
 import com.site.helper.Files;
 import com.site.maven.plugin.common.PropertyProviders;
-import com.site.maven.plugin.wizard.model.entity.Module;
-import com.site.maven.plugin.wizard.model.entity.Page;
-import com.site.maven.plugin.wizard.model.entity.Webapp;
+import com.site.maven.plugin.wizard.model.entity.Datasource;
+import com.site.maven.plugin.wizard.model.entity.Datasources;
+import com.site.maven.plugin.wizard.model.entity.JdbcConnection;
 import com.site.maven.plugin.wizard.model.entity.Wizard;
+import com.site.maven.plugin.wizard.model.transform.BaseVisitor;
 import com.site.maven.plugin.wizard.model.transform.DefaultXmlParser;
 
 /**
@@ -35,7 +36,7 @@ import com.site.maven.plugin.wizard.model.transform.DefaultXmlParser;
  * 
  * @goal webapp
  */
-public class WebAppMojo extends AbstractMojo {
+public class DalJdbcMojo extends AbstractMojo {
    /**
     * Current project
     * 
@@ -58,7 +59,7 @@ public class WebAppMojo extends AbstractMojo {
     * XSL code generator implementation
     * 
     * @component role="com.site.codegen.generator.Generator"
-    *            role-hint="wizard-webapp"
+    *            role-hint="wizard-dal-jdbc"
     * @required
     * @readonly
     */
@@ -93,11 +94,40 @@ public class WebAppMojo extends AbstractMojo {
    /**
     * Location of generated source directory
     * 
-    * @parameter expression="${resource.base}"
-    *            default-value="/META-INF/wizard"
+    * @parameter expression="${resource.base}" default-value="/META-INF/wizard"
     * @required
     */
    protected String resouceBase;
+
+   /**
+    * @parameter expression="${jdbc.driver}"
+    */
+   protected String driver;
+
+   /**
+    * @parameter expression="${jdbc.url}"
+    */
+   protected String url;
+
+   /**
+    * @parameter expression="${jdbc.user}"
+    */
+   protected String user;
+
+   /**
+    * @parameter expression="${jdbc.password}"
+    */
+   protected String password;
+
+   /**
+    * @parameter expression="${jdbc.connectionProperties}"
+    */
+   protected String connectionProperties;
+
+   /**
+    * @parameter expression="${packageName}"
+    */
+   protected String packageName;
 
    /**
     * Verbose information or not
@@ -113,69 +143,61 @@ public class WebAppMojo extends AbstractMojo {
     */
    protected boolean debug;
 
+   private String detectPackageName() {
+      if (packageName != null) {
+         return packageName;
+      }
+
+      String groupId = m_project.getGroupId();
+      String artifactId = m_project.getArtifactId();
+
+      return (groupId + "." + artifactId + ".dal").replace('-', '.');
+   }
+
    protected Wizard buildWizard(File wizardFile) throws IOException, SAXException {
       Wizard wizard;
 
       if (wizardFile.isFile()) {
          String content = Files.forIO().readFrom(wizardFile, "utf-8");
-
          wizard = new DefaultXmlParser().parse(content);
       } else {
-         Webapp webapp = new Webapp();
-         
-         String packageName = PropertyProviders.fromConsole().forString("package", "Java package name for webapp:",
-               null, null);
-         boolean webres = PropertyProviders.fromConsole().forBoolean("webres", "Support WebRes framework?", false);
-
          wizard = new Wizard();
-         wizard.setWebapp(webapp);
-         webapp.setPackage(packageName);
-         webapp.setWebres(webres);
+         wizard.setDatasources(new Datasources());
       }
 
-      Webapp webapp = wizard.getWebapp();
-      List<Module> modules = webapp.getModules();
-      List<String> moduleNames = new ArrayList<String>(modules.size());
+      Datasources datasources = wizard.getDatasources();
+      final List<String> names = new ArrayList<String>();
 
-      for (Module module : modules) {
-         moduleNames.add(module.getName());
-      }
-
-      String moduleName = PropertyProviders.fromConsole().forString("module", "Module name:", moduleNames, null, null);
-      Module module = webapp.findModule(moduleName);
-
-      if (module == null) {
-         String path = PropertyProviders.fromConsole().forString("path", "Module path:", moduleName.substring(0, 1),
-               null);
-
-         module = new Module(moduleName);
-
-         module.setPath(path);
-         webapp.addModule(module);
-      }
-
-      List<String> pageNames = new ArrayList<String>(module.getPages().size());
-
-      for (Page page : module.getPages()) {
-         pageNames.add(page.getName());
-      }
-
-      String pageName = PropertyProviders.fromConsole().forString("page", "Page name:", pageNames, null, null);
-      Page page = module.findPage(pageName);
-
-      if (page == null) {
-         String path = PropertyProviders.fromConsole().forString("path", "Page path:", pageName, null);
-
-         page = new Page(pageName);
-
-         if (module.getPages().isEmpty()) {
-            page.setDefault(true);
+      datasources.accept(new BaseVisitor() {
+         @Override
+         public void visitDatasource(Datasource datasource) {
+            names.add(datasource.getName());
          }
+      });
 
-         page.setPath(path);
-         page.setDescription(Character.toUpperCase(pageName.charAt(0)) + pageName.substring(1));
-         module.addPage(page);
-      }
+      String name = PropertyProviders.fromConsole().forString("datasource", "Datasource name:", names, null, null);
+      Datasource datasource = new Datasource(name);
+      JdbcConnection conn = new JdbcConnection();
+
+      datasources.addDatasource(datasource);
+      datasource.setJdbcConnection(conn);
+
+      driver = getProperty(driver, "jdbc.driver", "JDBC driver:", "com.mysql.jdbc.Driver");
+      url = getProperty(url, "jdbc.url", "JDBC URL[for example, jdbc:mysql://localhost:3306/test]:", null);
+      user = getProperty(user, "jdbc.user", "JDBC user:", null);
+      password = getProperty(password, "jdbc.password", "JDBC password:", null);
+      connectionProperties = getProperty(connectionProperties, "jdbc.connectionProperties",
+            "JDBC connection properties:", "useUnicode=true&autoReconnect=true");
+
+      conn.setDriver(driver);
+      conn.setUrl(url);
+      conn.setUser(user);
+      conn.setPassword(password);
+      conn.setProperties(connectionProperties);
+
+      String doPpackage = getProperty(packageName, "packageName", "Target package name:", detectPackageName());
+
+      datasource.setDoPackage(doPpackage);
 
       return wizard;
    }
@@ -235,6 +257,14 @@ public class WebAppMojo extends AbstractMojo {
       }
 
       return file;
+   }
+
+   protected String getProperty(String value, String name, String prompt, String defaultValue) {
+      if (value != null) {
+         return value;
+      } else {
+         return PropertyProviders.fromConsole().forString(name, prompt, defaultValue, null);
+      }
    }
 
    protected void saveXml(Document doc, File file) throws IOException {

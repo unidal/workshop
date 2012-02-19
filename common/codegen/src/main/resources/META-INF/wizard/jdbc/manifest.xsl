@@ -14,123 +14,38 @@
 
 <xsl:template name="manifest">
    <xsl:element name="manifest">
-      <xsl:apply-templates select="/wizard/webapp"/>
-      <xsl:apply-templates select="/wizard/webapp/module"/>
-      <xsl:apply-templates select="/wizard/webapp/module/page"/>
+      <xsl:apply-templates select="/wizard/datasources" />
+      <xsl:apply-templates select="/wizard/datasources/datasource[@name]" />
    </xsl:element>
 </xsl:template>
 
-<xsl:template match="webapp">
+<xsl:template match="datasources">
+   <!-- ComponentsConfigurator class -->
+   <xsl:call-template name="generate-java">
+     <xsl:with-param name="class" select="'ComponentsConfigurator'"/>
+     <xsl:with-param name="package" select="/wizard/@build-package"/>
+     <xsl:with-param name="template" select="'build/components-configurator.xsl'"/>
+   </xsl:call-template>
+
    <!-- AllTests class -->
    <xsl:call-template name="generate-java">
      <xsl:with-param name="src-dir" select="concat(/wizard/@base-dir, '/src/test/java')" />
-     <xsl:with-param name="package" select="@package"/>
      <xsl:with-param name="class" select="'AllTests'"/>
+     <xsl:with-param name="package" select="/wizard/@package"/>
      <xsl:with-param name="template" select="'test/all-tests.xsl'"/>
    </xsl:call-template>
 </xsl:template>
 
-<xsl:template match="module">
-   <!-- Module class -->
+<xsl:template match="datasource">
+   <!-- DatabseConfigurator class -->
    <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@module-class"/>
-     <xsl:with-param name="package" select="@package"/>
+     <xsl:with-param name="class" select="@configurator-class"/>
+     <xsl:with-param name="package" select="/wizard/@build-package"/>
      <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'module/module.xsl'"/>
+     <xsl:with-param name="template" select="'build/database-configurator.xsl'"/>
      <xsl:with-param name="mode" select="'create_or_overwrite'"/>
    </xsl:call-template>
 
-   <!-- Context class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@context-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'module/context.xsl'"/>
-   </xsl:call-template>
-
-   <!-- Page class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@page-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'module/page.xsl'"/>
-     <xsl:with-param name="mode" select="'create_or_overwrite'"/>
-   </xsl:call-template>
-</xsl:template>
-
-<xsl:template match="page">
-   <!-- Action class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@action-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/action.xsl'"/>
-   </xsl:call-template>
-
-   <!-- Context class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@context-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/context.xsl'"/>
-   </xsl:call-template>
-
-   <!-- Handler class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@handler-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/handler.xsl'"/>
-   </xsl:call-template>
-
-   <!-- JspFile class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@jsp-file-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/jsp-file.xsl'"/>
-   </xsl:call-template>
-
-   <!-- JspViewer class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@jsp-viewer-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/jsp-viewer.xsl'"/>
-   </xsl:call-template>
-
-   <!-- Model class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@model-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/model.xsl'"/>
-   </xsl:call-template>
-
-   <!-- Payload class -->
-   <xsl:call-template name="generate-java">
-     <xsl:with-param name="class" select="@payload-class"/>
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="template" select="'page/payload.xsl'"/>
-   </xsl:call-template>
-   
-   <!-- view.jsp -->
-   <xsl:call-template name="generate-resource">
-     <xsl:with-param name="src-dir" select="concat(/wizard/@base-dir, '/src/main/webapp')" />
-     <xsl:with-param name="package" select="@package"/>
-     <xsl:with-param name="module" select="../@name"/>
-     <xsl:with-param name="name" select="@name"/>
-     <xsl:with-param name="file" select="substring(@view,1)"/>
-     <xsl:with-param name="template" select="'pres/view-jsp.xsl'"/>
-   </xsl:call-template>
 </xsl:template>
 
 <xsl:template name="wizard-policy">
@@ -223,17 +138,24 @@
              </xsl:otherwise>
           </xsl:choose>
        </xsl:attribute>
-       
+
        <xsl:attribute name="template"><xsl:value-of select="$template"/></xsl:attribute>
        <xsl:attribute name="mode"><xsl:value-of select="$mode"/></xsl:attribute>
-       
+
        <xsl:value-of select="$empty-line"/>
        <xsl:element name="property">
           <xsl:attribute name="name">package</xsl:attribute>
           
           <xsl:value-of select="$package"/>
        </xsl:element>
-       
+
+       <xsl:value-of select="$empty-line"/>
+       <xsl:element name="property">
+          <xsl:attribute name="name">class</xsl:attribute>
+          
+          <xsl:value-of select="$class"/>
+       </xsl:element>
+
        <xsl:if test="$module">
           <xsl:value-of select="$empty-line"/>
           <xsl:element name="property">
@@ -242,7 +164,7 @@
              <xsl:value-of select="$module"/>
           </xsl:element>
        </xsl:if>
-       
+
        <xsl:if test="$name">
           <xsl:value-of select="$empty-line"/>
           <xsl:element name="property">
@@ -251,7 +173,7 @@
              <xsl:value-of select="$name"/>
           </xsl:element>
        </xsl:if>
-       
+
        <xsl:value-of select="$empty-line"/>
     </xsl:element>
 </xsl:template>

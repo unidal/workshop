@@ -1,4 +1,4 @@
-package com.site.codegen.generator.test;
+package com.site.codegen.generator.model.test;
 
 import java.io.File;
 import java.io.InputStreamReader;

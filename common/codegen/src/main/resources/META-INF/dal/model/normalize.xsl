@@ -659,7 +659,13 @@
    <xsl:attribute name="upper-name">
       <xsl:value-of select="'ENTITY_'"/>
       <xsl:call-template name="upper-name">
-         <xsl:with-param name="name" select="$name"/>
+         <xsl:with-param name="name">
+            <xsl:choose>
+               <xsl:when test="(@type='list' or @type='map') and not(@xml-indent='true') and @alias"><xsl:value-of select="@alias"/></xsl:when>
+               <xsl:when test="(@type='list' or @type='map') and not(@xml-indent='true')"><xsl:value-of select="@name"/></xsl:when>
+               <xsl:otherwise><xsl:value-of select="$name"/></xsl:otherwise>
+            </xsl:choose>
+         </xsl:with-param>
       </xsl:call-template>
    </xsl:attribute>
    <xsl:attribute name="tag-name">

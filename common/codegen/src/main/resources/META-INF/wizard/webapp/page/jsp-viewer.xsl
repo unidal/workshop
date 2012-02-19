@@ -11,7 +11,7 @@
 <xsl:variable name="empty-line" select="'&#x0A;'"/>
 
 <xsl:template match="/">
-   <xsl:apply-templates select="/wizard/module[@name=$module]/page[@name=$name]"/>
+   <xsl:apply-templates select="/wizard/webapp/module[@name=$module]/page[@name=$name]"/>
 </xsl:template>
 
 <xsl:template match="page">

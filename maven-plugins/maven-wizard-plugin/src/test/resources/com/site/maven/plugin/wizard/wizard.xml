@@ -1,19 +1,29 @@
-<wizard package="com.dianping.cat" webres="true">
-   <module name="report" path="r">
-      <page name="home" title="Home" default="true">
-         <description>CAT Home Page.</description>
-      </page>
-      <page name="transaction" path="t" title="Transaction">
-         <description>CAL summary report for Transactions in current hour.</description>
-      </page>
-      <page name="failure" path="f" title="Failure">
-         <description>CAL detail report for failure messages in current hour.</description>
-      </page>
-      <page name="logview" path="m" title="Logview">
-         <description>CAL log details view for a given message.</description>
-      </page>
-      <page name="ip" title="Top IP List">
-         <description>Top visited IP list in current hour.</description>
-      </page>
-   </module>
+<wizard package="com.dianping.cat" src-dir=".">
+   <webapp package="com.dianping.cat" webres="true">
+      <module name="dashboard" path="d">
+         <page name="home" title="Home" default="true" package="com.dianping.cat.page.home">
+            <description>Home Page of Garden</description>
+         </page>
+         <page name="trend" title="Trend" path="trend" view="trend.jsp" standalone="true">
+            <description>Technical Trends</description>
+         </page>
+      </module>
+      <module name="toolkit" path="t">
+         <page name="query" title="DB Query" default="true">
+            <description>Database Query Toolkit</description>
+         </page>
+      </module>
+   </webapp>
+   <datasources>
+      <datasource name="garden" do-package="com.dianping.garden.dal">
+         <jdbc-connection>
+			<driver>com.mysql.jdbc.Driver</driver>
+			<url><![CDATA[jdbc:mysql://localhost:3306/garden]]></url>
+			<user>root</user>
+			<password>Passw0rd</password>
+			<properties><![CDATA[useUnicode=true&autoReconnect=true]]></properties>
+         </jdbc-connection>
+      </datasource>
+      <datasource/>
+   </datasources>
 </wizard>

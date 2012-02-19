@@ -1,4 +1,4 @@
-package com.site.codegen.generator.cat;
+package com.site.codegen.generator.model.cat;
 
 import java.io.File;
 import java.net.URL;

@@ -3,6 +3,7 @@ package com.site.codegen.generator.wizard;
 import java.io.File;
 import java.net.URL;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -14,61 +15,80 @@ import com.site.lookup.ComponentTestCase;
 
 @RunWith(JUnit4.class)
 public class WizardGeneratorTest extends ComponentTestCase {
-	private boolean verbose = false;
+   private boolean verbose = false;
 
-	private boolean debug = false;
+   private boolean debug = false;
 
-	@Test
-	public void testGenerateWizardWebapp() throws Exception {
-		Generator g = lookup(Generator.class, "wizard-webapp");
-		URL manifestXml = getResourceFile("wizard_webapp_manifest.xml").toURI().toURL();
-		GenerateContext ctx = new WizardGenerateContext(new File("."), "webapp", manifestXml);
-		long start = System.currentTimeMillis();
+   @Test
+   @Ignore
+   public void testWebapp() throws Exception {
+      Generator g = lookup(Generator.class, "wizard-webapp");
+      URL manifestXml = getResourceFile("manifest.xml").toURI().toURL();
+      GenerateContext ctx = new WizardGenerateContext(new File("."), "webapp", manifestXml);
+      long start = System.currentTimeMillis();
 
-		g.generate(ctx);
+      g.generate(ctx);
 
-		if (verbose) {
-			long now = System.currentTimeMillis();
+      if (verbose) {
+         long now = System.currentTimeMillis();
 
-			System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
-		}
-	}
+         System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
+      }
+   }
 
-	class WizardGenerateContext extends AbstractGenerateContext {
-		private URL m_manifestXml;
+   @Test
+   public void testJdbc() throws Exception {
+      Generator g = lookup(Generator.class, "wizard-jdbc");
+      URL manifestXml = getResourceFile("manifest.xml").toURI().toURL();
+      GenerateContext ctx = new WizardGenerateContext(new File("."), "jdbc", manifestXml);
+      long start = System.currentTimeMillis();
 
-		public WizardGenerateContext(File projectBase, String type, URL manifestXml) {
-			super(projectBase, "/META-INF/wizard/" + type, "target/generated-wizard/webapp");
+      g.generate(ctx);
 
-			m_manifestXml = manifestXml;
-		}
+      if (verbose) {
+         long now = System.currentTimeMillis();
 
-		public WizardGenerateContext(File projectBase, String type, URL manifestXml, String sourceDir) {
-			super(projectBase, "/META-INF/wizard/" + type, sourceDir);
+         System.out.println(String.format("%s files generated in %s ms.", ctx.getGeneratedFiles(), now - start));
+      }
+   }
 
-			m_manifestXml = manifestXml;
-		}
+   class WizardGenerateContext extends AbstractGenerateContext {
+      private URL m_manifestXml;
 
-		public URL getManifestXml() {
-			return m_manifestXml;
-		}
+      public WizardGenerateContext(File projectBase, String type, URL manifestXml) {
+         super(projectBase, "/META-INF/wizard/" + type, "target/generated-wizard/" + type);
 
-		public void log(LogLevel logLevel, String message) {
-			switch (logLevel) {
-			case DEBUG:
-				if (debug) {
-					System.out.println(message);
-				}
-				break;
-			case INFO:
-				if (debug || verbose) {
-					System.out.println(message);
-				}
-				break;
-			case ERROR:
-				System.out.println(message);
-				break;
-			}
-		}
-	}
+         assert manifestXml != null;
+         m_manifestXml = manifestXml;
+      }
+
+      public WizardGenerateContext(File projectBase, String type, URL manifestXml, String sourceDir) {
+         super(projectBase, "/META-INF/wizard/" + type, sourceDir);
+
+         assert manifestXml != null;
+         m_manifestXml = manifestXml;
+      }
+
+      public URL getManifestXml() {
+         return m_manifestXml;
+      }
+
+      public void log(LogLevel logLevel, String message) {
+         switch (logLevel) {
+         case DEBUG:
+            if (debug) {
+               System.out.println(message);
+            }
+            break;
+         case INFO:
+            if (debug || verbose) {
+               System.out.println(message);
+            }
+            break;
+         case ERROR:
+            System.out.println(message);
+            break;
+         }
+      }
+   }
 }

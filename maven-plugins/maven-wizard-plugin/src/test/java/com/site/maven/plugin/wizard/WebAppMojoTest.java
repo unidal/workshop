@@ -10,12 +10,12 @@ import org.xml.sax.SAXException;
 
 import com.site.helper.Files;
 import com.site.maven.plugin.wizard.model.entity.Wizard;
-import com.site.maven.plugin.wizard.model.transform.DefaultParser;
+import com.site.maven.plugin.wizard.model.transform.DefaultXmlParser;
 
 public class WebAppMojoTest {
    @Test
    public void testModel() throws Exception {
-      DefaultParser parser = new DefaultParser();
+      DefaultXmlParser parser = new DefaultXmlParser();
       String expected = Files.forIO().readFrom(getClass().getResourceAsStream("wizard.xml"), "utf-8");
       Wizard wizard = parser.parse(expected);
 

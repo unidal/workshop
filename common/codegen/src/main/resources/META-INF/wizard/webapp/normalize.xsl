@@ -12,6 +12,26 @@
    <xsl:copy>
       <xsl:copy-of select="@*"/>
       
+      <xsl:attribute name="build-package">
+         <xsl:value-of select="@package"/>
+         <xsl:value-of select="'.build'"/>
+      </xsl:attribute>
+
+      <xsl:apply-templates/>
+   </xsl:copy>
+</xsl:template>
+
+<xsl:template match="webapp">
+   <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      
+      <xsl:attribute name="package">
+         <xsl:choose>
+            <xsl:when test="@package"><xsl:value-of select="@package"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="../@package"/></xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
+
       <xsl:apply-templates/>
    </xsl:copy>
 </xsl:template>
@@ -37,7 +57,8 @@
       <xsl:attribute name="package">
          <xsl:choose>
             <xsl:when test="@package"><xsl:value-of select="@package"/></xsl:when>
-            <xsl:otherwise><xsl:value-of select="../@package"/>.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
+            <xsl:when test="../@package"><xsl:value-of select="../@package"/>.<xsl:value-of select="$normalized-name"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="../../@package"/>.<xsl:value-of select="$normalized-name"/></xsl:otherwise>
          </xsl:choose>
       </xsl:attribute>
       <xsl:attribute name="module-class">

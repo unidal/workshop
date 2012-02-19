@@ -10,7 +10,7 @@
 <xsl:variable name="empty-line" select="'&#x0A;'"/>
 
 <xsl:template match="/">
-   <xsl:apply-templates select="/wizard/module[@name=$name]"/>
+   <xsl:apply-templates select="/wizard/webapp/module[@name=$name]"/>
 </xsl:template>
 
 <xsl:template match="module">

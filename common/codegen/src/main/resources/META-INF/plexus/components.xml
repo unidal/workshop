@@ -150,5 +150,31 @@
 				</requirement>
 			</requirements>
 		</component>
+		<component>
+			<role>com.site.codegen.aggregator.XmlAggregator</role>
+			<role-hint>wizard-jdbc</role-hint>
+			<implementation>com.site.codegen.aggregator.DefaultXmlAggregator</implementation>
+			<configuration>
+				<structureFile>META-INF/wizard/jdbc/structure.xml</structureFile>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.codegen.generator.Generator</role>
+			<role-hint>wizard-jdbc</role-hint>
+			<implementation>com.site.codegen.generator.XslGenerator</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+			<requirements>
+				<requirement>
+					<role>com.site.codegen.transformer.XslTransformer</role>
+				</requirement>
+				<requirement>
+					<role>com.site.codegen.manifest.ManifestParser</role>
+				</requirement>
+				<requirement>
+					<role>com.site.codegen.aggregator.XmlAggregator</role>
+					<role-hint>wizard-jdbc</role-hint>
+				</requirement>
+			</requirements>
+		</component>
 	</components>
 </plexus>
