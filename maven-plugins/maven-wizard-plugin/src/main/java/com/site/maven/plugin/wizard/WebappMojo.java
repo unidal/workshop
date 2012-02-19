@@ -94,7 +94,7 @@ public class WebAppMojo extends AbstractMojo {
     * Location of generated source directory
     * 
     * @parameter expression="${resource.base}"
-    *            default-value="/META-INF/wizard"
+    *            default-value="/META-INF/wizard/jdbc"
     * @required
     */
    protected String resouceBase;

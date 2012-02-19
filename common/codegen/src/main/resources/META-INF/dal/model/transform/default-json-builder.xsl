@@ -51,8 +51,14 @@
 
       <xsl:variable name="upper-name" select="@upper-name"/>
       <xsl:if test="generate-id((//entity/entity-ref[not(@render='false')])[@upper-name=$upper-name][1])=generate-id()">
-         <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;//<xsl:value-of select="$empty-line"/>
-         
+         <xsl:choose>
+            <xsl:when test="@list='true' or @map='true'">
+               <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-names"/>;<xsl:value-of select="$empty-line"/>
+            </xsl:when>
+            <xsl:otherwise>
+               <xsl:value-of select="$empty"/>import static <xsl:value-of select="/model/@model-package"/>.Constants.<xsl:value-of select="@upper-name"/>;<xsl:value-of select="$empty-line"/>
+            </xsl:otherwise>
+         </xsl:choose>
       </xsl:if>
    </xsl:for-each>
    <xsl:value-of select="$empty-line"/>
@@ -294,7 +300,7 @@
       <xsl:choose>
          <xsl:when test="@map='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         objectBegin(<xsl:value-of select="@upper-names"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-entry" disable-output-escaping="yes"/> e : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().entrySet()) {<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>            String key = String.valueOf(e.getKey());<xsl:value-of select="$empty-line"/>
@@ -304,12 +310,12 @@
             <xsl:value-of select="$empty"/>            objectEnd(key);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         objectEnd(<xsl:value-of select="@upper-names"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:when test="@list='true'">
             <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         arrayBegin(<xsl:value-of select="@upper-names"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()) {<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>            objectBegin(null);<xsl:value-of select="$empty-line"/>
@@ -317,7 +323,7 @@
             <xsl:value-of select="$empty"/>            objectEnd(null);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty-line"/>
-            <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         arrayEnd(<xsl:value-of select="@upper-names"/>);<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:otherwise>

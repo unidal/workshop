@@ -5,6 +5,7 @@ import static com.site.wdbc.query.path.WdbcPathPattern.PATTERN_ALL_TEXT;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 public class TagTreeTraverser {
@@ -45,7 +46,7 @@ public class TagTreeTraverser {
    }
 
    // 0: Not matched, 1: full matched, 2: partial matched
-   public int matchesPath(WdbcPathPattern pattern) {
+   public int matchesPath(WdbcPathPattern pattern, Map<String, String> attributes) {
       List<String> names = pattern.getSectionNames();
       List<WdbcExpression> expressions = pattern.getSectionExpressions();
       int maxIndex = names.size() - 2; // ignore last section
@@ -64,7 +65,7 @@ public class TagTreeTraverser {
                WdbcExpression expr = expressions.get(index);
                int count = lane.get(i).getCount();
 
-               if (!expr.matches(count)) {
+               if (!expr.matches(count, attributes)) {
                   break;
                }
 

@@ -31,6 +31,8 @@ public interface WdbcContext {
 
    public int matchesPath(WdbcPathPattern pattern);
 
+   public int matchesPath(WdbcPathPattern pattern, Map<String, String> attributes);
+
    public void pop(String tagName);
 
    public void push(String tagName, Map<String, String> attributes);

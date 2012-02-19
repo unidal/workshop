@@ -2,6 +2,7 @@ package com.site.wdbc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 
@@ -64,11 +65,13 @@ public class SelectQuery implements WdbcQuery {
 
          break;
       default:
+         Map<String, String> attributes = context.getAttributes();
+
          for (int i = 0; i < size; i++) {
             PathPattern pattern = m_patterns.get(i);
 
             if (pattern.matchesEvent(eventType)) {
-               int matched = context.matchesPath(pattern);
+               int matched = context.matchesPath(pattern, attributes);
 
                if (matched == WdbcPathPattern.FULL_WILD_MATCHED) {
                   if (pattern.isAllText()) {

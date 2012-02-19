@@ -34,9 +34,9 @@ import com.site.maven.plugin.wizard.model.transform.DefaultXmlParser;
 /**
  * Create a new page of web application project.
  * 
- * @goal webapp
+ * @goal jdbc
  */
-public class DalJdbcMojo extends AbstractMojo {
+public class JdbcMojo extends AbstractMojo {
    /**
     * Current project
     * 
@@ -59,7 +59,7 @@ public class DalJdbcMojo extends AbstractMojo {
     * XSL code generator implementation
     * 
     * @component role="com.site.codegen.generator.Generator"
-    *            role-hint="wizard-dal-jdbc"
+    *            role-hint="wizard-jdbc"
     * @required
     * @readonly
     */
@@ -86,7 +86,7 @@ public class DalJdbcMojo extends AbstractMojo {
     * Location of manifest.xml file
     * 
     * @parameter expression="${manifest}" default-value=
-    *            "${basedir}/src/main/resources/META-INF/wizard/webapp/manifest.xml"
+    *            "${basedir}/src/main/resources/META-INF/wizard/jdbc/manifest.xml"
     * @required
     */
    protected String manifest;
@@ -94,7 +94,7 @@ public class DalJdbcMojo extends AbstractMojo {
    /**
     * Location of generated source directory
     * 
-    * @parameter expression="${resource.base}" default-value="/META-INF/wizard"
+    * @parameter expression="${resource.base}" default-value="/META-INF/wizard/jdbc"
     * @required
     */
    protected String resouceBase;

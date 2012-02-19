@@ -1,5 +1,6 @@
 package com.site.wdbc.query;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Stack;
 
@@ -50,7 +51,7 @@ public class DefaultWdbcContext implements WdbcContext {
    public String getAllText() {
       return m_allTexts.peek().toString();
    }
-   
+
    public String getAttribute(String name) {
       if (m_attributes != null) {
          return m_attributes.get(name);
@@ -60,7 +61,11 @@ public class DefaultWdbcContext implements WdbcContext {
    }
 
    public Map<String, String> getAttributes() {
-      return m_attributes;
+      if (m_attributes == null) {
+         return Collections.emptyMap();
+      } else {
+         return m_attributes;
+      }
    }
 
    public String getComment() {
@@ -70,7 +75,7 @@ public class DefaultWdbcContext implements WdbcContext {
    public String getTagName() {
       return m_tagNames.peek();
    }
-   
+
    public String getText() {
       return m_text;
    }
@@ -89,7 +94,11 @@ public class DefaultWdbcContext implements WdbcContext {
    }
 
    public int matchesPath(WdbcPathPattern pattern) {
-      return m_traverser.matchesPath(pattern);
+      return matchesPath(pattern, null);
+   }
+
+   public int matchesPath(WdbcPathPattern pattern, Map<String, String> attributes) {
+      return m_traverser.matchesPath(pattern, attributes);
    }
 
    public void pop(String tagName) {
@@ -117,7 +126,7 @@ public class DefaultWdbcContext implements WdbcContext {
          XmlPlexusConfiguration child = new XmlPlexusConfiguration(tagName);
 
          for (Map.Entry<String, String> e : attributes.entrySet()) {
-            child.setAttribute(e.getKey(), e.getValue());
+            child.setAttribute(e.getKey().toLowerCase(), e.getValue());
          }
 
          m_allChildren.peek().push(child);

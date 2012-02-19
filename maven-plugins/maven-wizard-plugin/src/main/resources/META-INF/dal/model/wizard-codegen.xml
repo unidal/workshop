@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model>
   <entity name="wizard" root="true">
+    <attribute name="package" value-type="String" />
     <entity-ref name="webapp" />
     <entity-ref name="datasources" />
   </entity>
