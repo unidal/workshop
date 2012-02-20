@@ -164,7 +164,7 @@ public class PathPatternTest extends ComponentTestCase {
       context.setTagTree(TagTree.buildTree(Arrays.asList(patterns), true));
 
       context.push("t1", null);
-      context.push("t2", map("class", "abc"));
+      context.push("t2", null);
       context.push("t3", null);
       context.pop("t3");
       context.push("t3", null);
@@ -172,7 +172,7 @@ public class PathPatternTest extends ComponentTestCase {
       context.push("t3", null);
       context.pop("t3");
       context.pop("t2");
-      context.push("t2", null);
+      context.push("t2", map("class", "abc"));
       context.push("t3", null);
       context.pop("t3");
       context.push("t3", null);
@@ -291,7 +291,7 @@ public class PathPatternTest extends ComponentTestCase {
 
    public void testMatchesMiddle3() {
       PathPattern[] patterns = new PathPattern[] {//
-      new PathPattern("", "t1.t2[@class=abc].t3"), //
+      new PathPattern("", "t1.t2[@class=abc].t3[2]"), //
             new PathPattern("", "t1.t2[*].t3[2]"), //
             new PathPattern("", "t1.t2[*].t3[3]"), //
       };
@@ -303,9 +303,16 @@ public class PathPatternTest extends ComponentTestCase {
    }
 
    public void testMatchesSimple() {
-      PathPattern[] patterns = new PathPattern[] { new PathPattern("", "t1"), new PathPattern("", "t1.t2"),
-            new PathPattern("", "t1.t2.t3"), new PathPattern("", "t2"), new PathPattern("", "t2.t3"),
-            new PathPattern("", "t3"), new PathPattern("", "t4"), new PathPattern("", "t4.t2"), };
+      PathPattern[] patterns = new PathPattern[] { //
+      new PathPattern("", "t1"), //
+            new PathPattern("", "t1.t2"), //
+            new PathPattern("", "t1.t2.t3"), //
+            new PathPattern("", "t2"), //
+            new PathPattern("", "t2.t3"), //
+            new PathPattern("", "t3"), //
+            new PathPattern("", "t4"), //
+            new PathPattern("", "t4.t2"), //
+      };
       WdbcContext ctx = getContextSimple(patterns);
 
       assertEquals(NOT_MATCHED, ctx.matchesPath(patterns[0]));

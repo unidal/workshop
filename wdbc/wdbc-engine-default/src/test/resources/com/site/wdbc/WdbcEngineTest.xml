@@ -24,5 +24,15 @@
             </paths>
 			</configuration>
 		</component>
+		<component>
+			<role>com.site.wdbc.WdbcQuery</role>
+			<role-hint>form2</role-hint>
+			<implementation>com.site.wdbc.SelectQuery</implementation>
+			<configuration>
+            <paths>
+               <path name="title">li[@id=nav-footer-tools].h4</path>
+            </paths>
+			</configuration>
+		</component>
 	</components>
 </plexus>

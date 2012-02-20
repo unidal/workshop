@@ -27,6 +27,18 @@ public class WdbcEngineTest extends ComponentTestCase {
       assertNotNull(result);
    }
 
+   public void testExecuteForXml() throws Exception {
+      WdbcEngine engine = lookup(WdbcEngine.class);
+
+      assertNotNull(engine);
+
+      WdbcQuery query = new WdbcQueryMock();
+      WdbcSource source = new StringSource(XML, "<html><body>this is body<p>This is paragraph</p></body></html>");
+      WdbcResult result = engine.execute(query, source);
+
+      assertNotNull(result);
+   }
+
    public void testExecuteSample() throws Exception {
       WdbcEngine engine = lookup(WdbcEngine.class);
 
@@ -43,18 +55,6 @@ public class WdbcEngineTest extends ComponentTestCase {
       assertEquals(3, result.getRowSize());
    }
 
-   public void testExecuteForXml() throws Exception {
-      WdbcEngine engine = lookup(WdbcEngine.class);
-
-      assertNotNull(engine);
-
-      WdbcQuery query = new WdbcQueryMock();
-      WdbcSource source = new StringSource(XML, "<html><body>this is body<p>This is paragraph</p></body></html>");
-      WdbcResult result = engine.execute(query, source);
-
-      assertNotNull(result);
-   }
-
    public void testFormInputs() throws Exception {
       WdbcEngine engine = lookup(WdbcEngine.class);
       assertNotNull(engine);
@@ -68,9 +68,32 @@ public class WdbcEngineTest extends ComponentTestCase {
       assertNotNull(result);
       assertEquals(14, result.getRowSize());
    }
+   
+   public void testFormInputs2() throws Exception {
+      WdbcEngine engine = lookup(WdbcEngine.class);
+      assertNotNull(engine);
+      
+      WdbcQuery query = lookup(WdbcQuery.class, "form2");
+      assertNotNull(query);
+      
+      WdbcSource source = new ResourceSource(WdbcSourceType.HTML, "/pages/form.html");
+      WdbcResult result = engine.execute(query, source);
+      
+      System.out.println(result);
+      assertNotNull(result);
+      assertEquals(14, result.getRowSize());
+   }
 
    static final class WdbcQueryMock implements WdbcQuery {
       private String m_name;
+
+      public WdbcTagTree buildTagTree() {
+         return TagTree.buildTree(new ArrayList<PathPattern>(), false);
+      }
+
+      public String getName() {
+         return m_name;
+      }
 
       public void handleEvent(WdbcContext ctx, WdbcResult result, WdbcEventType eventType) {
          if (DEBUG) {
@@ -83,16 +106,8 @@ public class WdbcEngineTest extends ComponentTestCase {
          }
       }
 
-      public String getName() {
-         return m_name;
-      }
-
       public void setName(String name) {
          m_name = name;
-      }
-
-      public WdbcTagTree buildTagTree() {
-         return TagTree.buildTree(new ArrayList<PathPattern>(), false);
       }
    }
 }

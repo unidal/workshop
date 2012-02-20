@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+   <parameters>
+      <maxPages>
+         <default-value>100</default-value>
+         <description>Max pages to be downloaded?</description>
+      </maxPages>
+   </parameters>
+</configuration>
