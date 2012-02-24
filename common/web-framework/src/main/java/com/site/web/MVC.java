@@ -34,7 +34,7 @@ public class MVC extends AbstractContainerServlet {
       request.setCharacterEncoding("UTF-8");
       response.setContentType("text/html;charset=UTF-8");
 
-      m_manager.setup(null, null); // TODO prepare session and request tokens
+      m_manager.setup();
 
       try {
          m_handler.handle(request, response);
