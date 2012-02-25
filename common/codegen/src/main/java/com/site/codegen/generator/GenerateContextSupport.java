@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.plexus.util.IOUtil;
@@ -13,39 +13,64 @@ import org.codehaus.plexus.util.IOUtil;
 import com.site.codegen.manifest.FileMode;
 import com.site.codegen.manifest.Manifest;
 
-public abstract class AbstractGenerateContext implements GenerateContext {
-   private File m_projectBase;
+public abstract class GenerateContextSupport implements GenerateContext {
+   private File m_projectBaseDir;
 
-   private File m_sourceOutput;
-
-   private String m_resourceBase;
+   private String m_resourceBasePath;
 
    private int m_generatedFiles;
 
-   public AbstractGenerateContext(File projectBase, String resourceBase, String sourceOutput) {
-      m_projectBase = projectBase;
-      m_resourceBase = resourceBase;
+   private Map<String, String> m_properties;
 
-      if (sourceOutput != null) {
-         if (new File(sourceOutput).isAbsolute()) {
-            m_sourceOutput = new File(sourceOutput);
-         } else {
-            m_sourceOutput = new File(m_projectBase, sourceOutput);
-         }
+   public GenerateContextSupport(String resourceBasePath, File projectBaseDir) {
+      m_projectBaseDir = projectBaseDir;
+      m_resourceBasePath = resourceBasePath;
+      m_properties = new HashMap<String, String>();
+
+      m_properties.put("src-main-java", "src/main/java");
+      m_properties.put("src-main-resources", "src/main/resources");
+      m_properties.put("src-main-webapp", "src/main/webapp");
+      m_properties.put("src-test-java", "src/test/java");
+      m_properties.put("src-test-resources", "src/test/resources");
+      
+      configure(m_properties);
+   }
+
+   public Map<String, String> getProperties() {
+      return m_properties;
+   }
+
+   public String getProperty(String name, String defaultValue) {
+      String value = m_properties.get(name);
+
+      if (value == null) {
+         return defaultValue;
+      } else {
+         return value;
       }
    }
 
-   @Override
-   public Map<String, String> getProperties() {
-      return Collections.emptyMap();
+   public File getPath(String name) {
+      String path = m_properties.get(name);
+
+      if (path == null) {
+         return new File(m_projectBaseDir, "target/" + name.replace('.', '/'));
+      } else if (path.startsWith("/")) {
+         return new File(path);
+      } else {
+         return new File(m_projectBaseDir, path);
+      }
+   }
+
+   protected void configure(Map<String, String> properties) {
+      // to be override
    }
 
    public void addFileToStorage(Manifest manifest, String content) throws IOException {
       FileMode mode = manifest.getMode();
       Writer writer = null;
-      File file = new File(m_sourceOutput, manifest.getPath());
+      File file = new File(m_projectBaseDir, manifest.getPath()).getCanonicalFile();
 
-      file = file.getCanonicalFile();
       file.getParentFile().mkdirs();
 
       switch (mode) {
@@ -100,7 +125,7 @@ public abstract class AbstractGenerateContext implements GenerateContext {
    }
 
    protected URL getResource(String name) {
-      String path = m_resourceBase + "/" + name;
+      String path = m_resourceBasePath + "/" + name;
       URL url = getClass().getResource(path);
 
       if (url != null) {

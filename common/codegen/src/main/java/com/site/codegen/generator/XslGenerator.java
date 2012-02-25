@@ -31,7 +31,7 @@ public class XslGenerator implements Generator {
          ctx.log(LogLevel.DEBUG, decoratedXml);
 
          ctx.log(LogLevel.INFO, "Manifesting ...");
-         String manifestXml = m_xslTransformer.transform(ctx.getManifestXsl(), decoratedXml);
+         String manifestXml = m_xslTransformer.transform(ctx.getManifestXsl(), decoratedXml, ctx.getProperties());
          List<Manifest> manifests = m_manifestParser.parse(manifestXml);
          ctx.log(LogLevel.DEBUG, manifestXml);
 

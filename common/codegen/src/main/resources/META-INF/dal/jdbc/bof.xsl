@@ -78,7 +78,7 @@
       <xsl:call-template name="query-find-params-definition">
          <xsl:with-param name="params" select="param"/>
       </xsl:call-template>
-      <xsl:value-of select="$empty"/>Readset readset) throws DalException {<xsl:value-of select='$empty-line'/>
+      <xsl:value-of select="$empty"/>Readset<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template> readset) throws DalException {<xsl:value-of select='$empty-line'/>
       <xsl:value-of select='$empty'/>      List<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template>doList = m_dao.<xsl:value-of select='@name'/>(<xsl:value-of select='$empty'/>
          <xsl:call-template name="query-find-params">
             <xsl:with-param name="params" select="param"/>
@@ -98,7 +98,7 @@
       <xsl:call-template name="query-find-params-definition">
          <xsl:with-param name="params" select="param"/>
       </xsl:call-template>
-      <xsl:value-of select="$empty"/>Readset readset) throws DalException {<xsl:value-of select='$empty-line'/>
+      <xsl:value-of select="$empty"/>Readset<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template> readset) throws DalException {<xsl:value-of select='$empty-line'/>
       <xsl:value-of select="'      '"/><xsl:value-of select='$entity/@do-class'/><xsl:value-of select="' '"/><xsl:value-of select="$entity/@param-name"/> = m_dao.<xsl:value-of select='@name'/>(<xsl:value-of select='$empty'/>
       <xsl:call-template name="query-find-params">
          <xsl:with-param name="params" select="param"/>
@@ -136,7 +136,7 @@
 <xsl:template name="query-methods-update">
    <xsl:variable name="entity" select="."/>
    <xsl:for-each select="query-defs/query[@type = 'UPDATE' and @batch = 'true']">
-      <xsl:value-of select='$empty'/>   public int[] <xsl:value-of select="@name"/>(List<xsl:call-template name="generic-bo-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template><xsl:value-of select='$space'/><xsl:value-of select='$entity/@param-name'/>List, Updateset updateset) throws DalException {<xsl:value-of select='$empty-line'/>
+      <xsl:value-of select='$empty'/>   public int[] <xsl:value-of select="@name"/>(List<xsl:call-template name="generic-bo-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template><xsl:value-of select='$space'/><xsl:value-of select='$entity/@param-name'/>List, Updateset<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template> updateset) throws DalException {<xsl:value-of select='$empty-line'/>
       <xsl:value-of select='$empty'/>      List<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template> protoList = BizObjectHelper.unwrap(<xsl:value-of select='$entity/@param-name'/>List, <xsl:value-of select='$entity/@do-class'/>.class);<xsl:value-of select='$empty-line'/>
       <xsl:value-of select="'      '"/><xsl:value-of select='$entity/@do-class'/>[] protoDos = new <xsl:value-of select='$entity/@do-class'/>[protoList.size()];<xsl:value-of select='$empty-line'/>
       <xsl:value-of select='$empty-line'/>
@@ -146,7 +146,7 @@
       <xsl:value-of select='$empty-line'/>
    </xsl:for-each>
    <xsl:for-each select="query-defs/query[@type = 'UPDATE']">
-      <xsl:value-of select='$empty'/>   public int <xsl:value-of select="@name"/>(<xsl:value-of select='$entity/@bo-class'/><xsl:value-of select='$space'/><xsl:value-of select='$entity/@param-name'/>, Updateset updateset) throws DalException {<xsl:value-of select='$empty-line'/>
+      <xsl:value-of select='$empty'/>   public int <xsl:value-of select="@name"/>(<xsl:value-of select='$entity/@bo-class'/><xsl:value-of select='$space'/><xsl:value-of select='$entity/@param-name'/>, Updateset<xsl:call-template name="generic-do-type"><xsl:with-param name="entity" select="$entity"/></xsl:call-template> updateset) throws DalException {<xsl:value-of select='$empty-line'/>
       <xsl:value-of select="'      '"/><xsl:value-of select='$entity/@do-class'/> protoDo = BizObjectHelper.unwrap(<xsl:value-of select='$entity/@param-name'/>, <xsl:value-of select='$entity/@do-class'/>.class);<xsl:value-of select='$empty-line'/>
       <xsl:value-of select='$empty-line'/>
       <xsl:value-of select='$empty'/>      return m_dao.<xsl:value-of select="@name"/>(protoDo, updateset);<xsl:value-of select='$empty-line'/>

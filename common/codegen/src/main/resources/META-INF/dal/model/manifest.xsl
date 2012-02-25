@@ -3,7 +3,10 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="xml" indent="yes" media-type="text/xml" encoding="utf-8"/>
 
-<xsl:param name="xsl-dir"/>
+<xsl:param name="src-main-java"/>
+<xsl:param name="src-main-resources"/>
+<xsl:param name="src-test-java"/>
+<xsl:param name="src-test-resources"/>
 <xsl:variable name="space" select="' '"/>
 <xsl:variable name="empty" select="''"/>
 <xsl:variable name="empty-line" select="'&#x0A;'"/>
@@ -20,6 +23,8 @@
 </xsl:template>
 
 <xsl:template match="model">
+   <xsl:variable name="package" select="@model-package"/>
+   
    <xsl:variable name="policy-xml-sample">
       <xsl:call-template name="model-policy">
          <xsl:with-param name="name" select="'xml-sample'"/>
@@ -28,9 +33,8 @@
    
    <xsl:if test="$policy-xml-sample='true'">
       <!-- model.xml file -->
-      <xsl:call-template name="generate-resource">
-        <xsl:with-param name="file" select="concat(//entity[@root='true']/@name, '.xml')"/>
-        <xsl:with-param name="package" select="@model-package"/>
+      <xsl:call-template name="generate-test-resource">
+        <xsl:with-param name="file" select="concat(translate($package,'.','/'), '/', //entity[@root='true']/@name, '.xml')"/>
         <xsl:with-param name="template" select="'xml/sample.xsl'"/>
       </xsl:call-template>
    </xsl:if>
@@ -44,8 +48,7 @@
    <xsl:if test="$policy-xml-schema='true'">
       <!-- model.xsd file -->
       <xsl:call-template name="generate-resource">
-        <xsl:with-param name="file" select="concat(//entity[@root='true']/@name, '.xsd')"/>
-        <xsl:with-param name="package" select="@model-package"/>
+        <xsl:with-param name="file" select="concat(translate($package,'.','/'), '/', //entity[@root='true']/@name, '.xsd')"/>
         <xsl:with-param name="template" select="'xml/schema.xsl'"/>
       </xsl:call-template>
    </xsl:if>
@@ -53,34 +56,34 @@
    <!-- IEntity class -->
    <xsl:call-template name="generate-java">
      <xsl:with-param name="class" select="'IEntity'"/>
-     <xsl:with-param name="package" select="@model-package"/>
+     <xsl:with-param name="package" select="$package"/>
      <xsl:with-param name="template" select="'ientity.xsl'"/>
    </xsl:call-template>
    
    <!-- IVisitor class -->
    <xsl:call-template name="generate-java">
      <xsl:with-param name="class" select="'IVisitor'"/>
-     <xsl:with-param name="package" select="@model-package"/>
+     <xsl:with-param name="package" select="$package"/>
      <xsl:with-param name="template" select="'ivisitor.xsl'"/>
    </xsl:call-template>
    
    <!-- Constants class -->
    <xsl:call-template name="generate-java">
      <xsl:with-param name="class" select="'Constants'"/>
-     <xsl:with-param name="package" select="@model-package"/>
+     <xsl:with-param name="package" select="$package"/>
      <xsl:with-param name="template" select="'constants.xsl'"/>
    </xsl:call-template>
    
    <!-- BaseEntity class -->
    <xsl:call-template name="generate-java">
      <xsl:with-param name="class" select="'BaseEntity'"/>
-     <xsl:with-param name="package" select="@model-package"/>
+     <xsl:with-param name="package" select="$package"/>
      <xsl:with-param name="template" select="'base_entity.xsl'"/>
    </xsl:call-template>
    
    <!-- transform folder -->
    <xsl:variable name="transform-package">
-       <xsl:value-of select="@model-package"/>
+       <xsl:value-of select="$package"/>
        <xsl:value-of select="'.transform'"/>
    </xsl:variable>
 
@@ -272,67 +275,101 @@
    </xsl:choose>
 </xsl:template>
 
-<xsl:template name="generate-resource">
-   <xsl:param name="src-dir" select="@src-dir" />
-   <xsl:param name="file" select="''" />
-   <xsl:param name="path" select="''"/>
-   <xsl:param name="package"/>
+<xsl:template name="generate-java">
+   <xsl:param name="src-dir" select="$src-main-java" />
    <xsl:param name="template"/>
+   <xsl:param name="package"/>
+   <xsl:param name="class"/>
+   <xsl:param name="name" select="''" />
    <xsl:param name="mode" select="'create_or_overwrite'"/>
 
-    <xsl:value-of select="$empty-line"/>
-    <xsl:element name="file">
-       <xsl:attribute name="path">
-          <xsl:choose>
-             <xsl:when test="$path">
-                <xsl:value-of select="$path"/>
-             </xsl:when>
-             <xsl:otherwise>
-                <xsl:value-of select="$src-dir"/>/<xsl:value-of select="translate($package,'.','/')"/>/<xsl:value-of select="$empty"/>
-                <xsl:value-of select="$file"/><xsl:value-of select="$empty"/>
-             </xsl:otherwise>
-          </xsl:choose>
-       </xsl:attribute>
-       
-       <xsl:attribute name="template"><xsl:value-of select="$template"/></xsl:attribute>
-       <xsl:attribute name="mode"><xsl:value-of select="$mode"/></xsl:attribute>
-       <xsl:value-of select="$empty-line"/>
-    </xsl:element>
+   <xsl:call-template name="generate-code">
+      <xsl:with-param name="path">
+        <xsl:value-of select="$src-dir"/>/<xsl:value-of select="translate($package,'.','/')"/>/<xsl:value-of select="$empty"/>
+        <xsl:value-of select="$class"/>.java<xsl:value-of select="$empty"/>
+      </xsl:with-param>
+      <xsl:with-param name="template" select="$template"/>
+      <xsl:with-param name="mode" select="$mode"/>
+      <xsl:with-param name="package" select="$package"/>
+      <xsl:with-param name="name" select="$name"/>
+   </xsl:call-template>
 </xsl:template>
 
-<xsl:template name="generate-java">
-   <xsl:param name="src-dir" select="@src-dir" />
-   <xsl:param name="name" select="''" />
-   <xsl:param name="path" select="''" />
-   <xsl:param name="package"/>
-   <xsl:param name="class" select="''"/>
+<xsl:template name="generate-resource">
+   <xsl:param name="src-dir" select="$src-main-resources" />
    <xsl:param name="template"/>
+   <xsl:param name="file" select="''" />
    <xsl:param name="mode" select="'create_or_overwrite'"/>
+
+
+   <xsl:call-template name="generate-code">
+      <xsl:with-param name="path">
+          <xsl:value-of select="$src-dir"/>/<xsl:value-of select="$file"/>
+      </xsl:with-param>
+      <xsl:with-param name="template" select="$template"/>
+      <xsl:with-param name="mode" select="$mode"/>
+   </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="generate-test-java">
+   <xsl:param name="src-dir" select="$src-test-java" />
+   <xsl:param name="template"/>
+   <xsl:param name="package"/>
+   <xsl:param name="class"/>
+   <xsl:param name="name" select="''" />
+   <xsl:param name="mode" select="'create_if_not_exists'"/>
+
+   <xsl:call-template name="generate-code">
+      <xsl:with-param name="path">
+        <xsl:value-of select="$src-dir"/>/<xsl:value-of select="translate($package,'.','/')"/>/<xsl:value-of select="$empty"/>
+        <xsl:value-of select="$class"/>.java<xsl:value-of select="$empty"/>
+      </xsl:with-param>
+      <xsl:with-param name="template" select="$template"/>
+      <xsl:with-param name="mode" select="$mode"/>
+      <xsl:with-param name="package" select="$package"/>
+      <xsl:with-param name="name" select="$name"/>
+   </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="generate-test-resource">
+   <xsl:param name="src-dir" select="$src-test-resources" />
+   <xsl:param name="template"/>
+   <xsl:param name="file" select="''" />
+   <xsl:param name="mode" select="'create_or_overwrite'"/>
+
+
+   <xsl:call-template name="generate-code">
+      <xsl:with-param name="path">
+          <xsl:value-of select="$src-dir"/>/<xsl:value-of select="$file"/>
+      </xsl:with-param>
+      <xsl:with-param name="template" select="$template"/>
+      <xsl:with-param name="mode" select="$mode"/>
+   </xsl:call-template>
+</xsl:template>
+
+<xsl:template name="generate-code">
+   <xsl:param name="path" />
+   <xsl:param name="template"/>
+   <xsl:param name="mode"/>
+   <xsl:param name="package" select="''"/>
+   <xsl:param name="name" select="''"/>
 
     <xsl:value-of select="$empty-line"/>
     <xsl:element name="file">
-       <xsl:attribute name="path">
-          <xsl:choose>
-             <xsl:when test="$path">
-                <xsl:value-of select="$path"/>
-             </xsl:when>
-             <xsl:otherwise>
-                <xsl:value-of select="$src-dir"/>/<xsl:value-of select="translate($package,'.','/')"/>/<xsl:value-of select="$empty"/>
-                <xsl:value-of select="$class"/>.java<xsl:value-of select="$empty"/>
-             </xsl:otherwise>
-          </xsl:choose>
-       </xsl:attribute>
+       <xsl:attribute name="path"><xsl:value-of select="$path"/></xsl:attribute>
        
        <xsl:attribute name="template"><xsl:value-of select="$template"/></xsl:attribute>
        
        <xsl:attribute name="mode"><xsl:value-of select="$mode"/></xsl:attribute>
        
-       <xsl:value-of select="$empty-line"/>
-       <xsl:element name="property">
-          <xsl:attribute name="name">package</xsl:attribute>
-          
-          <xsl:value-of select="$package"/>
-       </xsl:element>
+       <xsl:if test="$package">
+          <xsl:value-of select="$empty-line"/>
+          <xsl:element name="property">
+             <xsl:attribute name="name">package</xsl:attribute>
+             
+             <xsl:value-of select="$package"/>
+          </xsl:element>
+       </xsl:if>
        
        <xsl:if test="$name">
           <xsl:value-of select="$empty-line"/>

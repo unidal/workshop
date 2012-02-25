@@ -10,6 +10,7 @@
 <xsl:template match="/">
    <xsl:value-of select="$empty"/>package <xsl:value-of select="//entity/@do-package"/>;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>
+   <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class _INDEX {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name="get-classes">
       <xsl:with-param name="method" select="'getEntityClasses'"/>
@@ -24,6 +25,20 @@
       <xsl:with-param name="suffix" select="''"/>
    </xsl:call-template>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
+</xsl:template>
+
+<xsl:template name="import-list">
+   <xsl:variable name="do-package" select="concat(//entity/@do-package, '')"/>
+   <xsl:if test="//entity[concat(@do-package, '')!=$do-package]">
+      <xsl:for-each select="//entity[concat(@do-package, '')!=$do-package]">
+         <xsl:sort select="@class-name"/>
+         
+         <xsl:value-of select="$empty"/>import <xsl:value-of select="@do-package"/>.<xsl:value-of select="@do-class"/>;<xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>import <xsl:value-of select="@do-package"/>.<xsl:value-of select="@dao-class"/>;<xsl:value-of select="$empty-line"/>
+         <xsl:value-of select="$empty"/>import <xsl:value-of select="@do-package"/>.<xsl:value-of select="@entity-class"/>;<xsl:value-of select="$empty-line"/>
+      </xsl:for-each>
+      <xsl:value-of select="$empty-line"/>
+   </xsl:if>
 </xsl:template>
 
 <xsl:template name="get-classes">

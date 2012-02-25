@@ -1,71 +1,30 @@
 package com.site.codegen.generator.xml;
 
 import java.io.File;
-import java.net.URL;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import com.site.codegen.generator.AbstractGenerateContext;
-import com.site.codegen.generator.GenerateContext;
-import com.site.codegen.generator.Generator;
-import com.site.lookup.ComponentTestCase;
-
 @RunWith(JUnit4.class)
-public class XmlGeneratorTest extends ComponentTestCase {
-	private boolean verbose = false;
+public class XmlGeneratorTest extends XmlGenerateTestSupport {
+   @Override
+   protected File getProjectBaseDir() {
+      return new File("target/generated-java-xml");
+   }
 
-	private boolean debug = false;
+   @Override
+   protected boolean isDebug() {
+      return false;
+   }
 
-	@Test
-	public void testGenerateXml() throws Exception {
-		Generator g = lookup(Generator.class, "dal-xml");
-		URL manifestXml = getResourceFile("xml_manifest.xml").toURI().toURL();
-		GenerateContext ctx = new DalGenerateContext(new File("."), "xml", manifestXml);
+   @Override
+   protected boolean isVerbose() {
+      return false;
+   }
 
-		g.generate(ctx);
-
-		if (verbose) {
-			System.out.println(ctx.getGeneratedFiles() + " files generated.");
-		}
-	}
-
-	class DalGenerateContext extends AbstractGenerateContext {
-		private URL m_manifestXml;
-
-		public DalGenerateContext(File projectBase, String type, URL manifestXml) {
-			super(projectBase, "/META-INF/dal/" + type, "target/generated-java/xml");
-
-			m_manifestXml = manifestXml;
-		}
-
-		public DalGenerateContext(File projectBase, String type, URL manifestXml, String sourceDir) {
-			super(projectBase, "/META-INF/dal/" + type, sourceDir);
-
-			m_manifestXml = manifestXml;
-		}
-
-		public URL getManifestXml() {
-			return m_manifestXml;
-		}
-
-		public void log(LogLevel logLevel, String message) {
-			switch (logLevel) {
-			case DEBUG:
-				if (debug) {
-					System.out.println(message);
-				}
-				break;
-			case INFO:
-				if (debug || verbose) {
-					System.out.println(message);
-				}
-				break;
-			case ERROR:
-				System.out.println(message);
-				break;
-			}
-		}
-	}
+   @Test
+   public void testGenerateXml() throws Exception {
+      generate("xml_manifest.xml");
+   }
 }

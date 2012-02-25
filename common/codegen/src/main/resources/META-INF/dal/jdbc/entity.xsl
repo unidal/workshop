@@ -18,10 +18,8 @@
 
 <xsl:template match="entity">
    <xsl:variable name="do-package" select="@do-package"/>
-   <xsl:if test="$do-package">
-      <xsl:value-of select="$empty"/>package <xsl:value-of select="$do-package"/>;<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty-line"/>
-   </xsl:if>
+   <xsl:value-of select="$empty"/>package <xsl:value-of select="$do-package"/>;<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>@Entity(logicalName = "<xsl:value-of select='@name'/>", alias = "<xsl:value-of select='@alias'/>")<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>public class <xsl:value-of select='@entity-class'/> {<xsl:value-of select="$empty-line"/>

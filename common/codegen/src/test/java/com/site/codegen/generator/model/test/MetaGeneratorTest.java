@@ -17,7 +17,7 @@ import com.site.lookup.ComponentTestCase;
 
 @RunWith(JUnit4.class)
 public class MetaGeneratorTest extends ComponentTestCase {
-	private boolean verbose = true;
+	private boolean m_verbose = true;
 
 	@Test
 	public void testGenerateReportExcelMetaModel() throws Exception {
@@ -37,7 +37,7 @@ public class MetaGeneratorTest extends ComponentTestCase {
 		String result = writer.toString();
 		Files.forIO().writeTo(file, result);
 
-		if (verbose) {
+		if (m_verbose) {
 			long now = System.currentTimeMillis();
 
 			System.out.println(String.format("%s files generated in %s ms.", file.getCanonicalFile(), now - start));
@@ -62,7 +62,7 @@ public class MetaGeneratorTest extends ComponentTestCase {
 		String result = writer.toString();
 		Files.forIO().writeTo(file, result);
 
-		if (verbose) {
+		if (m_verbose) {
 			long now = System.currentTimeMillis();
 
 			System.out.println(String.format("%s files generated in %s ms.", file.getCanonicalFile(), now - start));
