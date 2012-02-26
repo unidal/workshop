@@ -1,21 +1,22 @@
 package com.site.maven.plugin.codegen;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.StringReader;
+import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.jdom.output.Format;
 import org.jdom.output.XMLOutputter;
 
 import com.site.codegen.meta.ModelMeta;
+import com.site.helper.Files;
 import com.site.maven.plugin.common.PropertyProviders;
 
 /**
@@ -87,7 +88,6 @@ public class DalModelMetaMojo extends AbstractMojo {
 
    public void execute() throws MojoExecutionException, MojoFailureException {
       String f = getProperty(inputFile, "inputFile", "Sample XML file path:", null);
-      String p = getProperty(prefix, "prefix", "Prefix name of target files:", null);
 
       if (f == null) {
          throw new MojoExecutionException("please provide sample XML file path via -DinputFile=...");
@@ -95,8 +95,10 @@ public class DalModelMetaMojo extends AbstractMojo {
 
       try {
          File inFile = getFile(f);
-         Reader reader = new InputStreamReader(new FileInputStream(inFile), "utf-8");
-         Document codegen = m_meta.getCodegen(reader);
+         String xml = Files.forIO().readFrom(inFile, "utf-8");
+         Document doc = m_meta.getCodegen(new StringReader(xml));
+         String rootName = getRootEntityName(doc);
+         String p = getProperty(prefix, "prefix", "Prefix name of target files:", rootName);
          File outDir = getFile(outputDir);
          File outFile = new File(outDir, p == null ? "codegen.xml" : p + "-codegen.xml");
 
@@ -104,7 +106,7 @@ public class DalModelMetaMojo extends AbstractMojo {
             outDir.mkdirs();
          }
 
-         saveFile(codegen, outFile);
+         saveFile(doc, outFile);
 
          File modelFile = new File(outDir, p == null ? "model.xml" : p + "-model.xml");
 
@@ -113,6 +115,15 @@ public class DalModelMetaMojo extends AbstractMojo {
             Document model = m_meta.getModel(n);
 
             saveFile(model, modelFile);
+
+            File testResource = new File(m_project.getBasedir(), "src/test/resources");
+            File testModel = new File(testResource, n.replace('.', '/') + "/" + rootName + ".xml");
+
+            if (!testModel.exists()) {
+               testModel.getParentFile().mkdirs();
+               Files.forIO().writeTo(testModel, xml);
+               getLog().info("File " + testModel.getCanonicalPath() + " generated.");
+            }
          }
 
          File manifestFile = new File(outDir, p == null ? "manifest.xml" : p + "-manifest.xml");
@@ -122,16 +133,9 @@ public class DalModelMetaMojo extends AbstractMojo {
 
             saveFile(manifest, manifestFile);
          }
+
       } catch (Exception e) {
          throw new MojoExecutionException("Error when generating model meta: " + e, e);
-      }
-   }
-
-   private String getProperty(String value, String name, String prompt, String defaultValue) {
-      if (value != null) {
-         return value;
-      } else {
-         return PropertyProviders.fromConsole().forString(name, prompt, defaultValue, null);
       }
    }
 
@@ -145,6 +149,27 @@ public class DalModelMetaMojo extends AbstractMojo {
       }
 
       return file;
+   }
+
+   private String getProperty(String value, String name, String prompt, String defaultValue) {
+      if (value != null) {
+         return value;
+      } else {
+         return PropertyProviders.fromConsole().forString(name, prompt, defaultValue, null);
+      }
+   }
+
+   @SuppressWarnings({ "unchecked" })
+   private String getRootEntityName(Document doc) {
+      List<Element> children = doc.getRootElement().getChildren();
+
+      if (!children.isEmpty()) {
+         Element first = children.get(0);
+
+         return first.getAttributeValue("name");
+      }
+
+      return null;
    }
 
    private void saveFile(Document codegen, File file) throws IOException {

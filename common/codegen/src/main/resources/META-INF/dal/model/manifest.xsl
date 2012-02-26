@@ -241,6 +241,24 @@
          </xsl:call-template>
       </xsl:if>
    </xsl:if>
+
+   <xsl:if test="$policy-xml-parser-dom='true'">
+      <xsl:variable name="policy-model-test">
+         <xsl:call-template name="model-policy">
+            <xsl:with-param name="name" select="'model-test'"/>
+         </xsl:call-template>
+      </xsl:variable>
+         
+      <xsl:if test="$policy-model-test='true'">
+         <!-- model test class -->
+         <xsl:call-template name="generate-test-java">
+           <xsl:with-param name="class" select="concat(//entity[@root='true']/@entity-class, 'Test')"/>
+           <xsl:with-param name="package" select="$package"/>
+           <xsl:with-param name="template" select="'test/model-test.xsl'"/>
+         </xsl:call-template>
+      </xsl:if>
+   </xsl:if>
+
 </xsl:template>
 
 <xsl:template match="entity">
@@ -291,6 +309,7 @@
       <xsl:with-param name="template" select="$template"/>
       <xsl:with-param name="mode" select="$mode"/>
       <xsl:with-param name="package" select="$package"/>
+      <xsl:with-param name="class" select="$class"/>
       <xsl:with-param name="name" select="$name"/>
    </xsl:call-template>
 </xsl:template>
@@ -327,6 +346,7 @@
       <xsl:with-param name="template" select="$template"/>
       <xsl:with-param name="mode" select="$mode"/>
       <xsl:with-param name="package" select="$package"/>
+      <xsl:with-param name="class" select="$class"/>
       <xsl:with-param name="name" select="$name"/>
    </xsl:call-template>
 </xsl:template>
@@ -352,6 +372,7 @@
    <xsl:param name="template"/>
    <xsl:param name="mode"/>
    <xsl:param name="package" select="''"/>
+   <xsl:param name="class" select="''"/>
    <xsl:param name="name" select="''"/>
 
     <xsl:value-of select="$empty-line"/>
@@ -368,6 +389,15 @@
              <xsl:attribute name="name">package</xsl:attribute>
              
              <xsl:value-of select="$package"/>
+          </xsl:element>
+       </xsl:if>
+       
+       <xsl:if test="$class">
+          <xsl:value-of select="$empty-line"/>
+          <xsl:element name="property">
+             <xsl:attribute name="name">class</xsl:attribute>
+          
+             <xsl:value-of select="$class"/>
           </xsl:element>
        </xsl:if>
        

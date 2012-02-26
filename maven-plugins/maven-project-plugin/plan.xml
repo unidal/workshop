@@ -145,7 +145,7 @@
          <name>Common parent</name>
          <path>common</path>
          <projects>
-            <project artifactId="lookup" version="1.0.1" packaging="jar">
+            <project artifactId="lookup" version="1.0.2" packaging="jar">
                <name>Component Lookup</name>
                <path>lookup</path>
                <dependencies>
@@ -173,7 +173,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="codegen" version="1.0.0-a10" packaging="jar">
+            <project artifactId="codegen" version="1.0.3" packaging="jar">
                <name>Common code generator</name>
                <path>codegen</path>
                <dependencies>
@@ -205,13 +205,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="web-framework" version="1.0.0-a3" packaging="jar">
+            <project artifactId="web-framework" version="1.0.1" packaging="jar">
                <name>Common web framework</name>
                <path>web-framework</path>
                <dependencies>
                   <dependency>
                      <groupId>com.dianping.cat</groupId>
                      <artifactId>cat-core</artifactId>
+                     <version>0.2.0</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
@@ -330,7 +331,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" version="1.0.7" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.9" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
@@ -342,7 +343,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0-a10</version>
+                     <version>1.0.3</version>
                   </dependency>
                   <dependency>
                      <groupId>mysql</groupId>
@@ -450,7 +451,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-wizard-plugin" version="1.0.4" packaging="maven-plugin">
+            <project artifactId="maven-wizard-plugin" version="1.0.5" packaging="maven-plugin">
                <name>Maven Wizard Plugin</name>
                <path>maven-wizard-plugin</path>
                <dependencies>
@@ -462,7 +463,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0-a10</version>
+                     <version>1.0.2</version>
                   </dependency>
                </dependencies>
             </project>
