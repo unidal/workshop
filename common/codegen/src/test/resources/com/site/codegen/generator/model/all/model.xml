@@ -18,6 +18,7 @@
       <entity-ref name="map-item" type="map" names="plain-map" />
       <entity-ref name="map-item" type="map" names="indented-map" xml-indent="true" />
       <entity-ref name="node" type="list" xml-indent="true"/>
+      <entity-ref name="any-support"/>
    </entity>
    <entity name="all-primitive-types">
       <attribute name="o1" value-type="boolean" />
@@ -182,5 +183,13 @@
       <attribute name="value" value-type="String"/>
       <entity-ref name="node" alias="current"/>
       <entity-ref name="node" type="list" names="children" xml-indent="true"/>
+   </entity>
+   <entity name="any-support" dynamic-attributes="true">
+      <attribute name="i1" value-type="int" />
+      <attribute name="l1" value-type="long" />
+      <attribute name="s1" value-type="String" />
+      <element name="e1" value-type="String"/>
+      <element name="e2" value-type="String"/>
+      <any name="dynamic-elements"/>
    </entity>
 </model>

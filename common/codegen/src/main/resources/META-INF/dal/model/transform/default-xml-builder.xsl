@@ -44,6 +44,9 @@
          </xsl:if>
       </xsl:if>
    </xsl:for-each>
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.<xsl:value-of select='entity/any/@entity-class'/>;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity | entity/entity-ref[@xml-indent='true' and not(@render='false')]">
       <xsl:sort select="@upper-name"/>
 
@@ -240,6 +243,27 @@
 </xsl:template>
 
 <xsl:template name="method-visit">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select="entity/any/@visit-method"/>(<xsl:value-of select="entity/any/@entity-class"/> any) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      if (any.getChildren().isEmpty()) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         if (any.hasValue()) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>            tagWithText(any.getName(), any.getValue());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         } else {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>            startTag(any.getName(), any.getAttributes(), true);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      } else {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         startTag(any.getName(), any.getAttributes(), false);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         for (Any child : any.getChildren()) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>            visitAny(child);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         endTag(any.getName());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
 
@@ -256,7 +280,7 @@
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      endTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
-         <xsl:when test="(entity-ref | element[not(@text='true')])[not(@render='false')]">
+         <xsl:when test="(entity-ref | element[not(@text='true')])[not(@render='false')] | any">
             <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
             <xsl:if test="(attribute|element)[@text='true']">
                <xsl:value-of select="$empty-line"/>
@@ -264,7 +288,6 @@
                <xsl:value-of select="$empty"/>         m_sb.append(<xsl:value-of select="@param-name"/>.<xsl:value-of select="(attribute|element)[@text='true']/@get-method"/>());<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
             </xsl:if>
-            <xsl:value-of select="$empty-line"/>
             <xsl:call-template name="visit-children"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      endTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
@@ -285,6 +308,7 @@
    <xsl:for-each select="(entity-ref | element[not(@text='true')])[not(@render='false')]">
       <xsl:variable name="name" select="@name"/>
       <xsl:variable name="entity" select="//entity[@name=$name]"/>
+      <xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="@list='true' or @map='true' or @set='true'">
             <xsl:variable name="suffix">
@@ -339,10 +363,13 @@
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
-      <xsl:if test="position()!=last()">
-         <xsl:value-of select="$empty-line"/>
-      </xsl:if>
    </xsl:for-each>
+   <xsl:if test="any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      for (Any any : <xsl:value-of select="@param-name"/>.<xsl:value-of select="any/@get-method"/>()) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         visitAny(any);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
 </xsl:template>
 
 <xsl:template name="tag-fields">

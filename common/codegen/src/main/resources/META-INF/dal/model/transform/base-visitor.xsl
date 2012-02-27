@@ -26,6 +26,9 @@
       <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.BaseEntity;<xsl:value-of select="$empty-line"/>
    </xsl:if>
    <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.IVisitor;<xsl:value-of select="$empty-line"/>
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.Any;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
 
@@ -35,6 +38,11 @@
 </xsl:template>
 
 <xsl:template name="method-visit">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select="entity/any/@visit-method"/>(Any any) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
       

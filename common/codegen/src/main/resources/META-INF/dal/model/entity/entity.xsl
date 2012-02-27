@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-<xsl:import href="../common.xsl"/>
+<xsl:import href="../../common.xsl"/>
 <xsl:output method="html" indent="no" media-type="text/plain" encoding="utf-8"/>
 <xsl:param name="package"/>
 <xsl:param name="name"/>
@@ -32,6 +32,7 @@
    <xsl:call-template name="method-find-annotation"/>
    <xsl:call-template name="method-get-all-children-in-sequence"/>
    <xsl:call-template name="method-get-dynamic-attributes"/>
+   <xsl:call-template name="method-get-dynamic-elements"/>
    <xsl:call-template name="method-get-fields"/>
    <xsl:call-template name="method-has-text"/>
    <xsl:call-template name="method-inc-fields"/>
@@ -43,6 +44,7 @@
    </xsl:if>
    <xsl:call-template name="method-remove-entity-refs"/>
    <xsl:call-template name="method-set-dynamic-attributes"/>
+   <xsl:call-template name="method-set-dynamic-elements"/>
    <xsl:call-template name="method-set-fields"/>
    <xsl:value-of select="$empty"/>}<xsl:value-of select="$empty-line"/>
 </xsl:template>
@@ -56,8 +58,8 @@
       <xsl:value-of select="$empty"/>import static <xsl:value-of select="$model-package"/>.Constants.<xsl:value-of select='@upper-name'/>;<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
-   <xsl:if test="element[@list='true' or @set='true'] or entity-ref[@list='true' or @map='true'] or @dynamic-attributes='true'">
-      <xsl:if test="element[@list='true'] or entity-ref[@list='true']">
+   <xsl:if test="element[@list='true' or @set='true'] or entity-ref[@list='true' or @map='true'] or @dynamic-attributes='true' or any">
+      <xsl:if test="element[@list='true'] or entity-ref[@list='true'] or any">
          <xsl:value-of select="$empty"/>import java.util.ArrayList;<xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:if test="entity-ref[@map='true'] or @dynamic-attributes='true'">
@@ -66,7 +68,7 @@
       <xsl:if test="element[@set='true']">
          <xsl:value-of select="$empty"/>import java.util.LinkedHashSet;<xsl:value-of select="$empty-line"/>
       </xsl:if>
-      <xsl:if test="element[@list='true'] or entity-ref[@list='true']">
+      <xsl:if test="element[@list='true'] or entity-ref[@list='true'] or any">
          <xsl:value-of select="$empty"/>import java.util.List;<xsl:value-of select="$empty-line"/>
       </xsl:if>
       <xsl:if test="entity-ref[@map='true'] or @dynamic-attributes='true'">
@@ -109,6 +111,10 @@
    </xsl:for-each>
    <xsl:if test="@dynamic-attributes='true'">
       <xsl:value-of select="$empty"/>   private Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> m_dynamicAttributes = new LinkedHashMap<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/>();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+   </xsl:if>
+   <xsl:if test="any">
+      <xsl:value-of select="$empty"/>   private <xsl:value-of select="any/@value-type" disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='any/@field-name'/> = new ArrayList<xsl:value-of select="any/@value-type-generic" disable-output-escaping="yes"/>();<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
 </xsl:template>
@@ -325,6 +331,15 @@
    </xsl:if>
 </xsl:template>
 
+<xsl:template name="method-get-dynamic-elements">
+   <xsl:if test="any">
+      <xsl:value-of select="$empty"/>   public <xsl:value-of select='any/@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='any/@get-method'/>() {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      return <xsl:value-of select='any/@field-name'/>;<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+   </xsl:if>
+</xsl:template>
+
 <xsl:template name="method-get-fields">
    <xsl:for-each select="attribute | element | entity-ref">
       <xsl:sort select="@get-method"/>
@@ -474,6 +489,15 @@
    <xsl:if test="@dynamic-attributes='true'">
       <xsl:value-of select="$empty"/>   public void setDynamicAttribute(String name, String value) {<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      m_dynamicAttributes.put(name, value);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+   </xsl:if>
+</xsl:template>
+
+<xsl:template name="method-set-dynamic-elements">
+   <xsl:if test="any">
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select='any/@set-method'/>(<xsl:value-of select='any/@value-type' disable-output-escaping="yes"/><xsl:value-of select="$space"/><xsl:value-of select='any/@param-name'/>) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      <xsl:value-of select="'      '"/><xsl:value-of select='any/@field-name'/> = <xsl:value-of select='any/@param-name'/>;<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>

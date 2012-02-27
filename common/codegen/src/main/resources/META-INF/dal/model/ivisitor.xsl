@@ -22,6 +22,9 @@
 </xsl:template>
 
 <xsl:template name="import-list">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.Any;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
 
@@ -31,6 +34,10 @@
 </xsl:template>
 
 <xsl:template name="method-visit">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select="entity/any/@visit-method"/>(Any any);<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
 

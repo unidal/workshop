@@ -27,6 +27,9 @@
    <xsl:value-of select="$empty"/>import java.util.Stack;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>import <xsl:value-of select="/model/@model-package"/>.IVisitor;<xsl:value-of select="$empty-line"/>
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.<xsl:value-of select='entity/any/@entity-class'/>;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@name"/>
 
@@ -55,6 +58,13 @@
 </xsl:template>
 
 <xsl:template name="method-visit">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select="entity/any/@visit-method"/>(Any any) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      // do nothing here<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
 
@@ -86,6 +96,9 @@
       <xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   protected void <xsl:value-of select="@merge-method"/>(<xsl:value-of select="@entity-class"/> old, <xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      old.mergeAttributes(<xsl:value-of select="@param-name"/>);<xsl:value-of select="$empty-line"/>
+      <xsl:if test="any">
+         <xsl:value-of select="$empty"/>      old.<xsl:value-of select="any/@get-method"/>().addAll(<xsl:value-of select="@param-name"/>.<xsl:value-of select="any/@get-method"/>());<xsl:value-of select="$empty-line"/>
+      </xsl:if>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
    </xsl:for-each>
 </xsl:template>
@@ -126,6 +139,9 @@
       <xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>         m_stack.pop();<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
+   <xsl:if test="any">
+      <xsl:value-of select="$empty"/>      old.<xsl:value-of select="any/@get-method"/>().addAll(<xsl:value-of select="@param-name"/>.<xsl:value-of select="any/@get-method"/>());<xsl:value-of select="$empty-line"/>
    </xsl:if>
    <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
 </xsl:template>

@@ -46,6 +46,9 @@
          </xsl:choose>
       </xsl:if>
    </xsl:for-each>
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.<xsl:value-of select='entity/any/@entity-class'/>;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity/entity-ref[not(@render='false')]">
       <xsl:sort select="@upper-name"/>
 
@@ -240,6 +243,20 @@
 </xsl:template>
 
 <xsl:template name="method-visit">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public void <xsl:value-of select="entity/any/@visit-method"/>(<xsl:value-of select="entity/any/@entity-class"/> any) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      objectBegin(any.getName());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      attributes(any.getAttributes());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      for (Any child : any.getChildren()) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         visitAny(child);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      objectEnd(any.getName());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@visit-method"/>
 

@@ -22,6 +22,9 @@
 </xsl:template>
 
 <xsl:template name="import-list">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.<xsl:value-of select='entity/any/@entity-class'/>;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
 
@@ -31,6 +34,10 @@
 </xsl:template>
 
 <xsl:template name="method-build-children">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>   public Any <xsl:value-of select="entity/any/@build-method"/>(T node);<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity | entity/element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:sort select="@build-method"/>
 

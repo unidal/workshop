@@ -441,6 +441,84 @@
    </xsl:copy>
 </xsl:template>
 
+<xsl:template match="any">
+   <xsl:copy>
+      <xsl:copy-of select="@*"/>
+      
+      <xsl:variable name="name">
+         <xsl:choose>
+            <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
+            <xsl:otherwise>dynamic-elements</xsl:otherwise>
+         </xsl:choose>
+      </xsl:variable>
+      <xsl:variable name="normalized-name">
+         <xsl:call-template name="normalize">
+            <xsl:with-param name="source" select="$name"/>
+         </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="capital-name">
+         <xsl:call-template name="capital-name">
+            <xsl:with-param name="name" select="$normalized-name"/>
+         </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="value-type-element" select="'Any'"/>
+      <xsl:variable name="value-type-generic">
+         <xsl:call-template name="generic-type">
+            <xsl:with-param name="type" select="$value-type-element"/>
+         </xsl:call-template>
+      </xsl:variable>
+      <xsl:variable name="value-type">
+         <xsl:value-of select="'List'"/>
+         <xsl:value-of select="$value-type-generic" disable-output-escaping="yes"/>
+      </xsl:variable>
+
+      <!-- attribute definition -->
+      <xsl:attribute name="entity-package">
+         <xsl:choose>
+            <xsl:when test="@entity-package"><xsl:value-of select="@entity-package"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="../../@model-package"/>.entity</xsl:otherwise>
+         </xsl:choose>
+      </xsl:attribute>
+      <xsl:attribute name="entity-class">
+         <xsl:value-of select="'Any'"/>
+      </xsl:attribute>
+      <xsl:attribute name="value-type-element">
+         <xsl:value-of select="$value-type-element"/>
+      </xsl:attribute>
+      <xsl:attribute name="value-type-generic">
+         <xsl:value-of select="$value-type-generic"/>
+      </xsl:attribute>
+      <xsl:attribute name="value-type">
+         <xsl:value-of select="$value-type"/>
+      </xsl:attribute>
+      <xsl:attribute name="param-name">
+         <xsl:value-of select="$normalized-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="field-name">
+         <xsl:value-of select="'m_'"/>
+         <xsl:value-of select="$normalized-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="get-method">
+         <xsl:value-of select="'get'"/>
+         <xsl:value-of select="$capital-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="set-method">
+         <xsl:value-of select="'set'"/>
+         <xsl:value-of select="$capital-name"/>
+      </xsl:attribute>
+      <xsl:attribute name="visit-method">
+         <xsl:value-of select="'visitAny'"/>
+      </xsl:attribute>
+      <xsl:attribute name="build-method">
+         <xsl:value-of select="'buildAny'"/>
+      </xsl:attribute>
+
+      <xsl:attribute name="list">true</xsl:attribute>
+      
+      <xsl:apply-templates/>
+   </xsl:copy>
+</xsl:template>
+
 <xsl:template match="entity">
    <xsl:copy>
       <xsl:copy-of select="@*"/>

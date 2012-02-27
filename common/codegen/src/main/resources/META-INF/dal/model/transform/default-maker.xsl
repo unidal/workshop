@@ -50,13 +50,23 @@
       </xsl:for-each>
       <xsl:value-of select="$empty-line"/>
    </xsl:if>
-   <xsl:if test="entity[@dynamic-attributes='true']">
-      <xsl:value-of select="$empty"/>import java.util.LinkedHashMap;<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>import java.util.Map;<xsl:value-of select="$empty-line"/>
+   <xsl:if test="entity[any and (element | entity-ref)[not(@render='false')]]">
+      <xsl:value-of select="$empty"/>import java.util.Arrays;<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>import java.util.HashSet;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
+   <xsl:if test="entity[@dynamic-attributes='true'] | entity/any">
+      <xsl:if test="entity[@dynamic-attributes='true']">
+         <xsl:value-of select="$empty"/>import java.util.Map;<xsl:value-of select="$empty-line"/>
+      </xsl:if>
       <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>import org.w3c.dom.NamedNodeMap;<xsl:value-of select="$empty-line"/>
    </xsl:if>
    <xsl:value-of select="$empty"/>import org.w3c.dom.Node;<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>import org.w3c.dom.NodeList;<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty"/>import <xsl:value-of select="entity/any/@entity-package"/>.<xsl:value-of select='entity/any/@entity-class'/>;<xsl:value-of select="$empty-line"/>
+   </xsl:if>
    <xsl:for-each select="entity">
       <xsl:sort select="@entity-class"/>
 
@@ -66,6 +76,10 @@
 </xsl:template>
 
 <xsl:template name="method-build-children">
+   <xsl:if test="entity/any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:call-template name="method-build-any"/>
+   </xsl:if>
    <xsl:for-each select="entity | entity/element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:sort select="@build-method"/>
 
@@ -93,12 +107,52 @@
             <xsl:value-of select="'      '"/><xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name"/> = <xsl:call-template name="create-entity-instance"/>
             <xsl:call-template name="set-optional-fields"/>
             <xsl:call-template name="set-dynamic-attributes"/>
+            <xsl:call-template name="set-dynamic-elements"/>
             <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>      return <xsl:value-of select="@local-name"/>;<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
          </xsl:otherwise>
       </xsl:choose>
    </xsl:for-each>
+</xsl:template>
+
+<xsl:template name="method-build-any">
+   <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>   public Any <xsl:value-of select="entity/any/@build-method"/>(Node node) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      Any any = new Any();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      any.setName(node.getNodeName());<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      NamedNodeMap attributes = node.getAttributes();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      int length = attributes == null ? 0 : attributes.getLength();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      for (int i = 0; i <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> length; i++) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         Node item = attributes.item(i);<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         any.setAttribute(item.getNodeName(), item.getNodeValue());<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      NodeList children = node.getChildNodes();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      int len = children.getLength();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      for (int i = 0; i <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> len; i++) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         Node child = children.item(i);<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         if (child.getNodeType() == Node.ELEMENT_NODE) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>            any.addChild(buildAny(child));<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         } else if (child.getNodeType() == Node.TEXT_NODE || child.getNodeType() == Node.CDATA_SECTION_NODE) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>            String trimmed = child.getNodeValue().trim();<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>            if (!any.hasValue()) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>               any.setValue(trimmed);<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>            } else if (trimmed.length() != 0) {<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>               any.setValue(trimmed);<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>            }<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      return any;<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
 </xsl:template>
 
 <xsl:template name="method-get-attribute">
@@ -173,18 +227,54 @@
 <xsl:template name="set-dynamic-attributes">
    <xsl:if test="@dynamic-attributes='true'">
       <xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>      Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes = new LinkedHashMap<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/>(node.getAttributes());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes = <xsl:value-of select="@param-name"/>.getDynamicAttributes();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      NamedNodeMap attributes = node.getAttributes();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      int length = attributes == null ? 0 : attributes.getLength();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      for (int i = 0; i <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> length; i++) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         Node item = attributes.item(i);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         dynamicAttributes.put(item.getNodeName(), item.getNodeValue());<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
       <xsl:if test="attribute[not(@text='true' or @render='false')]">
          <xsl:for-each select="attribute[not(@text='true' or @render='false')]">
             <xsl:value-of select="$empty"/>      dynamicAttributes.remove(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:for-each>
-         <xsl:value-of select="$empty-line"/>
       </xsl:if>
-      <xsl:value-of select="$empty"/>      for (Map.Entry<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> e : dynamicAttributes.entrySet()) {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="@local-name"/>.setDynamicAttribute(e.getKey(), e.getValue());<xsl:value-of select="$empty-line"/>
+   </xsl:if>
+</xsl:template>
+
+<xsl:template name="set-dynamic-elements">
+   <xsl:if test="any">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:if test="(element | entity-ref)[not(@render='false')]">
+         <xsl:value-of select="$empty"/>      HashSet<xsl:value-of select="'&lt;String&gt;'" disable-output-escaping="yes"/> excludes = new HashSet<xsl:value-of select="'&lt;String&gt;'" disable-output-escaping="yes"/>(Arrays.asList(<xsl:value-of select="$empty"/>
+         <xsl:for-each select="(element | entity-ref)[not(@render='false')]">
+            <xsl:value-of select="$empty"/>"<xsl:value-of select="@tag-name"/>"<xsl:value-of select="$empty"/>
+            <xsl:if test="position()!=last()">, </xsl:if>
+         </xsl:for-each>
+         <xsl:value-of select="$empty"/>));<xsl:value-of select="$empty-line"/>
+      </xsl:if>
+      <xsl:value-of select="$empty"/>      NodeList nodes = node.getChildNodes();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      int len = nodes.getLength();<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      for (int i = 0; i <xsl:value-of select="'&lt;'" disable-output-escaping="yes"/> len; i++) {<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         Node item = nodes.item(i);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty-line"/>
+      <xsl:choose>
+         <xsl:when test="(element | entity-ref)[not(@render='false')]">
+            <xsl:value-of select="$empty"/>         if (item.getNodeType() == Node.ELEMENT_NODE <xsl:value-of select="'&amp;&amp;'" disable-output-escaping="yes"/> !excludes.contains(item.getNodeName())) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="@param-name"/>.<xsl:value-of select="any/@get-method"/>().add(buildAny(item));<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:value-of select="$empty"/>         if (item.getNodeType() == Node.ELEMENT_NODE) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select="@param-name"/>.<xsl:value-of select="any/@get-method"/>().add(buildAny(item));<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+         </xsl:otherwise>
+      </xsl:choose>
       <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
-      
    </xsl:if>
 </xsl:template>
 

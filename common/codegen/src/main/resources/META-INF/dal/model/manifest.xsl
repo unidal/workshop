@@ -258,19 +258,24 @@
          </xsl:call-template>
       </xsl:if>
    </xsl:if>
-
+   
+   <xsl:if test="entity/any">
+      <xsl:call-template name="generate-java">
+         <xsl:with-param name="class" select="'Any'"/>
+         <xsl:with-param name="package" select="entity/@entity-package"/>
+         <xsl:with-param name="template" select="'entity/any.xsl'"/>
+      </xsl:call-template>
+   </xsl:if>
 </xsl:template>
 
 <xsl:template match="entity">
-   <xsl:if test="@entity-package != ''">
-      <!-- Entity class -->
-      <xsl:call-template name="generate-java">
-         <xsl:with-param name="name" select="@name"/>
-         <xsl:with-param name="class" select="@entity-class"/>
-         <xsl:with-param name="package" select="@entity-package"/>
-         <xsl:with-param name="template" select="'entity.xsl'"/>
-      </xsl:call-template>
-   </xsl:if>
+   <!-- Entity class -->
+   <xsl:call-template name="generate-java">
+      <xsl:with-param name="name" select="@name"/>
+      <xsl:with-param name="class" select="@entity-class"/>
+      <xsl:with-param name="package" select="@entity-package"/>
+      <xsl:with-param name="template" select="'entity/entity.xsl'"/>
+   </xsl:call-template>
 </xsl:template>
 
 <xsl:template name="model-policy">
