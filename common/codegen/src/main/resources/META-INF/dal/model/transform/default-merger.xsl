@@ -48,7 +48,7 @@
       <xsl:value-of select="$model/@field-name"/> = <xsl:value-of select="$model/@param-name"/>;
    }
 
-   protected <xsl:value-of select="$model/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="$model/@get-method"/>() {
+   public <xsl:value-of select="$model/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="$model/@get-method"/>() {
       return <xsl:value-of select="$model/@field-name"/>;
    }
 

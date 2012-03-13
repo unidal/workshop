@@ -1,6 +1,6 @@
 package com.ebay.eunit.helper;
 
-import java.util.List;
+import java.util.Collection;
 
 public class Joiners {
    public static StringJoiner by(final char delimiter) {
@@ -32,11 +32,11 @@ public class Joiners {
 
       protected abstract void appendDelimiter(StringBuilder sb);
 
-      public String join(List<String> list) {
+      public String join(Collection<String> list) {
          return this.<String> join(list, null);
       }
 
-      public <T> String join(List<T> list, IBuilder<T> builder) {
+      public <T> String join(Collection<T> list, IBuilder<T> builder) {
          if (list == null) {
             return null;
          }
@@ -48,7 +48,7 @@ public class Joiners {
          return sb.toString();
       }
 
-      public String join(String... array) {
+      public String join(Object... array) {
          if (array == null) {
             return null;
          }
@@ -60,8 +60,10 @@ public class Joiners {
             appendDelimiter(sb);
          }
 
-         for (String item : array) {
-            if (m_noEmptyItem && (item == null || item.length() == 0)) {
+         for (Object item : array) {
+            String str = item == null ? null : item.toString();
+
+            if (m_noEmptyItem && (str == null || str.length() == 0)) {
                continue;
             }
 
@@ -71,13 +73,13 @@ public class Joiners {
                appendDelimiter(sb);
             }
 
-            sb.append(item);
+            sb.append(str);
          }
 
          return sb.toString();
       }
 
-      public <T> void join(StringBuilder sb, List<T> list, IBuilder<T> builder) {
+      public <T> void join(StringBuilder sb, Collection<T> list, IBuilder<T> builder) {
          boolean first = true;
 
          if (list != null) {

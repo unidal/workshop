@@ -10,6 +10,7 @@
     <attribute name="enable-json-builder" value-type="boolean">Whether to generate JSON builder or not. Default is false.</attribute>
     <attribute name="enable-merger" value-type="boolean">Whether merger feature is disabled or not. Default is false.</attribute>
     <attribute name="enable-base-visitor" value-type="boolean">Whether to generate BaseVisitor class or not. Default is false.</attribute>
+    <attribute name="enable-model-test" value-type="boolean">Whether to generate model unit test class or not. Default is false.</attribute>
     <entity-ref name="entity" />
   </entity>
   <entity name="entity">

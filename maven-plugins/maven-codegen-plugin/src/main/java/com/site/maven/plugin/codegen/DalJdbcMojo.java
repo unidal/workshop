@@ -51,8 +51,8 @@ public class DalJdbcMojo extends AbstractMojo {
    /**
     * Location of manifest.xml file
     * 
-	 * @parameter expression="${manifest}" default-value=
-	 *            "${basedir}/src/main/resources/META-INF/dal/jdbc/manifest.xml"
+    * @parameter expression="${manifest}" default-value=
+    *            "${basedir}/src/main/resources/META-INF/dal/jdbc/manifest.xml"
     * @required
     */
    protected String manifest;
@@ -80,15 +80,27 @@ public class DalJdbcMojo extends AbstractMojo {
     */
    protected boolean debug;
 
+   /**
+    * Skip this codegen or not
+    * 
+    * @parameter expression="${codegen.skip}" default-value="false"
+    */
+   protected boolean skip;
+
    public void execute() throws MojoExecutionException, MojoFailureException {
+      if (skip) {
+         getLog().info("Model codegen was skipped explicitly.");
+         return;
+      }
+
       try {
-			File manifestFile = new File(manifest);
+         File manifestFile = new File(manifest);
 
-			if (!manifestFile.exists()) {
-				throw new MojoExecutionException(String.format("Manifest(%s) not found!", manifestFile.getCanonicalPath()));
-			}
+         if (!manifestFile.exists()) {
+            throw new MojoExecutionException(String.format("Manifest(%s) not found!", manifestFile.getCanonicalPath()));
+         }
 
-			final URL manifestXml = manifestFile.toURI().toURL();
+         final URL manifestXml = manifestFile.toURI().toURL();
          final GenerateContext ctx = new AbstractGenerateContext(m_project.getBasedir(), resouceBase, sourceDir) {
             public URL getManifestXml() {
                return manifestXml;

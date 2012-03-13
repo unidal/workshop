@@ -1,6 +1,7 @@
 package com.site.helper;
 
-import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
 
 public class Joiners {
    public static StringJoiner by(final char delimiter) {
@@ -30,11 +31,11 @@ public class Joiners {
 
       protected abstract void appendDelimiter(StringBuilder sb);
 
-      public String join(List<String> list) {
+      public String join(Collection<String> list) {
          return this.<String> join(list, null);
       }
 
-      public <T> String join(List<T> list, IBuilder<T> builder) {
+      public <T> String join(Collection<T> list, IBuilder<T> builder) {
          if (list == null) {
             return null;
          }
@@ -47,31 +48,14 @@ public class Joiners {
       }
 
       public String join(String... array) {
-         if (array == null) {
-            return null;
-         }
-
-         StringBuilder sb = new StringBuilder();
-         boolean first = true;
-
-         if (m_prefixDelimiter) {
-            appendDelimiter(sb);
-         }
-
-         for (String item : array) {
-            if (first) {
-               first = false;
-            } else {
-               appendDelimiter(sb);
-            }
-
-            sb.append(item);
-         }
-
-         return sb.toString();
+         return join(Arrays.asList(array), null);
       }
 
-      public <T> void join(StringBuilder sb, List<T> list, IBuilder<T> builder) {
+      public <T> String join(IBuilder<T> builder, T... array) {
+         return join(Arrays.asList(array), builder);
+      }
+
+      public <T> void join(StringBuilder sb, Collection<T> list, IBuilder<T> builder) {
          boolean first = true;
 
          if (list != null) {

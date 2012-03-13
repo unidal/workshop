@@ -94,7 +94,7 @@ public class WebAppMojo extends AbstractMojo {
     * Location of generated source directory
     * 
     * @parameter expression="${resource.base}"
-    *            default-value="/META-INF/wizard/jdbc"
+    *            default-value="/META-INF/wizard/webapp"
     * @required
     */
    protected String resouceBase;
@@ -141,7 +141,7 @@ public class WebAppMojo extends AbstractMojo {
          moduleNames.add(module.getName());
       }
 
-      String moduleName = PropertyProviders.fromConsole().forString("module", "Module name:", moduleNames, null, null);
+      String moduleName = PropertyProviders.fromConsole().forString("module", "Select module name below or input a new one:", moduleNames, null, null);
       Module module = webapp.findModule(moduleName);
 
       if (module == null) {
@@ -160,7 +160,7 @@ public class WebAppMojo extends AbstractMojo {
          pageNames.add(page.getName());
       }
 
-      String pageName = PropertyProviders.fromConsole().forString("page", "Page name:", pageNames, null, null);
+      String pageName = PropertyProviders.fromConsole().forString("page", "Select page name below or input a new one:", pageNames, null, null);
       Page page = module.findPage(pageName);
 
       if (page == null) {
@@ -172,8 +172,11 @@ public class WebAppMojo extends AbstractMojo {
             page.setDefault(true);
          }
 
+         String caption = Character.toUpperCase(pageName.charAt(0)) + pageName.substring(1);
+
          page.setPath(path);
-         page.setDescription(Character.toUpperCase(pageName.charAt(0)) + pageName.substring(1));
+         page.setTitle(caption);
+         page.setDescription(caption);
          module.addPage(page);
       }
 

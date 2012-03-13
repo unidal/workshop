@@ -3,7 +3,6 @@ package com.site.codegen.generator.wizard;
 import java.io.File;
 import java.net.URL;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -20,7 +19,6 @@ public class WizardGeneratorTest extends ComponentTestCase {
    private boolean debug = false;
 
    @Test
-   @Ignore
    public void testWebapp() throws Exception {
       Generator g = lookup(Generator.class, "wizard-webapp");
       URL manifestXml = getResourceFile("manifest.xml").toURI().toURL();

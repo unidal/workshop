@@ -199,17 +199,20 @@
                         <xsl:value-of select="$empty"/>         } else if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty"/>         return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
+                     </xsl:when>
+                     <xsl:when test="@primitive='true'">
+                        <xsl:value-of select="$empty"/>         if (<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>() != <xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
                      </xsl:when>
                      <xsl:otherwise>
                         <xsl:value-of select="$empty"/>         if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty"/>         return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
                      </xsl:otherwise>
                   </xsl:choose>
+                  <xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>         return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
                </xsl:for-each>
                <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty-line"/>
@@ -266,17 +269,20 @@
                         <xsl:value-of select="$empty"/>            } else if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>               continue;<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>            }<xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty"/>            return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
+                     </xsl:when>
+                     <xsl:when test="@primitive='true'">
+                        <xsl:value-of select="$empty"/>            if (<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>() != <xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>               continue;<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            }<xsl:value-of select="$empty-line"/>
                      </xsl:when>
                      <xsl:otherwise>
                         <xsl:value-of select="$empty"/>            if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>               continue;<xsl:value-of select="$empty-line"/>
                         <xsl:value-of select="$empty"/>            }<xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty-line"/>
-                        <xsl:value-of select="$empty"/>            return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
                      </xsl:otherwise>
                   </xsl:choose>
+                  <xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>            return <xsl:value-of select='$current/@param-name-element'/>;<xsl:value-of select="$empty-line"/>
                </xsl:for-each>
                <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty-line"/>
@@ -467,9 +473,18 @@
                <xsl:value-of select="$empty-line"/>
                <xsl:variable name="current" select="." />
                <xsl:for-each select="($entity/attribute | $entity/element)[@key='true']">
-                  <xsl:value-of select="$empty"/>         if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+                  <xsl:choose>
+                     <xsl:when test="@primitive='true'">
+                        <xsl:value-of select="$empty"/>         if (<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>() != <xsl:value-of select="@param-name"/>) {<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+                     </xsl:when>
+                     <xsl:otherwise>
+                        <xsl:value-of select="$empty"/>         if (!<xsl:value-of select='$current/@param-name-element'/>.<xsl:value-of select="@get-method"/>().equals(<xsl:value-of select="@param-name"/>)) {<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>            continue;<xsl:value-of select="$empty-line"/>
+                        <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+                     </xsl:otherwise>
+                  </xsl:choose>
                   <xsl:value-of select="$empty-line"/>
                </xsl:for-each>
                <xsl:value-of select="$empty"/>         <xsl:value-of select="'         '"/><xsl:value-of select='@field-name'/>.remove(i);<xsl:value-of select="$empty-line"/>

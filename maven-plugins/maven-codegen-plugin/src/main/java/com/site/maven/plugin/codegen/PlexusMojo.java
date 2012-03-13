@@ -86,7 +86,19 @@ public class PlexusMojo extends AbstractMojo {
     */
    protected boolean debug;
 
+   /**
+    * Skip this codegen or not
+    * 
+    * @parameter expression="${codegen.skip}" default-value="false"
+    */
+   protected boolean skip;
+
    public void execute() throws MojoExecutionException, MojoFailureException {
+      if (skip) {
+         getLog().info("Model codegen was skipped explicitly.");
+         return;
+      }
+
       if (debug) {
          verbose = true;
       }
@@ -186,7 +198,8 @@ public class PlexusMojo extends AbstractMojo {
       return new URLClassLoader(urls.toArray(new URL[0]), Thread.currentThread().getContextClassLoader());
    }
 
-   protected void runJavaApplication(String classpath, String application, String... args) throws MojoExecutionException {
+   protected void runJavaApplication(String classpath, String application, String... args)
+         throws MojoExecutionException {
       Commandline cli = new Commandline();
 
       cli.setWorkingDirectory(m_project.getBasedir());
@@ -203,7 +216,7 @@ public class PlexusMojo extends AbstractMojo {
             sb.append(arg).append(' ');
          }
       }
-      
+
       sb.append(application);
 
       Arg arg = cli.createArg();

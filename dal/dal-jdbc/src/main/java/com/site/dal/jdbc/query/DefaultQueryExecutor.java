@@ -40,12 +40,18 @@ public class DefaultQueryExecutor implements QueryExecutor {
 
    protected PreparedStatement createPreparedStatement(QueryContext ctx) throws SQLException {
       Connection conn = m_transactionManager.getConnection(ctx);
+      QueryDef query = ctx.getQuery();
+      QueryType type = query.getType();
       PreparedStatement ps;
 
-      if (ctx.getQuery().isStoreProcedure()) {
-         ps = conn.prepareCall(ctx.getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+      if (type == QueryType.SELECT) {
+         if (query.isStoreProcedure()) {
+            ps = conn.prepareCall(ctx.getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+         } else {
+            ps = conn.prepareStatement(ctx.getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+         }
       } else {
-         ps = conn.prepareStatement(ctx.getSqlStatement(), ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+         ps = conn.prepareStatement(ctx.getSqlStatement(), PreparedStatement.RETURN_GENERATED_KEYS);
       }
 
       return ps;

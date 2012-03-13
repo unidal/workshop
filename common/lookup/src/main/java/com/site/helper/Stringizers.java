@@ -7,8 +7,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.site.helper.Reflects.IMemberFilter;
 
@@ -33,13 +35,25 @@ public class Stringizers {
       }
 
       public String from(Object obj) {
-         StringBuilder sb = new StringBuilder(1024);
+         return from(obj, 0, 0);
+      }
 
-         fromObject(sb, obj);
+      public String from(Object obj, int maxLength, int maxItemLength) {
+         StringBuilder sb = new StringBuilder(1024);
+         LengthLimiter limiter = new LengthLimiter(sb, maxLength, maxItemLength);
+         Set<Object> done = new HashSet<Object>();
+
+         try {
+            fromObject(done, limiter, obj);
+         } catch (RuntimeException e) {
+            // expected
+            sb.append("...");
+         }
+
          return sb.toString();
       }
 
-      private void fromArray(StringBuilder sb, Object obj) {
+      private void fromArray(Set<Object> done, LengthLimiter sb, Object obj) {
          int len = Array.getLength(obj);
 
          sb.append('[');
@@ -55,14 +69,14 @@ public class Stringizers {
 
             Object element = Array.get(obj, i);
 
-            fromObject(sb, element);
+            fromObject(done, sb, element);
          }
 
          sb.append(']');
       }
 
       @SuppressWarnings("unchecked")
-      private void fromCollection(StringBuilder sb, Object obj) {
+      private void fromCollection(Set<Object> done, LengthLimiter sb, Object obj) {
          boolean first = true;
 
          sb.append('[');
@@ -78,14 +92,14 @@ public class Stringizers {
                }
             }
 
-            fromObject(sb, item);
+            fromObject(done, sb, item);
          }
 
          sb.append(']');
       }
 
       @SuppressWarnings("unchecked")
-      private void fromMap(StringBuilder sb, Object obj) {
+      private void fromMap(Set<Object> done, LengthLimiter sb, Object obj) {
          boolean first = true;
 
          sb.append('{');
@@ -114,13 +128,13 @@ public class Stringizers {
                sb.append(' ');
             }
 
-            fromObject(sb, value);
+            fromObject(done, sb, value);
          }
 
          sb.append('}');
       }
 
-      private void fromObject(StringBuilder sb, Object obj) {
+      private void fromObject(Set<Object> done, LengthLimiter sb, Object obj) {
          if (obj == null) {
             return;
          }
@@ -128,28 +142,41 @@ public class Stringizers {
          Class<?> type = obj.getClass();
 
          if (type == String.class) {
-            sb.append('"').append(obj.toString()).append('"');
-         } else if (type.isPrimitive() || Number.class.isAssignableFrom(type)) {
-            sb.append(obj.toString());
+            sb.append('"').append(obj.toString(), true).append('"');
+         } else if (type.isPrimitive() || Number.class.isAssignableFrom(type) || type.isEnum()) {
+            sb.append(obj.toString(), true);
          } else if (type == Boolean.class) {
-            sb.append(obj.toString());
+            sb.append(obj.toString(), true);
          } else if (type == Date.class) {
-            sb.append('"').append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(obj)).append('"');
+            sb.append('"').append(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(obj), true).append('"');
          } else if (type == Class.class) {
-            sb.append('"').append(obj).append('"');
-         } else if (type.isArray()) {
-            fromArray(sb, obj);
-         } else if (Collection.class.isAssignableFrom(type)) {
-            fromCollection(sb, obj);
-         } else if (Map.class.isAssignableFrom(type)) {
-            fromMap(sb, obj);
+            sb.append('"').append(obj, true).append('"');
+         } else if (done.contains(obj)) {
+            sb.append("{}");
+            return;
          } else {
-            fromPojo(sb, obj);
+            done.add(obj);
+
+            if (type.isArray()) {
+               fromArray(done, sb, obj);
+            } else if (Collection.class.isAssignableFrom(type)) {
+               fromCollection(done, sb, obj);
+            } else if (Map.class.isAssignableFrom(type)) {
+               fromMap(done, sb, obj);
+            } else {
+               fromPojo(done, sb, obj);
+            }
          }
       }
 
-      private void fromPojo(StringBuilder sb, Object obj) {
+      private void fromPojo(Set<Object> done, LengthLimiter sb, Object obj) {
          Class<? extends Object> type = obj.getClass();
+
+         if (hasToString(type)) {
+            fromObject(done, sb, obj.toString());
+            return;
+         }
+
          List<Method> getters = Reflects.forMethod().getMethods(type, new IMemberFilter<Method>() {
             @Override
             public boolean filter(Method method) {
@@ -177,6 +204,10 @@ public class Stringizers {
                Object value;
 
                try {
+                  if (!getter.isAccessible()) {
+                     getter.setAccessible(true);
+                  }
+
                   value = getter.invoke(obj);
                } catch (Exception e) {
                   // ignore it
@@ -203,11 +234,76 @@ public class Stringizers {
                   sb.append(' ');
                }
 
-               fromObject(sb, value);
+               fromObject(done, sb, value);
             }
 
             sb.append('}');
          }
+      }
+
+      public boolean hasToString(Class<?> type) {
+         try {
+            Method method = type.getMethod("toString");
+
+            if (method.getDeclaringClass() != Object.class) {
+               System.out.println(method.getDeclaringClass());
+               return true;
+            }
+         } catch (Exception e) {
+            // ignore it
+         }
+
+         return false;
+      }
+   }
+
+   static class LengthLimiter {
+      private int m_maxLength;
+      private int m_maxItemLength;
+      private int m_halfMaxItemLength;
+      private StringBuilder m_sb;
+
+      public LengthLimiter(StringBuilder sb, int maxLength, int maxItemLength) {
+         m_sb = sb;
+         m_maxLength = maxLength - 3;
+         m_maxItemLength = maxItemLength;
+         m_halfMaxItemLength = maxItemLength / 2 - 1;
+      }
+
+      public LengthLimiter append(char ch) {
+         m_sb.append(ch);
+         return this;
+      }
+
+      public LengthLimiter append(Object value) {
+         append(value, false);
+         return this;
+      }
+
+      public LengthLimiter append(Object value, boolean itemLimit) {
+         int len = m_sb.length();
+         String str = getString(value, itemLimit);
+
+         if (m_maxLength > 0 && len + str.length() > m_maxLength) {
+            throw new RuntimeException("Length limited.");
+         } else {
+            m_sb.append(str);
+            return this;
+         }
+      }
+
+      private String getString(Object value, boolean itemLimit) {
+         String str = String.valueOf(value);
+
+         if (itemLimit && m_maxItemLength > 0) {
+            int len = str.length();
+
+            if (len > m_maxItemLength) {
+               return str.substring(0, m_halfMaxItemLength) + "..." + str.substring(len - m_halfMaxItemLength, len);
+            }
+         }
+
+         return str;
       }
    }
 }

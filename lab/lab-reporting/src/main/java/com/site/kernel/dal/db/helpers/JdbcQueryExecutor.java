@@ -117,7 +117,7 @@ public class JdbcQueryExecutor {
 				ps = connection.prepareCall(ctx.getSqlStatement());
 			} else {
 				// Create a PreparedStatement
-				ps = connection.prepareStatement(ctx.getSqlStatement());
+				ps = connection.prepareStatement(ctx.getSqlStatement(), PreparedStatement.RETURN_GENERATED_KEYS);
 			}
 
 			// Call beforeSave() to do some custom data manipulation

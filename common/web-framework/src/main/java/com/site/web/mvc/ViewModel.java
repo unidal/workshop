@@ -13,7 +13,7 @@ public abstract class ViewModel<P extends Page, A extends Action, M extends Acti
 		m_actionContext = actionContext;
 	}
 
-	private String buildPageUri(String action, String pathInfo) {
+	protected String buildPageUri(String action, String pathInfo) {
 		RequestContext requestContext = m_actionContext.getRequestContext();
 
 		return requestContext.getActionUri(action, pathInfo);

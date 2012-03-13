@@ -13,6 +13,7 @@ import org.apache.maven.project.MavenProject;
 import com.site.helper.Files;
 import com.site.helper.Joiners;
 import com.site.helper.Splitters;
+import com.site.maven.plugin.common.PropertyProviders;
 
 /**
  * Migrate all source files from one project to another project using a
@@ -33,13 +34,11 @@ public class MigrateMojo extends AbstractMojo {
 
    /**
     * @parameter expression="${sourcePackage}"
-    * @required
     */
    private String sourcePackage;
 
    /**
     * @parameter expression="${targetPackage}"
-    * @required
     */
    private String targetPackage;
 
@@ -67,6 +66,9 @@ public class MigrateMojo extends AbstractMojo {
    private int m_failure;
 
    public void execute() throws MojoExecutionException, MojoFailureException {
+      sourcePackage = PropertyProviders.fromConsole().forString("sourcePackage", "Java source package:", sourcePackage, null);
+      targetPackage = PropertyProviders.fromConsole().forString("targetPackage", "Java target package:", targetPackage, null);
+
       m_reversedSourcePackage = reversePackage(sourcePackage);
       m_reversedTargetPackage = reversePackage(targetPackage);
 
