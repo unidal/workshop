@@ -75,19 +75,19 @@ public class MojoTest extends ComponentTestCase {
    }
 
    @Test
-   @Ignore
    public void testGenerateDalJdbcMeta() throws Exception {
       DalJdbcMetaMojo mojo = new DalJdbcMetaMojo();
 
       mojo.driver = "com.mysql.jdbc.Driver";
-      mojo.url = "jdbc:mysql://localhost:3306/garden";
+      mojo.url = "jdbc:mysql://localhost:3306/test";
       mojo.user = "root";
-      mojo.password = "Passw0rd";
+      mojo.packageName = "a.b";
+      mojo.password = "";
       mojo.connectionProperties = "useUnicode=true&characterEncoding=gbk&autoReconnect=true";
 
       mojo.m_meta = new DefaultTableMeta();
       mojo.baseDir = new File(".");
-      mojo.outputDir = "target/generated-resources";
+      mojo.outputDir = "target/generated-resources/dal-jdbc";
 
       try {
          mojo.execute();

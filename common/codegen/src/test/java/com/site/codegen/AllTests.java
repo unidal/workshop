@@ -9,6 +9,7 @@ import com.site.codegen.generator.AllGeneratorTests;
 import com.site.codegen.manifest.ManifestCreatorTest;
 import com.site.codegen.manifest.ManifestParserTest;
 import com.site.codegen.meta.ModelMetaTest;
+import com.site.codegen.meta.TableMetaTest;
 import com.site.codegen.meta.XmlMetaHelperTest;
 import com.site.codegen.meta.XmlMetaTest;
 import com.site.codegen.template.XslTemplateManagerTest;
@@ -27,6 +28,8 @@ ManifestCreatorTest.class,
 ManifestParserTest.class,
 
 ModelMetaTest.class,
+
+TableMetaTest.class,
 
 XmlMetaHelperTest.class,
 
