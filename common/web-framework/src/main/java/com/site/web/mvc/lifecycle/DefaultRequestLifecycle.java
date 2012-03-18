@@ -196,13 +196,16 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
          handleOutboundAction(module, actionContext);
       } catch (ActionException e) {
          t.setStatus(e);
-         handleException(e, actionContext);
+         handleException(e, actionContext, false);
+      } catch (Exception e) {
+         t.setStatus(e);
+         handleException(e, actionContext, true);
       } finally {
          t.complete();
       }
    }
 
-   private void handleException(Throwable e, ActionContext<?> actionContext) {
+   private void handleException(Throwable e, ActionContext<?> actionContext, boolean logException) {
       RequestContext requestContext = actionContext.getRequestContext();
       ErrorModel error = requestContext.getError();
 
@@ -215,7 +218,10 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
       }
 
       if (!actionContext.isProcessStopped()) {
-         m_cat.logError(e);
+         if (logException) {
+            m_cat.logError(e);
+         }
+
          throw new RuntimeException(e.getMessage(), e);
       }
    }
@@ -264,7 +270,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
                   handleOutboundAction(module, ctx);
                }
             } catch (ActionException e) {
-               handleException(e, ctx);
+               handleException(e, ctx, true);
             }
 
             return false;

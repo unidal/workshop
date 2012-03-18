@@ -20,7 +20,7 @@ import com.site.helper.Files;
 /**
  * Package a hadoop job (named MyJob) into MyJob-installer.jar, which can be
  * self-extracted to folder(./MyJob-1.0.0) using following command:<br>
- * <code>java -jar MyJob-1.0.0-installer.jar</code>
+ * <code>java -jar MyJob-1.0.0-installer.jar [dir]</code>
  * <p>
  * 
  * 

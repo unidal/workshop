@@ -40,7 +40,6 @@ import com.site.web.mvc.Page;
 </xsl:variable>
 public class <xsl:value-of select="@context-class"/><xsl:call-template name="generic-type"><xsl:with-param name="type" select="$type"/></xsl:call-template> extends ActionContext<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'T'"/></xsl:call-template> {
 <xsl:if test="../@webres='true'">
-   @SuppressWarnings("deprecation")
    @Override
    public void initialize(HttpServletRequest request, HttpServletResponse response) {
       super.initialize(request, response);
@@ -48,7 +47,11 @@ public class <xsl:value-of select="@context-class"/><xsl:call-template name="gen
       String contextPath = request.getContextPath();
 
       if (!ResourceRuntime.INSTANCE.hasConfig(contextPath)) {
-         File warRoot = new File(request.getRealPath("/"));
+         ServletContext servletContext = request.getSession().getServletContext();
+         File warRoot = new File(servletContext.getRealPath("/"));
+
+         System.out.println("[INFO] Working directory is "+ System.getProperty("user.dir"));
+         System.out.println("[INFO] War root is " + warRoot);
 
          ResourceRuntime.INSTANCE.removeConfig(contextPath);
          ResourceInitializer.initialize(contextPath, warRoot);
@@ -58,6 +61,8 @@ public class <xsl:value-of select="@context-class"/><xsl:call-template name="gen
          new ResourceConfigurator().configure(registry);
          new ResourceTagConfigurator().configure(registry);
          new ResourceTagLibConfigurator().configure(registry);
+
+         registry.lock();
       }
 
       ResourceRuntimeContext.setup(contextPath);

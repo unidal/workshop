@@ -23,9 +23,12 @@ public class MVC extends AbstractContainerServlet {
    protected void initComponents(ServletConfig config) throws Exception {
       String catClientXml = config.getInitParameter("cat-client-xml");
 
+      System.out.println("[INFO] MVC is starting at " + config.getServletContext().getContextPath());
       Cat.initialize(getContainer(), catClientXml == null ? null : new File(catClientXml));
       m_handler = lookup(RequestLifecycle.class, "mvc");
       m_manager = lookup(MessageManager.class);
+
+      System.out.println("[INFO] MVC started at " + config.getServletContext().getContextPath());
    }
 
    @Override

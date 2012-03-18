@@ -50,6 +50,7 @@
       <xsl:call-template name="generate-resource">
         <xsl:with-param name="file" select="concat(translate($package,'.','/'), '/', //entity[@root='true']/@name, '.xsd')"/>
         <xsl:with-param name="template" select="'xml/schema.xsl'"/>
+        <xsl:with-param name="mode" select="'create_if_not_exists'"/>
       </xsl:call-template>
    </xsl:if>
    
@@ -361,7 +362,6 @@
    <xsl:param name="template"/>
    <xsl:param name="file" select="''" />
    <xsl:param name="mode" select="'create_or_overwrite'"/>
-
 
    <xsl:call-template name="generate-code">
       <xsl:with-param name="path">

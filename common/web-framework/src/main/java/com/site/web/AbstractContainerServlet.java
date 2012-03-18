@@ -51,8 +51,8 @@ public abstract class AbstractContainerServlet extends HttpServlet {
 			if (m_logger != null) {
 				m_logger.error("Servlet initializing failed. " + e, e);
 			} else {
-				System.err.println("Servlet initializing failed. " + e);
-				e.printStackTrace();
+				System.out.println("Servlet initializing failed. " + e);
+				e.printStackTrace(System.out);
 			}
 
 			throw new ServletException("Servlet initializing failed. " + e, e);
