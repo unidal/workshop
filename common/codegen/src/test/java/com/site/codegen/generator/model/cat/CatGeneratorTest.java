@@ -19,12 +19,12 @@ public class CatGeneratorTest extends ModelGenerateTestSupport {
 
    @Override
    protected boolean isDebug() {
-      return true;
+      return false;
    }
 
    @Override
    protected boolean isVerbose() {
-      return true;
+      return false;
    }
 
    @Test

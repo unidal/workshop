@@ -24,7 +24,7 @@
       <dependency>
          <groupId>com.site.common</groupId>
          <artifactId>codegen</artifactId>
-         <version>1.0.0-a10</version>
+         <version>1.0.8</version>
       </dependency>
       <dependency>
          <groupId>org.codehaus.plexus</groupId>
@@ -60,7 +60,7 @@
          <plugin>
             <groupId>com.site.maven.plugins</groupId>
             <artifactId>maven-codegen-plugin</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.14</version>
             <configuration>
                <manifest>${basedir}/src/main/resources/META-INF/dal/model/report_manifest.xml</manifest>
             </configuration>

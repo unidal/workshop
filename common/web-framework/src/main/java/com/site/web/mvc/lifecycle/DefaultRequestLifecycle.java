@@ -170,8 +170,10 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 
       Transaction t = m_cat.newTransaction("URL", inboundAction.getActionName());
 
-      logRequestClientInfo(request);
-      logRequestPayload(request);
+      if (m_cat.isEnabled()) {
+         logRequestClientInfo(request);
+         logRequestPayload(request);
+      }
 
       t.setStatus(Transaction.SUCCESS);
 

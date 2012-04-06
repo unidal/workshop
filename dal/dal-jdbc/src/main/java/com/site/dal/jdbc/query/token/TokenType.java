@@ -18,7 +18,7 @@ public enum TokenType {
 
    IN,
 
-   IF("type", "param"),
+   IF("type", "field", "value"),
    
    STRING,
    

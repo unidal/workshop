@@ -33,18 +33,11 @@ public class JavaFragmentCompiler implements Compilable {
       m_engine = engine;
    }
 
-   private URL[] buildUrls(String classpath, File outputDir) {
-      String[] paths = classpath.split(Pattern.quote(File.pathSeparator));
-      int len = paths.length;
-      URL[] urls = new URL[len + 1];
-      int index = 0;
+   private URL[] buildUrls(File outputDir) {
+      URL[] urls = new URL[1];
 
       try {
-         urls[index++] = outputDir.toURI().toURL();
-
-         for (String path : paths) {
-            urls[index++] = new File(path).toURI().toURL();
-         }
+         urls[0] = outputDir.toURI().toURL();
       } catch (MalformedURLException e) {
          throw new RuntimeException("Error when building URLs for class loader!", e);
       }
@@ -91,8 +84,9 @@ public class JavaFragmentCompiler implements Compilable {
          compileInternal(script, outputDir, classpath, source);
       }
 
-      URL[] urls = buildUrls(classpath, outputDir);
-      URLClassLoader classloader = new URLClassLoader(urls);
+      URL[] urls = buildUrls(outputDir);
+      ClassLoader parent = Thread.currentThread().getContextClassLoader();
+      URLClassLoader classloader = new URLClassLoader(urls, parent);
 
       compiledScript.setClassLoader(classloader);
       compiledScript.setSource(source);

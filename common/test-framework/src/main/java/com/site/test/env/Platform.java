@@ -18,7 +18,13 @@ public class Platform {
    public static boolean isMac() {
       final String os = System.getProperty("os.name");
 
-      return os != null && os.toLowerCase().indexOf("mac") >= 0;
+      return os != null && os.indexOf("Mac") >= 0;
+   }
+
+   public static boolean isLinux() {
+      final String os = System.getProperty("os.name");
+
+      return os != null && os.indexOf("Linux") >= 0;
    }
 
    public static File getProgramFile(String relativePath) {

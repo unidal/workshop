@@ -20,8 +20,8 @@
 import org.junit.Assert;
 import org.junit.Test;
 
-import <xsl:value-of select="$package"/>.entity.<xsl:value-of select="$entity/@entity-class"/>;
-import <xsl:value-of select="$package"/>.transform.DefaultJsonBuilder;
+import <xsl:value-of select="$package"/>.entity.<xsl:value-of select="$entity/@entity-class"/>;<xsl:value-of select="$empty"/>
+<xsl:if test="/model/@enable-json-builder='true'">import <xsl:value-of select="$package"/>.transform.DefaultJsonBuilder;</xsl:if>
 import <xsl:value-of select="$package"/>.transform.DefaultXmlBuilder;
 import <xsl:value-of select="$package"/>.transform.DefaultXmlParser;
 import com.site.helper.Files;

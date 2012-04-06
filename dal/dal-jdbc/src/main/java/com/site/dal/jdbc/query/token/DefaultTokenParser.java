@@ -77,8 +77,11 @@ public class DefaultTokenParser implements TokenParser {
                      tokens.add(new EndTagToken(sb.toString()));
                   } else if (hasEndSlash) {
                      tokens.add(new SimpleTagToken(sb.toString(), attributes));
-                  } else {
+                  } else if (Character.isLetter(sb.charAt(0))){
                      tokens.add(new StartTagToken(sb.toString(), attributes));
+                  } else {
+                     sb.append(ch);
+                     tokens.add(new StringToken(sb.toString()));
                   }
 
                   sb.setLength(0);

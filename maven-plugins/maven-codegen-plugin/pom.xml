@@ -11,7 +11,7 @@
    <artifactId>maven-codegen-plugin</artifactId>
    <packaging>maven-plugin</packaging>
    <name>Code Generation Maven Plugin</name>
-   <version>1.0.12</version>
+   <version>1.0.15</version>
    <prerequisites>
       <maven>3.0.3</maven>
    </prerequisites>
@@ -24,7 +24,7 @@
       <dependency>
          <groupId>com.site.common</groupId>
          <artifactId>codegen</artifactId>
-         <version>1.0.5</version>
+         <version>1.0.8</version>
       </dependency>
       <dependency>
          <groupId>mysql</groupId>
@@ -37,7 +37,7 @@
          <plugin>
             <groupId>com.site.maven.plugins</groupId>
             <artifactId>maven-codegen-plugin</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.15</version>
             <executions>
                <execution>
                   <!-- <id>generate profile model</id> -->

@@ -109,4 +109,18 @@
       <function-signature>java.lang.String showCheckboxes(java.lang.String, java.lang.Object, java.lang.Object, java.lang.String, java.lang.String)</function-signature>
       <example>${a:showCheckboxes('groupBy', groupBy.values, payload.groupBy, 'name', 'description')}</example>
    </function>
+   <function>
+      <description>size of collection instance</description>
+      <name>size</name>
+      <function-class>com.site.web.jsp.function.ObjectHelper</function-class>
+      <function-signature>java.lang.Object size(java.lang.Object)</function-signature>
+      <example>${a:size(map)}</example>
+   </function>
+   <function>
+      <description>length of String, StringBuilder etc</description>
+      <name>length</name>
+      <function-class>com.site.web.jsp.function.ObjectHelper</function-class>
+      <function-signature>java.lang.Object length(java.lang.Object)</function-signature>
+      <example>${a:length(name)}</example>
+   </function>
 </taglib>

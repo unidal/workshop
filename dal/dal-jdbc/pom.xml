@@ -9,12 +9,13 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>dal-jdbc</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>DAL JDBC</name>
 	<dependencies>
       <dependency>
          <groupId>com.dianping.cat</groupId>
          <artifactId>cat-core</artifactId>
+         <version>0.2.0</version>
       </dependency>
 		<dependency>
 			<groupId>com.site.dal</groupId>

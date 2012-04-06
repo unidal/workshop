@@ -4,7 +4,10 @@ import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -93,6 +96,47 @@ public class PlexusMojo extends AbstractMojo {
     */
    protected boolean skip;
 
+   protected Map<String, String> buildProperties() {
+      Map<String, String> properties = new LinkedHashMap<String, String>();
+
+      if (profile != null) {
+         Env e = profile.findEnv(env);
+
+         if (e == null && !profile.getEnvs().isEmpty()) {
+            e = profile.getEnvs().get(0);
+         }
+
+         if (e != null) {
+            properties.put("env", e.getId());
+
+            for (Property property : e.getProperties()) {
+               String name = property.getName();
+               String value = property.getText();
+
+               properties.put(name, value);
+            }
+         } else {
+            if (verbose) {
+               getLog().info("No profile env defined!");
+            }
+         }
+      } else {
+         if (verbose) {
+            getLog().info("No profile found!");
+         }
+      }
+
+      Properties userProperties = m_project.getProjectBuildingRequest().getUserProperties();
+
+      if (userProperties != null) {
+         for (Map.Entry<Object, Object> e : userProperties.entrySet()) {
+            properties.put((String) e.getKey(), (String) e.getValue());
+         }
+      }
+
+      return properties;
+   }
+
    public void execute() throws MojoExecutionException, MojoFailureException {
       if (skip) {
          getLog().info("Model codegen was skipped explicitly.");
@@ -126,7 +170,6 @@ public class PlexusMojo extends AbstractMojo {
             if (clazz == null) {
                throw new MojoExecutionException(String.format("Configurator(%s) is not found!", name));
             } else if (AbstractResourceConfigurator.class.isAssignableFrom(clazz)) {
-
                runJavaApplication(classpath, name, buildProperties());
             } else {
                throw new MojoExecutionException(String.format("Class(%s) is not extended from %s.", name,
@@ -137,48 +180,6 @@ public class PlexusMojo extends AbstractMojo {
          throw e;
       } catch (Exception e) {
          throw new MojoExecutionException("Error when generating plexus components descriptor!", e);
-      }
-   }
-
-   protected String[] buildProperties() {
-      if (profile != null) {
-         Env e = profile.findEnv(env);
-
-         if (e == null && !profile.getEnvs().isEmpty()) {
-            e = profile.getEnvs().get(0);
-         }
-
-         if (e != null) {
-            String[] properties = new String[e.getProperties().size() + 1];
-            int index = 0;
-
-            properties[index++] = "-Denv=" + e.getId();
-
-            for (Property property : e.getProperties()) {
-               String name = property.getName();
-               String value = property.getText();
-
-               if (value.indexOf(' ') >= 0) {
-                  properties[index++] = "-D" + name + "=\"" + value + "\"";
-               } else {
-                  properties[index++] = "-D" + name + "=" + value;
-               }
-            }
-
-            return properties;
-         } else {
-            if (verbose) {
-               getLog().info("No profile env defined!");
-            }
-
-            return null;
-         }
-      } else {
-         if (verbose) {
-            getLog().info("No profile found!");
-         }
-
-         return null;
       }
    }
 
@@ -198,7 +199,7 @@ public class PlexusMojo extends AbstractMojo {
       return new URLClassLoader(urls.toArray(new URL[0]), Thread.currentThread().getContextClassLoader());
    }
 
-   protected void runJavaApplication(String classpath, String application, String... args)
+   protected void runJavaApplication(String classpath, String application, Map<String, String> properties)
          throws MojoExecutionException {
       Commandline cli = new Commandline();
 
@@ -211,10 +212,19 @@ public class PlexusMojo extends AbstractMojo {
          sb.append("-cp \"").append(classpath).append("\" ");
       }
 
-      if (args != null) {
-         for (String arg : args) {
-            sb.append(arg).append(' ');
+      for (Map.Entry<String, String> e : properties.entrySet()) {
+         String name = e.getKey();
+         String value = e.getValue();
+
+         sb.append("-D").append(name).append("=");
+
+         if (value.indexOf(' ') >= 0) {
+            sb.append("\"").append(value).append("\"");
+         } else {
+            sb.append(value);
          }
+
+         sb.append(' ');
       }
 
       sb.append(application);

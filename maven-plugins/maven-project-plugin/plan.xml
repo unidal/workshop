@@ -56,7 +56,7 @@
          <dependency>
             <groupId>com.site.common</groupId>
             <artifactId>lookup</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.5</version>
          </dependency>
          <dependency>
             <groupId>com.site.common</groupId>
@@ -145,7 +145,7 @@
          <name>Common parent</name>
          <path>common</path>
          <projects>
-            <project artifactId="lookup" version="1.0.4" packaging="jar">
+            <project artifactId="lookup" version="1.0.5" packaging="jar">
                <name>Component Lookup</name>
                <path>lookup</path>
                <dependencies>
@@ -173,7 +173,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="codegen" version="1.0.4" packaging="jar">
+            <project artifactId="codegen" version="1.0.8" packaging="jar">
                <name>Common code generator</name>
                <path>codegen</path>
                <dependencies>
@@ -187,7 +187,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="test-framework" version="1.0.0-a1" packaging="jar">
+            <project artifactId="test-framework" version="1.0.1" packaging="jar">
                <name>Common test framework</name>
                <path>test-framework</path>
                <dependencies>
@@ -205,14 +205,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="web-framework" version="1.0.2" packaging="jar">
+            <project artifactId="web-framework" version="1.0.5" packaging="jar">
                <name>Common web framework</name>
                <path>web-framework</path>
                <dependencies>
                   <dependency>
                      <groupId>com.dianping.cat</groupId>
                      <artifactId>cat-core</artifactId>
-                     <version>0.2.0</version>
+                     <version>0.2.0-SNAPSHOT</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
@@ -265,6 +265,28 @@
             </project>
          </projects>
       </project>
+      <project artifactId="parent" groupId="com.site.script" packaging="pom">
+         <name>Parent of Script</name>
+         <path>script</path>
+         <projects>
+            <project artifactId="java-fragment" version="0.1.0" packaging="jar">
+               <name>Java Fragment Script Engine</name>
+               <path>java-fragment</path>
+               <dependencies>
+                  <dependency>
+                     <groupId>junit</groupId>
+                     <artifactId>junit</artifactId>
+                     <scope>test</scope>
+                  </dependency>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>lookup</artifactId>
+                     <scope>test</scope>
+                  </dependency>
+               </dependencies>
+            </project>
+         </projects>
+      </project>
       <project artifactId="parent" groupId="com.site.dal" packaging="pom">
          <name>DAL parent</name>
          <path>dal</path>
@@ -279,7 +301,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="dal-jdbc" version="1.0.1" packaging="jar">
+            <project artifactId="dal-jdbc" version="1.0.2" packaging="jar">
                <name>DAL JDBC</name>
                <path>dal-jdbc</path>
                <dependencies>
@@ -331,7 +353,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" version="1.0.10" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.15" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
@@ -343,7 +365,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.4</version>
+                     <version>1.0.8</version>
                   </dependency>
                   <dependency>
                      <groupId>mysql</groupId>
@@ -387,7 +409,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.0-a10</version>
+                     <version>1.0.8</version>
                   </dependency>
                   <dependency>
                      <groupId>org.codehaus.plexus</groupId>
@@ -463,7 +485,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.3</version>
+                     <version>1.0.8</version>
                   </dependency>
                </dependencies>
             </project>

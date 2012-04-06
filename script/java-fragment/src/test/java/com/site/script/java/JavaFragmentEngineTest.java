@@ -1,4 +1,4 @@
-package com.site.script;
+package com.site.script.java;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -11,7 +11,9 @@ import junit.framework.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class ScriptTest {
+import com.site.script.ScriptProber;
+
+public class JavaFragmentEngineTest {
    @Test
    @Ignore
    public void showAllScriptEngines() {
@@ -103,7 +105,7 @@ public class ScriptTest {
    }
 
    /**
-    * No method declared, use System.out as result
+    * Test executing o a piece of java code directly, use System.out as result.
     */
    @Test
    public void testJavaFragment() throws Exception {

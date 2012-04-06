@@ -1,4 +1,4 @@
-package com.site.helper;
+package com.site.script;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -13,7 +13,7 @@ import com.ebay.eunit.benchmark.BenchmarkClassRunner;
 import com.ebay.eunit.benchmark.CpuMeta;
 
 @RunWith(BenchmarkClassRunner.class)
-public class ScriptEngineTest {
+public class JavaScriptBenchmarkTest {
    private Invocable m_inv1;
 
    private Invocable m_inv2;

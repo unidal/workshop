@@ -11,8 +11,6 @@ import org.codehaus.plexus.util.cli.CommandLineUtils;
 import org.codehaus.plexus.util.cli.CommandLineUtils.StringStreamConsumer;
 import org.codehaus.plexus.util.cli.Commandline;
 
-import com.site.test.env.Platform;
-
 public abstract class AbstractBrowser implements Browser, LogEnabled {
    private Logger m_logger;
 
@@ -33,44 +31,24 @@ public abstract class AbstractBrowser implements Browser, LogEnabled {
          throw new RuntimeException(getId() + " is unavailable.");
       }
 
-      if (Platform.isWindows()) {
-         try {
-            String[] commandLine = getCommandLine(url.toExternalForm());
-            Commandline cmdLine = new Commandline();
-            StringStreamConsumer consumer = new StringStreamConsumer();
+      try {
+         String[] commandLine = getCommandLine(url.toExternalForm());
+         Commandline cmdLine = new Commandline();
+         StringStreamConsumer consumer = new StringStreamConsumer();
 
-            cmdLine.addArguments(commandLine);
+         cmdLine.addArguments(commandLine);
 
-            CommandLineUtils.executeCommandLine(cmdLine, consumer, consumer);
+         CommandLineUtils.executeCommandLine(cmdLine, consumer, consumer);
 
-            String output = consumer.getOutput();
+         String output = consumer.getOutput();
 
-            if (output != null && output.length() > 0) {
-               m_logger.info(output);
-            }
-         } catch (Exception e) {
-            throw new RuntimeException("Error when display page(" + url.toExternalForm() + ")", e);
+         if (output != null && output.length() > 0) {
+            m_logger.info(output);
          }
-      } else if (Platform.isMac()) {
-         try {
-            String[] commandLine = getCommandLine(url.toExternalForm());
-            Commandline cmdLine = new Commandline();
-            StringStreamConsumer consumer = new StringStreamConsumer();
-
-            cmdLine.addArguments(commandLine);
-
-            CommandLineUtils.executeCommandLine(cmdLine, consumer, consumer);
-
-            String output = consumer.getOutput();
-
-            if (output != null && output.length() > 0) {
-               m_logger.info(output);
-            }
-         } catch (Exception e) {
-            throw new RuntimeException("Error when display page(" + url.toExternalForm() + ")", e);
-         }
-      } else {
-         throw new UnsupportedOperationException("Platform( " + System.getProperty("os.name") + ") not supported");
+      } catch (RuntimeException e) {
+         throw e;
+      } catch (Exception e) {
+         throw new RuntimeException("Error when display page(" + url.toExternalForm() + ")", e);
       }
    }
 

@@ -86,15 +86,20 @@
    <xsl:value-of select="$empty"/>   public String toString() {<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>      StringBuilder sb = new StringBuilder(1024);<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>
-	<xsl:value-of select="$empty"/>      sb.append("<xsl:value-of select='@do-class'/>[");<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      sb.append("<xsl:value-of select='@do-class'/>[");<xsl:value-of select="$empty-line"/>
    <xsl:for-each select="relation | member | var">
       <xsl:sort select="@name"/>
       
       <xsl:if test="position() = 1">      sb.append("</xsl:if>
       <xsl:if test="position() != 1">      sb.append(", </xsl:if>
-  	   <xsl:value-of select='@name'/>: ").append(<xsl:value-of select='@field-name'/>);<xsl:value-of select="$empty-line"/>
+  	  <xsl:value-of select='@name'/>: ").append(<xsl:value-of select="$empty"/>
+      <xsl:choose>
+         <xsl:when test="contains(@value-type, '[]')"><xsl:value-of select='@field-name'/> == null ? null : java.util.Arrays.asList(<xsl:value-of select='@field-name'/>)</xsl:when>
+         <xsl:otherwise><xsl:value-of select='@field-name'/></xsl:otherwise>
+      </xsl:choose>
+      <xsl:value-of select="$empty"/>);<xsl:value-of select="$empty-line"/>
    </xsl:for-each>
-	<xsl:value-of select="$empty"/>      sb.append("]");<xsl:value-of select="$empty-line"/>
+   <xsl:value-of select="$empty"/>      sb.append("]");<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>      return sb.toString();<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
    <xsl:value-of select="$empty-line"/>

@@ -11,6 +11,19 @@ import javax.script.ScriptEngineFactory;
 import javax.script.ScriptException;
 import javax.script.SimpleBindings;
 
+/**
+ * Java Fragment engine to compile and execute Java source code on the fly.
+ * <p>
+ * 
+ * <ul>
+ * Following use cases are supported
+ * <li>a piece of java code</li>
+ * </ul>
+ * 
+ * @author Frankie Wu <qmwu2000@gmail.com>
+ * @since March 17, 2012
+ * @version 0.1.0
+ */
 public class JavaFragmentEngine extends AbstractScriptEngine {
    private ScriptEngineFactory m_factory;
 

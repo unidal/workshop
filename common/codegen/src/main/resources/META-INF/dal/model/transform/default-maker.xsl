@@ -357,6 +357,9 @@
          <xsl:when test="@value-type='String'">
             <xsl:value-of select="@param-name"/>
          </xsl:when>
+         <xsl:when test="@primitive='true'">
+            <xsl:value-of select="@param-name"/> == null ? 0 : <xsl:call-template name="convert-type"/>
+         </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="@param-name"/> == null ? null : <xsl:call-template name="convert-type"/>
          </xsl:otherwise>
