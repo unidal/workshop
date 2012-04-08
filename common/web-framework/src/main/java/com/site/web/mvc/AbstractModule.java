@@ -11,6 +11,6 @@ public abstract class AbstractModule {
 
 	@ErrorActionMeta(name = "default")
 	public void onError(ActionContext<?> ctx) {
-		ctx.getException().printStackTrace();
+		// ignore error, leave MVC to handle it
 	}
 }

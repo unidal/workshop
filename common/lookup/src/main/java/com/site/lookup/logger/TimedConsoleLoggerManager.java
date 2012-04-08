@@ -4,7 +4,7 @@ import org.codehaus.plexus.logging.Logger;
 import org.codehaus.plexus.logging.console.ConsoleLoggerManager;
 
 public class TimedConsoleLoggerManager extends ConsoleLoggerManager {
-   private String m_dateFormat = "yyyy-MM-dd HH:mm:ss";
+   private String m_dateFormat = "MM-dd HH:mm:ss.SSS";
 
    @Override
    public Logger createLogger(int threshold, String name) {
