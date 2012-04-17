@@ -1,81 +1,187 @@
 package com.site.lookup.logger;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.MessageFormat;
 import java.util.Date;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.codehaus.plexus.logging.AbstractLogger;
 import org.codehaus.plexus.logging.Logger;
 
 public class TimedConsoleLogger extends AbstractLogger implements Logger {
-   private MessageFormat m_format;
+	private MessageFormat m_format;
 
-   public TimedConsoleLogger(int threshold, String name, String dateFormat) {
-      super(threshold, name);
+	private ReentrantLock m_lock = new ReentrantLock();
 
-      m_format = new MessageFormat("[{0,date," + dateFormat + "}] [{1}] {2}");
-   }
+	private String m_logFilePattern;
 
-   private String getTimedMessage(String level, String message) {
-      return m_format.format(new Object[] { new Date(), level, message });
-   }
+	private BufferedWriter m_writer;
 
-   @Override
-   public void debug(String message, Throwable throwable) {
-      if (isDebugEnabled()) {
-         System.out.println(getTimedMessage("DEBUG", message));
+	private MessageFormat m_logFileFormat;
 
-         if (throwable != null) {
-            throwable.printStackTrace(System.out);
-         }
-      }
-   }
+	private String m_lastPath;
 
-   @Override
-   public void info(String message, Throwable throwable) {
-      if (isInfoEnabled()) {
-         System.out.println(getTimedMessage("INFO", message));
+	private boolean m_showClass;
 
-         if (throwable != null) {
-            throwable.printStackTrace(System.out);
-         }
-      }
-   }
+	public TimedConsoleLogger(int threshold, String name, String dateFormat, String logFilePattern, boolean showClass) {
+		super(threshold, name);
 
-   @Override
-   public void warn(String message, Throwable throwable) {
-      if (isWarnEnabled()) {
-         System.out.println(getTimedMessage("WARN", message));
+		String pattern;
 
-         if (throwable != null) {
-            throwable.printStackTrace(System.out);
-         }
-      }
-   }
+		if (showClass) {
+			pattern = "[{0,date," + dateFormat + "}] [{1}] [{3}] {2}";
+		} else {
+			pattern = "[{0,date," + dateFormat + "}] [{1}] {2}";
+		}
 
-   @Override
-   public void error(String message, Throwable throwable) {
-      if (isErrorEnabled()) {
-         System.out.println(getTimedMessage("ERROR", message));
+		m_showClass = showClass;
+		m_format = new MessageFormat(pattern);
+		m_logFilePattern = logFilePattern;
 
-         if (throwable != null) {
-            throwable.printStackTrace(System.out);
-         }
-      }
-   }
+		if (logFilePattern != null && logFilePattern.indexOf("{0,") >= 0) {
+			m_logFileFormat = new MessageFormat(logFilePattern);
 
-   @Override
-   public void fatalError(String message, Throwable throwable) {
-      if (isFatalErrorEnabled()) {
-         System.out.println(getTimedMessage("FATAL", message));
+			// IllegalArgumentException will be thrown for invalid pattern
+			m_logFileFormat.format(new Object[] { new Date() });
+		}
+	}
 
-         if (throwable != null) {
-            throwable.printStackTrace(System.out);
-         }
-      }
-   }
+	private String getTimedMessage(String level, String message) {
+		if (m_showClass) {
+			return m_format.format(new Object[] { new Date(), level, message, getCallerClassName() });
+		} else {
+			return m_format.format(new Object[] { new Date(), level, message });
+		}
+	}
 
-   @Override
-   public Logger getChildLogger(String name) {
-      return this;
-   }
+	private String getCallerClassName() {
+		StackTraceElement[] elements = new Exception().getStackTrace();
+
+		if (elements.length > 5) {
+			String className = elements[5].getClassName();
+			int pos = className.lastIndexOf('.');
+
+			if (pos > 0) {
+				return className.substring(pos + 1);
+			} else {
+				return className;
+			}
+		}
+
+		return "N/A";
+	}
+
+	@Override
+	public void debug(String message, Throwable throwable) {
+		if (isDebugEnabled()) {
+			out("DEBUG", message, throwable);
+		}
+	}
+
+	private void out(String severity, String message, Throwable throwable) {
+		m_lock.lock();
+
+		try {
+			String timedMessage = getTimedMessage(severity, message);
+
+			if (m_logFilePattern == null || m_logFilePattern.length() == 0) {
+				System.out.println(timedMessage);
+
+				if (throwable != null) {
+					throwable.printStackTrace(System.out);
+				}
+			} else {
+				try {
+					BufferedWriter writer = getWriter();
+
+					writer.write(timedMessage);
+					writer.newLine();
+
+					if (throwable != null) {
+						throwable.printStackTrace(new PrintWriter(writer));
+					}
+
+					writer.flush();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} finally {
+			m_lock.unlock();
+		}
+	}
+
+	private BufferedWriter getWriter() throws IOException {
+		if (m_logFileFormat != null) {
+			String path = m_logFileFormat.format(new Object[] { new Date() });
+
+			if (!path.equals(m_lastPath)) {
+				// close last one
+				if (m_writer != null) {
+					try {
+						m_writer.close();
+					} catch (IOException e) {
+						// ignore it
+					}
+				}
+
+				File file = new File(path);
+
+				file.getParentFile().mkdirs();
+
+				FileOutputStream fos = new FileOutputStream(file, true);
+
+				m_writer = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
+				m_lastPath = path;
+			}
+		} else if (m_writer == null) {
+			File file = new File(m_logFilePattern);
+
+			file.getParentFile().mkdirs();
+
+			FileOutputStream fos = new FileOutputStream(file, true);
+			m_writer = new BufferedWriter(new OutputStreamWriter(fos, "utf-8"));
+			m_lastPath = m_logFilePattern;
+		}
+
+		return m_writer;
+	}
+
+	@Override
+	public void info(String message, Throwable throwable) {
+		if (isInfoEnabled()) {
+			out("INFO", message, throwable);
+		}
+	}
+
+	@Override
+	public void warn(String message, Throwable throwable) {
+		if (isWarnEnabled()) {
+			out("WARN", message, throwable);
+		}
+	}
+
+	@Override
+	public void error(String message, Throwable throwable) {
+		if (isErrorEnabled()) {
+			out("ERROR", message, throwable);
+		}
+	}
+
+	@Override
+	public void fatalError(String message, Throwable throwable) {
+		if (isFatalErrorEnabled()) {
+			out("FATAL", message, throwable);
+		}
+	}
+
+	@Override
+	public Logger getChildLogger(String name) {
+		return this;
+	}
 }
