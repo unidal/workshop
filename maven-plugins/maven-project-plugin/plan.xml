@@ -56,7 +56,7 @@
          <dependency>
             <groupId>com.site.common</groupId>
             <artifactId>lookup</artifactId>
-            <version>1.0.5</version>
+            <version>1.0.6</version>
          </dependency>
          <dependency>
             <groupId>com.site.common</groupId>
@@ -145,7 +145,7 @@
          <name>Common parent</name>
          <path>common</path>
          <projects>
-            <project artifactId="lookup" version="1.0.5" packaging="jar">
+            <project artifactId="lookup" version="1.0.7" packaging="jar">
                <name>Component Lookup</name>
                <path>lookup</path>
                <dependencies>
@@ -205,14 +205,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="web-framework" version="1.0.5" packaging="jar">
+            <project artifactId="web-framework" version="1.0.10" packaging="jar">
                <name>Common web framework</name>
                <path>web-framework</path>
                <dependencies>
                   <dependency>
                      <groupId>com.dianping.cat</groupId>
                      <artifactId>cat-core</artifactId>
-                     <version>0.2.0-SNAPSHOT</version>
+                     <version>0.2.3</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
@@ -221,6 +221,7 @@
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>test-framework</artifactId>
+                     <version>1.0.1</version>
                      <scope>test</scope>
                   </dependency>
                   <dependency>
@@ -308,6 +309,7 @@
                   <dependency>
                      <groupId>com.dianping.cat</groupId>
                      <artifactId>cat-core</artifactId>
+                     <version>0.2.0</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.dal</groupId>
@@ -339,13 +341,14 @@
             </dependencies>
          </dependencyManagement>
          <projects>
-            <project artifactId="maven-common" version="1.0.1" packaging="jar">
+            <project artifactId="maven-common" version="1.0.2" packaging="jar">
                <name>Maven Common</name>
                <path>maven-common</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>lookup</artifactId>
+                     <version>1.0.7</version>
                   </dependency>
                   <dependency>
                      <groupId>org.apache.maven</groupId>
@@ -397,14 +400,14 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-project-plugin" version="1.0.3" packaging="maven-plugin">
+            <project artifactId="maven-project-plugin" version="1.0.4" packaging="maven-plugin">
                <name>Maven Project Plugin</name>
                <path>maven-project-plugin</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
-                     <version>1.0.1</version>
+                     <version>1.0.2</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.common</groupId>
