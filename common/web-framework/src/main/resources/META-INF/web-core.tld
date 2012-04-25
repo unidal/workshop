@@ -9,14 +9,21 @@
    <display-name>app-core</display-name>
    <tlib-version>1.2</tlib-version>
    <short-name>a</short-name>
-   <uri>/web/core</uri>
+   <uri>http://www.unidal.org/web/core</uri>
 
    <function>
-      <description>Format using MessageFormat</description>
+      <description>Format object using message pattern</description>
       <name>format</name>
       <function-class>com.site.web.jsp.function.Format</function-class>
       <function-signature>java.lang.String format(java.lang.Object, java.lang.String)</function-signature>
       <example>${a:format(payload.dateFrom,'yyyy-MM-dd')}</example>
+   </function>
+   <function>
+      <description>Format number with message pattern with auto scaling</description>
+      <name>formatNumber</name>
+      <function-class>com.site.web.jsp.function.Format</function-class>
+      <function-signature>java.lang.String formatNumber(java.lang.Number, java.lang.String, java.lang.String)</function-signature>
+      <example>${a:formatNumber(12345, '0.#', 'B')}</example>
    </function>
    <function>
       <description>Format in percentage</description>
