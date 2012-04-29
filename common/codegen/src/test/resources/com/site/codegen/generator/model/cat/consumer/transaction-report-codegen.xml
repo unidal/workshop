@@ -19,6 +19,7 @@
     <attribute name="sum2" value-type="double" />
     <attribute name="std" value-type="double" />
     <element name="successMessageUrl" value-type="String" />
+    <element name="failMessageUrl" value-type="String" />
     <entity-ref name="name" type="list" names="names" />
   </entity>
   <entity name="name">
@@ -33,13 +34,14 @@
     <attribute name="sum2" value-type="double" />
     <attribute name="std" value-type="double" />
     <element name="successMessageUrl" value-type="String" />
+    <element name="failMessageUrl" value-type="String" />
     <entity-ref name="range" type="list" names="ranges" />
     <entity-ref name="duration" type="list" names="durations" />
   </entity>
   <entity name="range">
     <attribute name="value" value-type="int" />
     <attribute name="count" value-type="int" />
-    <attribute name="sum" value-type="int" />
+    <attribute name="sum" value-type="double" />
     <attribute name="avg" value-type="double" />
     <attribute name="fails" value-type="int" />
   </entity>

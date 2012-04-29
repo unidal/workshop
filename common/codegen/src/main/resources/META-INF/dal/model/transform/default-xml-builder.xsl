@@ -305,7 +305,50 @@
 
 <xsl:template name="visit-children">
    <xsl:variable name="current" select="."/>
-   <xsl:for-each select="(entity-ref | element[not(@text='true')])[not(@render='false')]">
+   <xsl:for-each select="element[not(@text='true')][not(@render='false')]">
+      <xsl:value-of select="$empty-line"/>
+      <xsl:choose>
+         <xsl:when test="@list='true' or @map='true' or @set='true'">
+            <xsl:variable name="suffix">
+               <xsl:choose>
+                  <xsl:when test="@map='true'">.values()</xsl:when>
+                  <xsl:otherwise></xsl:otherwise>
+               </xsl:choose>
+            </xsl:variable>
+            <xsl:value-of select="$empty"/>      if (!<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>().isEmpty()) {<xsl:value-of select="$empty-line"/>
+            <xsl:if test="@xml-indent='true'">
+               <xsl:value-of select="$empty"/>         startTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty-line"/>
+            </xsl:if>
+            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
+            <xsl:choose>
+               <xsl:when test="@value-type-element='String'">
+                  <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/> == null ? "" : String.valueOf(<xsl:value-of select="@local-name-element"/>));<xsl:value-of select="$empty-line"/>
+               </xsl:otherwise>
+            </xsl:choose>
+            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
+            <xsl:if test="@xml-indent='true'">
+               <xsl:value-of select="$empty-line"/>
+               <xsl:value-of select="$empty"/>         endTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
+            </xsl:if>
+            <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
+         </xsl:when>
+         <xsl:otherwise>
+            <xsl:choose>
+               <xsl:when test="@value-type-element='String'">
+                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>());<xsl:value-of select="$empty-line"/>
+               </xsl:when>
+               <xsl:otherwise>
+                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() == null ? "" : String.valueOf(<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()));<xsl:value-of select="$empty-line"/>
+               </xsl:otherwise>
+            </xsl:choose>
+         </xsl:otherwise>
+      </xsl:choose>
+   </xsl:for-each>
+   <xsl:for-each select="entity-ref[not(@render='false')]">
       <xsl:variable name="name" select="@name"/>
       <xsl:variable name="entity" select="//entity[@name=$name]"/>
       <xsl:value-of select="$empty-line"/>
@@ -322,40 +365,14 @@
                <xsl:value-of select="$empty"/>         startTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty-line"/>
             </xsl:if>
-            <xsl:choose>
-               <xsl:when test="name()='element'">
-                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
-                  <xsl:choose>
-                     <xsl:when test="@value-type-element='String'">
-                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
-                     </xsl:when>
-                     <xsl:otherwise>
-                        <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/> == null ? "" : String.valueOf(<xsl:value-of select="@local-name-element"/>));<xsl:value-of select="$empty-line"/>
-                     </xsl:otherwise>
-                  </xsl:choose>
-                  <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
-                  <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
-               </xsl:otherwise>
-            </xsl:choose>
+            <xsl:value-of select="$empty"/>         for (<xsl:value-of select="$entity/@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@local-name-element"/> : <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()<xsl:value-of select="$suffix"/>) {<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>            <xsl:value-of select="'            '"/><xsl:value-of select="$entity/@visit-method"/>(<xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
             <xsl:if test="@xml-indent='true'">
                <xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>         endTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
             </xsl:if>
             <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
-         </xsl:when>
-         <xsl:when test="name()='element'">
-            <xsl:choose>
-               <xsl:when test="@value-type-element='String'">
-                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>());<xsl:value-of select="$empty-line"/>
-               </xsl:when>
-               <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() == null ? "" : String.valueOf(<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()));<xsl:value-of select="$empty-line"/>
-               </xsl:otherwise>
-            </xsl:choose>
          </xsl:when>
          <xsl:otherwise>
             <xsl:value-of select="$empty"/>      if (<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() != null) {<xsl:value-of select="$empty-line"/>

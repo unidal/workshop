@@ -46,7 +46,7 @@ public class <xsl:value-of select="@context-class"/><xsl:call-template name="gen
 
       String contextPath = request.getContextPath();
 
-      synchronized (this) {
+      synchronized (ResourceRuntime.INSTANCE) {
          if (!ResourceRuntime.INSTANCE.hasConfig(contextPath)) {
             ServletContext servletContext = request.getSession().getServletContext();
             File warRoot = new File(servletContext.getRealPath("/"));

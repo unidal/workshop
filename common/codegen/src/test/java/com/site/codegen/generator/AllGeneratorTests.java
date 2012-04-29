@@ -6,7 +6,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import com.site.codegen.generator.jdbc.JdbcGeneratorTest;
 import com.site.codegen.generator.model.all.AllGeneratorTest;
-import com.site.codegen.generator.model.cat.CatGeneratorTest;
+import com.site.codegen.generator.model.cat.CatConsumerGeneratorTest;
 import com.site.codegen.generator.model.pom.PomGeneratorTest;
 import com.site.codegen.generator.model.test.TestGeneratorTest;
 import com.site.codegen.generator.model.webres.WebresGeneratorTest;
@@ -21,7 +21,7 @@ AllGeneratorTest.class,
 
 PomGeneratorTest.class,
 
-CatGeneratorTest.class,
+CatConsumerGeneratorTest.class,
 
 TestGeneratorTest.class,
 
