@@ -22,7 +22,7 @@ public class CatCoreGeneratorTest extends ModelGenerateTestSupport {
 
 	@Override
 	protected boolean isVerbose() {
-		return false;
+		return true;
 	}
 
 	@Test

@@ -170,6 +170,11 @@
       </xsl:call-template>
    </xsl:if>
    
+   <xsl:variable name="policy-xml-parser-sax">
+      <xsl:call-template name="model-policy">
+         <xsl:with-param name="name" select="'sax-parser'"/>
+      </xsl:call-template>
+   </xsl:variable>
    <xsl:variable name="policy-xml-parser-dom">
       <xsl:call-template name="model-policy">
          <xsl:with-param name="name" select="'xml-parser'"/>
@@ -181,7 +186,7 @@
       </xsl:call-template>
    </xsl:variable>
    
-   <xsl:if test="$policy-xml-parser-dom='true' or $policy-xml-parser-tag-node='true'">
+   <xsl:if test="$policy-xml-parser-sax='true' or $policy-xml-parser-dom='true' or $policy-xml-parser-tag-node='true'">
       <!-- ILinker class -->
       <xsl:call-template name="generate-java">
         <xsl:with-param name="class" select="'ILinker'"/>
@@ -225,20 +230,36 @@
            <xsl:with-param name="template" select="'transform/tag-node-based-parser.xsl'"/>
          </xsl:call-template>
       </xsl:if>
-   
+
       <xsl:if test="$policy-xml-parser-dom='true'">
-         <!-- TagNodeBasedMaker class -->
+         <!-- DefaultMaker class -->
          <xsl:call-template name="generate-java">
            <xsl:with-param name="class" select="'DefaultMaker'"/>
            <xsl:with-param name="package" select="$transform-package"/>
            <xsl:with-param name="template" select="'transform/default-maker.xsl'"/>
          </xsl:call-template>
 
-         <!-- TagNodeBasedParser class -->
+         <!-- DefaultXmlParser class -->
          <xsl:call-template name="generate-java">
            <xsl:with-param name="class" select="'DefaultXmlParser'"/>
            <xsl:with-param name="package" select="$transform-package"/>
            <xsl:with-param name="template" select="'transform/default-xml-parser.xsl'"/>
+         </xsl:call-template>
+      </xsl:if>
+
+      <xsl:if test="$policy-xml-parser-sax='true'">
+         <!-- DefaultSaxMaker class -->
+         <xsl:call-template name="generate-java">
+           <xsl:with-param name="class" select="'DefaultSaxMaker'"/>
+           <xsl:with-param name="package" select="$transform-package"/>
+           <xsl:with-param name="template" select="'transform/default-sax-maker.xsl'"/>
+         </xsl:call-template>
+
+         <!-- DefaultSaxParser class -->
+         <xsl:call-template name="generate-java">
+           <xsl:with-param name="class" select="'DefaultSaxParser'"/>
+           <xsl:with-param name="package" select="$transform-package"/>
+           <xsl:with-param name="template" select="'transform/default-sax-parser.xsl'"/>
          </xsl:call-template>
       </xsl:if>
    </xsl:if>

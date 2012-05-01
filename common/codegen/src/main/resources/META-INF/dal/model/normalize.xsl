@@ -131,6 +131,10 @@
          <xsl:value-of select="'build'"/>
          <xsl:value-of select="$capital-name"/>
       </xsl:attribute>
+      <xsl:attribute name="parse-for-method">
+         <xsl:value-of select="'parseFor'"/>
+         <xsl:value-of select="$capital-name"/>
+      </xsl:attribute>
       <xsl:if test="@all-children-in-sequence='true'">
          <xsl:attribute name="value-type-all-children-in-sequence">
             <xsl:value-of select="'List&lt;BaseEntity&lt;?&gt;&gt;'"/>
