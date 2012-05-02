@@ -40,15 +40,20 @@ public class DefaultQueryEngine extends ContainerHolder implements QueryEngine {
 
 	protected <T extends DataObject> QueryContext createContext(QueryDef query, T proto) {
 		QueryContext ctx = lookup(QueryContext.class);
-		EntityInfo enityInfo = m_entityManager.getEntityInfo(query.getEntityClass());
-		Map<String, Object> queryHints = getQueryHints(query, proto);
 
-		ctx.setQuery(query);
-		ctx.setProto(proto);
-		ctx.setEntityInfo(enityInfo);
-		ctx.setQueryHints(queryHints);
+		try {
+			EntityInfo enityInfo = m_entityManager.getEntityInfo(query.getEntityClass());
+			Map<String, Object> queryHints = getQueryHints(query, proto);
 
-		return ctx;
+			ctx.setQuery(query);
+			ctx.setProto(proto);
+			ctx.setEntityInfo(enityInfo);
+			ctx.setQueryHints(queryHints);
+
+			return ctx;
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> int[] deleteBatch(QueryDef query, T[] protos) throws DalException {
@@ -58,15 +63,23 @@ public class DefaultQueryEngine extends ContainerHolder implements QueryEngine {
 
 		QueryContext ctx = createContext(query, protos[0]);
 
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		try {
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> int deleteSingle(QueryDef query, T proto) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdate(ctx);
+		try {
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdate(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	protected Map<String, Object> getQueryHints(QueryDef query, DataObject proto) {
@@ -88,51 +101,75 @@ public class DefaultQueryEngine extends ContainerHolder implements QueryEngine {
 
 		QueryContext ctx = createContext(query, protos[0]);
 
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		try {
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> int insertSingle(QueryDef query, T proto) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdate(ctx);
+		try {
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdate(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> List<T> queryMultiple(QueryDef query, T proto, Readset<?> readset) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		ctx.setReadset(readset);
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeQuery(ctx);
+		try {
+			ctx.setReadset(readset);
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeQuery(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> T querySingle(QueryDef query, T proto, Readset<?> readset) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		ctx.setReadset(readset);
-		ctx.setFetchSize(1);
-		m_queryResolver.resolve(ctx);
+		try {
+			ctx.setReadset(readset);
+			ctx.setFetchSize(1);
+			m_queryResolver.resolve(ctx);
 
-		List<T> results = m_queryExecutor.executeQuery(ctx);
+			List<T> results = m_queryExecutor.executeQuery(ctx);
 
-		if (results.isEmpty()) {
-			throw new DalException("No record has been found for " + proto);
-		} else {
-			return results.get(0);
+			if (results.isEmpty()) {
+				throw new DalException("No record has been found for " + proto);
+			} else {
+				return results.get(0);
+			}
+		} finally {
+			release(ctx);
 		}
 	}
 
 	public <T extends DataObject> void rollbackTransaction(QueryDef query, T proto) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		m_transactionManager.rollbackTransaction(ctx);
+		try {
+			m_transactionManager.rollbackTransaction(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> void startTransaction(QueryDef query, T proto) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		m_transactionManager.startTransaction(ctx);
+		try {
+			m_transactionManager.startTransaction(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> int[] updateBatch(QueryDef query, T[] protos, Updateset<?> updateset)
@@ -143,16 +180,24 @@ public class DefaultQueryEngine extends ContainerHolder implements QueryEngine {
 
 		QueryContext ctx = createContext(query, protos[0]);
 
-		ctx.setUpdateset(updateset);
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		try {
+			ctx.setUpdateset(updateset);
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdateBatch(ctx, protos);
+		} finally {
+			release(ctx);
+		}
 	}
 
 	public <T extends DataObject> int updateSingle(QueryDef query, T proto, Updateset<?> updateset) throws DalException {
 		QueryContext ctx = createContext(query, proto);
 
-		ctx.setUpdateset(updateset);
-		m_queryResolver.resolve(ctx);
-		return m_queryExecutor.executeUpdate(ctx);
+		try {
+			ctx.setUpdateset(updateset);
+			m_queryResolver.resolve(ctx);
+			return m_queryExecutor.executeUpdate(ctx);
+		} finally {
+			release(ctx);
+		}
 	}
 }
