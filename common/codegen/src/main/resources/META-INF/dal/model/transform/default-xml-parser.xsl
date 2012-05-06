@@ -169,7 +169,7 @@
    <xsl:value-of select="$empty-line"/>
    <xsl:for-each select="entity[@root='true']">
       <xsl:value-of select="$empty"/>   public <xsl:value-of select="@entity-class"/> parse(Node node) {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>      return parse(new DefaultMaker(), new DefaultLinker(), node);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      return parse(new DefaultMaker(), new DefaultLinker(false), node);<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   public <xsl:value-of select="@entity-class"/> parse(String xml) throws SAXException, IOException {<xsl:value-of select="$empty-line"/>
@@ -180,7 +180,7 @@
       <xsl:value-of select="$empty"/>         throw new RuntimeException(String.format("<xsl:value-of select="@tag-name"/> element(%s) is expected!", <xsl:value-of select="@upper-name"/>));<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>      return parse(new DefaultMaker(), new DefaultLinker(), rootNode);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>      return parse(new DefaultMaker(), new DefaultLinker(false), rootNode);<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
    </xsl:for-each>

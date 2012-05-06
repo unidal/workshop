@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <model model-package="com.site.codegen.all.model" enable-merger="true" enable-json-builder="true"
-   enable-xml-parser="true" enable-base-visitor="true" enable-xml-schema="true" enable-xml-sample="true">
-   <entity name="root-element" root="true">
+   enable-xml-parser="true" enable-base-visitor="true" enable-xml-schema="true" enable-xml-sample="true"
+   enable-sax-parser="true" enable-model-test="true" >
+   <entity name="root-element" dynamic-attributes="true" root="true">
       <entity-ref name="all-primitive-types" />
       <entity-ref name="all-reserved-keywords" />
       <entity-ref name="attribute-only" />
       <entity-ref name="attribute-with-default" />
-      <entity-ref name="attribute-with-text"/>
+      <entity-ref name="attribute-with-text" />
       <entity-ref name="element-only" />
       <entity-ref name="element-with-default" />
-      <entity-ref name="element-with-text"/>
+      <entity-ref name="element-with-text" />
       <entity-ref name="attribute-element" />
       <entity-ref name="attribute-element-with-default" />
       <entity-ref name="attribute-element-with-text" />
+      <entity-ref name="text-only" />
+      <entity-ref name="list-item" alias="list-item-1" />
+      <entity-ref name="list-item" alias="list-item-2" />
       <entity-ref name="list-item" type="list" names="plain-list" />
-      <entity-ref name="list-item" type="list" names="indented-list" xml-indent="true" />
+      <entity-ref name="list-item" alias="indented-list-item" type="list" names="indented-list" xml-indent="true" />
       <entity-ref name="map-item" type="map" names="plain-map" />
-      <entity-ref name="map-item" type="map" names="indented-map" xml-indent="true" />
-      <entity-ref name="node" type="list" xml-indent="true"/>
-      <entity-ref name="any-support"/>
+      <entity-ref name="map-item" alias="indented-map-item" type="map" names="indented-map" xml-indent="true" />
+      <entity-ref name="node" type="list" xml-indent="true" />
+      <entity-ref name="any-support" />
    </entity>
    <entity name="all-primitive-types">
       <attribute name="o1" value-type="boolean" />
@@ -104,15 +108,15 @@
       <attribute name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
    </entity>
    <entity name="attribute-with-default">
-      <attribute name="b1" value-type="boolean" default-value="true"/>
-      <attribute name="i1" value-type="int" default-value="10"/>
-      <attribute name="l1" value-type="long" default-value="123456L"/>
-      <attribute name="s1" value-type="String" default-value="default value here"/>
-      <attribute name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57"/>
+      <attribute name="b1" value-type="boolean" default-value="true" />
+      <attribute name="i1" value-type="int" default-value="10" />
+      <attribute name="l1" value-type="long" default-value="123456" />
+      <attribute name="s1" value-type="String" default-value="default value here" />
+      <attribute name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57" />
    </entity>
    <entity name="attribute-with-text">
       <attribute name="a1" value-type="int" />
-      <attribute name="a2" value-type="String" text="true"/>
+      <element name="a2" value-type="String" text="true" />
    </entity>
    <entity name="element-only">
       <element name="b0" value-type="boolean" />
@@ -120,23 +124,23 @@
       <element name="l0" value-type="long" />
       <element name="s0" value-type="String" />
       <element name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
-      <element name="l1" value-type="String" type="list"/>
-      <element name="l2" value-type="String" type="list" names="l2s"/>
-      <element name="l3" value-type="String" type="list" names="l3s" xml-indent="true"/>
-      <element name="s1" value-type="String" type="set"/>
-      <element name="s2" value-type="String" type="set" names="s2s"/>
-      <element name="s3" value-type="String" type="set" names="s3s" xml-indent="true"/>
+      <element name="l1" value-type="String" type="list" />
+      <element name="l2" value-type="String" type="list" names="l2s" />
+      <element name="l3" value-type="String" type="list" names="l3s" xml-indent="true" />
+      <element name="s1" value-type="String" type="set" />
+      <element name="s2" value-type="String" type="set" names="s2s" />
+      <element name="s3" value-type="String" type="set" names="s3s" xml-indent="true" />
    </entity>
    <entity name="element-with-default">
-      <element name="b1" value-type="boolean" default-value="true"/>
-      <element name="i1" value-type="int" default-value="10"/>
-      <element name="l1" value-type="long" default-value="123456L"/>
-      <element name="s1" value-type="String" default-value="default value here"/>
-      <element name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57"/>
+      <element name="b1" value-type="boolean" default-value="true" />
+      <element name="i1" value-type="int" default-value="10" />
+      <element name="l1" value-type="long" default-value="123456" />
+      <element name="s1" value-type="String" default-value="default value here" />
+      <element name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57" />
    </entity>
    <entity name="element-with-text">
-      <element name="e1" value-type="int" text="true"/>
-      <element name="e2" value-type="String"/>
+      <element name="e1" value-type="int" text="true" />
+      <element name="e2" value-type="String" />
    </entity>
    <entity name="attribute-element">
       <attribute name="b1" value-type="boolean" />
@@ -151,45 +155,52 @@
       <element name="e5" value-type="Date" format="yyyy-MM-dd HH:mm:ss" />
    </entity>
    <entity name="attribute-element-with-default">
-      <attribute name="b1" value-type="boolean" default-value="true"/>
-      <attribute name="i1" value-type="int" default-value="10"/>
-      <attribute name="l1" value-type="long" default-value="123456L"/>
-      <attribute name="s1" value-type="String" default-value="default value here"/>
-      <attribute name="d1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57"/>
-      <element name="b2" value-type="boolean" default-value="false"/>
-      <element name="i2" value-type="int" default-value="20"/>
-      <element name="l2" value-type="long" default-value="1234567L"/>
-      <element name="s2" value-type="String" default-value="default value here."/>
-      <element name="d2" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:35:58"/>
+      <attribute name="b1" value-type="boolean" default-value="true" />
+      <attribute name="i1" value-type="int" default-value="10" />
+      <attribute name="l1" value-type="long" default-value="123456" />
+      <attribute name="f1" value-type="float" default-value="123" />
+      <attribute name="d1" value-type="double" default-value="1234" />
+      <attribute name="s1" value-type="String" default-value="default value here" />
+      <attribute name="dt1" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:34:57" />
+      <element name="b2" value-type="boolean" default-value="false" />
+      <element name="i2" value-type="int" default-value="20" />
+      <element name="l2" value-type="long" default-value="1234567" />
+      <element name="f2" value-type="float" default-value="1234" />
+      <element name="d2" value-type="double" default-value="12345" />
+      <element name="s2" value-type="String" default-value="default value here." />
+      <element name="dt2" value-type="Date" format="yyyy-MM-dd HH:mm:ss" default-value="2012-01-26 10:35:58" />
    </entity>
    <entity name="attribute-element-with-text">
-      <attribute name="a1" value-type="boolean"/>
-      <element name="e1" value-type="int" text="true"/>
-      <element name="e2" value-type="String"/>
+      <attribute name="a1" value-type="boolean" />
+      <element name="e1" value-type="int" text="true" />
+      <element name="e2" value-type="String" />
+   </entity>
+   <entity name="text-only">
+      <element name="s1" value-type="String" text="true" />
    </entity>
    <entity name="list-item">
-      <attribute name="a1" value-type="String" key="true"/>
-      <attribute name="a2" value-type="String" default-value="default value here"/>
-      <element name="e1" value-type="String"/>
-      <element name="e2" value-type="String" default-value="default value here"/>
+      <attribute name="a1" value-type="String" key="true" />
+      <attribute name="a2" value-type="String" default-value="default value here" />
+      <element name="e1" value-type="String" />
+      <element name="e2" value-type="String" default-value="default value here" />
    </entity>
    <entity name="map-item">
-      <attribute name="a1" value-type="String"/>
-      <attribute name="a2" value-type="String" default-value="default value here"/>
-      <element name="e1" value-type="String" key="true"/>
-      <element name="e2" value-type="String" default-value="default value here"/>
+      <attribute name="a1" value-type="String" />
+      <attribute name="a2" value-type="String" default-value="default value here" />
+      <element name="e1" value-type="String" key="true" />
+      <element name="e2" value-type="String" default-value="default value here" />
    </entity>
    <entity name="node" class-name="TreeNode">
-      <attribute name="value" value-type="String"/>
-      <entity-ref name="node" alias="current"/>
-      <entity-ref name="node" type="list" names="children" xml-indent="true"/>
+      <attribute name="value" value-type="String" />
+      <entity-ref name="node" alias="current" />
+      <entity-ref name="node" type="list" names="children" xml-indent="true" />
    </entity>
    <entity name="any-support" dynamic-attributes="true">
       <attribute name="i1" value-type="int" />
       <attribute name="l1" value-type="long" />
       <attribute name="s1" value-type="String" />
-      <element name="e1" value-type="String"/>
-      <element name="e2" value-type="String"/>
-      <any name="dynamic-elements"/>
+      <element name="e1" value-type="String" />
+      <element name="e2" value-type="String" />
+      <any name="dynamic-elements" />
    </entity>
 </model>

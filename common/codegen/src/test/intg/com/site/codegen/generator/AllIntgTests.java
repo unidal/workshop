@@ -4,23 +4,19 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import com.site.codegen.generator.cat.FormatterTest;
-import com.site.codegen.generator.cat.JsonTest;
-import com.site.codegen.generator.cat.SchemaTest;
-import com.site.codegen.generator.cat.XmlTest;
+import com.site.codegen.generator.cat.consumer.ProblemReportTest;
+import com.site.codegen.generator.cat.consumer.TransactionReportTest;
 import com.site.codegen.generator.pom.PomTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
 
-XmlTest.class,
+/* .cat.consumer */
+ProblemReportTest.class,
 
-JsonTest.class,
+TransactionReportTest.class,
 
-SchemaTest.class,
-
-FormatterTest.class,
-
+/* .pom */
 PomTest.class
 
 })

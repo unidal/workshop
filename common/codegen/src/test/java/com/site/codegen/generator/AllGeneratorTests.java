@@ -7,6 +7,7 @@ import org.junit.runners.Suite.SuiteClasses;
 import com.site.codegen.generator.jdbc.JdbcGeneratorTest;
 import com.site.codegen.generator.model.all.AllGeneratorTest;
 import com.site.codegen.generator.model.cat.CatConsumerGeneratorTest;
+import com.site.codegen.generator.model.cat.CatCoreGeneratorTest;
 import com.site.codegen.generator.model.pom.PomGeneratorTest;
 import com.site.codegen.generator.model.test.TestGeneratorTest;
 import com.site.codegen.generator.model.webres.WebresGeneratorTest;
@@ -19,9 +20,11 @@ import com.site.codegen.generator.xml.XmlGeneratorTest;
 
 AllGeneratorTest.class,
 
-PomGeneratorTest.class,
+CatCoreGeneratorTest.class,
 
 CatConsumerGeneratorTest.class,
+
+PomGeneratorTest.class,
 
 TestGeneratorTest.class,
 

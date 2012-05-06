@@ -146,18 +146,18 @@
    }
 
    protected void startTag(String name) {
-      startTag(name, null, false);
+      startTag(name, false, null);
    }
    
-   protected void startTag(String name, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, boolean closed, Object... nameValues) {
-      startTag(name, dynamicAttributes, null, closed, nameValues);
+   protected void startTag(String name, boolean closed, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
+      startTag(name, null, closed, dynamicAttributes, nameValues);
    }
 
    protected void startTag(String name, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
-      startTag(name, dynamicAttributes, false, nameValues);
+      startTag(name, null, false, dynamicAttributes, nameValues);
    }
 
-   protected void startTag(String name, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object text, boolean closed, Object... nameValues) {
+   protected void startTag(String name, Object text, boolean closed, java.util.Map<xsl:value-of select="'&lt;String, String&gt;'" disable-output-escaping="yes"/> dynamicAttributes, Object... nameValues) {
       indent();
 
       m_sb.append('<xsl:value-of select="'&lt;'" disable-output-escaping="yes"/>').append(name);
@@ -251,10 +251,10 @@
       <xsl:value-of select="$empty"/>         if (any.hasValue()) {<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>            tagWithText(any.getName(), any.getValue());<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>         } else {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>            startTag(any.getName(), any.getAttributes(), true);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>            startTag(any.getName(), true, any.getAttributes());<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>      } else {<xsl:value-of select="$empty-line"/>
-      <xsl:value-of select="$empty"/>         startTag(any.getName(), any.getAttributes(), false);<xsl:value-of select="$empty-line"/>
+      <xsl:value-of select="$empty"/>         startTag(any.getName(), false, any.getAttributes());<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>         for (Any child : any.getChildren()) {<xsl:value-of select="$empty-line"/>
       <xsl:value-of select="$empty"/>            visitAny(child);<xsl:value-of select="$empty-line"/>
@@ -293,10 +293,10 @@
             <xsl:value-of select="$empty"/>      endTag(<xsl:value-of select="@upper-name"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:when test="(attribute | element)[@text='true']">
-            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/>, <xsl:value-of select="@param-name"/>.<xsl:value-of select="(attribute | element)[@text='true']/@get-method"/>(), true<xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, <xsl:value-of select="@param-name"/>.<xsl:value-of select="(attribute | element)[@text='true']/@get-method"/>(), true, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
          <xsl:when test="attribute[not(@render='false')]">
-            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, <xsl:call-template name="get-dynamic-attributes"/>, true<xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
+            <xsl:value-of select="$empty"/>      startTag(<xsl:value-of select="@upper-name"/>, true, <xsl:call-template name="get-dynamic-attributes"/><xsl:call-template name="tag-fields"/>);<xsl:value-of select="$empty-line"/>
          </xsl:when>
       </xsl:choose>
       <xsl:value-of select="$empty"/>   }<xsl:value-of select="$empty-line"/>
@@ -326,7 +326,7 @@
                   <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/>);<xsl:value-of select="$empty-line"/>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/> == null ? "" : String.valueOf(<xsl:value-of select="@local-name-element"/>));<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>            tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="@local-name-element"/> == null ? null : String.valueOf(<xsl:value-of select="@local-name-element"/>));<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
             </xsl:choose>
             <xsl:value-of select="$empty"/>         }<xsl:value-of select="$empty-line"/>
@@ -342,7 +342,7 @@
                   <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>());<xsl:value-of select="$empty-line"/>
                </xsl:when>
                <xsl:otherwise>
-                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() == null ? "" : String.valueOf(<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()));<xsl:value-of select="$empty-line"/>
+                  <xsl:value-of select="$empty"/>      tagWithText(<xsl:value-of select="@upper-name-element"/>, <xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>() == null ? null : String.valueOf(<xsl:value-of select="$current/@param-name"/>.<xsl:value-of select="@get-method"/>()));<xsl:value-of select="$empty-line"/>
                </xsl:otherwise>
             </xsl:choose>
          </xsl:otherwise>

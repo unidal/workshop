@@ -18,6 +18,7 @@
    <xsl:call-template name='import-list'/>
    <xsl:value-of select="$empty"/>public class DefaultMaker implements IMaker<xsl:call-template name="generic-type"><xsl:with-param name="type" select="'Node'"/></xsl:call-template> {<xsl:value-of select="$empty-line"/>
    <xsl:call-template name='method-build-children'/>
+   <xsl:call-template name='method-convert-value'/>
    <xsl:call-template name='method-get-attribute'/>
    <xsl:call-template name='method-get-child-tag-node'/>
    <xsl:call-template name='method-get-text'/>
@@ -83,12 +84,12 @@
    <xsl:for-each select="entity | entity/element[(@list='true' or @set='true') and not(@render='false')]">
       <xsl:sort select="@build-method"/>
 
-      <xsl:value-of select="$empty-line"/>
       <xsl:choose>
          <xsl:when test="name()='element'">
             <xsl:variable name="build-method" select="@build-method"/>
             
             <xsl:if test="generate-id(//entity/element[@build-method=$build-method][(@list='true' or @set='true') and not(@render='false')][1])=generate-id()">
+               <xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>   public <xsl:value-of select="@value-type-element"/><xsl:value-of select="$space"/><xsl:value-of select="@build-method"/>(Node node) {<xsl:value-of select="$empty-line"/>
                <xsl:value-of select="$empty"/>      return <xsl:value-of select="$empty"/>
@@ -101,6 +102,7 @@
             </xsl:if>
          </xsl:when>
          <xsl:otherwise>
+            <xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   @Override<xsl:value-of select="$empty-line"/>
             <xsl:value-of select="$empty"/>   public <xsl:value-of select="@entity-class"/><xsl:value-of select="$space"/><xsl:value-of select="@build-method"/>(Node node) {<xsl:value-of select="$empty-line"/>
             <xsl:call-template name="define-variable-from-attributes"/>
@@ -310,9 +312,9 @@
    <xsl:choose>
       <xsl:when test="$enum-value-type='true'"><xsl:value-of select="$value-type"/>.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:when test="$value-type='String'"><xsl:value-of select="$value"/></xsl:when>
-      <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>")</xsl:when>
+      <xsl:when test="$value-type='java.util.Date'">toDate(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>", null)</xsl:when>
       <xsl:when test="@format">
-         <xsl:value-of select="$empty"/>toNumber(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>").<xsl:value-of select="$empty"/>
+         <xsl:value-of select="$empty"/>toNumber(<xsl:value-of select="$value"/>, "<xsl:value-of select="@format"/>", 0).<xsl:value-of select="$empty"/>
          <xsl:choose>
             <xsl:when test="$value-type='int'">intValue()</xsl:when>
             <xsl:when test="$value-type='Integer'">intValue()</xsl:when>
@@ -329,22 +331,22 @@
             <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
          </xsl:choose>
       </xsl:when>
-      <xsl:when test="$value-type='boolean'">Boolean.parseBoolean(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Boolean'">Boolean.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='int'">Integer.parseInt(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Integer'">Integer.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='long'">Long.parseLong(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Long'">Long.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='short'">Short.parseShort(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Short'">Short.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='float'">Float.parseFloat(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Float'">Float.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='double'">Double.parseDouble(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Double'">Double.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='byte'">Byte.parseByte(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='Byte'">Byte.valueOf(<xsl:value-of select="$value"/>)</xsl:when>
-      <xsl:when test="$value-type='char'"><xsl:value-of select="$value"/>.length() != 0 ? <xsl:value-of select="$value"/>.charAt(0) : (char) 0</xsl:when>
-      <xsl:when test="$value-type='Character'"><xsl:value-of select="$value"/>.length() != 0 ? Character.valueOf(<xsl:value-of select="$value"/>.charAt(0)) : null</xsl:when>
+      <xsl:when test="$value-type='boolean'">convert(Boolean.class, <xsl:value-of select="$value"/>, false)</xsl:when>
+      <xsl:when test="$value-type='Boolean'">convert(Boolean.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='int'">convert(Integer.class, <xsl:value-of select="$value"/>, 0)</xsl:when>
+      <xsl:when test="$value-type='Integer'">convert(Integer.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='long'">convert(Long.class, <xsl:value-of select="$value"/>, 0L)</xsl:when>
+      <xsl:when test="$value-type='Long'">convert(Long.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='short'">convert(Short.class, <xsl:value-of select="$value"/>, (short) 0)</xsl:when>
+      <xsl:when test="$value-type='Short'">convert(Short.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='float'">convert(Float.class, <xsl:value-of select="$value"/>, 0.0f)</xsl:when>
+      <xsl:when test="$value-type='Float'">convert(Float.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='double'">convert(Double.class, <xsl:value-of select="$value"/>, 0.0)</xsl:when>
+      <xsl:when test="$value-type='Double'">convert(Double.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='byte'">convert(Byte.class, <xsl:value-of select="$value"/>, (byte) 0)</xsl:when>
+      <xsl:when test="$value-type='Byte'">convert(Byte.class, <xsl:value-of select="$value"/>, null)</xsl:when>
+      <xsl:when test="$value-type='char'">convert(Character.class, <xsl:value-of select="$value"/>, (char) 0)</xsl:when>
+      <xsl:when test="$value-type='Character'">convert(Character.class, <xsl:value-of select="$value"/>, null)</xsl:when>
       <xsl:when test="$value-type='Class&lt;?&gt;'">toClass(<xsl:value-of select="$value"/>)</xsl:when>
       <xsl:otherwise><xsl:value-of select="$value"/></xsl:otherwise>
    </xsl:choose>
@@ -381,9 +383,42 @@
 </xsl:if>
 </xsl:template>
 
+<xsl:template name="method-convert-value">
+   @SuppressWarnings("unchecked")
+   protected <xsl:value-of select="'&lt;T&gt;'" disable-output-escaping="yes"/> T convert(Class<xsl:value-of select="'&lt;T&gt;'" disable-output-escaping="yes"/> type, String value, T defaultValue) {
+      if (value == null || value.length() == 0) {
+         return defaultValue;
+      }
+
+      if (type == Boolean.class) {
+         return (T) Boolean.valueOf(value);
+      } else if (type == Integer.class) {
+         return (T) Integer.valueOf(value);
+      } else if (type == Long.class) {
+         return (T) Long.valueOf(value);
+      } else if (type == Short.class) {
+         return (T) Short.valueOf(value);
+      } else if (type == Float.class) {
+         return (T) Float.valueOf(value);
+      } else if (type == Double.class) {
+         return (T) Double.valueOf(value);
+      } else if (type == Byte.class) {
+         return (T) Byte.valueOf(value);
+      } else if (type == Character.class) {
+         return (T) (Character) value.charAt(0);
+      } else {
+         return (T) value;
+      }
+   }
+</xsl:template>
+
 <xsl:template name="method-to-date">
 <xsl:if test="(//entity/attribute | //entity/element)[@value-type='java.util.Date'][not(@render='false')]">
-   protected java.util.Date toDate(String str, String format) {
+   protected java.util.Date toDate(String str, String format, java.util.Date defaultValue) {
+      if (str == null || str.length() == 0) {
+         return defaultValue;
+      }
+
       try {
          return new java.text.SimpleDateFormat(format).parse(str);
       } catch (java.text.ParseException e) {
@@ -392,7 +427,11 @@
    }
 </xsl:if>
 <xsl:if test="(//entity/attribute | //entity/element)[@format and not(@value-type='java.util.Date')][not(@render='false')]">
-   protected Number toNumber(String str, String format) {
+   protected Number toNumber(String str, String format, Number defaultValue) {
+      if (str == null || str.length() == 0) {
+         return defaultValue;
+      }
+
       try {
          return new java.text.DecimalFormat(format).parse(str);
       } catch (java.text.ParseException e) {

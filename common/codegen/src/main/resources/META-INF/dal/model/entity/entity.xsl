@@ -549,13 +549,21 @@
       <xsl:when test="@value-type = 'String'">"<xsl:value-of select="@default-value"/>"</xsl:when>
       <xsl:when test="@value-type = 'Time'"><xsl:value-of select="@default-value"/>L</xsl:when>
       <xsl:when test="@value-type = 'boolean'"><xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'Boolean'"><xsl:value-of select="@default-value"/></xsl:when>
       <xsl:when test="@value-type = 'byte'">(byte)<xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'Byte'">(byte)<xsl:value-of select="@default-value"/></xsl:when>
       <xsl:when test="@value-type = 'char'">'<xsl:value-of select="@default-value"/>'</xsl:when>
+      <xsl:when test="@value-type = 'Character'">'<xsl:value-of select="@default-value"/>'</xsl:when>
       <xsl:when test="@value-type = 'short'">(short)<xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'Short'">(short)<xsl:value-of select="@default-value"/></xsl:when>
       <xsl:when test="@value-type = 'int'"><xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'Integer'"><xsl:value-of select="@default-value"/></xsl:when>
       <xsl:when test="@value-type = 'long'"><xsl:value-of select="@default-value"/>L</xsl:when>
-      <xsl:when test="@value-type = 'float'"><xsl:value-of select="@default-value"/></xsl:when>
-      <xsl:when test="@value-type = 'double'"><xsl:value-of select="@default-value"/></xsl:when>
+      <xsl:when test="@value-type = 'Long'"><xsl:value-of select="@default-value"/>L</xsl:when>
+      <xsl:when test="@value-type = 'float'"><xsl:value-of select="@default-value"/>f</xsl:when>
+      <xsl:when test="@value-type = 'Float'"><xsl:value-of select="@default-value"/>f</xsl:when>
+      <xsl:when test="@value-type = 'double'"><xsl:value-of select="@default-value"/>d</xsl:when>
+      <xsl:when test="@value-type = 'Double'"><xsl:value-of select="@default-value"/>d</xsl:when>
       <xsl:when test="@value-type = 'java.util.Date'">toDate("<xsl:value-of select="@format"/>", "<xsl:value-of select="@default-value"/>")</xsl:when>
       <xsl:otherwise><xsl:value-of select="@default-value"/></xsl:otherwise>
 	</xsl:choose>
