@@ -22,16 +22,15 @@ import org.junit.Test;
 
 import <xsl:value-of select="$package"/>.entity.<xsl:value-of select="$entity/@entity-class"/>;<xsl:value-of select="$empty"/>
 <xsl:if test="/model/@enable-json-builder='true'">import <xsl:value-of select="$package"/>.transform.DefaultJsonBuilder;</xsl:if>
+import <xsl:value-of select="$package"/>.transform.DefaultDomParser;
 import <xsl:value-of select="$package"/>.transform.DefaultXmlBuilder;
-import <xsl:value-of select="$package"/>.transform.DefaultXmlParser;
 import com.site.helper.Files;
 
 public class <xsl:value-of select="$class"/> {
    @Test
-   public void testXml() throws Exception {
-      DefaultXmlParser parser = new DefaultXmlParser();
+   public void testDomParser() throws Exception {
       String source = Files.forIO().readFrom(getClass().getResourceAsStream("<xsl:value-of select="$entity/@name"/>.xml"), "utf-8");
-      <xsl:value-of select="$entity/@entity-class"/> root = parser.parse(source);
+      <xsl:value-of select="$entity/@entity-class"/> root = new DefaultDomParser().parse(source);
       String xml = new DefaultXmlBuilder().buildXml(root);
       String expected = source;
 
@@ -40,9 +39,8 @@ public class <xsl:value-of select="$class"/> {
 <xsl:if test="/model/@enable-json-builder='true'">
    @Test
    public void testJson() throws Exception {
-      DefaultXmlParser parser = new DefaultXmlParser();
       String source = Files.forIO().readFrom(getClass().getResourceAsStream("<xsl:value-of select="$entity/@name"/>.xml"), "utf-8");
-      <xsl:value-of select="$entity/@entity-class"/> root = parser.parse(source);
+      <xsl:value-of select="$entity/@entity-class"/> root = new DefaultDomParser().parse(source);
       String json = new DefaultJsonBuilder().buildJson(root);
       String expected = Files.forIO().readFrom(getClass().getResourceAsStream("<xsl:value-of select="$entity/@name"/>.json"), "utf-8");
 

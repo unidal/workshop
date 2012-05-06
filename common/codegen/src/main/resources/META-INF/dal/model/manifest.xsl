@@ -234,16 +234,16 @@
       <xsl:if test="$policy-xml-parser-dom='true'">
          <!-- DefaultMaker class -->
          <xsl:call-template name="generate-java">
-           <xsl:with-param name="class" select="'DefaultMaker'"/>
+           <xsl:with-param name="class" select="'DefaultDomMaker'"/>
            <xsl:with-param name="package" select="$transform-package"/>
-           <xsl:with-param name="template" select="'transform/default-maker.xsl'"/>
+           <xsl:with-param name="template" select="'transform/default-dom-maker.xsl'"/>
          </xsl:call-template>
 
-         <!-- DefaultXmlParser class -->
+         <!-- DefaultDomParser class -->
          <xsl:call-template name="generate-java">
-           <xsl:with-param name="class" select="'DefaultXmlParser'"/>
+           <xsl:with-param name="class" select="'DefaultDomParser'"/>
            <xsl:with-param name="package" select="$transform-package"/>
-           <xsl:with-param name="template" select="'transform/default-xml-parser.xsl'"/>
+           <xsl:with-param name="template" select="'transform/default-dom-parser.xsl'"/>
          </xsl:call-template>
       </xsl:if>
 
