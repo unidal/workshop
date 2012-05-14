@@ -13,14 +13,14 @@ import com.dianping.cat.consumer.transaction.model.entity.TransactionReport;
 import com.dianping.cat.consumer.transaction.model.transform.DefaultJsonBuilder;
 import com.dianping.cat.consumer.transaction.model.transform.DefaultSaxParser;
 import com.dianping.cat.consumer.transaction.model.transform.DefaultXmlBuilder;
-import com.dianping.cat.consumer.transaction.model.transform.DefaultXmlParser;
+import com.dianping.cat.consumer.transaction.model.transform.DefaultDomParser;
 import com.site.helper.Files;
 
 public class TransactionReportTest {
 	@Test
 	public void testDomParser() throws Exception {
 		String source = Files.forIO().readFrom(getClass().getResourceAsStream("TransactionReport.xml"), "utf-8");
-		TransactionReport report = new DefaultXmlParser().parse(source);
+		TransactionReport report = new DefaultDomParser().parse(source);
 		String xml = new DefaultXmlBuilder().buildXml(report);
 		String expected = source;
 
@@ -29,9 +29,8 @@ public class TransactionReportTest {
 
 	@Test
 	public void testJson() throws Exception {
-		DefaultXmlParser parser = new DefaultXmlParser();
 		String source = Files.forIO().readFrom(getClass().getResourceAsStream("TransactionReport.xml"), "utf-8");
-		TransactionReport report = parser.parse(source);
+		TransactionReport report = new DefaultDomParser().parse(source);
 		String json = new DefaultJsonBuilder().buildJson(report);
 		String expected = Files.forIO().readFrom(getClass().getResourceAsStream("TransactionReport.json"), "utf-8");
 

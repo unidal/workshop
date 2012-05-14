@@ -91,6 +91,27 @@
    </xsl:choose>
 </xsl:template>
 
+<xsl:template name="replace">
+   <xsl:param name="text"/>
+   <xsl:param name="from"/>
+   <xsl:param name="to"/>
+
+   <xsl:choose>
+      <xsl:when test="contains($text,$from)">
+         <xsl:value-of select="substring-before($text,$from)"/>
+         <xsl:value-of select="$to"/>
+         <xsl:call-template name="replace">
+            <xsl:with-param name="text" select="substring-after($text,$from)"/>
+            <xsl:with-param name="from" select="$from"/>
+            <xsl:with-param name="to" select="$to"/>
+         </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+         <xsl:value-of select="$text"/>
+      </xsl:otherwise>
+   </xsl:choose>
+</xsl:template>  
+
 <xsl:template name="generic-type">
    <xsl:param name="type"/>
    

@@ -6,15 +6,14 @@ import org.junit.Test;
 import com.site.codegen.pom.model.entity.Project;
 import com.site.codegen.pom.model.transform.DefaultJsonBuilder;
 import com.site.codegen.pom.model.transform.DefaultXmlBuilder;
-import com.site.codegen.pom.model.transform.DefaultXmlParser;
+import com.site.codegen.pom.model.transform.DefaultDomParser;
 import com.site.helper.Files;
 
 public class PomTest {
    @Test
    public void testXml() throws Exception {
-      DefaultXmlParser parser = new DefaultXmlParser();
       String source = Files.forIO().readFrom(getClass().getResourceAsStream("pom.xml"), "utf-8");
-      Project root = parser.parse(source);
+      Project root = new DefaultDomParser().parse(source);
       String xml = new DefaultXmlBuilder().buildXml(root);
       String expected = source;
 
@@ -23,9 +22,8 @@ public class PomTest {
    
    @Test
    public void testJson() throws Exception {
-      DefaultXmlParser parser = new DefaultXmlParser();
       String source = Files.forIO().readFrom(getClass().getResourceAsStream("pom.xml"), "utf-8");
-      Project root = parser.parse(source);
+      Project root = new DefaultDomParser().parse(source);
       String xml = new DefaultJsonBuilder().buildJson(root);
       String expected = Files.forIO().readFrom(getClass().getResourceAsStream("pom.json"), "utf-8");
       

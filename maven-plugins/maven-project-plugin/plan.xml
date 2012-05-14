@@ -56,7 +56,7 @@
          <dependency>
             <groupId>com.site.common</groupId>
             <artifactId>lookup</artifactId>
-            <version>1.0.6</version>
+            <version>1.0.7</version>
          </dependency>
          <dependency>
             <groupId>com.site.common</groupId>
@@ -145,7 +145,7 @@
          <name>Common parent</name>
          <path>common</path>
          <projects>
-            <project artifactId="lookup" version="1.0.7" packaging="jar">
+            <project artifactId="lookup" version="1.0.8" packaging="jar">
                <name>Component Lookup</name>
                <path>lookup</path>
                <dependencies>
@@ -173,7 +173,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="codegen" version="1.0.8" packaging="jar">
+            <project artifactId="codegen" version="1.0.10" packaging="jar">
                <name>Common code generator</name>
                <path>codegen</path>
                <dependencies>
@@ -205,10 +205,15 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="web-framework" version="1.0.10" packaging="jar">
+            <project artifactId="web-framework" version="1.0.11" packaging="jar">
                <name>Common web framework</name>
                <path>web-framework</path>
                <dependencies>
+                  <dependency>
+                     <groupId>com.site.common</groupId>
+                     <artifactId>lookup</artifactId>
+                     <version>1.0.8</version>
+                  </dependency>
                   <dependency>
                      <groupId>com.dianping.cat</groupId>
                      <artifactId>cat-core</artifactId>
@@ -302,7 +307,7 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="dal-jdbc" version="1.0.2" packaging="jar">
+            <project artifactId="dal-jdbc" version="1.0.3" packaging="jar">
                <name>DAL JDBC</name>
                <path>dal-jdbc</path>
                <dependencies>
@@ -356,19 +361,19 @@
                   </dependency>
                </dependencies>
             </project>
-            <project artifactId="maven-codegen-plugin" version="1.0.15" packaging="maven-plugin">
+            <project artifactId="maven-codegen-plugin" version="1.0.16" packaging="maven-plugin">
                <name>Code Generation Maven Plugin</name>
                <path>maven-codegen-plugin</path>
                <dependencies>
                   <dependency>
                      <groupId>com.site.maven.plugins</groupId>
                      <artifactId>maven-common</artifactId>
-                     <version>1.0.1</version>
+                     <version>1.0.2</version>
                   </dependency>
                   <dependency>
                      <groupId>com.site.common</groupId>
                      <artifactId>codegen</artifactId>
-                     <version>1.0.8</version>
+                     <version>1.0.10</version>
                   </dependency>
                   <dependency>
                      <groupId>mysql</groupId>

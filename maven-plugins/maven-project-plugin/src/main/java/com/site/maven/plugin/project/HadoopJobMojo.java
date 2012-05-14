@@ -26,7 +26,7 @@ import com.site.helper.Files.AutoClose;
  * <p>
  * 
  * @goal hadoop-job
- * @execute phase=package
+ * @execute phase=install
  * @requiresDependencyResolution runtime
  * @author Frankie Wu
  */
@@ -111,7 +111,7 @@ public class HadoopJobMojo extends AbstractMojo {
 
 	void makeArchive(Archiver a, String baseDir, File artifactJar, List<String> elements) throws Exception {
 		StringBuilder classpath = new StringBuilder(2048);
-		String mainJar = artifactJar.getName();
+		String mainJar = "lib/" + artifactJar.getName();
 
 		a.addFile(artifactJar, mainJar);
 		classpath.append(". ").append(mainJar);

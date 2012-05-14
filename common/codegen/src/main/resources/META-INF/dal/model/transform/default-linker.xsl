@@ -35,7 +35,10 @@
 </xsl:template>
 
 <xsl:template name="declare-field-variables">
-   private boolean m_deferrable;
+<xsl:if test="not(//entity/entity-ref/@map='true')">
+   <xsl:value-of select="$empty"/>   @SuppressWarnings("unused")
+</xsl:if>
+   <xsl:value-of select="$empty"/>   private boolean m_deferrable;
 
    private List<xsl:value-of select="'&lt;Runnable&gt;'" disable-output-escaping="yes"/> m_deferedJobs = new ArrayList<xsl:value-of select="'&lt;Runnable&gt;'" disable-output-escaping="yes"/>();
 

@@ -26,7 +26,7 @@ import com.site.lookup.configuration.AbstractResourceConfigurator;
 import com.site.maven.plugins.plexus.profile.entity.Env;
 import com.site.maven.plugins.plexus.profile.entity.Profile;
 import com.site.maven.plugins.plexus.profile.entity.Property;
-import com.site.maven.plugins.plexus.profile.transform.DefaultParser;
+import com.site.maven.plugins.plexus.profile.transform.DefaultDomParser;
 
 /**
  * Code generator for Plexus dependency injection
@@ -255,7 +255,7 @@ public class PlexusMojo extends AbstractMojo {
    }
 
    public void setProfile(PlexusConfiguration config) {
-      DefaultParser parser = new DefaultParser();
+      DefaultDomParser parser = new DefaultDomParser();
 
       try {
          profile = parser.parse(config.toString());

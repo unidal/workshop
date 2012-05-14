@@ -9,7 +9,7 @@
    <modelVersion>4.0.0</modelVersion>
    <artifactId>maven-common</artifactId>
    <name>Maven Common</name>
-   <version>1.0.2</version>
+   <version>1.0.3</version>
    <prerequisites>
       <maven>3.0.3</maven>
    </prerequisites>
@@ -17,7 +17,7 @@
       <dependency>
          <groupId>com.site.common</groupId>
          <artifactId>lookup</artifactId>
-         <version>1.0.7</version>
+         <version>1.0.8</version>
       </dependency>
       <dependency>
          <groupId>org.apache.maven</groupId>
