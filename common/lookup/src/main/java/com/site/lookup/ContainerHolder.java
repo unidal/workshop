@@ -2,10 +2,7 @@ package com.site.lookup;
 
 import java.util.List;
 
-import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.PlexusContainer;
-import org.codehaus.plexus.component.manager.ComponentManagerManager;
-import org.codehaus.plexus.component.repository.ComponentDescriptor;
 import org.codehaus.plexus.component.repository.exception.ComponentLifecycleException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
 import org.codehaus.plexus.context.Context;
@@ -17,21 +14,6 @@ public abstract class ContainerHolder implements Contextualizable {
 
 	public void contextualize(Context context) throws ContextException {
 		m_container = (PlexusContainer) context.get("plexus");
-	}
-
-	protected ComponentDescriptor getComponentDescriptor(Object component) {
-		if (m_container instanceof DefaultPlexusContainer) {
-			try {
-				DefaultPlexusContainer container = (DefaultPlexusContainer) m_container;
-				ComponentManagerManager cmm = container.getComponentManagerManager();
-
-				return cmm.findComponentManagerByComponentInstance(component).getComponentDescriptor();
-			} catch (Exception e) {
-				// ignore it
-			}
-		}
-
-		throw new RuntimeException("Component(" + component + ") is not found.");
 	}
 
 	protected <T> boolean hasComponent(Class<T> role) {
@@ -46,7 +28,6 @@ public abstract class ContainerHolder implements Contextualizable {
 		return lookup(role, null);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T> T lookup(Class<T> role, String roleHint) throws LookupException {
 		try {
 			return (T) m_container.lookup(role, roleHint == null ? "default" : roleHint.toString());
@@ -57,7 +38,6 @@ public abstract class ContainerHolder implements Contextualizable {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T> List<T> lookupList(Class<T> role) throws LookupException {
 		try {
 			return (List<T>) m_container.lookupList(role);

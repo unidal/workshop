@@ -19,7 +19,7 @@ public class Configurators {
 
    private XmlPlexusConfiguration generateComponent(Component c) {
       XmlPlexusConfiguration component = new XmlPlexusConfiguration("component");
-      ComponentDescriptor d = c.getDescriptor();
+      ComponentDescriptor<Object> d = c.getDescriptor();
 
       XmlPlexusConfiguration role = new XmlPlexusConfiguration("role");
       role.setValue(d.getRole());
@@ -64,7 +64,6 @@ public class Configurators {
       return component;
    }
 
-   @SuppressWarnings("unchecked")
    private XmlPlexusConfiguration generateComponentRequirement(ComponentRequirement r) {
       XmlPlexusConfiguration requirement = new XmlPlexusConfiguration("requirement");
 

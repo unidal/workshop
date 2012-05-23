@@ -20,7 +20,7 @@ import org.junit.Before;
 public abstract class ComponentTestCase extends TestCase {
    private MutablePlexusContainer m_container;
 
-   private Map<String, String> m_context;
+   private Map<Object, Object> m_context;
 
    private String m_basedir;
 
@@ -88,12 +88,10 @@ public abstract class ComponentTestCase extends TestCase {
    // ----------------------------------------------------------------------
    // Container access
    // ----------------------------------------------------------------------
-   @SuppressWarnings("unchecked")
    protected <T> T lookup(Class<T> role) throws Exception {
       return (T) getContainer().lookup(role);
    }
 
-   @SuppressWarnings("unchecked")
    protected <T> T lookup(Class<T> role, Object roleHint) throws Exception {
       return (T) getContainer().lookup(role, roleHint == null ? null : roleHint.toString());
    }
@@ -111,7 +109,7 @@ public abstract class ComponentTestCase extends TestCase {
       // Context Setup
       // ----------------------------------------------------------------------------
 
-      m_context = new HashMap<String, String>();
+      m_context = new HashMap<Object, Object>();
 
       m_context.put("basedir", getBasedir());
 

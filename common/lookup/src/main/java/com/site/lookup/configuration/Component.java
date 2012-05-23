@@ -8,7 +8,7 @@ import org.codehaus.plexus.component.repository.ComponentRequirement;
 import org.codehaus.plexus.component.repository.ComponentRequirementList;
 
 public class Component {
-   private ComponentDescriptor m_descriptor;
+   private ComponentDescriptor<Object> m_descriptor;
 
    private List<ComponentRequirement> m_requirements;
 
@@ -23,7 +23,7 @@ public class Component {
    }
 
    public <T> Component(Class<T> roleClass, Object roleHint, Class<? extends T> implementationClass) {
-      m_descriptor = new ComponentDescriptor();
+      m_descriptor = new ComponentDescriptor<Object>();
       m_descriptor.setRole(roleClass.getName());
       m_descriptor.setRoleHint(roleHint == null ? null : roleHint.toString());
       m_descriptor.setImplementation(implementationClass.getName());
@@ -71,7 +71,7 @@ public class Component {
       return m_configuration;
    }
 
-   public ComponentDescriptor getDescriptor() {
+   public ComponentDescriptor<Object> getDescriptor() {
       return m_descriptor;
    }
 
