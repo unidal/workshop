@@ -25,11 +25,6 @@
 			<groupId>com.site.common</groupId>
 			<artifactId>web-framework</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.site.common</groupId>
-			<artifactId>codegen</artifactId>
-			<version>1.0.0-a3</version>
-		</dependency>
       <dependency>
          <groupId>com.site.lab</groupId>
          <artifactId>lab-reporting</artifactId>
