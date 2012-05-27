@@ -30,9 +30,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.unidal.maven.plugins</groupId>
-				<artifactId>codegen-maven-plugin</artifactId>
-				<version>1.1.1</version>
+				<groupId>com.site.maven.plugins</groupId>
+				<artifactId>maven-codegen-plugin</artifactId>
 				<configuration>
 					<manifest>${basedir}/src/main/resources/META-INF/dal/xml/manifest.xml</manifest>
 				</configuration>

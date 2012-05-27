@@ -16,7 +16,6 @@
    <modules>
       <module>lookup</module>
       <module>converter</module>
-      <module>codegen</module>
       <module>test-framework</module>
       <module>web-framework</module>
       <module>eunit-testfwk</module>

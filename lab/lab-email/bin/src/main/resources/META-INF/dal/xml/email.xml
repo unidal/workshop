@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root do-package="com.site.email.model">
+  <element name="emails" class-name="EmailsModel" root="true">
+    <element-ref name="email" list="true" list-type="map"/>
+  </element>
+  <element name="email" class-name="EmailModel">
+    <attribute name="name" value-type="String" key="true"/>
+    <attribute name="format" value-type="String" default-value="html"/>
+    <attribute name="charset" value-type="String" default-value="utf-8"/>
+    <attribute name="debug" value-type="boolean" default-value="false"/>
+    <element-ref name="address" alias="from"/>
+    <element-ref name="address" alias="to" list="true" list-name="tos" list-type="list"/>
+    <element-ref name="address" alias="cc" list="true" list-name="ccs" list-type="list"/>
+    <element-ref name="address" alias="bcc" list="true" list-name="bccs" list-type="list"/>
+  </element>
+  <element name="address" class-name="AddressModel">
+    <attribute name="name" value-type="String"/>
+    <attribute name="address" value-type="String"/>
+  </element>
+</root>
