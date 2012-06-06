@@ -9,15 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.dianping.cat.Cat;
-import com.dianping.cat.message.spi.MessageManager;
 import com.site.web.lifecycle.RequestLifecycle;
 
 public class MVC extends AbstractContainerServlet {
    private static final long serialVersionUID = 1L;
 
    private RequestLifecycle m_handler;
-
-   private MessageManager m_manager;
 
    @Override
    protected void initComponents(ServletConfig config) throws Exception {
@@ -28,7 +25,6 @@ public class MVC extends AbstractContainerServlet {
       Cat.initialize(getContainer(), catClientXml == null ? null : new File(catClientXml));
 
       m_handler = lookup(RequestLifecycle.class, "mvc");
-      m_manager = lookup(MessageManager.class);
 
       getLogger().info("MVC started at " + config.getServletContext().getContextPath());
    }
@@ -38,8 +34,6 @@ public class MVC extends AbstractContainerServlet {
          IOException {
       request.setCharacterEncoding("UTF-8");
       response.setContentType("text/html;charset=UTF-8");
-
-      m_manager.setup();
 
       try {
          m_handler.handle(request, response);
@@ -51,8 +45,6 @@ public class MVC extends AbstractContainerServlet {
          if (!response.isCommitted()) {
             response.sendError(500, message);
          }
-      } finally {
-         m_manager.reset();
       }
    }
 }
