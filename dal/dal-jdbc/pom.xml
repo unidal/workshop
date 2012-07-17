@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
-		<groupId>com.site.dal</groupId>
-		<artifactId>parent</artifactId>
-		<version>1.0.0</version>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
-	<artifactId>dal-jdbc</artifactId>
-	<version>1.0.3</version>
-	<name>DAL JDBC</name>
-	<dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+   <parent>
+      <groupId>com.site.dal</groupId>
+      <artifactId>parent</artifactId>
+      <version>1.0.0</version>
+   </parent>
+   <modelVersion>4.0.0</modelVersion>
+   <artifactId>dal-jdbc</artifactId>
+   <version>1.0.4</version>
+   <name>DAL JDBC</name>
+   <dependencies>
       <dependency>
          <groupId>com.dianping.cat</groupId>
          <artifactId>cat-core</artifactId>
-         <version>0.2.0</version>
+         <version>0.3.2</version>
       </dependency>
-		<dependency>
-			<groupId>com.site.dal</groupId>
-			<artifactId>dal-xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+      <dependency>
+         <groupId>com.site.dal</groupId>
+         <artifactId>dal-xml</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>commons-dbcp</groupId>
+         <artifactId>commons-dbcp</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>mysql</groupId>
+         <artifactId>mysql-connector-java</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
 </project>
