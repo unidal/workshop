@@ -221,11 +221,9 @@ public class Threads {
 			super(threadGroup, target, name);
 
 			m_target = target;
+			
+			setDaemon(true);
 			setUncaughtExceptionHandler(handler);
-
-			if (isDaemon()) {
-				setDaemon(false);
-			}
 
 			if (getPriority() != Thread.NORM_PRIORITY) {
 				setPriority(Thread.NORM_PRIORITY);
@@ -323,6 +321,7 @@ public class Threads {
 		public Thread start(Runnable runnable) {
 			Thread thread = m_factory.newThread(runnable);
 
+			thread.setDaemon(true);
 			thread.start();
 			return thread;
 		}
