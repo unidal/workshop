@@ -166,23 +166,25 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 		}
 	}
 
-	private void handleException(Throwable e, ActionContext<?> actionContext, boolean logException) {
+	private void handleException(Throwable e, ActionContext<?> actionContext) {
 		RequestContext requestContext = actionContext.getRequestContext();
 		ErrorModel error = requestContext.getError();
 
 		if (error != null) {
 			ErrorHandler errorHandler = m_actionHandlerManager.getErrorHandler(requestContext.getModule(), error);
 
-			errorHandler.handle(actionContext, e);
+			try {
+				errorHandler.handle(actionContext, e);
+			} catch (RuntimeException re) {
+				m_cat.logError(re);
+				throw re;
+			}
 		} else {
 			m_logger.error(e.getMessage(), e);
 		}
 
 		if (!actionContext.isProcessStopped()) {
-			if (logException) {
-				m_cat.logError(e);
-			}
-
+			m_cat.logError(e);
 			throw new RuntimeException(e.getMessage(), e);
 		}
 	}
@@ -231,7 +233,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 						handleOutboundAction(module, ctx);
 					}
 				} catch (ActionException e) {
-					handleException(e, ctx, true);
+					handleException(e, ctx);
 				}
 
 				return false;
@@ -261,13 +263,13 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 			logRequestPayload(request);
 		}
 
-		t.setStatus(Transaction.SUCCESS);
-
-		if (!handlePreActions(request, response, module, requestContext, inboundAction, actionContext)) {
-			return;
-		}
-
 		try {
+			t.setStatus(Transaction.SUCCESS);
+
+			if (!handlePreActions(request, response, module, requestContext, inboundAction, actionContext)) {
+				return;
+			}
+
 			handleInboundAction(module, actionContext);
 
 			t.addData("module", module.getModuleName());
@@ -284,10 +286,13 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 			handleOutboundAction(module, actionContext);
 		} catch (ActionException e) {
 			t.setStatus(e);
-			handleException(e, actionContext, false);
+			handleException(e, actionContext);
 		} catch (Exception e) {
 			t.setStatus(e);
-			handleException(e, actionContext, true);
+			handleException(e, actionContext);
+		} catch (Error e) {
+			t.setStatus(e);
+			handleException(e, actionContext);
 		} finally {
 			t.complete();
 		}

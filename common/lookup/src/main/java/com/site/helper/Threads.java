@@ -113,14 +113,16 @@ public class Threads {
 		private ThreadPoolManager m_threadPoolManager;
 
 		public Manager() {
-			m_threadPoolManager = new ThreadPoolManager(this);
-
-			Runtime.getRuntime().addShutdownHook(new Thread() {
+			Thread shutdownThread = new Thread() {
 				@Override
 				public void run() {
 					shutdownAll();
 				}
-			});
+			};
+
+			m_threadPoolManager = new ThreadPoolManager(this);
+			shutdownThread.setDaemon(true);
+			Runtime.getRuntime().addShutdownHook(shutdownThread);
 		}
 
 		public void addListener(ThreadListener listener) {
@@ -221,7 +223,7 @@ public class Threads {
 			super(threadGroup, target, name);
 
 			m_target = target;
-			
+
 			setDaemon(true);
 			setUncaughtExceptionHandler(handler);
 
@@ -243,7 +245,7 @@ public class Threads {
 
 		public void shutdown() {
 			if (m_target instanceof Task) {
-				System.out.println("shutdown task " + m_target);
+				System.out.println("shutdown task " + ((Task) m_target).getName());
 				((Task) m_target).shutdown();
 			} else {
 				interrupt();

@@ -9,7 +9,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.site.common</groupId>
    <artifactId>web-framework</artifactId>
-   <version>1.0.14</version>
+   <version>1.0.15</version>
    <name>Common web framework</name>
    <dependencies>
       <dependency>
@@ -20,7 +20,7 @@
       <dependency>
          <groupId>com.dianping.cat</groupId>
          <artifactId>cat-core</artifactId>
-         <version>0.3.2</version>
+         <version>0.3.3</version>
       </dependency>
       <dependency>
          <groupId>com.site.dal</groupId>

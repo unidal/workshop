@@ -246,7 +246,6 @@ public class Stringizers {
             Method method = type.getMethod("toString");
 
             if (method.getDeclaringClass() != Object.class) {
-               System.out.println(method.getDeclaringClass());
                return true;
             }
          } catch (Exception e) {

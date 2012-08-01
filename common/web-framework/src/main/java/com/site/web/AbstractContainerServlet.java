@@ -4,6 +4,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.component.repository.exception.ComponentLifecycleException;
 import org.codehaus.plexus.component.repository.exception.ComponentLookupException;
@@ -44,7 +45,8 @@ public abstract class AbstractContainerServlet extends HttpServlet {
 				m_container = ContainerLoader.getDefaultContainer();
 			}
 
-			m_logger = m_container.getLoggerManager().getLoggerForComponent(getClass().getName());
+			m_logger = ((DefaultPlexusContainer) m_container).getLoggerManager().getLoggerForComponent(
+			      getClass().getName());
 
 			initComponents(config);
 		} catch (Exception e) {

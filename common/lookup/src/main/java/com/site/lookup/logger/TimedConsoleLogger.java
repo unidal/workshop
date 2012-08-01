@@ -28,7 +28,10 @@ public class TimedConsoleLogger extends AbstractLogger implements Logger {
 
 	private boolean m_showClass;
 
-	public TimedConsoleLogger(int threshold, String name, String dateFormat, String logFilePattern, boolean showClass) {
+	private boolean m_devMode;
+
+	public TimedConsoleLogger(int threshold, String name, String dateFormat, String logFilePattern, boolean showClass,
+	      boolean devMode) {
 		super(threshold, name);
 
 		String pattern;
@@ -42,12 +45,20 @@ public class TimedConsoleLogger extends AbstractLogger implements Logger {
 		m_showClass = showClass;
 		m_format = new MessageFormat(pattern);
 		m_logFilePattern = logFilePattern;
+		m_devMode = devMode;
 
 		if (logFilePattern != null && logFilePattern.indexOf("{0,") >= 0) {
 			m_logFileFormat = new MessageFormat(logFilePattern);
 
 			// IllegalArgumentException will be thrown for invalid pattern
 			m_logFileFormat.format(new Object[] { new Date() });
+		}
+
+		// override by command line
+		String mode = System.getProperty("devMode", "false");
+
+		if ("true".equals(mode)) {
+			m_devMode = true;
 		}
 	}
 
@@ -89,7 +100,7 @@ public class TimedConsoleLogger extends AbstractLogger implements Logger {
 		try {
 			String timedMessage = getTimedMessage(severity, message);
 
-			if (m_logFilePattern == null || m_logFilePattern.length() == 0) {
+			if (m_devMode || m_logFilePattern == null || m_logFilePattern.length() == 0) {
 				System.out.println(timedMessage);
 
 				if (throwable != null) {
@@ -108,7 +119,7 @@ public class TimedConsoleLogger extends AbstractLogger implements Logger {
 
 					writer.flush();
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println(getTimedMessage("ERROR", e.toString()));
 				}
 			}
 		} finally {

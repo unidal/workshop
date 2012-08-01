@@ -1,0 +1,17 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.initialization.ModuleManager</role>
+			<implementation>com.site.initialization.DefaultModuleManager</implementation>
+		</component>
+		<component>
+			<role>com.site.initialization.ModuleInitializer</role>
+			<implementation>com.site.initialization.DefaultModuleInitializer</implementation>
+			<requirements>
+				<requirement>
+					<role>com.site.initialization.ModuleManager</role>
+				</requirement>
+			</requirements>
+		</component>
+	</components>
+</plexus>

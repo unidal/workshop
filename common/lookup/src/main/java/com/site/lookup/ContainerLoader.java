@@ -7,25 +7,28 @@ import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.PlexusContainerException;
 
 public class ContainerLoader {
-   private static volatile PlexusContainer s_container = null;
+	private static volatile PlexusContainer s_container = null;
 
-   public static PlexusContainer getDefaultContainer() {
-      return getDefaultContainer(new DefaultContainerConfiguration());
-   }
+	public static PlexusContainer getDefaultContainer() {
+		DefaultContainerConfiguration configuration = new DefaultContainerConfiguration();
 
-   public static PlexusContainer getDefaultContainer(ContainerConfiguration configuration) {
-      if (s_container == null) {
-         synchronized (ContainerLoader.class) {
-            if (s_container == null) {
-               try {
-                  s_container = new DefaultPlexusContainer(configuration);
-               } catch (PlexusContainerException e) {
-                  throw new RuntimeException("Unable to create PlexusContainer", e);
-               }
-            }
-         }
-      }
+		configuration.setContainerConfiguration("/META-INF/plexus/plexus.xml");
+		return getDefaultContainer(configuration);
+	}
 
-      return s_container;
-   }
+	public static PlexusContainer getDefaultContainer(ContainerConfiguration configuration) {
+		if (s_container == null) {
+			synchronized (ContainerLoader.class) {
+				if (s_container == null) {
+					try {
+						s_container = new DefaultPlexusContainer(configuration);
+					} catch (PlexusContainerException e) {
+						throw new RuntimeException("Unable to create PlexusContainer", e);
+					}
+				}
+			}
+		}
+
+		return s_container;
+	}
 }
