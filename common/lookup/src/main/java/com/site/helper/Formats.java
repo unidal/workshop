@@ -70,7 +70,8 @@ public class Formats {
 				value /= base;
 			}
 
-			if (value < 1 && base == 1000) { // only available to base 1000
+			// only available to base 1000
+			if (value > 0 && value < 1 && base == 1000) {
 				while (value < 1) {
 					scale2 *= base;
 					value *= base;
