@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.plexus.DefaultPlexusContainer;
 import org.codehaus.plexus.PlexusContainer;
 import org.codehaus.plexus.logging.Logger;
 
@@ -55,7 +56,7 @@ public class CounterServlet extends HttpServlet {
          PlexusContainer container = ContainerLoader.getDefaultContainer();
 
          // set up Logger
-         m_logger = container.getLoggerManager().getLoggerForComponent(getClass().getName());
+         m_logger = ((DefaultPlexusContainer) container).getLoggerManager().getLoggerForComponent(getClass().getName());
 
          // set up configuration data
          m_configuration = (Configuration) container.lookup(Configuration.class);

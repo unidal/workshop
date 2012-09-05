@@ -4,7 +4,7 @@
 			<role>com.site.dal.jdbc.datasource.JdbcDataSourceConfigurationManager</role>
 			<implementation>com.site.dal.jdbc.datasource.JdbcDataSourceConfigurationManager</implementation>
 			<configuration>
-				<datasourceFile>/C:/dev/workshop/dal/dal-jdbc/target/test-classes/com/site/dal/jdbc/datasource/datasource.xml</datasourceFile>
+				<datasourceFile>target/test-classes/com/site/dal/jdbc/datasource/datasource.xml</datasourceFile>
 			</configuration>
 		</component>
 		<component>

@@ -8,21 +8,18 @@
    </parent>
    <modelVersion>4.0.0</modelVersion>
    <artifactId>dal-jdbc</artifactId>
-   <version>1.0.4</version>
+   <version>1.1.1</version>
    <name>DAL JDBC</name>
    <dependencies>
       <dependency>
          <groupId>com.dianping.cat</groupId>
          <artifactId>cat-core</artifactId>
-         <version>0.3.2</version>
+         <version>0.4.0</version>
       </dependency>
       <dependency>
-         <groupId>com.site.dal</groupId>
-         <artifactId>dal-xml</artifactId>
-      </dependency>
-      <dependency>
-         <groupId>commons-dbcp</groupId>
-         <artifactId>commons-dbcp</artifactId>
+         <groupId>c3p0</groupId>
+         <artifactId>c3p0</artifactId>
+         <version>0.9.1.2</version>
       </dependency>
       <dependency>
          <groupId>mysql</groupId>
@@ -30,4 +27,35 @@
          <scope>test</scope>
       </dependency>
    </dependencies>
+      <build>
+      <plugins>
+         <plugin>
+            <groupId>org.unidal.maven.plugins</groupId>
+            <artifactId>codegen-maven-plugin</artifactId>
+            <version>1.1.5</version>
+            <executions>
+               <execution>
+                  <id>generate data sources model</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                     <goal>dal-model</goal>
+                  </goals>
+                  <configuration>
+                     <manifest>${basedir}/src/main/resources/META-INF/dal/model/data-sources-manifest.xml</manifest>
+                  </configuration>
+               </execution>
+               <execution>
+                  <id>generate plexus component descriptor</id>
+                  <phase>process-classes</phase>
+                  <goals>
+                     <goal>plexus</goal>
+                  </goals>
+                  <configuration>
+                     <className>com.site.dal.jdbc.build.ComponentsConfigurator</className>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 </project>

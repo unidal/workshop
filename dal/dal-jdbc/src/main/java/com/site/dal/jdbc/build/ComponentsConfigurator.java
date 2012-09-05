@@ -1,4 +1,4 @@
-package com.site.dal.jdbc.configuration;
+package com.site.dal.jdbc.build;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +48,7 @@ import com.site.dal.jdbc.transaction.TransactionManager;
 import com.site.lookup.configuration.AbstractResourceConfigurator;
 import com.site.lookup.configuration.Component;
 
-public class ComponentsConfigurator extends AbstractResourceConfigurator {
+public final class ComponentsConfigurator extends AbstractResourceConfigurator {
    @Override
    public List<Component> defineComponents() {
       List<Component> all = new ArrayList<Component>();

@@ -9,23 +9,21 @@ import java.util.List;
 
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.Initializable;
 import org.codehaus.plexus.personality.plexus.lifecycle.phase.InitializationException;
-import org.xml.sax.InputSource;
 
-import com.site.dal.jdbc.datasource.config.DataSource;
-import com.site.dal.jdbc.datasource.config.DataSources;
-import com.site.dal.jdbc.datasource.config.Properties;
-import com.site.dal.xml.XmlAdapter;
-import com.site.dal.xml.registry.XmlRegistry;
+import com.site.dal.jdbc.datasource.model.entity.DataSourceDef;
+import com.site.dal.jdbc.datasource.model.entity.DataSourcesDef;
+import com.site.dal.jdbc.datasource.model.entity.PropertiesDef;
+import com.site.dal.jdbc.datasource.model.transform.DefaultSaxParser;
 import com.site.lookup.ContainerHolder;
 
 public class JdbcDataSourceConfigurationManager extends ContainerHolder implements Initializable {
 	private String m_datasourceFile;
 
-	private DataSources m_dataSources;
+	private DataSourcesDef m_dataSources;
 
-	protected JdbcDataSourceConfiguration getConfiguration(DataSource ds) {
+	protected JdbcDataSourceConfiguration getConfiguration(DataSourceDef ds) {
 		JdbcDataSourceConfiguration configuration = new JdbcDataSourceConfiguration();
-		Properties properties = ds.getProperties();
+		PropertiesDef properties = ds.getProperties();
 
 		configuration.setId(ds.getId());
 		configuration.setConnectionTimeout(toTime(ds.getConnectionTimeout()));
@@ -50,12 +48,10 @@ public class JdbcDataSourceConfigurationManager extends ContainerHolder implemen
 
 	public JdbcDataSourceConfiguration getConfiguration(String id) {
 		if (m_dataSources != null && id != null) {
-			DataSource[] dss = m_dataSources.getDataSourceList();
+			DataSourceDef ds = m_dataSources.findDataSource(id);
 
-			for (DataSource ds : dss) {
-				if (id.equals(ds.getId())) {
-					return getConfiguration(ds);
-				}
+			if (ds != null) {
+				return getConfiguration(ds);
 			}
 		}
 
@@ -65,7 +61,7 @@ public class JdbcDataSourceConfigurationManager extends ContainerHolder implemen
 	public List<String> getDataSourceNames() {
 		List<String> names = new ArrayList<String>();
 
-		for (DataSource ds : m_dataSources.getDataSourceList()) {
+		for (DataSourceDef ds : m_dataSources.getDataSourcesMap().values()) {
 			names.add(ds.getId());
 		}
 
@@ -73,7 +69,6 @@ public class JdbcDataSourceConfigurationManager extends ContainerHolder implemen
 	}
 
 	public void initialize() throws InitializationException {
-
 		if (m_datasourceFile != null) {
 			InputStream is = null;
 
@@ -95,18 +90,10 @@ public class JdbcDataSourceConfigurationManager extends ContainerHolder implemen
 			}
 
 			if (is != null) {
-				XmlRegistry registry = lookup(XmlRegistry.class);
-				XmlAdapter adapter = lookup(XmlAdapter.class);
-
 				try {
-					registry.register(DataSources.class);
-
-					m_dataSources = adapter.unmarshal(new InputSource(is));
+					m_dataSources = DefaultSaxParser.parse(is);
 				} catch (Exception e) {
 					throw new InitializationException("Error when loading data source file: " + m_datasourceFile, e);
-				} finally {
-					release(adapter);
-					release(registry);
 				}
 			}
 		}

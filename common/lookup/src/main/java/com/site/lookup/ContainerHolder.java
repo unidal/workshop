@@ -38,9 +38,10 @@ public abstract class ContainerHolder implements Contextualizable {
 		}
 	}
 
-	protected <T> List<T> lookupList(Class<T> role) throws LookupException {
+	@SuppressWarnings("unchecked")
+   protected <T> List<T> lookupList(Class<T> role) throws LookupException {
 		try {
-			return (List<T>) m_container.lookupList(role);
+			return (List<T>) m_container.lookupList(role.getName());
 		} catch (ComponentLookupException e) {
 			throw new LookupException("Component list(" + role.getName() + ") lookup failure. details: " + e.getMessage(),
 			      e);
