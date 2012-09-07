@@ -22,6 +22,11 @@
 		<component>
 			<role>com.site.dal.jdbc.datasource.DataSourceManager</role>
 			<implementation>com.site.dal.jdbc.datasource.DefaultDataSourceManager</implementation>
+			<requirements>
+				<requirement>
+					<role>com.site.dal.jdbc.datasource.JdbcDataSourceConfigurationManager</role>
+				</requirement>
+			</requirements>
 		</component>
 		<component>
 			<role>com.site.dal.jdbc.engine.QueryContext</role>
@@ -83,6 +88,9 @@
 				</requirement>
 				<requirement>
 					<role>com.site.dal.jdbc.entity.DataObjectAssembly</role>
+				</requirement>
+				<requirement>
+					<role>com.site.dal.jdbc.datasource.DataSourceManager</role>
 				</requirement>
 				<requirement>
 					<role>com.dianping.cat.message.MessageProducer</role>

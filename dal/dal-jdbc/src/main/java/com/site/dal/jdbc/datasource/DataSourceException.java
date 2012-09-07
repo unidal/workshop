@@ -25,6 +25,8 @@ public class DataSourceException extends DalRuntimeException {
          return true;
       } else if (cause != null && cause.getMessage().contains("Could not create connection to database server.")) {
          return true;
+      } else if (cause != null && cause.getMessage().contains("Communications link failure")) {
+      	return true;
       } else if (cause != null && cause.getMessage().contains("Unknown database")) {
          return true;
       } else {

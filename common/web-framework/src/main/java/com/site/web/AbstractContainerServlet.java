@@ -67,7 +67,6 @@ public abstract class AbstractContainerServlet extends HttpServlet {
 		return lookup(role, null);
 	}
 
-	@SuppressWarnings("unchecked")
 	protected <T> T lookup(Class<T> role, String roleHint) throws LookupException {
 		try {
 			return (T) m_container.lookup(role, roleHint == null ? "default" : roleHint.toString());

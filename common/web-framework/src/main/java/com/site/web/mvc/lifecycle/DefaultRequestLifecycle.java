@@ -309,18 +309,16 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 		StringBuilder sb = new StringBuilder(1024);
 
 		sb.append("RemoteIP=").append(req.getRemoteAddr());
-		sb.append("&Server=").append(req.getServerName());
 		sb.append("&Referer=").append(req.getHeader("referer"));
 		sb.append("&Agent=").append(req.getHeader("user-agent"));
 
-		m_cat.logEvent("URL", "ClientInfo", Message.SUCCESS, sb.toString());
+		m_cat.logEvent("URL.Server", req.getServerName(), Message.SUCCESS, sb.toString());
 	}
 
 	private void logRequestPayload(HttpServletRequest req) {
 		StringBuilder sb = new StringBuilder(256);
 
-		sb.append(req.getScheme().toUpperCase()).append('/');
-		sb.append(req.getMethod()).append(' ').append(req.getRequestURI());
+		sb.append(req.getRequestURI());
 
 		String qs = req.getQueryString();
 
@@ -328,7 +326,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 			sb.append('?').append(qs);
 		}
 
-		m_cat.logEvent("URL", "Payload", Event.SUCCESS, sb.toString());
+		m_cat.logEvent("URL.Method", req.getScheme().toUpperCase() + "/" + req.getMethod(), Event.SUCCESS, sb.toString());
 	}
 
 	private void showPageNotFound(HttpServletRequest request, HttpServletResponse response) throws IOException {

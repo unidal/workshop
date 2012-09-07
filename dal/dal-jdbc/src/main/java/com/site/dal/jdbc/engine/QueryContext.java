@@ -18,6 +18,8 @@ public interface QueryContext {
 
    public void addParameter(Parameter value);
 
+   public String getDataSourceName();
+
    public EntityInfo getEntityInfo();
 
    public int getFetchSize();
@@ -46,6 +48,8 @@ public interface QueryContext {
 
    public boolean isWithinInToken();
 
+   public void setDataSourceName(String dataSourceName);
+
    public void setEntityInfo(EntityInfo entityInfo);
 
    public void setFetchSize(int fetchSize);
@@ -64,7 +68,7 @@ public interface QueryContext {
 
    public void setUpdateset(Updateset<?> updateset);
 
-   public void setWithinIfToken(boolean withinIfToken);
-
-   public void setWithinInToken(boolean withinInToken);
+	public void setWithinIfToken(boolean withinIfToken);
+	
+	public void setWithinInToken(boolean withinInToken);
 }

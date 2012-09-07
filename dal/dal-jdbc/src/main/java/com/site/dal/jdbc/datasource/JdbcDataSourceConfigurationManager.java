@@ -14,9 +14,8 @@ import com.site.dal.jdbc.datasource.model.entity.DataSourceDef;
 import com.site.dal.jdbc.datasource.model.entity.DataSourcesDef;
 import com.site.dal.jdbc.datasource.model.entity.PropertiesDef;
 import com.site.dal.jdbc.datasource.model.transform.DefaultSaxParser;
-import com.site.lookup.ContainerHolder;
 
-public class JdbcDataSourceConfigurationManager extends ContainerHolder implements Initializable {
+public class JdbcDataSourceConfigurationManager implements Initializable {
 	private String m_datasourceFile;
 
 	private DataSourcesDef m_dataSources;

@@ -59,12 +59,12 @@ public class JdbcDataSource implements DataSource, Initializable, LogEnabled, Di
 			cpds.setMinPoolSize(2);
 			cpds.setInitialPoolSize(2);
 			cpds.setMaxPoolSize(c.getMaximumPoolSize());
-			cpds.setMaxIdleTime(1800);
+			cpds.setMaxIdleTime((int) (c.getIdleTimeout() / 1000));
 			cpds.setIdleConnectionTestPeriod(60);
 			cpds.setAcquireRetryAttempts(3);
 			cpds.setAcquireRetryDelay(300);
 			cpds.setMaxStatements(0);
-			cpds.setMaxStatementsPerConnection(100);
+			cpds.setMaxStatementsPerConnection(c.getStatementCacheSize());
 			cpds.setNumHelperThreads(6);
 			cpds.setMaxAdministrativeTaskTime(5);
 			cpds.setPreferredTestQuery("SELECT 1");

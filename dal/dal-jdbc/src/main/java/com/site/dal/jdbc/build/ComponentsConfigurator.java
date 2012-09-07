@@ -7,6 +7,7 @@ import com.dianping.cat.message.MessageProducer;
 import com.site.dal.jdbc.QueryEngine;
 import com.site.dal.jdbc.datasource.DataSourceManager;
 import com.site.dal.jdbc.datasource.DefaultDataSourceManager;
+import com.site.dal.jdbc.datasource.JdbcDataSourceConfigurationManager;
 import com.site.dal.jdbc.engine.DefaultQueryContext;
 import com.site.dal.jdbc.engine.DefaultQueryEngine;
 import com.site.dal.jdbc.engine.QueryContext;
@@ -49,62 +50,63 @@ import com.site.lookup.configuration.AbstractResourceConfigurator;
 import com.site.lookup.configuration.Component;
 
 public final class ComponentsConfigurator extends AbstractResourceConfigurator {
-   @Override
-   public List<Component> defineComponents() {
-      List<Component> all = new ArrayList<Component>();
+	@Override
+	public List<Component> defineComponents() {
+		List<Component> all = new ArrayList<Component>();
 
-      all.add(C(QueryEngine.class, DefaultQueryEngine.class) //
-               .req(EntityInfoManager.class, QueryExecutor.class, TransactionManager.class) //
-               .req(QueryResolver.class, "MySql"));
-      all.add(C(DataSourceManager.class, DefaultDataSourceManager.class));
-      all.add(C(QueryContext.class, DefaultQueryContext.class).is(PER_LOOKUP));
-      all.add(C(EntityInfoManager.class, DefaultEntityInfoManager.class));
-      all.add(C(DataObjectAccessor.class, DefaultDataObjectAccessor.class) //
-               .req(DataObjectNaming.class));
-      all.add(C(DataObjectAssembly.class, DefaultDataObjectAssembly.class) //
-               .req(DataObjectAccessor.class, DataObjectNaming.class));
-      all.add(C(DataObjectNaming.class, DefaultDataObjectNaming.class));
-      all.add(C(TableProviderManager.class, DefaultTableProviderManager.class));
-      all.add(C(QueryResolver.class, "MySql", MySqlQueryResolver.class) //
-               .req(TokenParser.class));
-      all.add(C(QueryExecutor.class, DefaultQueryExecutor.class) //
-               .req(TransactionManager.class, DataObjectAccessor.class, DataObjectAssembly.class) //
-               .req(MessageProducer.class));
-      all.add(C(TransactionManager.class, DefaultTransactionManager.class) //
-               .req(TableProviderManager.class, DataSourceManager.class));
+		all.add(C(QueryEngine.class, DefaultQueryEngine.class) //
+		      .req(EntityInfoManager.class, QueryExecutor.class, TransactionManager.class) //
+		      .req(QueryResolver.class, "MySql"));
+		all.add(C(DataSourceManager.class, DefaultDataSourceManager.class) //
+		      .req(JdbcDataSourceConfigurationManager.class));
+		all.add(C(QueryContext.class, DefaultQueryContext.class).is(PER_LOOKUP));
+		all.add(C(EntityInfoManager.class, DefaultEntityInfoManager.class));
+		all.add(C(DataObjectAccessor.class, DefaultDataObjectAccessor.class) //
+		      .req(DataObjectNaming.class));
+		all.add(C(DataObjectAssembly.class, DefaultDataObjectAssembly.class) //
+		      .req(DataObjectAccessor.class, DataObjectNaming.class));
+		all.add(C(DataObjectNaming.class, DefaultDataObjectNaming.class));
+		all.add(C(TableProviderManager.class, DefaultTableProviderManager.class));
+		all.add(C(QueryResolver.class, "MySql", MySqlQueryResolver.class) //
+		      .req(TokenParser.class));
+		all.add(C(QueryExecutor.class, DefaultQueryExecutor.class) //
+		      .req(TransactionManager.class, DataObjectAccessor.class, DataObjectAssembly.class) //
+		      .req(DataSourceManager.class, MessageProducer.class));
+		all.add(C(TransactionManager.class, DefaultTransactionManager.class) //
+		      .req(TableProviderManager.class, DataSourceManager.class));
 
-      all.add(C(TokenParser.class, DefaultTokenParser.class));
-      all.add(C(ExpressionResolver.class) //
-               .req(TokenParser.class));
+		all.add(C(TokenParser.class, DefaultTokenParser.class));
+		all.add(C(ExpressionResolver.class) //
+		      .req(TokenParser.class));
 
-      all.add(C(TokenResolver.class, TokenType.STRING, StringTokenResolver.class));
-      all.add(C(TokenResolver.class, TokenType.PARAM, ParameterTokenResolver.class) //
-               .req(DataObjectAccessor.class));
-      all.add(C(TokenResolver.class, TokenType.FIELD, FieldTokenResolver.class) //
-               .req(EntityInfoManager.class, ExpressionResolver.class));
-      all.add(C(TokenResolver.class, TokenType.FIELDS, FieldsTokenResolver.class) //
-               .req(EntityInfoManager.class, ExpressionResolver.class));
-      all.add(C(TokenResolver.class, TokenType.TABLE, TableTokenResolver.class) //
-               .req(TableProviderManager.class));
-      all.add(C(TokenResolver.class, TokenType.TABLES, TablesTokenResolver.class) //
-               .req(TableProviderManager.class));
-      all.add(C(TokenResolver.class, TokenType.VALUES, ValuesTokenResolver.class) //
-               .req(ExpressionResolver.class));
-      all.add(C(TokenResolver.class, TokenType.JOINS, JoinsTokenResolver.class));
-      all.add(C(TokenResolver.class, TokenType.IN, InTokenResolver.class));
-      all.add(C(TokenResolver.class, TokenType.IF, IfTokenResolver.class) //
-               .req(DataObjectAccessor.class));
-      all.add(C(TokenResolver.class, TokenType.VALUE, ValueTokenResolver.class) //
-               .req(ExpressionResolver.class));
+		all.add(C(TokenResolver.class, TokenType.STRING, StringTokenResolver.class));
+		all.add(C(TokenResolver.class, TokenType.PARAM, ParameterTokenResolver.class) //
+		      .req(DataObjectAccessor.class));
+		all.add(C(TokenResolver.class, TokenType.FIELD, FieldTokenResolver.class) //
+		      .req(EntityInfoManager.class, ExpressionResolver.class));
+		all.add(C(TokenResolver.class, TokenType.FIELDS, FieldsTokenResolver.class) //
+		      .req(EntityInfoManager.class, ExpressionResolver.class));
+		all.add(C(TokenResolver.class, TokenType.TABLE, TableTokenResolver.class) //
+		      .req(TableProviderManager.class));
+		all.add(C(TokenResolver.class, TokenType.TABLES, TablesTokenResolver.class) //
+		      .req(TableProviderManager.class));
+		all.add(C(TokenResolver.class, TokenType.VALUES, ValuesTokenResolver.class) //
+		      .req(ExpressionResolver.class));
+		all.add(C(TokenResolver.class, TokenType.JOINS, JoinsTokenResolver.class));
+		all.add(C(TokenResolver.class, TokenType.IN, InTokenResolver.class));
+		all.add(C(TokenResolver.class, TokenType.IF, IfTokenResolver.class) //
+		      .req(DataObjectAccessor.class));
+		all.add(C(TokenResolver.class, TokenType.VALUE, ValueTokenResolver.class) //
+		      .req(ExpressionResolver.class));
 
-      all.add(C(TableProvider.class, "raw", RawTableProvider.class) //
-               .config(E("logical-table-name").value("raw")));
-      all.add(C(RawDao.class).req(QueryEngine.class));
+		all.add(C(TableProvider.class, "raw", RawTableProvider.class) //
+		      .config(E("logical-table-name").value("raw")));
+		all.add(C(RawDao.class).req(QueryEngine.class));
 
-      return all;
-   }
+		return all;
+	}
 
-   public static void main(String[] args) {
-      generatePlexusComponentsXmlFile(new ComponentsConfigurator());
-   }
+	public static void main(String[] args) {
+		generatePlexusComponentsXmlFile(new ComponentsConfigurator());
+	}
 }

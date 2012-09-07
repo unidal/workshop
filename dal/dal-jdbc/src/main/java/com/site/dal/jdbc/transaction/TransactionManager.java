@@ -5,15 +5,15 @@ import java.sql.Connection;
 import com.site.dal.jdbc.engine.QueryContext;
 
 public interface TransactionManager {
-   public Connection getConnection(QueryContext ctx);
-
-   public void startTransaction(QueryContext ctx);
+   public void closeConnection();
 
    public void commitTransaction(QueryContext ctx);
+
+   public Connection getConnection(QueryContext ctx);
    
    public boolean isInTransaction();
 
    public void rollbackTransaction(QueryContext ctx);
 
-   public void closeConnection();
+   public void startTransaction(QueryContext ctx);
 }

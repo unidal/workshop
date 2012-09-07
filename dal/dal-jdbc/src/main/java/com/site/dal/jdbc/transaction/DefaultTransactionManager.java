@@ -14,231 +14,235 @@ import com.site.dal.jdbc.datasource.DataSourceManager;
 import com.site.dal.jdbc.engine.QueryContext;
 import com.site.dal.jdbc.mapping.TableProvider;
 import com.site.dal.jdbc.mapping.TableProviderManager;
+import com.site.lookup.annotation.Inject;
 
 public class DefaultTransactionManager implements TransactionManager, LogEnabled {
+	private static ThreadLocalTransactionInfo m_threadLocalData = new ThreadLocalTransactionInfo();
 
-   private static ThreadLocalTransactionInfo m_threadLocalData = new ThreadLocalTransactionInfo();
+	@Inject
+	private TableProviderManager m_tableProviderManager;
 
-   private TableProviderManager m_tableProviderManager;
+	@Inject
+	private DataSourceManager m_dataSourceManager;
 
-   private DataSourceManager m_dataSourceManager;
+	private Logger m_logger;
 
-   private Logger m_logger;
+	public void closeConnection() {
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-   public void closeConnection() {
-      TransactionInfo trxInfo = m_threadLocalData.get();
+		if (trxInfo.isInTransaction()) {
+			// do nothing when in transaction
+		} else {
+			try {
+				trxInfo.reset();
+			} catch (SQLException e) {
+				m_logger.warn("Error when closing Connection, message: " + e, e);
+			}
+		}
+	}
 
-      if (trxInfo.isInTransaction()) {
-         // do nothing when in transaction
-      } else {
-         try {
-            trxInfo.reset();
-         } catch (SQLException e) {
-            m_logger.warn("Error when closing Connection, message: " + e, e);
-         }
-      }
-   }
+	public void commitTransaction(QueryContext ctx) {
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-   public void commitTransaction(QueryContext ctx) {
-      TransactionInfo trxInfo = m_threadLocalData.get();
+		if (!trxInfo.isInTransaction()) {
+			throw new DalRuntimeException("There is no active transaction open, can't commit");
+		}
 
-      if (!trxInfo.isInTransaction()) {
-         throw new DalRuntimeException("There is no active transaction open, can't commit");
-      }
+		try {
+			if (trxInfo.getConnection() != null) {
+				trxInfo.getConnection().commit();
+			}
 
-      try {
-         if (trxInfo.getConnection() != null) {
-            trxInfo.getConnection().commit();
-         }
+			trxInfo.reset();
+		} catch (SQLException e) {
+			throw new DalRuntimeException("Unable to commit transaction, message: " + e, e);
+		}
+	}
 
-         trxInfo.reset();
-      } catch (SQLException e) {
-         throw new DalRuntimeException("Unable to commit transaction, message: " + e, e);
-      }
-   }
+	public void enableLogging(Logger logger) {
+		m_logger = logger;
+	}
 
-   public void enableLogging(Logger logger) {
-      m_logger = logger;
-   }
+	public Connection getConnection(QueryContext ctx) {
+		TableProvider tableProvider = m_tableProviderManager.getTableProvider(ctx.getEntityInfo().getLogicalName());
+		String dataSourceName = tableProvider.getDataSourceName(ctx.getQueryHints());
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-   public Connection getConnection(QueryContext ctx) {
-      TableProvider tableProvider = m_tableProviderManager.getTableProvider(ctx.getEntityInfo().getLogicalName());
-      String dataSourceName = tableProvider.getDataSourceName(ctx.getQueryHints());
-      TransactionInfo trxInfo = m_threadLocalData.get();
+		ctx.setDataSourceName(dataSourceName);
 
-      if (trxInfo.isInTransaction()) {
-         if (dataSourceName.equals(trxInfo.getDataSourceName())) {
-            return trxInfo.getConnection();
-         } else {
-            throw new DalRuntimeException("Only one datasource can participate in a transaction. Now: "
-                     + trxInfo.getDataSourceName() + ", you provided: " + dataSourceName);
-         }
-      } else { // Not in transaction
-         DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
-         PooledConnection pooledConnection = null;
-         Connection connection = null;
-         SQLException exception = null;
+		if (trxInfo.isInTransaction()) {
+			if (dataSourceName.equals(trxInfo.getDataSourceName())) {
+				return trxInfo.getConnection();
+			} else {
+				throw new DalRuntimeException("Only one datasource can participate in a transaction. Now: "
+				      + trxInfo.getDataSourceName() + ", you provided: " + dataSourceName);
+			}
+		} else { // Not in transaction
+			DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
+			PooledConnection pooledConnection = null;
+			Connection connection = null;
+			SQLException exception = null;
 
-         try {
-            if (dataSourceName.equals(trxInfo.getDataSourceName())) {
-               pooledConnection = trxInfo.getPooledConnection();
+			try {
+				if (dataSourceName.equals(trxInfo.getDataSourceName())) {
+					pooledConnection = trxInfo.getPooledConnection();
 
-               if (pooledConnection == null) {
-                  pooledConnection = dataSource.getPooledConnection();
-               }
-            } else {
-               pooledConnection = dataSource.getPooledConnection();
-            }
+					if (pooledConnection == null) {
+						pooledConnection = dataSource.getPooledConnection();
+					}
+				} else {
+					pooledConnection = dataSource.getPooledConnection();
+				}
 
-            connection = pooledConnection.getConnection();
-            connection.setAutoCommit(true);
-         } catch (SQLException e) {
-            exception = e;
-         }
+				connection = pooledConnection.getConnection();
+				connection.setAutoCommit(true);
+			} catch (SQLException e) {
+				exception = e;
+			}
 
-         // retry once if pooled connection is closed by server side
-         if (exception != null) {
-            if (pooledConnection != null) {
-               try {
-                  pooledConnection.close();
-               } catch (SQLException e) {
-                  // ignore it
-               }
-            }
+			// retry once if pooled connection is closed by server side
+			if (exception != null) {
+				if (pooledConnection != null) {
+					try {
+						pooledConnection.close();
+					} catch (SQLException e) {
+						// ignore it
+					}
+				}
 
-            m_logger.warn(String.format("Iffy database(%s) connection closed, try to reconnect.", dataSourceName),
-                     exception);
+				m_logger.warn(String.format("Iffy database(%s) connection closed, try to reconnect.", dataSourceName),
+				      exception);
 
-            try {
-               pooledConnection = dataSource.getPooledConnection();
-               connection = pooledConnection.getConnection();
-               connection.setAutoCommit(true);
-            } catch (SQLException e) {
-               m_logger.warn(String.format("Unable to reconnect to database(%s).", dataSourceName), e);
-            }
-         }
+				try {
+					pooledConnection = dataSource.getPooledConnection();
+					connection = pooledConnection.getConnection();
+					connection.setAutoCommit(true);
+				} catch (SQLException e) {
+					m_logger.warn(String.format("Unable to reconnect to database(%s).", dataSourceName), e);
+				}
+			}
 
-         if (exception != null) {
-            throw new DalRuntimeException("Error when getting connection from DataSource(" + dataSourceName
-                     + "), message: " + exception, exception);
-         } else {
-            trxInfo.setPooledConnection(pooledConnection);
-            trxInfo.setConnection(connection);
-            trxInfo.setDataSourceName(dataSourceName);
-            trxInfo.setInTransaction(false);
-            return connection;
-         }
-      }
-   }
+			if (exception != null) {
+				throw new DalRuntimeException("Error when getting connection from DataSource(" + dataSourceName
+				      + "), message: " + exception, exception);
+			} else {
+				trxInfo.setPooledConnection(pooledConnection);
+				trxInfo.setConnection(connection);
+				trxInfo.setDataSourceName(dataSourceName);
+				trxInfo.setInTransaction(false);
+				return connection;
+			}
+		}
+	}
 
-   public boolean isInTransaction() {
-      TransactionInfo trxInfo = m_threadLocalData.get();
+	public boolean isInTransaction() {
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-      return trxInfo.isInTransaction();
-   }
+		return trxInfo.isInTransaction();
+	}
 
-   public void rollbackTransaction(QueryContext ctx) {
-      TransactionInfo trxInfo = m_threadLocalData.get();
+	public void rollbackTransaction(QueryContext ctx) {
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-      if (!trxInfo.isInTransaction()) {
-         throw new DalRuntimeException("There is no active transaction open, can't rollback");
-      }
+		if (!trxInfo.isInTransaction()) {
+			throw new DalRuntimeException("There is no active transaction open, can't rollback");
+		}
 
-      try {
-         if (trxInfo.getConnection() != null) {
-            trxInfo.getConnection().rollback();
-         }
+		try {
+			if (trxInfo.getConnection() != null) {
+				trxInfo.getConnection().rollback();
+			}
 
-         trxInfo.reset();
-      } catch (SQLException e) {
-         throw new DalRuntimeException("Unable to rollback transaction, message: " + e, e);
-      }
-   }
+			trxInfo.reset();
+		} catch (SQLException e) {
+			throw new DalRuntimeException("Unable to rollback transaction, message: " + e, e);
+		}
+	}
 
-   public void startTransaction(QueryContext ctx) {
-      TableProvider tableProvider = m_tableProviderManager.getTableProvider(ctx.getEntityInfo().getLogicalName());
-      String dataSourceName = tableProvider.getDataSourceName(ctx.getQueryHints());
-      TransactionInfo trxInfo = m_threadLocalData.get();
+	public void startTransaction(QueryContext ctx) {
+		TableProvider tableProvider = m_tableProviderManager.getTableProvider(ctx.getEntityInfo().getLogicalName());
+		String dataSourceName = tableProvider.getDataSourceName(ctx.getQueryHints());
+		TransactionInfo trxInfo = m_threadLocalData.get();
 
-      if (trxInfo.isInTransaction()) {
-         throw new DalRuntimeException(
-                  "Can't start transaction while another transaction is not committed or rollbacked");
-      } else {
-         DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
+		if (trxInfo.isInTransaction()) {
+			throw new DalRuntimeException(
+			      "Can't start transaction while another transaction is not committed or rollbacked");
+		} else {
+			DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
 
-         try {
-            PooledConnection pooledConnection = dataSource.getPooledConnection();
-            Connection connection = pooledConnection.getConnection();
+			try {
+				PooledConnection pooledConnection = dataSource.getPooledConnection();
+				Connection connection = pooledConnection.getConnection();
 
-            connection.setAutoCommit(false);
-            trxInfo.setPooledConnection(pooledConnection);
-            trxInfo.setConnection(connection);
-            trxInfo.setDataSourceName(dataSourceName);
-            trxInfo.setInTransaction(true);
-         } catch (SQLException e) {
-            throw new DalRuntimeException("Error when getting connection from DataSource(" + dataSourceName
-                     + "), message: " + e, e);
-         }
-      }
-   }
+				connection.setAutoCommit(false);
+				trxInfo.setPooledConnection(pooledConnection);
+				trxInfo.setConnection(connection);
+				trxInfo.setDataSourceName(dataSourceName);
+				trxInfo.setInTransaction(true);
+			} catch (SQLException e) {
+				throw new DalRuntimeException("Error when getting connection from DataSource(" + dataSourceName
+				      + "), message: " + e, e);
+			}
+		}
+	}
 
-   static class ThreadLocalTransactionInfo extends ThreadLocal<TransactionInfo> {
-      @Override
-      protected TransactionInfo initialValue() {
-         return new TransactionInfo();
-      }
-   }
+	static class ThreadLocalTransactionInfo extends ThreadLocal<TransactionInfo> {
+		@Override
+		protected TransactionInfo initialValue() {
+			return new TransactionInfo();
+		}
+	}
 
-   static class TransactionInfo {
-      private String m_dataSourceName;
+	static class TransactionInfo {
+		private String m_dataSourceName;
 
-      private PooledConnection m_pooledConnection;
+		private PooledConnection m_pooledConnection;
 
-      private Connection m_connection;
+		private Connection m_connection;
 
-      private boolean m_inTransaction;
+		private boolean m_inTransaction;
 
-      public Connection getConnection() {
-         return m_connection;
-      }
+		public Connection getConnection() {
+			return m_connection;
+		}
 
-      public String getDataSourceName() {
-         return m_dataSourceName;
-      }
+		public String getDataSourceName() {
+			return m_dataSourceName;
+		}
 
-      public PooledConnection getPooledConnection() {
-         return m_pooledConnection;
-      }
+		public PooledConnection getPooledConnection() {
+			return m_pooledConnection;
+		}
 
-      public boolean isInTransaction() {
-         return m_inTransaction;
-      }
+		public boolean isInTransaction() {
+			return m_inTransaction;
+		}
 
-      public void reset() throws SQLException {
-         if (m_connection != null) {
-            m_connection.close();
-         }
+		public void reset() throws SQLException {
+			if (m_connection != null) {
+				m_connection.close();
+			}
 
-         m_connection = null;
-         m_dataSourceName = null;
-         m_inTransaction = false;
-      }
+			m_connection = null;
+			m_dataSourceName = null;
+			m_inTransaction = false;
+		}
 
-      public void setConnection(Connection connection) {
-         m_connection = connection;
-      }
+		public void setConnection(Connection connection) {
+			m_connection = connection;
+		}
 
-      public void setDataSourceName(String dataSourceName) {
-         m_dataSourceName = dataSourceName;
-      }
+		public void setDataSourceName(String dataSourceName) {
+			m_dataSourceName = dataSourceName;
+		}
 
-      public void setInTransaction(boolean inTransaction) {
-         m_inTransaction = inTransaction;
-      }
+		public void setInTransaction(boolean inTransaction) {
+			m_inTransaction = inTransaction;
+		}
 
-      public void setPooledConnection(PooledConnection pooledConnection) {
-         m_pooledConnection = pooledConnection;
-      }
+		public void setPooledConnection(PooledConnection pooledConnection) {
+			m_pooledConnection = pooledConnection;
+		}
 
-   }
+	}
 }

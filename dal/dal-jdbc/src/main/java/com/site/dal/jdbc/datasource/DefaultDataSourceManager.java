@@ -7,26 +7,35 @@ import java.util.List;
 import java.util.Map;
 
 import com.site.lookup.ContainerHolder;
+import com.site.lookup.annotation.Inject;
 
 public class DefaultDataSourceManager extends ContainerHolder implements DataSourceManager {
-   private Map<String, DataSource> m_dataSources = new HashMap<String, DataSource>();
+	@Inject
+	private JdbcDataSourceConfigurationManager m_configurationManager;
 
-   public DataSource getDataSource(String name) {
-      DataSource dataSource = m_dataSources.get(name);
+	private Map<String, DataSource> m_dataSources = new HashMap<String, DataSource>();
 
-      if (dataSource == null) {
-         dataSource = lookup(DataSource.class, name);
-         m_dataSources.put(name, dataSource);
-      }
+	public JdbcDataSourceConfiguration getDataSourceConfiguration(String dataSourceName) {
+		return m_configurationManager.getConfiguration(dataSourceName);
+	}
 
-      return dataSource;
-   }
+	@Override
+	public DataSource getDataSource(String dataSourceName) {
+		DataSource dataSource = m_dataSources.get(dataSourceName);
 
-   @Override
-   public List<String> getActiveDataSourceNames() {
-      List<String> list = new ArrayList<String>(m_dataSources.keySet());
+		if (dataSource == null) {
+			dataSource = lookup(DataSource.class, dataSourceName);
+			m_dataSources.put(dataSourceName, dataSource);
+		}
 
-      Collections.sort(list);
-      return list;
-   }
+		return dataSource;
+	}
+
+	@Override
+	public List<String> getActiveDataSourceNames() {
+		List<String> list = new ArrayList<String>(m_dataSources.keySet());
+
+		Collections.sort(list);
+		return list;
+	}
 }
