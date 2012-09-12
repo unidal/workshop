@@ -1,11 +1,10 @@
 package com.site.dal.jdbc.datasource;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.sql.PooledConnection;
 
 import org.codehaus.plexus.configuration.PlexusConfiguration;
 import org.codehaus.plexus.logging.LogEnabled;
@@ -42,8 +41,9 @@ public class JdbcDataSource implements DataSource, Initializable, LogEnabled, Di
 		m_logger = logger;
 	}
 
-	public PooledConnection getPooledConnection() throws SQLException {
-		return m_cpds.getConnectionPoolDataSource().getPooledConnection();
+	@Override
+	public Connection getConnection() throws SQLException {
+		return m_cpds.getConnection();
 	}
 
 	public void initialize() throws InitializationException {
@@ -71,7 +71,7 @@ public class JdbcDataSource implements DataSource, Initializable, LogEnabled, Di
 			cpds.setLoginTimeout((int) c.getConnectionTimeout());
 
 			m_cpds = cpds;
-			m_cpds.getConnectionPoolDataSource().getPooledConnection().close();
+			m_cpds.getConnection().close();
 			m_logger.info("Connected to JDBC data source using (" + c.getDriver() + ", " + c.getUrl() + ", user="
 			      + c.getUser() + ")");
 		} catch (Exception e) {

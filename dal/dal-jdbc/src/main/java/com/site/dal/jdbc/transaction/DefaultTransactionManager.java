@@ -3,8 +3,6 @@ package com.site.dal.jdbc.transaction;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import javax.sql.PooledConnection;
-
 import org.codehaus.plexus.logging.LogEnabled;
 import org.codehaus.plexus.logging.Logger;
 
@@ -79,22 +77,16 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 			}
 		} else { // Not in transaction
 			DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
-			PooledConnection pooledConnection = null;
 			Connection connection = null;
 			SQLException exception = null;
 
 			try {
-				if (dataSourceName.equals(trxInfo.getDataSourceName())) {
-					pooledConnection = trxInfo.getPooledConnection();
+				connection = trxInfo.getConnection();
 
-					if (pooledConnection == null) {
-						pooledConnection = dataSource.getPooledConnection();
-					}
-				} else {
-					pooledConnection = dataSource.getPooledConnection();
+				if (connection == null) {
+					connection = dataSource.getConnection();
 				}
 
-				connection = pooledConnection.getConnection();
 				connection.setAutoCommit(true);
 			} catch (SQLException e) {
 				exception = e;
@@ -102,9 +94,9 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 
 			// retry once if pooled connection is closed by server side
 			if (exception != null) {
-				if (pooledConnection != null) {
+				if (connection != null) {
 					try {
-						pooledConnection.close();
+						connection.close();
 					} catch (SQLException e) {
 						// ignore it
 					}
@@ -114,8 +106,7 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 				      exception);
 
 				try {
-					pooledConnection = dataSource.getPooledConnection();
-					connection = pooledConnection.getConnection();
+					connection = dataSource.getConnection();
 					connection.setAutoCommit(true);
 				} catch (SQLException e) {
 					m_logger.warn(String.format("Unable to reconnect to database(%s).", dataSourceName), e);
@@ -126,7 +117,6 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 				throw new DalRuntimeException("Error when getting connection from DataSource(" + dataSourceName
 				      + "), message: " + exception, exception);
 			} else {
-				trxInfo.setPooledConnection(pooledConnection);
 				trxInfo.setConnection(connection);
 				trxInfo.setDataSourceName(dataSourceName);
 				trxInfo.setInTransaction(false);
@@ -171,11 +161,9 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 			DataSource dataSource = m_dataSourceManager.getDataSource(dataSourceName);
 
 			try {
-				PooledConnection pooledConnection = dataSource.getPooledConnection();
-				Connection connection = pooledConnection.getConnection();
+				Connection connection = dataSource.getConnection();
 
 				connection.setAutoCommit(false);
-				trxInfo.setPooledConnection(pooledConnection);
 				trxInfo.setConnection(connection);
 				trxInfo.setDataSourceName(dataSourceName);
 				trxInfo.setInTransaction(true);
@@ -196,8 +184,6 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 	static class TransactionInfo {
 		private String m_dataSourceName;
 
-		private PooledConnection m_pooledConnection;
-
 		private Connection m_connection;
 
 		private boolean m_inTransaction;
@@ -208,10 +194,6 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 
 		public String getDataSourceName() {
 			return m_dataSourceName;
-		}
-
-		public PooledConnection getPooledConnection() {
-			return m_pooledConnection;
 		}
 
 		public boolean isInTransaction() {
@@ -239,10 +221,5 @@ public class DefaultTransactionManager implements TransactionManager, LogEnabled
 		public void setInTransaction(boolean inTransaction) {
 			m_inTransaction = inTransaction;
 		}
-
-		public void setPooledConnection(PooledConnection pooledConnection) {
-			m_pooledConnection = pooledConnection;
-		}
-
 	}
 }

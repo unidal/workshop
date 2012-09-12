@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dianping.cat.message.Message;
@@ -26,6 +27,7 @@ import com.site.dal.jdbc.entity.DataObjectAccessor;
 import com.site.dal.jdbc.entity.DataObjectAssembly;
 import com.site.dal.jdbc.entity.EntityInfo;
 import com.site.dal.jdbc.transaction.TransactionManager;
+import com.site.helper.Stringizers;
 import com.site.lookup.annotation.Inject;
 
 public class DefaultQueryExecutor implements QueryExecutor {
@@ -75,15 +77,16 @@ public class DefaultQueryExecutor implements QueryExecutor {
 		try {
 			ps = createPreparedStatement(ctx);
 
-			logCatEvent(ctx);
-
 			// Set fetch size if have
 			if (ctx.getFetchSize() > 0) {
 				ps.setFetchSize(ctx.getFetchSize());
 			}
 
 			// Setup IN/OUT parameters
-			setupInOutParameters(ps, ctx.getParameters(), proto);
+			setupInOutParameters(ctx, ps, proto, true);
+
+			// log to CAT
+			logCatEvent(ctx);
 
 			// Execute the query
 			ResultSet rs = ps.executeQuery();
@@ -126,13 +129,14 @@ public class DefaultQueryExecutor implements QueryExecutor {
 		try {
 			ps = createPreparedStatement(ctx);
 
-			logCatEvent(ctx);
-
 			// Call beforeSave() to do some custom data manipulation
 			proto.beforeSave();
 
 			// Setup IN/OUT parameters
-			setupInOutParameters(ps, ctx.getParameters(), proto);
+			setupInOutParameters(ctx, ps, proto, false);
+
+			// log to CAT
+			logCatEvent(ctx);
 
 			// Execute the query
 			int rowCount = ps.executeUpdate();
@@ -179,8 +183,6 @@ public class DefaultQueryExecutor implements QueryExecutor {
 		try {
 			ps = createPreparedStatement(ctx);
 
-			logCatEvent(ctx);
-
 			if (ctx.getQuery().isStoreProcedure()) {
 				if (!inTransaction) {
 					ps.getConnection().setAutoCommit(false);
@@ -191,7 +193,12 @@ public class DefaultQueryExecutor implements QueryExecutor {
 					protos[i].beforeSave();
 
 					// Setup IN/OUT parameters
-					setupInOutParameters(ps, ctx.getParameters(), protos[i]);
+					setupInOutParameters(ctx, ps, protos[i], false);
+
+					if (i == 0) {
+						// log to CAT
+						logCatEvent(ctx);
+					}
 
 					// Execute the query
 					rowCounts[i] = ps.executeUpdate();
@@ -217,7 +224,12 @@ public class DefaultQueryExecutor implements QueryExecutor {
 					protos[i].beforeSave();
 
 					// Setup IN/OUT parameters
-					setupInOutParameters(ps, ctx.getParameters(), protos[i]);
+					setupInOutParameters(ctx, ps, protos[i], false);
+
+					if (i == 0) {
+						// log to CAT
+						logCatEvent(ctx);
+					}
 
 					ps.addBatch();
 				}
@@ -267,8 +279,9 @@ public class DefaultQueryExecutor implements QueryExecutor {
 
 	protected void logCatEvent(QueryContext ctx) {
 		JdbcDataSourceConfiguration config = m_dataSourceManager.getDataSourceConfiguration(ctx.getDataSourceName());
+		String params = ctx.getParameterValues() == null ? null : Stringizers.forJson().from(ctx.getParameterValues());
 
-		m_cat.logEvent("SQL.Method", ctx.getQuery().getType().name(), Message.SUCCESS, null);
+		m_cat.logEvent("SQL.Method", ctx.getQuery().getType().name(), Message.SUCCESS, params);
 		m_cat.logEvent("SQL.Database", config == null ? "no-url" : config.getUrl(), Message.SUCCESS, null);
 	}
 
@@ -314,12 +327,14 @@ public class DefaultQueryExecutor implements QueryExecutor {
 		}
 	}
 
-	protected <T extends DataObject> void setupInOutParameters(PreparedStatement ps, List<Parameter> parameters, T proto)
-	      throws SQLException {
+	protected <T extends DataObject> void setupInOutParameters(QueryContext ctx, PreparedStatement ps, T proto,
+	      boolean prepareParameterValues) throws SQLException {
+		List<Parameter> parameters = ctx.getParameters();
 		int len = parameters.size();
 
 		if (len > 0) {
 			int index = 1;
+			List<Object> m_parameterValues = prepareParameterValues ? new ArrayList<Object>() : null;
 
 			for (int i = 0; i < len; i++, index++) {
 				Parameter parameter = parameters.get(i);
@@ -332,6 +347,10 @@ public class DefaultQueryExecutor implements QueryExecutor {
 
 						for (Object item : iterable) {
 							ps.setObject(index++, item);
+
+							if (prepareParameterValues) {
+								m_parameterValues.add(item);
+							}
 						}
 
 						index--;
@@ -339,12 +358,22 @@ public class DefaultQueryExecutor implements QueryExecutor {
 						int length = Array.getLength(value);
 
 						for (int j = 0; j < length; j++) {
-							ps.setObject(index++, Array.get(value, j));
+							Object item = Array.get(value, j);
+
+							ps.setObject(index++, item);
+
+							if (prepareParameterValues) {
+								m_parameterValues.add(item);
+							}
 						}
 
 						index--;
 					} else {
 						ps.setObject(index, value);
+
+						if (prepareParameterValues) {
+							m_parameterValues.add(value);
+						}
 					}
 				}
 
@@ -358,6 +387,10 @@ public class DefaultQueryExecutor implements QueryExecutor {
 						cs.registerOutParameter(index, outType);
 					}
 				}
+			}
+
+			if (prepareParameterValues && m_parameterValues.size() > 0) {
+				ctx.setParameterValues(m_parameterValues.toArray(new Object[0]));
 			}
 		}
 	}

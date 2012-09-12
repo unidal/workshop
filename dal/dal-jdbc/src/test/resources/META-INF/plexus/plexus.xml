@@ -21,7 +21,7 @@
 					<driver>com.mysql.jdbc.Driver</driver>
 					<URL>jdbc:mysql://localhost:3306/dal</URL>
 					<user>root</user>
-					<password>Iamfrankie</password>
+					<password></password>
 					<connectionProperties><![CDATA[useUnicode=true&autoReconnect=true]]></connectionProperties>
 				</properties>
 			</configuration>

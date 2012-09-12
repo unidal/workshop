@@ -45,6 +45,8 @@ public class DefaultQueryContext implements QueryContext {
 
 	private String m_dataSourceName;
 
+	private Object[] m_parameterValues;
+
 	public void addOutField(DataField dataField) {
 		if (m_outFields == null) {
 			m_outFields = new ArrayList<DataField>();
@@ -84,6 +86,11 @@ public class DefaultQueryContext implements QueryContext {
 
 	public List<Parameter> getParameters() {
 		return m_parameters;
+	}
+
+	@Override
+	public Object[] getParameterValues() {
+		return m_parameterValues;
 	}
 
 	public DataObject getProto() {
@@ -137,6 +144,11 @@ public class DefaultQueryContext implements QueryContext {
 
 	public void setFetchSize(int fetchSize) {
 		m_fetchSize = fetchSize;
+	}
+
+	@Override
+	public void setParameterValues(Object[] parameterValues) {
+		m_parameterValues = parameterValues;
 	}
 
 	public void setProto(DataObject proto) {

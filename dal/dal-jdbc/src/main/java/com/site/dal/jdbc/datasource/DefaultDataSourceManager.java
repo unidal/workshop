@@ -24,8 +24,14 @@ public class DefaultDataSourceManager extends ContainerHolder implements DataSou
 		DataSource dataSource = m_dataSources.get(dataSourceName);
 
 		if (dataSource == null) {
-			dataSource = lookup(DataSource.class, dataSourceName);
-			m_dataSources.put(dataSourceName, dataSource);
+			synchronized (m_dataSources) {
+				dataSource = m_dataSources.get(dataSourceName);
+
+				if (dataSource == null) {
+					dataSource = lookup(DataSource.class, dataSourceName);
+					m_dataSources.put(dataSourceName, dataSource);
+				}
+			}
 		}
 
 		return dataSource;
