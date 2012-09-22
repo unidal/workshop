@@ -20,7 +20,9 @@ import com.site.dal.jdbc.DataObject;
 import com.site.dal.jdbc.QueryDef;
 import com.site.dal.jdbc.QueryType;
 import com.site.dal.jdbc.annotation.Attribute;
+import com.site.dal.jdbc.datasource.DataSource;
 import com.site.dal.jdbc.datasource.DataSourceManager;
+import com.site.dal.jdbc.datasource.JdbcDataSource;
 import com.site.dal.jdbc.datasource.JdbcDataSourceConfiguration;
 import com.site.dal.jdbc.engine.QueryContext;
 import com.site.dal.jdbc.entity.DataObjectAccessor;
@@ -278,11 +280,21 @@ public class DefaultQueryExecutor implements QueryExecutor {
 	}
 
 	protected void logCatEvent(QueryContext ctx) {
-		JdbcDataSourceConfiguration config = m_dataSourceManager.getDataSourceConfiguration(ctx.getDataSourceName());
+		DataSource ds = m_dataSourceManager.getDataSource(ctx.getDataSourceName());
+		String url;
+
+		if (ds instanceof JdbcDataSource) {
+			url = ((JdbcDataSource) ds).getUrl();
+		} else {
+			JdbcDataSourceConfiguration config = m_dataSourceManager.getDataSourceConfiguration(ctx.getDataSourceName());
+
+			url = config.getUrl();
+		}
+
 		String params = ctx.getParameterValues() == null ? null : Stringizers.forJson().from(ctx.getParameterValues());
 
 		m_cat.logEvent("SQL.Method", ctx.getQuery().getType().name(), Message.SUCCESS, params);
-		m_cat.logEvent("SQL.Database", config == null ? "no-url" : config.getUrl(), Message.SUCCESS, null);
+		m_cat.logEvent("SQL.Database", url == null ? "no-url" : url, Message.SUCCESS, null);
 	}
 
 	protected void retrieveGeneratedKeys(QueryContext ctx, PreparedStatement ps, DataObject proto) throws SQLException {

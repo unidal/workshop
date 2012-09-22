@@ -10,5 +10,7 @@ import java.lang.annotation.Target;
 public @interface Entity {
    String logicalName();
 
+   String physicalName() default "";
+   
    String alias();
 }

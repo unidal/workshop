@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.site.dal.jdbc.DalException;
+import com.site.dal.jdbc.DalNotFoundException;
 import com.site.dal.jdbc.DataObject;
 import com.site.dal.jdbc.QueryDef;
 import com.site.dal.jdbc.QueryEngine;
@@ -114,7 +115,7 @@ public class DefaultQueryEngine extends ContainerHolder implements QueryEngine {
 		List<T> results = m_queryExecutor.executeQuery(ctx);
 
 		if (results.isEmpty()) {
-			throw new DalException("No record has been found for " + proto);
+			throw new DalNotFoundException("No record has been found for " + proto);
 		} else {
 			return results.get(0);
 		}

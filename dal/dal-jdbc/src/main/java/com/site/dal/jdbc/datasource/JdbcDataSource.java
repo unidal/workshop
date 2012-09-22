@@ -46,6 +46,10 @@ public class JdbcDataSource implements DataSource, Initializable, LogEnabled, Di
 		return m_cpds.getConnection();
 	}
 
+	public String getUrl() {
+		return m_properties.get("URL");
+	}
+	
 	public void initialize() throws InitializationException {
 		JdbcDataSourceConfiguration c = prepareConfiguration();
 
