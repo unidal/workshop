@@ -5,6 +5,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,16 +34,10 @@ public abstract class ActionContext<T extends ActionPayload<? extends Page, ? ex
 
 	private Throwable m_exception;
 
+	private ServletContext m_servletContext;
+
 	public void addError(ErrorObject error) {
 		m_errors.add(error);
-	}
-
-	public void redirect(String uri) {
-		HttpServletResponse response = getHttpServletResponse();
-
-		response.setHeader("location", uri);
-		response.setStatus(HttpServletResponse.SC_FOUND);
-		stopProcess();
 	}
 
 	public List<ErrorObject> getErrors() {
@@ -81,6 +76,10 @@ public abstract class ActionContext<T extends ActionPayload<? extends Page, ? ex
 		return m_requestContext;
 	}
 
+	public ServletContext getServletContext() {
+		return m_servletContext;
+	}
+
 	public boolean hasErrors() {
 		return !m_errors.isEmpty();
 	}
@@ -96,6 +95,14 @@ public abstract class ActionContext<T extends ActionPayload<? extends Page, ? ex
 
 	public boolean isSkipAction() {
 		return m_skipAction;
+	}
+
+	public void redirect(String uri) {
+		HttpServletResponse response = getHttpServletResponse();
+
+		response.setHeader("location", uri);
+		response.setStatus(HttpServletResponse.SC_FOUND);
+		stopProcess();
 	}
 
 	public void setException(Throwable exception) {
@@ -120,6 +127,10 @@ public abstract class ActionContext<T extends ActionPayload<? extends Page, ? ex
 
 	public void setRequestContext(RequestContext requestContext) {
 		m_requestContext = requestContext;
+	}
+
+	public void setServletContext(ServletContext servletContext) {
+		m_servletContext = servletContext;
 	}
 
 	public void skipAction() {

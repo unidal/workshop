@@ -4,6 +4,7 @@ import static com.site.lookup.util.ReflectUtils.createInstance;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -41,6 +42,8 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 
 	private Logger m_logger;
 
+	private ServletContext m_servletContext;
+
 	private ActionContext<?> createActionContext(final HttpServletRequest request, final HttpServletResponse response,
 	      RequestContext requestContext, InboundActionModel inboundAction) {
 		ActionContext<?> context = createInstance(inboundAction.getContextClass());
@@ -49,6 +52,7 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 		context.setRequestContext(requestContext);
 		context.setInboundPage(inboundAction.getActionName());
 		context.setOutboundPage(inboundAction.getActionName());
+		context.setServletContext(m_servletContext);
 
 		return context;
 	}
@@ -327,6 +331,11 @@ public class DefaultRequestLifecycle extends ContainerHolder implements RequestL
 		}
 
 		m_cat.logEvent("URL.Method", req.getScheme().toUpperCase() + "/" + req.getMethod(), Event.SUCCESS, sb.toString());
+	}
+
+	@Override
+	public void setServletContext(ServletContext servletContext) {
+		m_servletContext = servletContext;
 	}
 
 	private void showPageNotFound(HttpServletRequest request, HttpServletResponse response) throws IOException {

@@ -29,7 +29,7 @@ public class DefaultEntityInfoManager implements EntityInfoManager, LogEnabled {
       m_logger = logger;
    }
 
-   public void register(Class<?> entityClass) {
+   public synchronized void register(Class<?> entityClass) {
       if (m_entityClassToEntityInfo.containsKey(entityClass)) {
          m_logger.debug(entityClass + " is already initialized yet");
          return;
