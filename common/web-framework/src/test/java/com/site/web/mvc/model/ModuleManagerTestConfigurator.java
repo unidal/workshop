@@ -1,4 +1,4 @@
-package com.site.web;
+package com.site.web.mvc.model;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -8,9 +8,9 @@ import com.site.lookup.configuration.Component;
 import com.site.web.build.AbstractWebComponentsConfigurator;
 import com.site.web.test.book.BookModule;
 
-public class MvcTestConfigurator extends AbstractWebComponentsConfigurator {
+public class ModuleManagerTestConfigurator extends AbstractWebComponentsConfigurator {
 	public static void main(String[] args) {
-		generatePlexusComponentsXmlFile(new MvcTestConfigurator());
+		generatePlexusComponentsXmlFile(new ModuleManagerTestConfigurator());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -25,6 +25,6 @@ public class MvcTestConfigurator extends AbstractWebComponentsConfigurator {
 
 	@Override
 	protected File getConfigurationFile() {
-		return new File("src/test/resources/" + MvcTest.class.getName().replace('.', '/') + ".xml");
+		return new File("src/test/resources/" + ModuleManagerTest.class.getName().replace('.', '/') + ".xml");
 	}
 }

@@ -1,0 +1,26 @@
+<plexus>
+	<components>
+		<component>
+			<role>com.site.web.mvc.model.ModuleRegistry</role>
+			<implementation>com.site.web.mvc.model.ModuleRegistry</implementation>
+			<configuration>
+				<modules>
+					<module>com.site.web.test.book.BookModule</module>
+				</modules>
+			</configuration>
+		</component>
+		<component>
+			<role>com.site.web.test.book.BookModule</role>
+			<implementation>com.site.web.test.book.BookModule</implementation>
+			<requirements>
+				<requirement>
+					<role>com.site.web.test.book.BookManager</role>
+				</requirement>
+			</requirements>
+		</component>
+		<component>
+			<role>com.site.web.test.book.BookManager</role>
+			<implementation>com.site.web.test.book.BookManager</implementation>
+		</component>
+	</components>
+</plexus>

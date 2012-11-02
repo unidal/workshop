@@ -42,6 +42,6 @@ public class MvcTest extends HttpTestCase {
 
       checkRequest("/book/add?id=0&name=zero", "==>signin==>permission==>doAdd==>transition==>showAdd");
       checkRequest("/book/add?id=3&name=",
-            "==>signin==>permission==>error:Error occured during handling inbound action(add)");
+            "==>signin==>permission==>error:Error occured during handling inbound action(add)!");
    }
 }

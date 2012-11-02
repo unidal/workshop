@@ -1,4 +1,4 @@
-package com.site.web.configuration;
+package com.site.web.build;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

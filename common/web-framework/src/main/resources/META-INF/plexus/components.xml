@@ -6,10 +6,6 @@
 			<instantiation-strategy>per-lookup</instantiation-strategy>
 		</component>
 		<component>
-			<role>com.site.web.mvc.model.ModuleRegistry</role>
-			<implementation>com.site.web.mvc.model.ModuleRegistry</implementation>
-		</component>
-		<component>
 			<role>com.site.web.mvc.model.ModelManager</role>
 			<implementation>com.site.web.mvc.model.ModelManager</implementation>
 			<requirements>
