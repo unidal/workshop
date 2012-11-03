@@ -34,7 +34,7 @@ public class DefaultInboundActionHandler extends ContainerHolder implements Inbo
 
 	private PayloadProvider m_payloadProvider;
 
-	private List<Validator<ActionContext>> m_validators;
+	private List<Validator<ActionContext<?>>> m_validators;
 
 	private Logger m_logger;
 
@@ -52,7 +52,7 @@ public class DefaultInboundActionHandler extends ContainerHolder implements Inbo
 				ctx.setPayload(payload);
 			}
 
-			for (Validator<ActionContext> validator : m_validators) {
+			for (Validator<ActionContext<?>> validator : m_validators) {
 				validator.validate(ctx);
 			}
 
@@ -69,7 +69,7 @@ public class DefaultInboundActionHandler extends ContainerHolder implements Inbo
 		}
 	}
 
-	private PayloadProvider createPayloadProviderInstance(Class<? extends PayloadProvider> payloadProviderClass) {
+	private PayloadProvider createPayloadProviderInstance(Class<? extends PayloadProvider<?, ?>> payloadProviderClass) {
 		if (hasComponent(payloadProviderClass)) {
 			return lookup(payloadProviderClass);
 		} else {
@@ -94,10 +94,10 @@ public class DefaultInboundActionHandler extends ContainerHolder implements Inbo
 			m_payloadProvider.register(m_payloadClass);
 		}
 
-		m_validators = new ArrayList<Validator<ActionContext>>();
+		m_validators = new ArrayList<Validator<ActionContext<?>>>();
 
 		for (Class<?> validatorClass : inboundAction.getValidationClasses()) {
-			Validator<ActionContext> validator = createInstance(validatorClass);
+			Validator<ActionContext<?>> validator = createInstance(validatorClass);
 
 			m_validators.add(validator);
 		}

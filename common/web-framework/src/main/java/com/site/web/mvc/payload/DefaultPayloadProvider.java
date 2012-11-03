@@ -34,9 +34,8 @@ import com.site.web.mvc.model.PayloadPathModel;
 import com.site.web.mvc.payload.annotation.FieldMeta;
 import com.site.web.mvc.payload.annotation.PathMeta;
 
-public class DefaultPayloadProvider<S extends Page, T extends Action> extends ContainerHolder implements PayloadProvider<S, T>,
-		LogEnabled {
-	private Map<Class<? extends ActionPayload<?, ?>>, PayloadModel> m_payloadModels = new HashMap<Class<? extends ActionPayload<?, ?>>, PayloadModel>();
+public class DefaultPayloadProvider extends ContainerHolder implements PayloadProvider<Page, Action>, LogEnabled {
+	private Map<Class<?>, PayloadModel> m_payloadModels = new HashMap<Class<?>, PayloadModel>();
 
 	private Logger m_logger;
 
@@ -62,7 +61,7 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 		m_logger = logger;
 	}
 
-	private List<Field> getDeclaredFields(Class<? extends ActionPayload<?, ?>> payloadClass) {
+	private List<Field> getDeclaredFields(Class<?> payloadClass) {
 		List<Field> list = new ArrayList<Field>();
 		Class<?> clazz = payloadClass;
 
@@ -160,13 +159,13 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<ErrorObject> process(UrlMapping mapping, ParameterProvider provider, ActionPayload<S, T> payload) {
+	public List<ErrorObject> process(UrlMapping mapping, ParameterProvider provider, ActionPayload<Page, Action> payload) {
 		Class<?> payloadClass = payload.getClass();
 		PayloadModel payloadModel = m_payloadModels.get(payloadClass);
 
 		if (payloadModel == null) {
 			m_logger.warn("Register " + payloadClass + " on demand");
-			register((Class<? extends ActionPayload<S, T>>) payloadClass);
+			register((Class<? extends ActionPayload<? extends Page, ? extends Action>>) payloadClass);
 			payloadModel = m_payloadModels.get(payloadClass);
 		}
 
@@ -200,7 +199,7 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 	}
 
 	private void processField(ParameterProvider provider, ActionPayload<?, ?> payload, PayloadFieldModel fieldModel)
-			throws IOException {
+	      throws IOException {
 		String name = fieldModel.getName();
 
 		if (fieldModel.isMultipleValues()) {
@@ -236,7 +235,8 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 		}
 	}
 
-	private void processPath(UrlMapping mapping, ActionPayload<?, ?> payload, PayloadPathModel pathModel) throws IOException {
+	private void processPath(UrlMapping mapping, ActionPayload<?, ?> payload, PayloadPathModel pathModel)
+	      throws IOException {
 		String pathInfo = mapping.getPathInfo(); // not starting with "/"
 		String[] parts;
 
@@ -249,7 +249,7 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 		injectPathValue(payload, pathModel, parts);
 	}
 
-	public void register(Class<? extends ActionPayload<S, T>> payloadClass) {
+	public void register(Class<?> payloadClass) {
 		PayloadModel payloadModel = new PayloadModel();
 
 		for (Field field : getDeclaredFields(payloadClass)) {
@@ -257,8 +257,8 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 			PathMeta pathMeta = field.getAnnotation(PathMeta.class);
 
 			if (fieldMeta != null && pathMeta != null) {
-				throw new RuntimeException(String.format("Field %s in %s can't be annotated by both %s and %s!", field.getName(),
-						payloadClass, FieldMeta.class.getSimpleName(), PathMeta.class.getSimpleName()));
+				throw new RuntimeException(String.format("Field %s in %s can't be annotated by both %s and %s!",
+				      field.getName(), payloadClass, FieldMeta.class.getSimpleName(), PathMeta.class.getSimpleName()));
 			}
 
 			if (fieldMeta != null) {
@@ -272,8 +272,7 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 		m_payloadModels.put(payloadClass, payloadModel);
 	}
 
-	private void registerField(Class<? extends ActionPayload<S, T>> payloadClass, PayloadModel payloadModel, Field field,
-			FieldMeta fieldMeta) {
+	private void registerField(Class<?> payloadClass, PayloadModel payloadModel, Field field, FieldMeta fieldMeta) {
 		PayloadFieldModel payloadFieldModel = new PayloadFieldModel();
 		String name = fieldMeta.value();
 
@@ -306,8 +305,7 @@ public class DefaultPayloadProvider<S extends Page, T extends Action> extends Co
 		payloadModel.addField(payloadFieldModel);
 	}
 
-	private void registerPath(Class<? extends ActionPayload<S, T>> payloadClass, PayloadModel payloadModel, Field field,
-			PathMeta pathMeta) {
+	private void registerPath(Class<?> payloadClass, PayloadModel payloadModel, Field field, PathMeta pathMeta) {
 		PayloadPathModel payloadPathModel = new PayloadPathModel();
 		String name = pathMeta.value();
 
