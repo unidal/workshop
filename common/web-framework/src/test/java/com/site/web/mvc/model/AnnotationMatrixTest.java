@@ -3,6 +3,10 @@ package com.site.web.mvc.model;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import com.site.lookup.ComponentTestCase;
 import com.site.web.mvc.ActionContext;
 import com.site.web.mvc.ActionPayload;
@@ -12,8 +16,10 @@ import com.site.web.mvc.annotation.InboundActionMeta;
 import com.site.web.mvc.annotation.OutboundActionMeta;
 import com.site.web.mvc.annotation.PayloadMeta;
 
+@RunWith(JUnit4.class)
 public class AnnotationMatrixTest extends ComponentTestCase {
 	@SuppressWarnings("unchecked")
+	@Test
 	public void testNormal() throws Exception {
 		AnnotationMatrix matrix = lookup(AnnotationMatrix.class);
 		Method method = Mock.class.getMethod("inboundAction1");
@@ -25,6 +31,7 @@ public class AnnotationMatrixTest extends ComponentTestCase {
 	}
 
 	@SuppressWarnings("unchecked")
+	@Test
 	public void testConflict() throws Exception {
 		AnnotationMatrix matrix = lookup(AnnotationMatrix.class);
 		Method method = Mock.class.getMethod("inboundAction2");

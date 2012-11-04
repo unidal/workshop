@@ -1,4 +1,4 @@
-package com.site.web.build;
+package com.site.web.configuration;
 
 import java.util.ArrayList;
 import java.util.List;

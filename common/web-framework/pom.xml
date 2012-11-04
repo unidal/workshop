@@ -9,7 +9,7 @@
    <modelVersion>4.0.0</modelVersion>
    <groupId>com.site.common</groupId>
    <artifactId>web-framework</artifactId>
-   <version>1.0.19</version>
+   <version>1.0.20</version>
    <name>Common web framework</name>
    <dependencies>
       <dependency>
@@ -49,7 +49,7 @@
          <plugin>
             <groupId>org.unidal.maven.plugins</groupId>
             <artifactId>codegen-maven-plugin</artifactId>
-            <version>1.2.2</version>
+            <version>1.2.3</version>
             <executions>
                <execution>
                   <id>default-cli</id>

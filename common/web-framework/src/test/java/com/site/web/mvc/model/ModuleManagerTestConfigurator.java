@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.site.lookup.configuration.Component;
-import com.site.web.build.AbstractWebComponentsConfigurator;
+import com.site.web.configuration.AbstractWebComponentsConfigurator;
 import com.site.web.test.book.BookModule;
 
 public class ModuleManagerTestConfigurator extends AbstractWebComponentsConfigurator {

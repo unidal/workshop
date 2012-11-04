@@ -1,5 +1,9 @@
 package com.site.web.mvc.model;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
+
 import com.site.lookup.ComponentTestCase;
 import com.site.web.mvc.ActionContext;
 import com.site.web.mvc.annotation.ErrorActionMeta;
@@ -7,7 +11,9 @@ import com.site.web.mvc.annotation.InboundActionMeta;
 import com.site.web.mvc.annotation.ModuleMeta;
 import com.site.web.mvc.annotation.TransitionMeta;
 
+@RunWith(JUnit4.class)
 public class ModuleManagerTest extends ComponentTestCase {
+	@Test
    public void testBuild() throws Exception {
       ModelManager manager = lookup(ModelManager.class);
       ModuleModel module = manager.build(TestModule2.class);
@@ -17,6 +23,7 @@ public class ModuleManagerTest extends ComponentTestCase {
       assertEquals("default", module.getDefaultErrorActionName());
    }
 
+   @Test
    public void testRegister() throws Exception {
       ModelManager registry = lookup(ModelManager.class);
 
