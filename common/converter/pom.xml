@@ -12,10 +12,4 @@
 	<artifactId>converter</artifactId>
 	<version>1.0.0</version>
    <name>Common converter</name>
-   <dependencies>
-      <dependency>
-         <groupId>com.site.common</groupId>
-         <artifactId>lookup</artifactId>
-      </dependency>
-   </dependencies>
 </project>

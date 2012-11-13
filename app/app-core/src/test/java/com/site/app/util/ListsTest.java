@@ -8,8 +8,8 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import com.site.app.uitl.Lists;
-import com.site.app.uitl.Lists.Factor;
+import com.site.app.util.Lists;
+import com.site.app.util.Lists.Factor;
 
 public class ListsTest {
    @Test

@@ -18,8 +18,8 @@ import org.unidal.ezsell.dal.Transaction;
 import org.unidal.ezsell.dal.TransactionDao;
 import org.unidal.ezsell.dal.TransactionEntity;
 
-import com.site.app.uitl.Lists;
-import com.site.app.uitl.Lists.Factor;
+import com.site.app.util.Lists;
+import com.site.app.util.Lists.Factor;
 import com.site.dal.jdbc.DalException;
 import com.site.lookup.annotation.Inject;
 import com.site.lookup.util.StringUtils;

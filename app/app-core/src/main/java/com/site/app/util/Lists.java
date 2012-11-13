@@ -1,4 +1,4 @@
-package com.site.app.uitl;
+package com.site.app.util;
 
 import java.util.ArrayList;
 import java.util.List;
